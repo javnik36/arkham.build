@@ -73,8 +73,13 @@ function DeckEdit() {
                 </Button>
                 <Button
                   onClick={() => {
-                    discardEdits(id);
-                    onClose();
+                    const safeguardColdtoes = confirm(
+                      t("deck_edit.discard_confirm"),
+                    );
+                    if (safeguardColdtoes) {
+                      discardEdits(id);
+                      onClose();
+                    }
                   }}
                   size="sm"
                 >
