@@ -22,6 +22,7 @@
     },
     "card_modal": {
       "actions": {
+        "complete_task": "Complete task",
         "open_card_page": "Card page",
         "reviews": "Reviews"
       }

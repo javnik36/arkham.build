@@ -22,6 +22,7 @@
     },
     "card_modal": {
       "actions": {
+        "complete_task": "Aufgabe vollendet",
         "open_card_page": "Kartenseite",
         "reviews": "Meinungen"
       }
@@ -855,7 +856,12 @@
       "tab_notes": "Notizen",
       "tab_recommendations": "Empfehlungen",
       "tab_tools": "Werkzeuge",
-      "title": "Bearbeiten: {{name}}"
+      "title": "Bearbeiten: {{name}}",
+      "versions": {
+        "entry_title": "Version {{version}}",
+        "entry_title_current": "Aktuelle Version",
+        "title": "Versionen"
+      }
     },
     "deck_view": {
       "actions": {
