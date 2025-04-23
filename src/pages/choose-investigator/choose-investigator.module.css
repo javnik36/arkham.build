@@ -1,11 +1,11 @@
-.listcard-action {
+  .listcard-action {
   margin-right: 1rem;
 }
 
 .traits {
   font-family: var(--font-family-content);
   font-style: italic;
-  font-size: var(--text-sm);
+  font-size: var(--text-2xs);
   font-weight: 700;
 }
 
