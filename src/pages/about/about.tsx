@@ -1,3 +1,4 @@
+import { Socials } from "@/components/socials";
 import { Button } from "@/components/ui/button";
 import { AppLayout } from "@/layouts/app-layout";
 import { cx } from "@/utils/cx";
@@ -16,6 +17,7 @@ function About() {
         <Button onClick={goBack} variant="bare">
           <ChevronLeftIcon /> {t("common.back")}
         </Button>
+        <Socials />
         <h1>{t("about.title")}</h1>
         <p>
           The information presented in this app about{" "}
