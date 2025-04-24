@@ -22,7 +22,7 @@
     },
     "card_modal": {
       "actions": {
-        "complete_task": "Aufgabe vollendet",
+        "complete_task": "Aufgabe vollenden",
         "open_card_page": "Kartenseite",
         "reviews": "Meinungen"
       }
