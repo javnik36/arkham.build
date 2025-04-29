@@ -22,7 +22,7 @@ import { useTranslation } from "react-i18next";
 import { useSearch } from "wouter";
 import { BackupRestore } from "./backup-restore";
 import { CardDataSync } from "./card-data-sync";
-import { CardLevelDisplaySetting } from "./card-level-display";
+import { CardDisplaySettings } from "./card-display";
 import { Connections } from "./connections";
 import { FontSizeSetting } from "./font-size";
 import { HideWeaknessSetting } from "./hide-weakness";
@@ -149,7 +149,7 @@ function Settings() {
                   settings={settings}
                   setSettings={setSettings}
                 />
-                <CardLevelDisplaySetting
+                <CardDisplaySettings
                   settings={settings}
                   setSettings={setSettings}
                 />

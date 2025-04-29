@@ -39,6 +39,8 @@ export type Props = {
   as?: "li" | "div";
   card: Card;
   cardLevelDisplay: SettingsState["cardLevelDisplay"];
+  cardShowPackIcon?: SettingsState["cardShowPackIcon"];
+  cardSkillIconsDisplay?: SettingsState["cardSkillIconsDisplay"];
   className?: string;
   disableKeyboard?: boolean;
   disableModalOpen?: boolean;
@@ -70,6 +72,8 @@ export function ListCardInner(props: Props) {
     as = "div",
     card,
     cardLevelDisplay,
+    cardShowPackIcon,
+    cardSkillIconsDisplay,
     className,
     disableKeyboard,
     disableModalOpen,
@@ -186,6 +190,7 @@ export function ListCardInner(props: Props) {
                           ? "dots"
                           : cardLevelDisplay
                       }
+                      cardShowPackIcon={cardShowPackIcon}
                     />
                   </button>
                 </h4>
@@ -244,7 +249,16 @@ export function ListCardInner(props: Props) {
                     card.parallel && <i className="icon-parallel" />
                   )}
 
-                  {hasSkillIcons(card) && <SkillIcons card={card} />}
+                  {hasSkillIcons(card) && (
+                    <SkillIcons
+                      className={cx(
+                        css["skill-icons"],
+                        cardSkillIconsDisplay && css[cardSkillIconsDisplay],
+                      )}
+                      card={card}
+                      fancy={cardSkillIconsDisplay === "as_printed"}
+                    />
+                  )}
 
                   <TabooIndicator
                     className={css["taboo"]}

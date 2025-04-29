@@ -24,8 +24,12 @@ export function CardNames(props: Props) {
   const cardName = (
     <>
       {card.parallel && <i className={cx(css["parallel"], "icon-parallel")} />}
-      <CardName card={card} cardLevelDisplay={settings.cardLevelDisplay} />{" "}
       <span className={css["unique"]}>{card.is_unique && <UniqueIcon />}</span>
+      <CardName
+        card={card}
+        cardLevelDisplay={settings.cardLevelDisplay}
+        cardShowPackIcon={settings.cardShowPackIcon}
+      />
     </>
   );
 

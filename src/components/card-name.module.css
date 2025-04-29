@@ -1,7 +1,21 @@
 .name {
+  display: inline-flex;
   min-width: 0;
+  gap: 0.1875rem;
+  align-items: baseline;
 }
 
-.name > *:not(:first-child) {
-  margin-left: 0.1875rem;
+.pack-detail {
+  font-weight: 400;
+  font-size: var(--text-xs);
+  color: var(--text);
+}
+
+.pack-detail-icon {
+  font-size: 1em;
+}
+
+.pack-detail-position {
+  vertical-align: baseline;
+  font-size: var(--text-2xs);
 }
