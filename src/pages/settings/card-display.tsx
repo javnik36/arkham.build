@@ -27,11 +27,14 @@ export function CardDisplaySettings(props: SettingProps) {
       <Field>
         <Checkbox
           id="show-pack-icon"
-          label={t("settings.display.card_show_pack_icon")}
-          checked={liveValue.cardShowPackIcon ?? settings.cardShowPackIcon}
+          label={t("settings.display.card_show_collection_number")}
+          checked={
+            liveValue.cardShowCollectionNumber ??
+            settings.cardShowCollectionNumber
+          }
           onCheckedChange={(value) => {
-            setLiveValue({ cardShowPackIcon: !!value });
-            setSettings({ ...settings, cardShowPackIcon: !!value });
+            setLiveValue({ cardShowCollectionNumber: !!value });
+            setSettings({ ...settings, cardShowCollectionNumber: !!value });
           }}
         />
       </Field>
@@ -60,8 +63,9 @@ export function CardDisplaySettings(props: SettingProps) {
               cardLevelDisplay={
                 liveValue.cardLevelDisplay ?? settings.cardLevelDisplay
               }
-              cardShowPackIcon={
-                liveValue.cardShowPackIcon ?? settings.cardShowPackIcon
+              cardShowCollectionNumber={
+                liveValue.cardShowCollectionNumber ??
+                settings.cardShowCollectionNumber
               }
               cardSkillIconsDisplay={
                 liveValue.cardSkillIconsDisplay ??

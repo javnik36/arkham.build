@@ -14,11 +14,11 @@ import PackIcon from "./icons/pack-icon";
 interface Props {
   card: Card;
   cardLevelDisplay: "icon-only" | "dots" | "text";
-  cardShowPackIcon?: boolean;
+  cardShowCollectionNumber?: boolean;
 }
 
 export function CardName(props: Props) {
-  const { card, cardLevelDisplay, cardShowPackIcon } = props;
+  const { card, cardLevelDisplay, cardShowCollectionNumber } = props;
   const level = cardLevel(card);
 
   return (
@@ -35,7 +35,7 @@ export function CardName(props: Props) {
       {level != null && cardLevelDisplay === "text" && (
         <span className={css["xp"]}>({level})</span>
       )}
-      {cardShowPackIcon &&
+      {cardShowCollectionNumber &&
         card.code !== SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS && (
           <CardPackDetail card={card} />
         )}

@@ -28,7 +28,7 @@ export function ListCard(props: Props) {
         {...rest}
         card={card}
         cardLevelDisplay={settings.cardLevelDisplay}
-        cardShowPackIcon={settings.cardShowPackIcon}
+        cardShowCollectionNumber={settings.cardShowCollectionNumber}
         cardSkillIconsDisplay={settings.cardSkillIconsDisplay}
         figureRef={refs.setReference}
         referenceProps={referenceProps}

@@ -39,7 +39,7 @@ export type Props = {
   as?: "li" | "div";
   card: Card;
   cardLevelDisplay: SettingsState["cardLevelDisplay"];
-  cardShowPackIcon?: SettingsState["cardShowPackIcon"];
+  cardShowCollectionNumber?: SettingsState["cardShowCollectionNumber"];
   cardSkillIconsDisplay?: SettingsState["cardSkillIconsDisplay"];
   className?: string;
   disableKeyboard?: boolean;
@@ -72,7 +72,7 @@ export function ListCardInner(props: Props) {
     as = "div",
     card,
     cardLevelDisplay,
-    cardShowPackIcon,
+    cardShowCollectionNumber,
     cardSkillIconsDisplay,
     className,
     disableKeyboard,
@@ -190,7 +190,7 @@ export function ListCardInner(props: Props) {
                           ? "dots"
                           : cardLevelDisplay
                       }
-                      cardShowPackIcon={cardShowPackIcon}
+                      cardShowCollectionNumber={cardShowCollectionNumber}
                     />
                   </button>
                 </h4>

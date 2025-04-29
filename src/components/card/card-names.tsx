@@ -28,7 +28,7 @@ export function CardNames(props: Props) {
       <CardName
         card={card}
         cardLevelDisplay={settings.cardLevelDisplay}
-        cardShowPackIcon={settings.cardShowPackIcon}
+        cardShowCollectionNumber={settings.cardShowCollectionNumber}
       />
     </>
   );
