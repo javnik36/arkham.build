@@ -13,16 +13,18 @@ import PackIcon from "./icons/pack-icon";
 
 interface Props {
   card: Card;
+  children?: React.ReactNode;
   cardLevelDisplay: "icon-only" | "dots" | "text";
   cardShowCollectionNumber?: boolean;
 }
 
 export function CardName(props: Props) {
-  const { card, cardLevelDisplay, cardShowCollectionNumber } = props;
+  const { card, cardLevelDisplay, cardShowCollectionNumber, children } = props;
   const level = cardLevel(card);
 
   return (
     <span className={css["name"]}>
+      {children}
       <span
         // biome-ignore lint/security/noDangerouslySetInnerHtml: safe.
         dangerouslySetInnerHTML={{

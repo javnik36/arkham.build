@@ -225,9 +225,8 @@
   font-size: var(--card-title-size);
 }
 
-.name .unique {
+.name .unique svg {
   display: inline-block;
-  margin-right: 0.125rem;
 }
 
 .name button,
