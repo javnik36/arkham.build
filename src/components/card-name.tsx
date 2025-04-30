@@ -23,7 +23,7 @@ export function CardName(props: Props) {
   const level = cardLevel(card);
 
   return (
-    <span className={css["name"]}>
+    <div className={css["name"]}>
       {children}
       <span
         // biome-ignore lint/security/noDangerouslySetInnerHtml: safe.
@@ -41,7 +41,7 @@ export function CardName(props: Props) {
         card.code !== SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS && (
           <CardPackDetail card={card} />
         )}
-    </span>
+    </div>
   );
 }
 

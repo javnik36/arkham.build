@@ -17,24 +17,29 @@ export function CardHeader(props: Props) {
   const { card, className, slotHeaderActions, titleLinks } = props;
   const colorCls = getCardColor(card, "background");
 
+  const showClassIcons =
+    card.type_code !== "investigator" && !card.subtype_code;
+
   return (
     <header className={cx(css["header"], colorCls, className)}>
       <div className={css["header-row"]}>
         <CardIcon card={card} className={css["header-icon"]} inverted />
         <CardNames card={card} titleLinks={titleLinks} />
       </div>
-      <div className={css["header-row"]}>
-        {!!slotHeaderActions && (
-          <div className={css["header-actions"]}>{slotHeaderActions}</div>
-        )}
-        {card.type_code !== "investigator" && !card.subtype_code && (
-          <MulticlassIcons
-            card={card}
-            className={cx(css["header-icon"], css["faction-icons"])}
-            inverted
-          />
-        )}
-      </div>
+      {(slotHeaderActions || showClassIcons) && (
+        <div className={css["header-row"]}>
+          {!!slotHeaderActions && (
+            <div className={css["header-actions"]}>{slotHeaderActions}</div>
+          )}
+          {showClassIcons && (
+            <MulticlassIcons
+              card={card}
+              className={cx(css["header-icon"], css["faction-icons"])}
+              inverted
+            />
+          )}
+        </div>
+      )}
     </header>
   );
 }
