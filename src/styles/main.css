@@ -572,43 +572,48 @@ kbd {
   border-color: var(--neutral-dark);
 }
 
-.fg-guardian, .icon-guardian {
+.fg-guardian,
+.longform .icon-guardian {
   color: var(--guardian);
 }
 
-:root[data-theme="light"] :where(.fg-guardian, .icon-guardian) {
+:root[data-theme="light"] :where(.fg-guardian, .longform .icon-guardian) {
   color: var(--guardian-dark);
 }
 
-.fg-mystic, .icon-mystic {
+.fg-mystic,
+.longform .icon-mystic {
   color: var(--mystic);
 }
 
-:root[data-theme="light"] :where(.fg-mystic, .icon-mystic) {
+:root[data-theme="light"] :where(.fg-mystic, .longform .icon-mystic) {
   color: var(--mystic-dark);
 }
 
-.fg-rogue, .icon-rogue {
+.fg-rogue,
+.longform .icon-rogue {
   color: var(--rogue);
 }
 
-:root[data-theme="light"] :where(.fg-rogue, .icon-rogue) {
+:root[data-theme="light"] :where(.fg-rogue, .longform .icon-rogue) {
   color: var(--rogue-dark);
 }
 
-.fg-seeker, .icon-seeker {
+.fg-seeker,
+.longform .icon-seeker {
   color: var(--seeker);
 }
 
-:root[data-theme="light"] :where(.fg-seeker, .icon-seeker) {
+:root[data-theme="light"] :where(.fg-seeker, .longform .icon-seeker) {
   color: var(--seeker-dark);
 }
 
-.fg-survivor, .icon-survivor {
+.fg-survivor,
+.longform .icon-survivor {
   color: var(--survivor);
 }
 
-:root[data-theme="light"] :where(.fg-survivor, .icon-survivor) {
+:root[data-theme="light"] :where(.fg-survivor, .longform .icon-survivor) {
   color: var(--survivor-dark);
 }
 
