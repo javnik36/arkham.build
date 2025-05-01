@@ -23,7 +23,7 @@ export function CardName(props: Props) {
   const level = cardLevel(card);
 
   return (
-    <div className={css["name"]}>
+    <div className={css["name"]} data-testid="card-name-inner">
       {children}
       <span
         // biome-ignore lint/security/noDangerouslySetInnerHtml: safe.
