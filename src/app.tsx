@@ -65,11 +65,9 @@ const Share = lazy(() =>
 );
 
 const CollectionStats = lazy(() =>
-  import("./pages/collection-stats/collection-stats")
-    .then(() => {
-      throw new Error("Failed to fetch dynamically imported module");
-    })
-    .catch(retryFailedDynamicImport),
+  import("./pages/collection-stats/collection-stats").catch(
+    retryFailedDynamicImport,
+  ),
 );
 
 function App() {
