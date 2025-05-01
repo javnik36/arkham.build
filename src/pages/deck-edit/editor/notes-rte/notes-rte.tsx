@@ -124,6 +124,7 @@ function NotesRichTextEditorToolbar({
         >
           <PopoverTrigger asChild>
             <Button
+              data-testid="notes-toolbar-cards"
               iconOnly
               size="lg"
               tooltip={
@@ -150,6 +151,7 @@ function NotesRichTextEditorToolbar({
         >
           <PopoverTrigger asChild>
             <Button
+              data-testid="notes-toolbar-symbols"
               iconOnly
               size="lg"
               tooltip={

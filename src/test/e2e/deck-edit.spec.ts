@@ -706,4 +706,108 @@ test.describe("deck edit", () => {
     assertEditorDeckQuantity(page, "11755a", 0);
     assertEditorDeckQuantity(page, "11755b", 1);
   });
+
+  test("notes editor: insert card", async ({ page }) => {
+    await importDeckFromFile(page, "validation/base_case.json", {
+      navigate: "edit",
+    });
+    await page.getByTestId("editor-notes").click();
+    await page.getByTestId("notes-toolbar-cards").click();
+    await page.getByTestId("combobox-input").fill("baseball bat");
+    await page
+      .getByTestId("combobox-menu-item-01074")
+      .getByTestId("listcard-01074")
+      .click();
+    await expect(page.getByTestId("editor-description")).toHaveValue(
+      '[<span class="fg-survivor">Baseball Bat</span>](/card/01074)',
+    );
+  });
+
+  test("notes editor: insert symbol", async ({ page }) => {
+    await importDeckFromFile(page, "validation/base_case.json", {
+      navigate: "edit",
+    });
+    await page.getByTestId("editor-notes").click();
+    await page.getByTestId("notes-toolbar-symbols").click();
+    await page.getByTestId("combobox-input").fill("curse");
+    await page.getByTestId("combobox-menu-item-curse").click();
+    await expect(page.getByTestId("editor-description")).toHaveValue(
+      '<span class="icon-curse"></span>',
+    );
+  });
+
+  test("notes editor: insert at cursor", async ({ page }) => {
+    await importDeckFromFile(page, "validation/base_case.json", {
+      navigate: "edit",
+    });
+    await page.getByTestId("editor-notes").click();
+    await page.getByTestId("editor-description").fill("foo bar baz");
+    await page.getByTestId("notes-toolbar-symbols").click();
+    await page.getByTestId("combobox-input").fill("curse");
+    await page.getByTestId("combobox-menu-item-curse").click();
+    await expect(page.getByTestId("editor-description")).toHaveValue(
+      'foo bar baz<span class="icon-curse"></span>',
+    );
+  });
+
+  test("notes editor: change card format", async ({ page }) => {
+    await importDeckFromFile(page, "validation/base_case.json", {
+      navigate: "edit",
+    });
+    await page.getByTestId("editor-notes").click();
+    await page.getByTestId("notes-toolbar-cards").click();
+    await page.getByTestId("notes-rte-format").selectOption("header_with_set");
+    await page.getByTestId("combobox-input").click();
+    await page.getByTestId("combobox-input").fill("arcane initiate");
+    await page.getByTestId("combobox-input").click();
+    await page
+      .getByTestId("combobox-menu-item-01063")
+      .getByTestId("listcard-title")
+      .click();
+    await expect(page.getByTestId("editor-description")).toHaveValue(
+      '<span class="icon-mystic"></span> [**<span class="fg-mystic">Arcane Initiate</span>**](/card/01063) <span class="small">(Core Set #63)</span>',
+    );
+  });
+
+  test("notes editor: change card origin", async ({ page }) => {
+    await importDeckFromFile(page, "validation/base_case.json", {
+      navigate: "edit",
+    });
+    await page.getByTestId("editor-notes").click();
+    await page.getByTestId("notes-toolbar-cards").click();
+    await page.getByTestId("notes-rte-origin").selectOption("campaign");
+    await page.getByTestId("combobox-input").click();
+    await page.getByTestId("combobox-input").fill("grasping hands");
+    await page.getByTestId("combobox-input").click();
+    await page
+      .getByTestId("listcard-01162")
+      .getByTestId("listcard-title")
+      .click();
+    await expect(page.getByTestId("editor-description")).toHaveValue(
+      "[Grasping Hands](/card/01162)",
+    );
+  });
+
+  test("noted editor: preview notes", async ({ page }) => {
+    await importDeckFromFile(page, "validation/base_case.json", {
+      navigate: "edit",
+    });
+    await page.getByTestId("editor-notes").click();
+    await page.getByTestId("notes-toolbar-cards").click();
+    await page.getByTestId("notes-rte-format").selectOption("header");
+    await page.getByTestId("combobox-input").click();
+    await page.getByTestId("combobox-input").fill("cunning distraction");
+    await page.getByTestId("combobox-input").click();
+    await page
+      .getByTestId("combobox-menu-item-01078")
+      .getByTestId("listcard-title")
+      .click();
+    await page
+      .getByTestId("editor-description")
+      .fill(
+        '<span class="icon-survivor"></span> [**<span class="fg-survivor">Cunning Distraction</span>**](/card/01078)',
+      );
+    await page.getByText("Preview", { exact: true }).click();
+    await expect(page.getByTestId("description-content")).toHaveScreenshot();
+  });
 });
