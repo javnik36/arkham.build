@@ -221,6 +221,30 @@
         "none": "No subtype",
         "weakness": "Weakness"
       },
+      "symbols": {
+        "action": "Action triggered ability",
+        "agility": "Agility",
+        "auto_fail": "Auto-fail",
+        "bless": "Bless",
+        "combat": "Combat",
+        "cultist": "Cultist",
+        "curse": "Curse",
+        "elder_sign": "Elder Sign",
+        "elder_thing": "Elder Thing",
+        "free": "Free triggered ability",
+        "guardian": "Guardian",
+        "intellect": "Intellect",
+        "mystic": "Mystic",
+        "per_investigator": "Per investigator",
+        "reaction": "Reaction triggered ability",
+        "rogue": "Rogue",
+        "seeker": "Seeker",
+        "skull": "Skull",
+        "survivor": "Survivor",
+        "tablet": "Tablet",
+        "wild": "Wild",
+        "willpower": "Willpower"
+      },
       "taboo": "Taboo list",
       "taboo_chained": "Costs {{xp}} additional experience.",
       "taboo_mutated": "Mutated",
@@ -765,6 +789,7 @@
     },
     "deck_edit": {
       "actions": {
+        "add_to_notes": "Add to notes",
         "cycle_decks": "Cycle deck lists",
         "decrement_quantity": "Decrement deck quantity",
         "decrement_side_quantity": "Decrement side deck quantity",
@@ -835,8 +860,31 @@
         "banner_url_placeholder": "Enter URL",
         "description": "Notes",
         "description_help": "Supports ArkhamDB-flavoured markdown.",
+        "description_placeholder": "Enter notes...",
         "intro": "Introduction",
-        "intro_help": "A short deck introduction. Will be displayed on the deck view and in social media previews. Supports ArkhamDB-flavoured markdown."
+        "intro_help": "A short deck introduction. Will be displayed on the deck view and in social media previews. Supports ArkhamDB-flavoured markdown.",
+        "toolbar": {
+          "card": "Card",
+          "card_tooltip": "Insert a card",
+          "format": "Format",
+          "formats": {
+            "header": "Header",
+            "header_with_set": "Header (with collection number)",
+            "paragraph": "Paragraph",
+            "paragraph_colored": "Paragraph (Colored)"
+          },
+          "origin": "Available cards",
+          "origins": {
+            "campaign": "Campaign cards",
+            "deck": "Cards in deck",
+            "player": "All player cards",
+            "usable": "Usable player cards"
+          },
+          "preview": "Preview",
+          "symbol": "Symbol",
+          "symbol_placeholder": "Select a symbol...",
+          "symbol_tooltip": "Insert a symbol"
+        }
       },
       "quick_upgrade": {
         "available_upgrades": "Available upgrades",
