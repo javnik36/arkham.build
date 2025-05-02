@@ -7,6 +7,7 @@ import {
   parseCardTextHtml,
 } from "@/utils/card-utils";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
+import { cx } from "@/utils/cx";
 import css from "./card-name.module.css";
 import { ExperienceDots } from "./experience-dots";
 import PackIcon from "./icons/pack-icon";
@@ -16,14 +17,21 @@ interface Props {
   children?: React.ReactNode;
   cardLevelDisplay: "icon-only" | "dots" | "text";
   cardShowCollectionNumber?: boolean;
+  className?: string;
 }
 
 export function CardName(props: Props) {
-  const { card, cardLevelDisplay, cardShowCollectionNumber, children } = props;
+  const {
+    card,
+    cardLevelDisplay,
+    cardShowCollectionNumber,
+    children,
+    className,
+  } = props;
   const level = cardLevel(card);
 
   return (
-    <div className={css["name"]} data-testid="card-name-inner">
+    <div className={cx(css["name"], className)} data-testid="card-name-inner">
       {children}
       <span
         // biome-ignore lint/security/noDangerouslySetInnerHtml: safe.
