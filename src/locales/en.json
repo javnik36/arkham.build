@@ -716,6 +716,7 @@
       },
       "tools": {
         "cards": "Cards",
+        "count": "Count",
         "factions": "Factions",
         "loading": "Loading deck tools...",
         "resource_cost": "Resource cost",

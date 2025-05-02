@@ -23,9 +23,6 @@ export function ownedCardCount(
 
   // ownership of the format.
   const pack = metadata.packs[card.pack_code];
-  if (!pack) {
-    console.log(card);
-  }
 
   const reprintId = `${pack.cycle_code}${card.encounter_code ? "c" : "p"}`;
 

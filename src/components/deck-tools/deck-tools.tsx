@@ -43,7 +43,9 @@ export const DeckTools = forwardRef(function DeckTools(
   );
 
   return scrollable ? (
-    <Scroller className={css["scroller"]}>{node}</Scroller>
+    <Scroller className={css["scroller"]} type="always">
+      {node}
+    </Scroller>
   ) : (
     node
   );
