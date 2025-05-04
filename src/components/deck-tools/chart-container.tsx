@@ -16,7 +16,10 @@ export default function ChartContainer(props: {
     <Plane className={css["charts-wrap"]}>
       <SkillIconsChart data={toChartableData(deck.stats.charts.skillIcons)} />
       <CostCurveChart data={toChartableData(deck.stats.charts.costCurve)} />
-      <TraitsChart data={toChartableData(deck.stats.charts.traits, "value")} />
+      <TraitsChart
+        data={toChartableData(deck.stats.charts.traits, "value")}
+        deck={deck}
+      />
       <FactionsChart data={toChartableData(deck.stats.charts.factions)} />
     </Plane>
   );

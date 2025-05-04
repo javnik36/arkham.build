@@ -56,6 +56,14 @@
   }
 }
 
+.trait-tooltip {
+  padding: 0.125rem;
+}
+
+.trait-tooltip > * + * {
+  margin-top: 0.125rem;
+}
+
 .table-container {
   max-height: 250px;
   width: 100%;
