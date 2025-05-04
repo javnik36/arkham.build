@@ -215,7 +215,7 @@ export function CardModal(props: Props) {
             {t("card_modal.actions.reviews")}
           </Button>
           {canEdit &&
-            deckQuantity &&
+            !!deckQuantity &&
             traits?.includes("Task") &&
             traits?.includes("Incomplete") && (
               <Button onClick={onCompleteTask}>
