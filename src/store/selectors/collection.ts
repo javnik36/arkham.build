@@ -32,10 +32,6 @@ export const selectTotalOwned = createSelector(
     const filter = and([(c) => !c.hidden, filterBacksides, filterDuplicates]);
 
     for (const card of cards) {
-      if (card.code === "01172") {
-        console.log(card);
-      }
-
       if (!filter(card)) continue;
 
       const owned = ownedCardCount(
