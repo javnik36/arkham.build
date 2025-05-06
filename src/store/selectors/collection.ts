@@ -2,7 +2,11 @@ import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { and } from "@/utils/fp";
 import { createSelector } from "reselect";
 import { ownedCardCount } from "../lib/card-ownership";
-import { filterBacksides, filterEncounterCards } from "../lib/filtering";
+import {
+  filterBacksides,
+  filterDuplicates,
+  filterEncounterCards,
+} from "../lib/filtering";
 import type { StoreState } from "../slices";
 
 export type Counts = {
@@ -25,9 +29,13 @@ export const selectTotalOwned = createSelector(
     let ownedPlayerCards = 0;
     let ownedEncounterCards = 0;
 
-    const filter = and([(c) => !c.hidden, filterBacksides]);
+    const filter = and([(c) => !c.hidden, filterBacksides, filterDuplicates]);
 
     for (const card of cards) {
+      if (card.code === "01172") {
+        console.log(card);
+      }
+
       if (!filter(card)) continue;
 
       const owned = ownedCardCount(
@@ -37,6 +45,7 @@ export const selectTotalOwned = createSelector(
         collection,
         false,
       );
+
       if (filterEncounterCards(card)) {
         ownedEncounterCards += owned;
       } else {
