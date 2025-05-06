@@ -58,25 +58,29 @@ export function CardDisplaySettings(props: SettingProps) {
       <div className={css["preview"]}>
         <h4>{t("settings.preview")}</h4>
         <ol>
-          {PREVIEW_CARDS.map((id) => (
-            <ListCardInner
-              cardLevelDisplay={
-                liveValue.cardLevelDisplay ?? settings.cardLevelDisplay
-              }
-              cardShowCollectionNumber={
-                liveValue.cardShowCollectionNumber ??
-                settings.cardShowCollectionNumber
-              }
-              cardSkillIconsDisplay={
-                liveValue.cardSkillIconsDisplay ??
-                settings.cardSkillIconsDisplay
-              }
-              as="li"
-              key={id}
-              card={metadata.cards[id]}
-              omitBorders
-            />
-          ))}
+          {PREVIEW_CARDS.map((id) => {
+            const card = metadata.cards[id];
+            if (!card) return null;
+            return (
+              <ListCardInner
+                cardLevelDisplay={
+                  liveValue.cardLevelDisplay ?? settings.cardLevelDisplay
+                }
+                cardShowCollectionNumber={
+                  liveValue.cardShowCollectionNumber ??
+                  settings.cardShowCollectionNumber
+                }
+                cardSkillIconsDisplay={
+                  liveValue.cardSkillIconsDisplay ??
+                  settings.cardSkillIconsDisplay
+                }
+                as="li"
+                key={id}
+                card={card}
+                omitBorders
+              />
+            );
+          })}
         </ol>
       </div>
     </Field>
