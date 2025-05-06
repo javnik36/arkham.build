@@ -719,7 +719,7 @@ test.describe("deck edit", () => {
       .getByTestId("listcard-01074")
       .click();
     await expect(page.getByTestId("editor-description")).toHaveValue(
-      '[<span class="fg-survivor">Baseball Bat</span>](/card/01074)',
+      "[Baseball Bat](/card/01074)",
     );
   });
 
