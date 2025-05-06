@@ -755,7 +755,7 @@ svg {
     text-decoration-color: var(--text);
   }
 
-  &:has(.fg-multiclass) {
+  &:has(.fg-multiclass, .fg-dual) {
     text-decoration-color: var(--multiclass);
   }
 

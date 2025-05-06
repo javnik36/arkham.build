@@ -607,6 +607,7 @@
       },
       "undo": "Undo",
       "unique": "Unique",
+      "update_default_settings": "Update default settings",
       "uses": {
         "aether": "Aether",
         "ammo": "Ammo",

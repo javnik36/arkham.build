@@ -47,7 +47,7 @@ function Settings() {
   const toast = useToast();
   const goBack = useGoBack(search.includes("login_state") ? "/" : undefined);
 
-  const updateStoredSettings = useStore((state) => state.updateSettings);
+  const updateStoredSettings = useStore((state) => state.applySettings);
 
   const storedSettings = useStore((state) => state.settings);
   const [settings, setSettings] = useState(structuredClone(storedSettings));

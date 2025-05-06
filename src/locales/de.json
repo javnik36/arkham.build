@@ -607,6 +607,7 @@
       },
       "undo": "Rückgängig",
       "unique": "Einzigartig",
+      "update_default_settings": "Standardeinstellungen aktualisieren",
       "uses": {
         "aether": "Äther",
         "ammo": "Munition",
@@ -716,6 +717,7 @@
       },
       "tools": {
         "cards": "Karten",
+        "count": "Anzahl",
         "factions": "Klassen",
         "loading": "Werkzeuge laden...",
         "resource_cost": "Ressourcenkosten",

@@ -62,6 +62,10 @@ export function getInitialSettings(): SettingsState {
     hideWeaknessesByDefault: false,
     lists: getInitialListsSetting(),
     locale: "en",
+    notesEditor: {
+      defaultFormat: "paragraph",
+      defaultOrigin: "player",
+    },
     showAllCards: true,
     showMoveToSideDeck: false,
     showPreviews: false,
@@ -79,7 +83,7 @@ export const createSettingsSlice: StateCreator<
 > = (set, get) => ({
   settings: getInitialSettings(),
   // TODO: extract to `shared` since this touches other state slices.
-  async updateSettings(settings) {
+  async applySettings(settings) {
     const state = get();
 
     if (settings.locale !== state.settings.locale) {
@@ -104,6 +108,18 @@ export const createSettingsSlice: StateCreator<
     state.refreshLookupTables({
       settings,
       lists: makeLists(settings),
+    });
+
+    await state.dehydrate("app");
+  },
+  async setSettings(payload) {
+    const state = get();
+
+    set({
+      settings: {
+        ...state.settings,
+        ...payload,
+      },
     });
 
     await state.dehydrate("app");

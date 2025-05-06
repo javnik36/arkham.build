@@ -788,7 +788,7 @@ test.describe("deck edit", () => {
     );
   });
 
-  test("noted editor: preview notes", async ({ page }) => {
+  test("notes editor: preview notes", async ({ page }) => {
     await importDeckFromFile(page, "validation/base_case.json", {
       navigate: "edit",
     });
@@ -809,5 +809,31 @@ test.describe("deck edit", () => {
       );
     await page.getByText("Preview", { exact: true }).click();
     await expect(page.getByTestId("description-content")).toHaveScreenshot();
+  });
+
+  test("notes editor: remember default settings", async ({ page }) => {
+    await importDeckFromFile(page, "validation/base_case.json", {
+      navigate: "edit",
+    });
+
+    await page.getByTestId("editor-notes").click();
+    await page.getByTestId("notes-toolbar-cards").click();
+
+    await expect(page.getByTestId("notes-rte-format")).toHaveValue("paragraph");
+    await expect(page.getByTestId("notes-rte-origin")).toHaveValue("player");
+
+    await page.getByTestId("notes-rte-format").selectOption("header");
+    await page.getByTestId("notes-rte-origin").selectOption("deck");
+
+    const button = page.getByTestId("notes-rte-update-defaults");
+
+    await button.isEnabled();
+    await button.click();
+
+    await page.reload();
+    await page.getByTestId("notes-toolbar-cards").click();
+
+    await expect(page.getByTestId("notes-rte-format")).toHaveValue("header");
+    await expect(page.getByTestId("notes-rte-origin")).toHaveValue("deck");
   });
 });

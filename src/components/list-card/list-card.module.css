@@ -206,6 +206,10 @@
   fill: var(--nord-7);
 }
 
+.skill-icons {
+  flex: 0 0 auto;
+}
+
 .skill-icons.as_printed {
   font-size: 0.9375rem;
 }

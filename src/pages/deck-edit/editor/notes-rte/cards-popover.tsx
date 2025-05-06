@@ -1,4 +1,5 @@
 import { CardsCombobox } from "@/components/cards-combobox";
+import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Select } from "@/components/ui/select";
 import {
@@ -41,9 +42,19 @@ export function CardsPopover(props: Props) {
     insertTextAtCaret,
     setCardFormat,
     setCardOrigin,
+    settingsChanged,
   } = useNotesRichTextEditorContext();
 
   const state = useStore();
+
+  const onUpdateDefaults = useCallback(() => {
+    state.setSettings({
+      notesEditor: {
+        defaultFormat: cardFormat,
+        defaultOrigin: cardOrigin,
+      },
+    });
+  }, [state, cardFormat, cardOrigin]);
 
   const cards = useMemo(
     () => selectCardOptions(state, cardOrigin, deck),
@@ -86,6 +97,17 @@ export function CardsPopover(props: Props) {
 
   return (
     <div className={css["cards-popover"]}>
+      <div className={css["cards-popover-header"]}>
+        <Button
+          data-testid="notes-rte-update-defaults"
+          disabled={!settingsChanged}
+          onClick={onUpdateDefaults}
+          size="none"
+          variant="bare"
+        >
+          {t("common.update_default_settings")}
+        </Button>
+      </div>
       <Field className={css["cards-format"]}>
         <FieldLabel htmlFor="notes-rte-format">
           {t("deck_edit.notes.toolbar.format")}

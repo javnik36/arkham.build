@@ -1,4 +1,4 @@
-import type { CARD_FORMATS } from "@/pages/deck-edit/editor/notes-rte/cards-to-markdown";
+import { useStore } from "@/store";
 import {
   createContext,
   useCallback,
@@ -7,10 +7,10 @@ import {
   useRef,
   useState,
 } from "react";
+import type { CardFormat } from "./cards-to-markdown";
 
 export type ToolbarPopover = "symbols" | "cards";
 export type CardOrigin = "deck" | "usable" | "player" | "campaign";
-export type CardFormat = keyof typeof CARD_FORMATS;
 
 interface TextareaContextType {
   textareaRef: React.RefObject<HTMLTextAreaElement>;
@@ -19,6 +19,7 @@ interface TextareaContextType {
   cardOrigin: CardOrigin;
 
   popoverOpen: ToolbarPopover | undefined;
+  settingsChanged: boolean;
 
   insertTextAtCaret: (text: string) => void;
   setCardOrigin: (origin: CardOrigin) => void;
@@ -36,8 +37,13 @@ export function NotesRichTextEditorContextProvider({
   children: React.ReactNode;
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [cardOrigin, setCardOrigin] = useState<CardOrigin>("deck");
-  const [cardFormat, setCardFormat] = useState<CardFormat>("paragraph_colored");
+
+  const { defaultOrigin, defaultFormat } = useStore(
+    (state) => state.settings.notesEditor,
+  );
+
+  const [cardOrigin, setCardOrigin] = useState<CardOrigin>(defaultOrigin);
+  const [cardFormat, setCardFormat] = useState<CardFormat>(defaultFormat);
   const [popoverOpen, setPopoverOpen] = useState<ToolbarPopover | undefined>(
     undefined,
   );
@@ -66,6 +72,9 @@ export function NotesRichTextEditorContextProvider({
     });
   }, []);
 
+  const settingsChanged =
+    defaultFormat !== cardFormat || defaultOrigin !== cardOrigin;
+
   const contextValue = useMemo(
     () => ({
       textareaRef,
@@ -73,11 +82,12 @@ export function NotesRichTextEditorContextProvider({
       cardOrigin,
       cardFormat,
       popoverOpen,
+      settingsChanged,
       setCardOrigin,
       setCardFormat,
       setPopoverOpen,
     }),
-    [insertTextAtCaret, cardOrigin, cardFormat, popoverOpen],
+    [insertTextAtCaret, cardOrigin, cardFormat, popoverOpen, settingsChanged],
   );
 
   return (

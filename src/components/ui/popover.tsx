@@ -72,7 +72,10 @@ export const PopoverContent = forwardRef<
   // eslint-disable-next-line react/prop-types
 >(function PopoverContent({ style, ...props }, propRef) {
   const { context: floatingContext, ...context } = usePopoverContext();
-  const { isMounted, styles } = useTransitionStyles(floatingContext);
+
+  const { isMounted, styles } = useTransitionStyles(floatingContext, {
+    duration: 150,
+  });
 
   const ref = useMergeRefs([
     context.refs.setFloating,

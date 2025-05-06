@@ -10,7 +10,8 @@ import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { StoreState } from "@/store/slices";
 import { debounce } from "@/utils/debounce";
-import { PilcrowIcon } from "lucide-react";
+import { useAccentColor } from "@/utils/use-accent-color";
+import { EyeIcon, PilcrowIcon } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { createSelector } from "reselect";
@@ -27,8 +28,11 @@ const selectUpdateDescription = createSelector(
 export function NotesRichTextEditor({ deck }: { deck: ResolvedDeck }) {
   const { t } = useTranslation();
   const { textareaRef, setPopoverOpen } = useNotesRichTextEditorContext();
+  const accentColorStyles = useAccentColor(
+    deck.investigatorFront.card.faction_code,
+  );
 
-  const [preview, setPreview] = useState(false);
+  const [previewing, setPreviewing] = useState(false);
 
   const updateDescription = useStore(selectUpdateDescription);
 
@@ -55,9 +59,13 @@ export function NotesRichTextEditor({ deck }: { deck: ResolvedDeck }) {
   );
 
   return (
-    <div className={css["rich-text-editor"]}>
-      <NotesRichTextEditorToolbar deck={deck} setPreview={setPreview} />
-      {preview ? (
+    <div className={css["rich-text-editor"]} style={accentColorStyles}>
+      <NotesRichTextEditorToolbar
+        deck={deck}
+        setPreviewing={setPreviewing}
+        previewing={previewing}
+      />
+      {previewing ? (
         <DeckDescription
           className={css["preview"]}
           content={deck.description_md ?? ""}
@@ -84,12 +92,15 @@ export function NotesRichTextEditor({ deck }: { deck: ResolvedDeck }) {
 
 function NotesRichTextEditorToolbar({
   deck,
-  setPreview,
+  setPreviewing,
+  previewing,
 }: {
   deck: ResolvedDeck;
-  setPreview: React.Dispatch<React.SetStateAction<boolean>>;
+  setPreviewing: React.Dispatch<React.SetStateAction<boolean>>;
+  previewing: boolean;
 }) {
   const { t } = useTranslation();
+
   const { popoverOpen, setPopoverOpen, textareaRef } =
     useNotesRichTextEditorContext();
 
@@ -125,8 +136,7 @@ function NotesRichTextEditorToolbar({
           <PopoverTrigger asChild>
             <Button
               data-testid="notes-toolbar-cards"
-              iconOnly
-              size="lg"
+              size="sm"
               tooltip={
                 <Hotkey
                   keybind="tab"
@@ -136,6 +146,7 @@ function NotesRichTextEditorToolbar({
               variant={popoverOpen === "cards" ? "primary" : "secondary"}
             >
               <i className="icon-card-outline" />
+              {t("deck_edit.notes.toolbar.card")}
             </Button>
           </PopoverTrigger>
           <PopoverContent>
@@ -152,17 +163,17 @@ function NotesRichTextEditorToolbar({
           <PopoverTrigger asChild>
             <Button
               data-testid="notes-toolbar-symbols"
-              iconOnly
-              size="lg"
               tooltip={
                 <Hotkey
                   keybind="shift+tab"
                   description={t("deck_edit.notes.toolbar.symbol_tooltip")}
                 />
               }
+              size="sm"
               variant={popoverOpen === "symbols" ? "primary" : "secondary"}
             >
               <PilcrowIcon />
+              {t("deck_edit.notes.toolbar.symbol")}
             </Button>
           </PopoverTrigger>
           <PopoverContent>
@@ -173,7 +184,12 @@ function NotesRichTextEditorToolbar({
         </Popover>
       </div>
       <div>
-        <Button onClick={() => setPreview((prev) => !prev)}>
+        <Button
+          onClick={() => setPreviewing((prev) => !prev)}
+          variant={previewing ? "primary" : undefined}
+          size="sm"
+        >
+          <EyeIcon />
           {t("deck_edit.notes.toolbar.preview")}
         </Button>
       </div>
