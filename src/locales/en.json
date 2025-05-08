@@ -232,6 +232,7 @@
         "elder_sign": "Elder Sign",
         "elder_thing": "Elder Thing",
         "free": "Free triggered ability",
+        "frost": "Frost",
         "guardian": "Guardian",
         "intellect": "Intellect",
         "mystic": "Mystic",
@@ -980,7 +981,6 @@
       "upgrade_modal": {
         "automatic_xp_gain": "+{{count}} XP will be automatically added to this upgrade.",
         "error": "Failed to upgrade deck: {{error}}",
-        "great_work": "The Great Work",
         "great_work_label": "I was usurped by the homunculus",
         "great_work_status_usurped": "The Great Work will be removed from your deck alongside each of your signature cards. Your investigator will be replaced with the homunculus.",
         "loading": "Upgrading deck",

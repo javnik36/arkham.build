@@ -13,60 +13,33 @@ type Props = {
 
 type SymbolsPopoverItem = {
   code: string;
-  iconClassName: string;
   label: string;
 };
 
 const availableSymbols = [
-  {
-    code: "elder_sign",
-    iconClassName: "icon-elder_sign",
-  },
-  {
-    code: "auto_fail",
-    iconClassName: "icon-auto_fail",
-  },
-  { code: "skull", iconClassName: "icon-skull" },
-  { code: "cultist", iconClassName: "icon-cultist" },
-  { code: "tablet", iconClassName: "icon-tablet" },
-  {
-    code: "elder_thing",
-    iconClassName: "icon-elder_thing",
-  },
-  { code: "bless", iconClassName: "icon-bless" },
-  { code: "curse", iconClassName: "icon-curse" },
-  {
-    code: "action",
-    iconClassName: "icon-action",
-  },
-  {
-    code: "reaction",
-    iconClassName: "icon-reaction",
-  },
-  {
-    code: "free",
-    iconClassName: "icon-free",
-  },
-  {
-    code: "willpower",
-    iconClassName: "icon-willpower",
-  },
-  {
-    code: "intellect",
-    iconClassName: "icon-intellect",
-  },
-  { code: "combat", iconClassName: "icon-combat" },
-  { code: "agility", iconClassName: "icon-agility" },
-  { code: "wild", iconClassName: "icon-wild" },
-  { code: "guardian", iconClassName: "icon-guardian" },
-  { code: "seeker", iconClassName: "icon-seeker" },
-  { code: "rogue", iconClassName: "icon-rogue" },
-  { code: "mystic", iconClassName: "icon-mystic" },
-  { code: "survivor", iconClassName: "icon-survivor" },
-  {
-    code: "per_investigator",
-    iconClassName: "icon-per_investigator",
-  },
+  "action",
+  "agility",
+  "auto_fail",
+  "bless",
+  "combat",
+  "cultist",
+  "curse",
+  "elder_sign",
+  "elder_thing",
+  "free",
+  "frost",
+  "guardian",
+  "intellect",
+  "mystic",
+  "per_investigator",
+  "reaction",
+  "rogue",
+  "seeker",
+  "skull",
+  "survivor",
+  "tablet",
+  "wild",
+  "willpower",
 ];
 
 function useAvailableSymbols(): SymbolsPopoverItem[] {
@@ -75,8 +48,8 @@ function useAvailableSymbols(): SymbolsPopoverItem[] {
   const symbols = useMemo(
     () =>
       availableSymbols.map((symbol) => ({
-        ...symbol,
-        label: t(`common.symbols.${symbol.code}`),
+        code: symbol,
+        label: t(`common.symbols.${symbol}`),
       })),
     [t],
   );
@@ -89,7 +62,7 @@ const emptySelection: string[] = [];
 const renderItem = (item: SymbolsPopoverItem) => {
   return (
     <div className={css["symbol-combobox-item"]}>
-      <i className={item.iconClassName} />
+      <i className={`icon-${item.code}`} />
       <span>{item.label}</span>
     </div>
   );
@@ -114,7 +87,7 @@ export function SymbolsPopover(props: Props) {
       const symbol = symbols.find((item) => item.code === value);
       if (!symbol) return;
 
-      insertTextAtCaret(`<span class=\"${symbol.iconClassName}\"></span>`);
+      insertTextAtCaret(`<span class=\"icon-${symbol.code}\"></span>`);
     },
     [insertTextAtCaret, symbols],
   );
