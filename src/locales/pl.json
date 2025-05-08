@@ -903,10 +903,9 @@
       "tab_recommendations": "Rekomendacje",
       "tab_tools": "Narzędzia",
       "upgrade_modal": {
+        "automatic_xp_gain": "+{{count}} XP will be automatically added to this upgrade.",
         "error": "Nie udało się ulepszyć talii: {{error}}",
-        "great_work": "The Great Work",
         "great_work_label": "I was usurped by the homunculus",
-        "great_work_status_not_usurped": "+1 XP will be automatically added to this upgrade.",
         "great_work_status_usurped": "The Great Work will be removed from your deck alongside each of your signature cards. Your investigator will be replaced with the homunculus.",
         "loading": "Ulepszanie talii...",
         "success": "Talia została ulepszona pomyślnie.",

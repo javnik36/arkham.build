@@ -978,10 +978,10 @@
       "tab_recommendations": "Recommendations",
       "tab_tools": "Tools",
       "upgrade_modal": {
+        "automatic_xp_gain": "+{{count}} XP will be automatically added to this upgrade.",
         "error": "Failed to upgrade deck: {{error}}",
         "great_work": "The Great Work",
         "great_work_label": "I was usurped by the homunculus",
-        "great_work_status_not_usurped": "+1 XP will be automatically added to this upgrade.",
         "great_work_status_usurped": "The Great Work will be removed from your deck alongside each of your signature cards. Your investigator will be replaced with the homunculus.",
         "loading": "Upgrading deck",
         "success": "Deck upgraded successfully.",

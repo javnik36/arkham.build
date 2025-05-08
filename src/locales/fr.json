@@ -915,10 +915,9 @@
       "tab_recommendations": "Recommandations",
       "tab_tools": "Outils",
       "upgrade_modal": {
+        "automatic_xp_gain": "+{{count}} XP sera automatiquement ajouté à cette amélioration.",
         "error": "Échec de l’amélioration du deck : {{error}}",
-        "great_work": "Le Grand Œuvre",
         "great_work_label": "J’ai été remplacé par l’homoncule",
-        "great_work_status_not_usurped": "+1 XP sera automatiquement ajouté à cette amélioration.",
         "great_work_status_usurped": "Le Grand Œuvre sera retiré de votre deck ainsi que chacune de vos cartes signature. Votre investigateur sera remplacé par l’homoncule.",
         "loading": "Amélioration du deck",
         "success": "Deck amélioré avec succès.",

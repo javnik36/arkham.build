@@ -916,10 +916,9 @@
       "tab_recommendations": "Recomendaciones",
       "tab_tools": "Herramientas",
       "upgrade_modal": {
+        "automatic_xp_gain": "Se añadirá automáticamente +{{count}} XP a esta mejora.",
         "error": "Error al actualizar mazo: {{error}}",
-        "great_work": "La gran obra",
         "great_work_label": "Fui usurpado por el homúnculo",
-        "great_work_status_not_usurped": "Se añadirá automáticamente +1 XP a esta mejora.",
         "great_work_status_usurped": "La gran obra será eliminada de tu mazo junto con cada una de tus cartas características. Tu investigador será reemplazado por el homúnculo.",
         "loading": "Mejorando mazo...",
         "success": "Mazo mejorado correctamente.",

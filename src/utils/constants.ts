@@ -166,6 +166,8 @@ export const SPECIAL_CARD_CODES = {
   BURDEN_OF_DESTINY: "08015",
   /** Allows to exile arbitrary cards. */
   BURN_AFTER_READING: "08076",
+  /** Additional XP gain. */
+  CHARONS_OBOL: "03308",
   /** Changes XP calculation for upgrades. */
   DEJA_VU: "60531",
   /** Connected to parallel roland's front. */
