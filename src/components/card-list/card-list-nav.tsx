@@ -109,6 +109,7 @@ export function CardListNav(props: Props) {
               data-test-id="card-list-config"
               variant="bare"
               iconOnly
+              size="lg"
             >
               <SlidersVerticalIcon />
             </Button>

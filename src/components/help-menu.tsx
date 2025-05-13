@@ -241,7 +241,7 @@ export function HelpMenu() {
     <>
       <Popover>
         <PopoverTrigger asChild>
-          <Button tooltip={t("help.title")} variant="bare">
+          <Button iconOnly tooltip={t("help.title")} variant="bare" size="lg">
             <CircleHelpIcon />
           </Button>
         </PopoverTrigger>

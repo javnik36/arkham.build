@@ -78,7 +78,7 @@
 .floating {
   position: fixed;
   height: calc(100% - 0.5rem);
-  max-width: 85%;
+  max-width: 86.25%;
   top: 0.25rem;
   z-index: 3;
   background: var(--palette-0);

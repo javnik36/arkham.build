@@ -40,8 +40,10 @@ export function Masthead(props: Props) {
                 as="a"
                 className={css["settings"]}
                 data-testid="masthead-settings"
-                variant="bare"
+                iconOnly
+                size="lg"
                 tooltip={t("settings.title")}
+                variant="bare"
               >
                 <SettingsIcon />
               </Button>

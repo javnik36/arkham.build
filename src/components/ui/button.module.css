@@ -62,7 +62,7 @@ a.button {
 .button.bare {
   color: currentColor;
   background: none;
-  border: none;
+  border-color: transparent;
 }
 
 .button.link {
