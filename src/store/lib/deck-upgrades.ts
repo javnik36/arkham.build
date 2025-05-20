@@ -415,8 +415,9 @@ function countFreeLevel0Cards(
   if (slotKey === "slots") {
     // when deck size increases, you may purchase x cards to replace existing cards.
     for (const [code, adjustment] of Object.entries(DECK_SIZE_ADJUSTMENTS)) {
-      if (!prev.slots[code] && next.slots[code]) {
-        free0Cards += Math.max(adjustment * next.slots[code], 0);
+      const diff = next.slots[code] ?? 0 - prev.slots[code] ?? 0;
+      if (diff > 0) {
+        free0Cards += Math.max(adjustment * diff, 0);
       }
     }
   }

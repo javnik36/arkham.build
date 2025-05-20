@@ -73,6 +73,8 @@ import negativeQuantity from "@/test/fixtures/decks/upgrades/negative_quantity_1
 import negativeQuantity2 from "@/test/fixtures/decks/upgrades/negative_quantity_2.json";
 import permanent from "@/test/fixtures/decks/upgrades/permanent_1.json";
 import permanent2 from "@/test/fixtures/decks/upgrades/permanent_2.json";
+import secondVersatile from "@/test/fixtures/decks/upgrades/second_versatile_1.json";
+import secondVersatile2 from "@/test/fixtures/decks/upgrades/second_versatile_2.json";
 import story from "@/test/fixtures/decks/upgrades/story_1.json";
 import story2 from "@/test/fixtures/decks/upgrades/story_2.json";
 import { getMockStore } from "@/test/get-mock-store";
@@ -260,6 +262,26 @@ describe("getChangeStats", () => {
         { metadata: state.metadata, lookupTables, sharing: state.sharing },
         collator,
         arcaneResearchSwap2,
+      );
+
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
+    });
+
+    it("handles case: second versatile added to deck", () => {
+      const state = store.getState();
+      const lookupTables = selectLookupTables(state);
+      const collator = selectLocaleSortingCollator(state);
+
+      const prev = resolveDeck(
+        { metadata: state.metadata, lookupTables, sharing: state.sharing },
+        collator,
+        secondVersatile,
+      );
+
+      const next = resolveDeck(
+        { metadata: state.metadata, lookupTables, sharing: state.sharing },
+        collator,
+        secondVersatile2,
       );
 
       expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
