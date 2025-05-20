@@ -184,8 +184,6 @@ export const SPECIAL_CARD_CODES = {
   MANDY: "06002",
   /** Scales with investigator deck size selection. */
   OCCULT_EVIDENCE: "06008",
-  /** Adds deckbuilding restriction. */
-  ON_YOUR_OWN: "53010",
   /** Has option to add cards to ignore deck limit slots. */
   PARALLEL_AGNES: "90017",
   /** Has spirit deck. */
@@ -328,4 +326,12 @@ export const RETURN_TO_CYCLES: Record<string, string> = {
   ptc: "rtptc",
   tfa: "rttfa",
   tcu: "rttcu",
+};
+
+export const TAG_REGEX_FALLBACKS: Record<string, RegExp> = {
+  fa: /[Ff]irearm/,
+  hd: /[Hh]eal(?!ed)(?!th)(?! in excess of)[^.!?]*?damage/,
+  hh: /[Hh]eal(?!ed)(?!th)(?! in excess of)[^.!?]*?horror/,
+  pa: /[Pp]arley/,
+  se: /[Ss]eal(?! of the)/,
 };

@@ -1,6 +1,7 @@
 import { getMockStore } from "@/test/get-mock-store";
 import { beforeAll, describe, expect, it } from "vitest";
 import type { StoreApi } from "zustand";
+import { selectLookupTables } from "../selectors/shared";
 import { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
 import type {
@@ -20,6 +21,8 @@ import {
   filterLevel,
   filterOwnership,
   filterSkillIcons,
+  filterTagFallback,
+  makeOptionFilter,
 } from "./filtering";
 
 describe("filter: investigator access", () => {
@@ -783,7 +786,7 @@ describe("filter: assets", () => {
   });
 
   function applyFilter(state: StoreState, code: string, config: AssetFilter) {
-    const fn = filterAssets(config, state.lookupTables);
+    const fn = filterAssets(config, selectLookupTables(state));
     if (!fn) return true;
     return fn(state.metadata.cards[code]);
   }
@@ -878,7 +881,7 @@ describe("filter: actions", () => {
   function applyFilter(state: StoreState, code: string, config: string[]) {
     return filterActions(
       config,
-      state.lookupTables.actions,
+      selectLookupTables(state).actions,
     )(state.metadata.cards[code]);
   }
 
@@ -985,7 +988,7 @@ describe("filter: ownership", () => {
     return filterOwnership(
       state.metadata.cards[code],
       state.metadata,
-      state.lookupTables,
+      selectLookupTables(state),
       config,
       false, // TODO: test.
     );
@@ -1069,5 +1072,93 @@ describe("filter: investigator weakness access", () => {
   it("handles case: weakness is bonded", () => {
     const state = store.getState();
     expect(applyFilter(state, "60101", "06283")).toBeFalsy();
+  });
+});
+
+describe("filter: custom content options", () => {
+  let store: StoreApi<StoreState>;
+
+  beforeAll(async () => {
+    store = await getMockStore();
+  });
+
+  it("handles case: text filters", () => {
+    const option = {
+      text: ["<b>Fight\\.<\\/b>"],
+      level: {
+        min: 0,
+        max: 3,
+      },
+    };
+
+    const state = store.getState();
+    const filter = makeOptionFilter(option);
+    expect(filter?.(state.metadata.cards["05187"])).toBeTruthy();
+    expect(filter?.(state.metadata.cards["60127"])).toBeFalsy();
+  });
+
+  it("handles case: text_exact filters", () => {
+    const option = {
+      text: ["<b>Fight.</b>"],
+      level: {
+        min: 0,
+        max: 3,
+      },
+    };
+
+    const state = store.getState();
+    const filter = makeOptionFilter(option);
+    expect(filter?.(state.metadata.cards["05187"])).toBeTruthy();
+    expect(filter?.(state.metadata.cards["60127"])).toBeFalsy();
+  });
+});
+
+describe("filter: tag fallbacks", () => {
+  let store: StoreApi<StoreState>;
+
+  beforeAll(async () => {
+    store = await getMockStore();
+  });
+
+  it("matches pa. tags", () => {
+    const filter = filterTagFallback("pa", true);
+    const state = store.getState();
+    const cards = state.metadata.cards;
+    expect(filter(cards["10064"])).toBeTruthy();
+    expect(filter(cards["07194"])).toBeFalsy();
+  });
+
+  it("matches fa. tags", () => {
+    const filter = filterTagFallback("fa", true);
+    const state = store.getState();
+    const cards = state.metadata.cards;
+    expect(filter(cards["08122"])).toBeTruthy();
+    expect(filter(cards["08080"])).toBeFalsy();
+  });
+
+  it("matches se. tags", () => {
+    const filter = filterTagFallback("se", true);
+    const state = store.getState();
+    const cards = state.metadata.cards;
+    expect(filter(cards["04311"])).toBeTruthy();
+    expect(filter(cards["10105"])).toBeFalsy();
+  });
+
+  it("matches hd. tags", () => {
+    const filter = filterTagFallback("hd", true);
+    const state = store.getState();
+    const cards = state.metadata.cards;
+    expect(filter(cards["11106"])).toBeTruthy();
+    expect(filter(cards["09005"])).toBeTruthy();
+    expect(filter(cards["05114"])).toBeFalsy();
+  });
+
+  it("matches hh. tags", () => {
+    const filter = filterTagFallback("hh", true);
+    const state = store.getState();
+    const cards = state.metadata.cards;
+    expect(filter(cards["11106"])).toBeTruthy();
+    expect(filter(cards["04304"])).toBeTruthy();
+    expect(filter(cards["09123"])).toBeFalsy();
   });
 });

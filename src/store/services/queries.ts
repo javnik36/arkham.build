@@ -5,14 +5,15 @@ import { isDeck } from "../slices/data.types";
 import reprintPacks from "./data/reprint_packs.json";
 
 import { packToApiFormat } from "@/utils/arkhamdb-json-format";
+import { assert } from "@/utils/assert";
 import { displayPackName } from "@/utils/formatting";
 import i18n from "@/utils/i18n";
-import type { ResolvedDeck, SealedDeck } from "../lib/types";
+import type { FanMadeProject } from "../lib/fan-made-content.schemas";
+import type { SealedDeck } from "../lib/types";
 import type { History } from "../selectors/decks";
 import type { Locale } from "../slices/settings.types";
 import type {
   APICard,
-  Card,
   Cycle,
   DataVersion,
   JsonDataEncounterSet,
@@ -324,23 +325,6 @@ export async function upgradeDeck(
   return await res.json();
 }
 
-export function customizationSheetUrl(card: Card, deck: ResolvedDeck) {
-  const base = `${import.meta.env.VITE_API_URL}/v1/public/customization_sheet`;
-
-  const tabooId = deck.taboo_id ?? "0";
-  const customizations = deck.metaParsed[`cus_${card.code}`] ?? "";
-
-  let customizationStr = btoa(customizations);
-  // the sheet api uses php and expects base64 without padding, remove trailing `=`
-  while (customizationStr.endsWith("=")) {
-    customizationStr = customizationStr.slice(0, -1);
-  }
-
-  const params = `${card.code}-${tabooId}-${customizationStr}`;
-
-  return `${base}/${params}.webp`;
-}
-
 async function recommendationRequest(
   path: string,
   options: RequestInit = {},
@@ -410,4 +394,30 @@ export async function getRecommendations(
 export async function querySealedDeck(id: string): Promise<SealedDeck> {
   const res = await request(`/public/sealed_deck/${id}`);
   return await res.json();
+}
+
+export type FanMadeProjectListing = {
+  bucket_path: string;
+  id: string;
+  meta: FanMadeProject["meta"];
+};
+
+export async function queryFanMadeProjects(): Promise<FanMadeProjectListing[]> {
+  const res = await request("/public/fan_made_projects");
+  const { data }: { data: FanMadeProjectListing[] } = await res.json();
+  return data.sort((a, b) => {
+    return a.meta.name.localeCompare(b.meta.name);
+  });
+}
+
+export async function queryFanMadeProjectData(
+  bucketPath: string,
+): Promise<FanMadeProject> {
+  const res = await fetch(
+    `${import.meta.env.VITE_CARD_IMAGE_URL}/${bucketPath}`,
+  );
+
+  assert(res.ok, `Failed to fetch ${bucketPath}`);
+  const data = await res.json();
+  return data;
 }
