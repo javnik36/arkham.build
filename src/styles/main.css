@@ -838,10 +838,15 @@ svg {
 
 .external-icon {
   display: inline-block;
-  width: auto;
-  height: 1em;
+  width: 1em;
+  height: auto;
   vertical-align: baseline;
   filter: invert(0.875);
+  text-align: center;
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 1rem;
 }
 
 :root[data-theme="light"] .external-icon:not(.invert) {

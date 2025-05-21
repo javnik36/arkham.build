@@ -222,6 +222,11 @@
   font-size: calc(var(--card-title-size) * 1.75);
   color: currentColor;
   line-height: 1;
+
+  & > img {
+    width: 100%;
+    height: auto;
+  }
 }
 
 .faction-icons {
