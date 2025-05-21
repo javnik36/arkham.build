@@ -28,6 +28,7 @@ export async function mockApiCalls(page: Page) {
         faction_code: "neutral",
         type_code: "asset",
         id: "99999",
+        official: true,
         position: 999,
         preview: true,
         quantity: 1,
