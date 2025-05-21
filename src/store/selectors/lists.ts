@@ -396,6 +396,13 @@ const customizationsEqualSelector = createCustomEqualSelector((a, b) => {
       a == b;
 });
 
+const fanMadeDataEqualSelector = createCustomEqualSelector((a, b) => {
+  return isResolvedDeck(a) && isResolvedDeck(b)
+    ? JSON.stringify(a.fanMadeData) === JSON.stringify(b.fanMadeData)
+    : // biome-ignore lint/suspicious/noDoubleEquals: we want a shallow equality check in this context.
+      a == b;
+});
+
 const selectDeckInvestigatorFilter = deckAccessEqualSelector(
   selectMetadata,
   selectLookupTables,
@@ -472,30 +479,39 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
   },
 );
 
-const selectResolvedDeckCustomizations = customizationsEqualSelector(
+const selectDeckCustomizations = customizationsEqualSelector(
   (_: StoreState, resolvedDeck?: ResolvedDeck) => resolvedDeck,
   (resolvedDeck) => resolvedDeck?.customizations,
+);
+
+const selectDeckFanMadeData = fanMadeDataEqualSelector(
+  (_: StoreState, resolvedDeck?: ResolvedDeck) => resolvedDeck,
+  (resolvedDeck) => resolvedDeck?.fanMadeData,
 );
 
 const selectBaseListCards = createSelector(
   selectMetadata,
   selectLookupTables,
+  (state: StoreState) => state.fanMadeData.projects,
   (state: StoreState) => selectActiveList(state)?.systemFilter,
   (state: StoreState) => selectActiveList(state)?.duplicateFilter,
   (state: StoreState) => selectActiveList(state)?.filterValues,
   selectDeckInvestigatorFilter,
   selectCanonicalTabooSetId,
-  selectResolvedDeckCustomizations,
+  selectDeckCustomizations,
+  selectDeckFanMadeData,
   selectCollection,
   (
     metadata,
     lookupTables,
+    fanMadeProjects,
     systemFilter,
     duplicateFilter,
     filterValues,
     deckInvestigatorFilter,
     tabooSetId,
     customizations,
+    fanMadeData,
     collection,
   ) => {
     if (isEmpty(metadata.cards)) {
@@ -517,6 +533,18 @@ const selectBaseListCards = createSelector(
     const filters = [];
 
     if (systemFilter) filters.push(systemFilter);
+
+    // Filter fan made data that is not owned and does not belong to this specific deck.
+    filters.push((card: Card) => {
+      if (card.official) return true;
+
+      const pack = metadata.packs[card.pack_code];
+      if (!pack?.cycle_code) return false;
+
+      return Boolean(
+        fanMadeData?.cards?.[card.code] || fanMadeProjects?.[pack.cycle_code],
+      );
+    });
 
     if (deckInvestigatorFilter) {
       filters.push(deckInvestigatorFilter);
