@@ -250,6 +250,7 @@ export function displayAttribute(
 
 export function cycleOrPack(cycle: Cycle, pack: Pack) {
   if (
+    !pack.official ||
     CYCLES_WITH_STANDALONE_PACKS.includes(cycle.code) ||
     pack.real_name.includes("Investigator Expansion") ||
     pack.real_name.includes("Campaign Expansion")
