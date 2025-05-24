@@ -1080,7 +1080,7 @@ export const selectPackOptions = createSelector(
         return filterNewFormat(cycle.reprintPacks, list?.cardType);
       }
 
-      return cycle.official && cycle.packs.length === 2
+      return cycle.official !== false && cycle.packs.length === 2
         ? filterNewFormat(cycle.packs, list?.cardType)
         : [...cycle.reprintPacks, ...cycle.packs];
     });
