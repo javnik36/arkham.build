@@ -430,6 +430,7 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
       additionalFilters: ["illustrator"],
       initialValues: {
         ...initialValues,
+        fan_made_content: getInitialFanMadeContentFilter(state.settings),
         ownership: getInitialOwnershipFilter(state.settings),
         subtype: getInitialSubtypeFilter(state.settings),
       },
@@ -876,7 +877,7 @@ function mergeInitialValues(
 ) {
   return {
     ...initialValues,
-    fanMadeContent: getInitialFanMadeContentFilter(settings),
+    fan_made_content: getInitialFanMadeContentFilter(settings),
     ownership: getInitialOwnershipFilter(settings),
     subtype: getInitialSubtypeFilter(settings),
   };
