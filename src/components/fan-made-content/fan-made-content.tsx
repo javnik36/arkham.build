@@ -22,6 +22,7 @@ import type { FanMadeContentFilter } from "@/store/slices/lists.types";
 import type { Metadata } from "@/store/slices/metadata.types";
 import { assert } from "@/utils/assert";
 import { cx } from "@/utils/cx";
+import { capitalize, formatDate } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { parseMarkdown } from "@/utils/markdown";
 import { useQuery } from "@/utils/use-query";
@@ -49,6 +50,7 @@ import { Modal, ModalContent } from "../ui/modal";
 import { Plane } from "../ui/plane";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Select } from "../ui/select";
+import { Tag } from "../ui/tag";
 import { useToast } from "../ui/toast.hooks";
 import css from "./fan-made-content.module.css";
 
@@ -406,7 +408,49 @@ function ProjectCard(props: {
       classNames={classNames}
       key={meta.code}
       headerSlot={headerSlot}
-      footerSlot={<nav className={css["actions"]}>{children}</nav>}
+      footerSlot={
+        <div className={css["project-footer-row"]}>
+          {!isEmpty(project.meta.types) && (
+            <Field>
+              <FieldLabel>{t("fan_made_content.content_types")}</FieldLabel>
+              <ol className={css["tag-row"]}>
+                {project.meta.types.map((type) => (
+                  <Tag as="li" key={type}>
+                    {t(`fan_made_content.types.${type}`)}
+                  </Tag>
+                ))}
+              </ol>
+            </Field>
+          )}
+
+          {!isEmpty(project.meta.tags) && (
+            <Field>
+              <FieldLabel>{t("fan_made_content.tags")}</FieldLabel>
+              <ol className={css["tag-row"]}>
+                {project.meta.tags.map((type) => (
+                  <Tag as="li" key={type}>
+                    {type}
+                  </Tag>
+                ))}
+              </ol>
+            </Field>
+          )}
+
+          <Field>
+            <FieldLabel>{t("fan_made_content.content_version")}</FieldLabel>
+            <ol className={css["tag-row"]}>
+              <Tag as="li">{capitalize(project.meta.language)}</Tag>
+              <Tag as="li">
+                {t(`fan_made_content.status.${project.meta.status}`)}
+              </Tag>
+              {meta.date_updated && (
+                <Tag as="li">{formatDate(meta.date_updated)}</Tag>
+              )}
+            </ol>
+          </Field>
+          <nav className={css["actions"]}>{children}</nav>
+        </div>
+      }
       bannerAlt={meta.name}
       bannerUrl={meta.banner_url}
       title={<h3>{meta.name}</h3>}
@@ -431,8 +475,6 @@ function ProjectCard(props: {
           </Button>
         </p>
       )}
-
-      {meta.date_updated && <p>v{meta.date_updated}</p>}
     </MediaCard>
   );
 }

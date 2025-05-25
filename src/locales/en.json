@@ -646,38 +646,6 @@
       "syncing": "Syncing {{provider}}...",
       "title": "Connecting {{provider}}..."
     },
-    "fan_made_content": {
-      "actions": {
-        "uninstall": "Uninstall",
-        "import_file": "Import from file",
-        "import_url": "Import from URL",
-        "install": "Install content",
-        "view_cards": "View cards",
-        "view_external": "Learn more"
-      },
-      "available_content": "Available content",
-      "import_url": {
-        "label": "Content URL",
-        "placeholder": "Enter an URL...",
-        "submit": "Import"
-      },
-      "installed_content": "Installed content",
-      "empty": "No content installed",
-      "messages": {
-        "content_installed": "Content added successfully.",
-        "content_loading": "Loading content...",
-        "available_content_loading": "Loading available content...",
-        "fetch_failed": "Failed to load content: {{error}}",
-        "parse_failed": "Failed to add content: {{error}}",
-        "registry_failed": "Failed to load available content from registry: {{error}}"
-      },
-      "settings": {
-        "card_lists": "Card lists",
-        "card_lists_help": "This setting controls the default value of the \"Fan-made content\" filter in card lists."
-      },
-      "status_installed": "Installed",
-      "title": "Fan-made content"
-    },
     "deck": {
       "actions": {
         "copy_id": "Copy deck ID",
@@ -1040,6 +1008,55 @@
       "preview_publish": "Deck contains cards not supported by {{provider}}: {{names}}. Please remove them before uploading.",
       "report": "Report issue"
     },
+    "fan_made_content": {
+      "actions": {
+        "import_file": "Import from file",
+        "import_url": "Import from URL",
+        "install": "Install content",
+        "uninstall": "Uninstall",
+        "view_cards": "View cards",
+        "view_external": "Learn more"
+      },
+      "available_content": "Available content",
+      "content_types": "Content types",
+      "content_version": "Content version",
+      "empty": "No content installed",
+      "import_url": {
+        "label": "Content URL",
+        "placeholder": "Enter an URL...",
+        "submit": "Import"
+      },
+      "installed_content": "Installed content",
+      "messages": {
+        "available_content_loading": "Loading available content...",
+        "content_installed": "Content added successfully.",
+        "content_loading": "Loading content...",
+        "fetch_failed": "Failed to load content: {{error}}",
+        "parse_failed": "Failed to add content: {{error}}",
+        "registry_failed": "Failed to load available content from registry: {{error}}"
+      },
+      "settings": {
+        "card_lists": "Card lists",
+        "card_lists_help": "This setting controls the default value of the \"Fan-made content\" filter in card lists."
+      },
+      "status": {
+        "alpha": "Alpha",
+        "beta": "Beta",
+        "complete": "Complete",
+        "draft": "Draft",
+        "final": "Final"
+      },
+      "status_installed": "Installed",
+      "tags": "Tags",
+      "title": "Fan-made content",
+      "types": {
+        "campaign": "Campaign",
+        "investigators": "Investigators",
+        "player_cards": "Player cards",
+        "rework": "Rework",
+        "scenario": "Scenario"
+      }
+    },
     "filters": {
       "action": {
         "placeholder": "Select actions...",
@@ -1061,10 +1078,10 @@
         "title": "Encounter set"
       },
       "fan_made_content": {
-        "title": "Fan-made content",
         "all": "Show everything",
+        "fan_made": "Fan-made content only",
         "official": "Official content only",
-        "fan_made": "Fan-made content only"
+        "title": "Fan-made content"
       },
       "health": {
         "title": "Health"

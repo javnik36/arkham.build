@@ -47,6 +47,12 @@
   padding-block: 0.25rem;
 }
 
+.project-footer-row {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
+}
+
 .actions {
   display: flex;
   gap: 0.375rem;
@@ -137,4 +143,10 @@
 
 .import-popover-input {
   width: 100%;
+}
+
+.tag-row {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.375rem;
 }

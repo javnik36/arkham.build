@@ -13,7 +13,8 @@ function syncLocales(primary: string) {
   const localePaths = fs.readdirSync(path.join(process.cwd(), "./src/locales"));
 
   for (const localePath of localePaths) {
-    if (localePath === `${primary}.json`) continue;
+    if (!localePath.endsWith("json") || localePath === `${primary}.json`)
+      continue;
 
     const locale = readLocale(localePath);
 
