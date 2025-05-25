@@ -1008,6 +1008,55 @@
       "preview_publish": "Deck enthält Karten, die von {{provider}} nicht unterstützt werden: {{names}}. Bitte entferne sie, bevor du das Deck zu hochlädst.",
       "report": "Fehler melden"
     },
+    "fan_made_content": {
+      "actions": {
+        "import_file": "Datei importieren",
+        "import_url": "URL importieren",
+        "install": "Inhalte hinzufügen",
+        "uninstall": "Entfernen",
+        "view_cards": "Karten ansehen",
+        "view_external": "Mehr erfahren"
+      },
+      "available_content": "Verfügbare Inhalte",
+      "content_types": "Inhaltstypen",
+      "content_version": "Inhaltsversion",
+      "empty": "Keine Inhalte installiert",
+      "import_url": {
+        "label": "Inhalts-URL",
+        "placeholder": "Gib eine URL ein...",
+        "submit": "Importieren"
+      },
+      "installed_content": "Hinzugefügte Inhalte",
+      "messages": {
+        "available_content_loading": "Verfügbare Inhalte werden geladen...",
+        "content_installed": "Inhalt wurde erfolgreich hinzugefügt.",
+        "content_loading": "Lade Inhalte...",
+        "fetch_failed": "Inhalt konnte nicht geladen werden: {{error}}",
+        "parse_failed": "Inhalt konnte nicht hinzugefügt werden: {{error}}",
+        "registry_failed": "Verfügbare Inhalte konnten nicht geladen werden: {{error}}"
+      },
+      "settings": {
+        "card_lists": "Kartenlisten",
+        "card_lists_help": "Standardwert für den \"Inoffizielle Inhalte\" Filter in den Kartenlisten."
+      },
+      "status": {
+        "alpha": "Alpha",
+        "beta": "Beta",
+        "complete": "Komplett",
+        "draft": "Draft",
+        "final": "Final"
+      },
+      "status_installed": "Hinzugefügt",
+      "tags": "Tags",
+      "title": "Inoffizielle Inhalte",
+      "types": {
+        "campaign": "Kampagne",
+        "investigators": "Ermittler",
+        "player_cards": "Spielerkarten",
+        "rework": "Überarbeitung",
+        "scenario": "Szenario"
+      }
+    },
     "filters": {
       "action": {
         "placeholder": "Aktionen auswählen...",
@@ -1027,6 +1076,12 @@
       "encounter_set": {
         "placeholder": "Begegnungsset auswählen...",
         "title": "Begegnungsset"
+      },
+      "fan_made_content": {
+        "all": "Alles anzeigen",
+        "fan_made": "Nur inoffizielle Inhalte",
+        "official": "Nur offizielle Inhalte",
+        "title": "Inoffizielle Inhalte"
       },
       "health": {
         "title": "Ausdauer"
