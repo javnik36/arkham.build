@@ -63,6 +63,9 @@ const ProjectMetaSchema = z.object({
     .register(z.globalRegistry, {
       description: "URL to an external project page.",
     }),
+  generator: z.optional(z.string()).register(z.globalRegistry, {
+    description: "User-agent of the tool that created this content pack",
+  }),
   language: z.string().register(z.globalRegistry, {
     description: "Language of the project as ISO 639-1 language code.",
   }),
