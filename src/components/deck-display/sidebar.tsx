@@ -396,7 +396,7 @@ function SidebarActions(props: {
             keybind="cmd+i"
             description={t("deck_view.actions.import")}
           >
-            <Button size="full" onClick={onImport}>
+            <Button size="full" onClick={onImport} data-testid="share-import">
               <ImportIcon /> {t("deck_view.actions.import")}
             </Button>
           </HotkeyTooltip>
@@ -570,7 +570,11 @@ function Sharing(props: { onArkhamDBUpload?: () => void; deck: ResolvedDeck }) {
                     {t("deck_view.sharing.update")}
                   </Button>
                 )}
-                <Button size="sm" onClick={onDeleteShare}>
+                <Button
+                  size="sm"
+                  onClick={onDeleteShare}
+                  data-testid="share-delete"
+                >
                   {t("deck_view.sharing.delete")}
                 </Button>
               </nav>

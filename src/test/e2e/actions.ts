@@ -1,4 +1,5 @@
 import path from "node:path";
+import { assert } from "@/utils/assert";
 import { type Locator, type Page, expect } from "@playwright/test";
 
 export async function importDeck(page: Page) {
@@ -59,26 +60,25 @@ export async function importDeckFromFile(
   }
 }
 
-export async function shareDeck(page: Page) {
-  await importDeck(page);
-
-  const deckNode = page.getByTestId("collection-deck");
-  await deckNode.click();
-
-  await expect(page).toHaveURL(/\/deck\/view/);
-
+export async function shareDeck(page: Page, navigate = true) {
   await page.getByTestId("share-create").click();
 
   await expect(page.getByTestId("share-link")).toBeVisible();
 
-  await page.waitForTimeout(1000);
+  if (navigate) {
+    await page.waitForTimeout(1000);
+    await page.$eval("a[target=_blank]", (el) => {
+      el.removeAttribute("target");
+    });
 
-  await page.$eval("a[target=_blank]", (el) => {
-    el.removeAttribute("target");
-  });
+    await page.getByTestId("share-link").click();
+    await expect(page).toHaveURL(/\/share/);
+  }
+}
 
-  await page.getByTestId("share-link").click();
-  await expect(page).toHaveURL(/\/share/);
+export async function unshareDeck(page: Page) {
+  await page.getByTestId("share-delete").click();
+  await expect(page.getByTestId("share-link")).not.toBeVisible();
 }
 
 export function adjustDeckCardQuantity(
@@ -137,4 +137,12 @@ export async function upgradeDeck(page: Page, xp = 5) {
 
 export function defaultScreenshotMask(page: Page) {
   return [page.getByTestId("card-scan"), page.getByTestId("card-thumbnail")];
+}
+
+export async function openUrlInNewContext(page: Page, url: string) {
+  const ctx = await page.context().browser()?.newContext();
+  assert(ctx, "Browser context should not be null");
+  const ctxPage = await ctx.newPage();
+  await ctxPage.goto(url);
+  return ctxPage;
 }

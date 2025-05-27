@@ -5,6 +5,9 @@ import allCardsResponse from "../fixtures/stubs/all_card.json" assert {
 import versionsResponse from "../fixtures/stubs/data_version.json" assert {
   type: "json",
 };
+import fanMadeInvestigatorProject from "../fixtures/stubs/fan_made_investigator_project.json" assert {
+  type: "json",
+};
 import deckResponse from "../fixtures/stubs/get_deck.json" assert {
   type: "json",
 };
@@ -47,14 +50,9 @@ export async function mockApiCalls(page: Page) {
       const json = deckResponse;
       await route.fulfill({ json });
     }),
-    page.route(/\/public\/share$/, async (route) => {
-      await route.fulfill({ body: undefined });
-    }),
-    page.route(/\/public\/share\/.*/, async (route) => {
-      await route.fulfill({ json: deckResponse.data });
-    }),
-    page.route(/\/public\/share_history\/.*/, async (route) => {
-      await route.fulfill({ json: { data: deckResponse.data, history: [] } });
+    page.route("https://fan-made-project-mock.example.com", async (route) => {
+      const json = fanMadeInvestigatorProject;
+      await route.fulfill({ json });
     }),
   ]);
 }

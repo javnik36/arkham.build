@@ -170,7 +170,7 @@ function Collection() {
       </header>
 
       {isEmpty(owned) && (
-        <div className={css["empty"]}>
+        <div className={css["empty"]} data-testid="collection-placeholder">
           <BookDashedIcon className={css["empty-icon"]} />
           <p className={css["empty-title"]}>{t("fan_made_content.empty")}</p>
         </div>
@@ -183,7 +183,7 @@ function Collection() {
             <ProjectCard key={meta.code} project={project}>
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button size="sm">
+                  <Button size="sm" data-testid="collection-project-view-cards">
                     <EyeIcon /> {t("fan_made_content.actions.view_cards")}
                   </Button>
                 </DialogTrigger>
@@ -192,6 +192,7 @@ function Collection() {
                 </DialogContent>
               </Dialog>
               <Button
+                data-testid="collection-project-uninstall"
                 size="sm"
                 onClick={() => removeFanMadeProject(project.meta.code)}
               >
@@ -304,7 +305,7 @@ function Registry({
         </FileInput>
         <Popover>
           <PopoverTrigger asChild>
-            <Button>
+            <Button data-testid="collection-import-url">
               <LinkIcon /> {t("fan_made_content.actions.import_url")}
             </Button>
           </PopoverTrigger>
@@ -323,13 +324,18 @@ function Registry({
                 </FieldLabel>
                 <input
                   className={css["import-popover-input"]}
+                  data-testid="collection-import-url-input"
                   type="url"
                   id="url"
                   name="url"
                   placeholder={t("fan_made_content.import_url.placeholder")}
                 />
               </Field>
-              <Button size="sm" type="submit">
+              <Button
+                size="sm"
+                type="submit"
+                data-testid="collection-import-url-submit"
+              >
                 {t("fan_made_content.import_url.submit")}
               </Button>
             </Plane>
@@ -406,6 +412,7 @@ function ProjectCard(props: {
   return (
     <MediaCard
       classNames={classNames}
+      data-testid="collection-project"
       key={meta.code}
       headerSlot={headerSlot}
       footerSlot={
@@ -453,7 +460,7 @@ function ProjectCard(props: {
       }
       bannerAlt={meta.name}
       bannerUrl={meta.banner_url}
-      title={<h3>{meta.name}</h3>}
+      title={<h3 data-testid="collection-project-title">{meta.name}</h3>}
     >
       <h4>{meta.author}</h4>
 

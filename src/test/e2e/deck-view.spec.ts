@@ -4,6 +4,7 @@ import {
   importDeck,
   importDeckFromFile,
   shareDeck,
+  unshareDeck,
   waitForImagesLoaded,
 } from "./actions";
 import { mockApiCalls } from "./mocks";
@@ -318,6 +319,10 @@ test.describe("deck view", () => {
   });
 
   test("share deck", async ({ page }) => {
+    await importDeck(page);
+    const deckNode = page.getByTestId("collection-deck");
+    await deckNode.click();
+    await expect(page).toHaveURL(/\/deck\/view/);
     await shareDeck(page);
 
     await expect(page.getByTestId("view-title")).toContainText(
@@ -337,9 +342,16 @@ test.describe("deck view", () => {
     );
 
     await expect(page.getByTestId("deck-tags")).toBeVisible();
+
+    await page.goBack();
+    await unshareDeck(page);
   });
 
   test("render shared deck list", async ({ page }) => {
+    await importDeck(page);
+    const deckNode = page.getByTestId("collection-deck");
+    await deckNode.click();
+    await expect(page).toHaveURL(/\/deck\/view/);
     await shareDeck(page);
 
     await expect(page.getByTestId("view-decklist")).toBeVisible();
@@ -348,6 +360,9 @@ test.describe("deck view", () => {
     await expect(page.getByTestId("view-decklist")).toHaveScreenshot({
       mask: defaultScreenshotMask(page),
     });
+
+    await page.goBack();
+    await unshareDeck(page);
   });
 
   test("prefill upgrade xp from url", async ({ page }) => {
