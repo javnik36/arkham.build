@@ -664,11 +664,11 @@
       "annotation": "주석",
       "annotation_tooltip": "카드에 주석이 있습니다.",
       "attachments": {
-        "bewitching": "환혹",
-        "eldritch_brand": "섬뜩한 낙인",
-        "hunch_deck": "직감 덱",
-        "stick_to_the_plan": "계획 엄수",
-        "underworld_market": "거래 덱"
+        "Bewitching": "환혹",
+        "Eldritch Brand": "섬뜩한 낙인",
+        "Hunch deck": "직감 덱",
+        "Stick to the Plan": "계획 엄수",
+        "Market deck": "거래 덱"
       },
       "customization_sheet": "{{name}} 향상 요소 시트",
       "id": "덱 ID",

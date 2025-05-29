@@ -1,9 +1,6 @@
+import type { FactionName, SkillIcon } from "@/utils/constants";
 import type {
-  AttachableDefinition,
-  FactionName,
-  SkillIcon,
-} from "@/utils/constants";
-import type {
+  Attachments,
   Card,
   Cycle,
   EncounterSet,
@@ -145,7 +142,7 @@ export type Annotations = Record<string, string | null>;
 export type ResolvedDeck = Omit<Deck, "sideSlots"> & {
   annotations: Annotations;
   attachments: AttachmentQuantities | undefined;
-  availableAttachments: AttachableDefinition[];
+  availableAttachments: Attachments[];
   bondedSlots: Record<string, number>;
   sideSlots: Record<string, number> | null; // arkhamdb stores `[]` when empty, normalize to `null`.
   extraSlots: Record<string, number> | null;

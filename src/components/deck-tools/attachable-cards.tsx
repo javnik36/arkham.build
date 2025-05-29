@@ -5,15 +5,16 @@ import {
   selectLocaleSortingCollator,
   selectMetadata,
 } from "@/store/selectors/shared";
-import type { Card } from "@/store/services/queries.types";
+import type { Attachments, Card } from "@/store/services/queries.types";
 import { getCardColor } from "@/utils/card-utils";
-import type { AttachableDefinition } from "@/utils/constants";
 import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { AttachmentIcon } from "../attachments/attachments";
 import {
   attachmentDefinitionLimit,
   canAttach,
   getAttachedQuantity,
+  getAttachmentName,
   useAttachmentsChangeHandler,
 } from "../attachments/attachments.helpers";
 import { LimitedCardGroup } from "../limited-card-group";
@@ -21,7 +22,7 @@ import { ListCard } from "../list-card/list-card";
 
 type Props = {
   card: Card;
-  definition: AttachableDefinition;
+  definition: Attachments;
   readonly?: boolean;
   resolvedDeck: ResolvedDeck;
 };
@@ -34,6 +35,8 @@ type Entry = {
 
 export function AttachableCards(props: Props) {
   const { card, definition, readonly, resolvedDeck } = props;
+
+  const { i18n, t } = useTranslation();
 
   const metadata = useStore(selectMetadata);
   const collator = useStore(selectLocaleSortingCollator);
@@ -110,8 +113,8 @@ export function AttachableCards(props: Props) {
       )}
       title={
         <>
-          <AttachmentIcon name={definition.icon} />
-          {definition.name}
+          <AttachmentIcon invert url={definition.icon} />
+          {getAttachmentName(definition, i18n, t)}
         </>
       }
     />

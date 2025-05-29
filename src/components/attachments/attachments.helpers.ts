@@ -1,16 +1,20 @@
 import { useStore } from "@/store";
+import { filterAttribute } from "@/store/lib/filtering";
 import type { ResolvedDeck } from "@/store/lib/types";
-import type { Card } from "@/store/services/queries.types";
+import type { Attachments, Card } from "@/store/services/queries.types";
 import { cardLimit } from "@/utils/card-utils";
-import type { AttachableDefinition } from "@/utils/constants";
 import { useResolvedDeckChecked } from "@/utils/use-resolved-deck";
+import type { TFunction, i18n } from "i18next";
 import { useCallback } from "react";
 
-export function canAttach(card: Card, definition: AttachableDefinition) {
+export function canAttach(card: Card, definition: Attachments) {
   return (
     definition.code !== card.code &&
     definition.traits?.some((t) => card.real_traits?.includes(t)) &&
-    (definition.filters?.every((f) => f(card)) ?? true)
+    (definition.filters?.every((attributeFilter) =>
+      filterAttribute(attributeFilter)(card),
+    ) ??
+      true)
   );
 }
 
@@ -31,7 +35,7 @@ export function attachmentDefinitionLimit(
 
 export function getAttachedQuantity(
   card: Card,
-  definition: AttachableDefinition,
+  definition: Attachments,
   resolvedDeck: ResolvedDeck,
 ) {
   return (
@@ -43,7 +47,7 @@ export function getAttachedQuantity(
 
 export function canUpdateAttachment(
   card: Card,
-  definition: AttachableDefinition,
+  definition: Attachments,
   resolvedDeck: ResolvedDeck,
 ) {
   return (
@@ -58,7 +62,7 @@ export function useAttachmentsChangeHandler() {
   const updateAttachment = useStore((state) => state.updateAttachment);
 
   const changeHandler = useCallback(
-    (definition: AttachableDefinition, card: Card, delta: number) => {
+    (definition: Attachments, card: Card, delta: number) => {
       const quantity = resolvedDeck.slots[card.code] ?? 0;
 
       const attached =
@@ -85,4 +89,14 @@ export function getMatchingAttachables(card: Card, resolvedDeck: ResolvedDeck) {
   return resolvedDeck.availableAttachments.filter((definition) =>
     canAttach(card, definition),
   );
+}
+
+export function getAttachmentName(
+  definition: Attachments,
+  i18n: i18n,
+  t: TFunction,
+) {
+  const nameKey = `deck.attachments.${definition.name}`;
+  const name = i18n.exists(nameKey) ? t(nameKey) : definition.name;
+  return name;
 }

@@ -1,19 +1,16 @@
 import type { ResolvedDeck } from "@/store/lib/types";
-import type { Card } from "@/store/services/queries.types";
-import type { AttachableDefinition } from "@/utils/constants";
-import {
-  LightbulbIcon,
-  PackageIcon,
-  StampIcon,
-  StoreIcon,
-  WandIcon,
-} from "lucide-react";
+import type {
+  Card,
+  Attachments as IAttachments,
+} from "@/store/services/queries.types";
+import { cx } from "@/utils/cx";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
 import {
   canUpdateAttachment,
   getAttachedQuantity,
+  getAttachmentName,
   getMatchingAttachables,
   useAttachmentsChangeHandler,
 } from "./attachments.helpers";
@@ -54,11 +51,11 @@ export function Attachments(props: Props) {
 
 function Attachment(
   props: Props & {
-    definition: AttachableDefinition;
+    definition: IAttachments;
   },
 ) {
   const { buttonVariant, card, definition, resolvedDeck } = props;
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const onChangeAttachmentQuantity = useAttachmentsChangeHandler();
 
@@ -66,7 +63,7 @@ function Attachment(
 
   const contentNode = (
     <span className={css["attachment-content"]}>
-      <AttachmentIcon name={definition.icon} />
+      <AttachmentIcon url={definition.icon} />
       {!!attached && (
         <span className={css["attachment-quantity"]}>×{attached}</span>
       )}
@@ -90,7 +87,7 @@ function Attachment(
     onChangeQuantity(-1);
   };
 
-  const name = definition.name;
+  const name = getAttachmentName(definition, i18n, t);
 
   return (
     <li className={css["attachment"]} key={definition.code}>
@@ -115,28 +112,14 @@ function Attachment(
   );
 }
 
-export function AttachmentIcon(props: { name: string }) {
-  const { name } = props;
+export function AttachmentIcon(props: { url: string; invert?: boolean }) {
+  const { invert, url } = props;
 
-  if (name === "lightbulb") {
-    return <LightbulbIcon />;
-  }
+  const src = url.startsWith("lucide://")
+    ? `/lucide/icons/${url.replace("lucide://", "")}.svg`
+    : url;
 
-  if (name === "store") {
-    return <StoreIcon />;
-  }
-
-  if (name === "wand") {
-    return <WandIcon />;
-  }
-
-  if (name === "package") {
-    return <PackageIcon />;
-  }
-
-  if (name === "stamp") {
-    return <StampIcon />;
-  }
-
-  return null;
+  return (
+    <img className={cx("external-icon", invert && "invert")} src={src} alt="" />
+  );
 }

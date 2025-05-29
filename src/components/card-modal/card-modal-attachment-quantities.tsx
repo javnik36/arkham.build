@@ -1,13 +1,14 @@
 import type { ResolvedDeck } from "@/store/lib/types";
-import type { Card } from "@/store/services/queries.types";
-import type { AttachableDefinition } from "@/utils/constants";
+import type { Attachments, Card } from "@/store/services/queries.types";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { AttachmentIcon } from "../attachments/attachments";
 import {
   attachmentDefinitionLimit,
   canAttach,
   canUpdateAttachment,
   getAttachedQuantity,
+  getAttachmentName,
   useAttachmentsChangeHandler,
 } from "../attachments/attachments.helpers";
 import { QuantityInput } from "../ui/quantity-input";
@@ -41,10 +42,13 @@ function AttachmentQuantity(
   props: Props & {
     card: Card;
     resolvedDeck: ResolvedDeck;
-    definition: AttachableDefinition;
+    definition: Attachments;
   },
 ) {
   const { card, definition, resolvedDeck } = props;
+
+  const { i18n, t } = useTranslation();
+
   const onAttachmentChange = useAttachmentsChangeHandler();
 
   const onValueChange = useCallback(
@@ -59,7 +63,8 @@ function AttachmentQuantity(
   return (
     <article className={css["quantity"]} key={definition.code}>
       <h3 className={css["quantity-title"]}>
-        <AttachmentIcon name={definition.icon} /> {definition.name}
+        <AttachmentIcon url={definition.icon} />{" "}
+        {getAttachmentName(definition, i18n, t)}
       </h3>
       <QuantityInput
         data-testid={`card-modal-quantities-${definition.code}`}

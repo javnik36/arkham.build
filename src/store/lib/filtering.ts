@@ -17,7 +17,11 @@ import type { Filter } from "@/utils/fp";
 import { and, not, notUnless, or } from "@/utils/fp";
 import { isEmpty } from "@/utils/is-empty";
 import { range } from "@/utils/range";
-import type { Card, DeckOption } from "../services/queries.types";
+import type {
+  AttributeFilter,
+  Card,
+  DeckOption,
+} from "../services/queries.types";
 import type {
   AssetFilter,
   CostFilter,
@@ -152,6 +156,38 @@ export function filterAssets(value: AssetFilter, lookupTables: LookupTables) {
   }
 
   return filters.length ? and(filters) : undefined;
+}
+
+/**
+ * Attribute
+ * This is a generic filter used for fan-made content
+ */
+export function filterAttribute(attributeFilter: AttributeFilter) {
+  const { attribute, value, operator } = attributeFilter;
+  const op = operator ?? "=";
+
+  return (card: Card) => {
+    const attr =
+      // biome-ignore lint/suspicious/noExplicitAny: need to access dynamic properties.
+      (card as any)[`real_${attribute}`] ?? (card as any)[attribute];
+
+    switch (op) {
+      case "=":
+        if (value == null) {
+          return attr == null;
+        }
+
+        return attr === value;
+      case "!=":
+        if (value == null) {
+          return attr != null;
+        }
+
+        return attr !== value;
+      default:
+        return false;
+    }
+  };
 }
 
 /**

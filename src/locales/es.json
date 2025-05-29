@@ -651,11 +651,11 @@
       "annotation": "Notas",
       "annotation_tooltip": "La carta tiene notas",
       "attachments": {
-        "bewitching": "Encantadora",
-        "eldritch_brand": "Marca de Eldritch",
-        "hunch_deck": "Mazo de Corazonadas",
-        "stick_to_the_plan": "Ceñirse al plan",
-        "underworld_market": "Mazo de Mercado"
+        "Bewitching": "Encantadora",
+        "Eldritch Brand": "Marca de Eldritch",
+        "Hunch deck": "Mazo de Corazonadas",
+        "Stick to the Plan": "Ceñirse al plan",
+        "Market deck": "Mazo de Mercado"
       },
       "customization_sheet": "Hoja de personalización para {{name}}",
       "id": "ID del mazo",

@@ -1,14 +1,13 @@
 import { decodeExileSlots } from "@/utils/card-utils";
 import {
   ALT_ART_INVESTIGATOR_MAP,
-  type AttachableDefinition,
   SPECIAL_CARD_CODES,
-  getAttachableCards,
 } from "@/utils/constants";
 import { isEmpty } from "@/utils/is-empty";
-import type { Card } from "../services/queries.types";
+import type { Attachments, Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
 import type { Deck } from "../slices/data.types";
+import { getAttachableCards } from "./attachments";
 import {
   decodeAnnotations,
   decodeAttachments,
@@ -110,9 +109,9 @@ export function resolveDeck(
     customizations,
   );
 
-  const availableAttachments = Object.entries(getAttachableCards()).reduce<
-    AttachableDefinition[]
-  >((acc, [code, value]) => {
+  const availableAttachments = Object.entries(
+    getAttachableCards(deck, deps.metadata),
+  ).reduce<Attachments[]>((acc, [code, value]) => {
     if (investigatorBack.card.code === code || !!deck.slots[code]) {
       acc.push(value);
     }

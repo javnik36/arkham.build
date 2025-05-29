@@ -1,3 +1,6 @@
+import { COMPARISON_OPERATOR } from "@/utils/constants";
+import * as z from "zod/v4-mini";
+
 export type Coded = {
   code: string;
 };
@@ -212,7 +215,56 @@ export type APIRestrictions = {
   trait?: string[];
 };
 
+export const AttributeFilterSchema = z.object({
+  attribute: z.string(),
+  value: z.union([z.string(), z.number(), z.boolean(), z.null()]),
+  operator: z.optional(z.enum(COMPARISON_OPERATOR)),
+});
+
+export type AttributeFilter = z.infer<typeof AttributeFilterSchema>;
+
+export const AttachmentsSchema = z
+  .object({
+    code: z.string().register(z.globalRegistry, {
+      description:
+        "Code of the card that this attachment is based on. For example '05002' for Joe Diamond.",
+    }),
+    filters: z.array(AttributeFilterSchema).register(z.globalRegistry, {
+      description: "List of filters that describe which cards can be attached.",
+    }),
+    name: z.string().register(z.globalRegistry, {
+      description: "Name of this attachment. For example 'Hunch Deck'.",
+    }),
+    icon: z.string().register(z.globalRegistry, {
+      description:
+        "Icon for this attachment. This can be one of two things: a URL to an image, or the name of an icon from the Lucide icon set. In the latter case, use the format 'lucide://<icon_name>'.",
+    }),
+    limit: z.optional(z.number()).register(z.globalRegistry, {
+      description:
+        "Maximum number of copies of a single card in this attachment.",
+    }),
+    requiredCards: z.optional(
+      z.record(z.string(), z.number()).register(z.globalRegistry, {
+        description:
+          "Cards that are required to be in the deck for this attachment to be valid.",
+      }),
+    ),
+    targetSize: z.number().register(z.globalRegistry, {
+      description: "Number of cards that can be attached to this card.",
+    }),
+    traits: z.optional(z.array(z.string())).register(z.globalRegistry, {
+      description: "List of traits that this attachment has.",
+    }),
+  })
+  .register(z.globalRegistry, {
+    description:
+      "Attachments describe decks of cards that are attached to other cards. Examples: Joe Diamond's Hunch Deck, Bewitching, Stick to the Plan.",
+  });
+
+export type Attachments = z.infer<typeof AttachmentsSchema>;
+
 export type Card = Omit<APICard, "id"> & {
+  attachments?: Attachments;
   /* indicates whether a card is part of a parallel investigator pack. */
   parallel?: boolean;
   /* indicates the amount of xp spent on customizations for a card. only relevant in deckbuilder mode. */

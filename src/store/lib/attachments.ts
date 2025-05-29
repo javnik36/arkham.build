@@ -1,4 +1,27 @@
+import type { Attachments } from "../services/queries.types";
+import type { Deck } from "../slices/data.types";
 import type { AttachmentQuantities } from "../slices/deck-edits.types";
+import type { Metadata } from "../slices/metadata.types";
+
+export function getAttachableCards(deck: Deck, metadata: Metadata) {
+  const attachableCards: Record<string, Attachments> = {};
+
+  const slots = {
+    ...deck.slots,
+    [deck.investigator_code]: 1,
+  };
+
+  for (const [code, quantity] of Object.entries(slots)) {
+    if (quantity > 0) {
+      const card = metadata.cards[code];
+      if (card?.attachments) {
+        attachableCards[code] = card.attachments;
+      }
+    }
+  }
+
+  return attachableCards;
+}
 
 export function clampAttachmentQuantity(
   edits: AttachmentQuantities | undefined,

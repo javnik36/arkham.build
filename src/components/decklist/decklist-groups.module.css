@@ -86,16 +86,16 @@
   position: relative;
 }
 
-.scan-images img {
+.scan-images img:not(:global(.external-icon)) {
   width: 100%;
   cursor: pointer;
 }
 
-.scan-images > *:not(:last-child) img {
+.scan-images > *:not:not(:last-child) img:not(:global(.external-icon)) {
   filter: drop-shadow(0 -2px 2px rgba(8, 10, 12, 0.7));
 }
 
-.scan-images > *:first-child img {
+.scan-images > *:first-child img:not(:global(.external-icon)) {
   box-shadow: var(--shadow-md);
 }
 

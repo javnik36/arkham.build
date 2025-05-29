@@ -36,7 +36,10 @@
     "deck_options": [
       {
         "name": "Versatile",
-        "level": { "min": 0, "max": 0 },
+        "level": {
+          "min": 0,
+          "max": 0
+        },
         "limit": 1,
         "error": "Too many off-class cards for Versatile."
       }
@@ -49,7 +52,10 @@
       {
         "not": true,
         "slot": ["Ally"],
-        "level": { "min": 0, "max": 5 },
+        "level": {
+          "min": 0,
+          "max": 5
+        },
         "error": "You cannot have assets that take up an ally slot.",
         "virtual": true
       }
@@ -85,6 +91,90 @@
     "code": "11583",
     "subtype_code": "weakness",
     "faction_code": "neutral",
+    "patch": true
+  },
+  {
+    "attachments": {
+      "code": "03264",
+      "limit": 1,
+      "traits": ["Tactic.", "Supply."],
+      "filters": [
+        {
+          "attribute": "type_code",
+          "value": "event"
+        }
+      ],
+      "name": "Stick to the Plan",
+      "icon": "lucide://package",
+      "targetSize": 3
+    },
+    "code": "03264",
+    "patch": true
+  },
+  {
+    "attachments": {
+      "code": "05002",
+      "traits": ["Insight."],
+      "filters": [
+        {
+          "attribute": "type_code",
+          "value": "event"
+        }
+      ],
+      "name": "Hunch deck",
+      "icon": "lucide://lightbulb",
+      "targetSize": 11,
+      "requiredCards": {
+        "05010": 1
+      }
+    },
+    "code": "05002",
+    "patch": true
+  },
+  {
+    "attachments": {
+      "code": "09077",
+      "traits": ["Illicit."],
+      "name": "Market deck",
+      "icon": "lucide://store",
+      "targetSize": 10
+    },
+    "code": "09077",
+    "patch": true
+  },
+  {
+    "attachments": {
+      "code": "10079",
+      "limit": 1,
+      "name": "Bewitching",
+      "traits": ["Trick."],
+      "icon": "lucide://wand",
+      "targetSize": 3
+    },
+    "code": "10079",
+    "patch": true
+  },
+  {
+    "attachments": {
+      "code": "11080",
+      "traits": ["Spell."],
+      "filters": [
+        {
+          "attribute": "type_code",
+          "value": "asset"
+        },
+        {
+          "attribute": "xp",
+          "value": null,
+          "operator": "!="
+        }
+      ],
+      "name": "Eldritch Brand",
+      "icon": "lucide://stamp",
+      "limit": 1,
+      "targetSize": 1
+    },
+    "code": "11080",
     "patch": true
   }
 ]

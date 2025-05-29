@@ -1,4 +1,6 @@
+import { FACTION_ORDER, PLAYER_TYPE_ORDER } from "@/utils/constants";
 import * as z from "zod/v4-mini";
+import { AttachmentsSchema } from "../services/queries.types";
 
 const ContentTypeSchema = z.enum([
   "campaign",
@@ -9,34 +11,8 @@ const ContentTypeSchema = z.enum([
 ]);
 
 const StatusSchema = z.enum(["draft", "alpha", "beta", "complete", "final"]);
-
-// FIXME: zod v4 currently does not accept const arrays (FACTION_ORDER): https://github.com/colinhacks/zod/issues/4086
-const FactionSchema = z.enum([
-  "guardian",
-  "seeker",
-  "rogue",
-  "mystic",
-  "survivor",
-  "neutral",
-  "mythos",
-]);
-
-// FIXME: zod v4 currently does not accept const arrays (PLAYER_TYPE_ORDER): https://github.com/colinhacks/zod/issues/4086
-const CardTypeSchema = z.enum([
-  "investigator",
-  "asset",
-  "event",
-  "skill",
-  "location",
-  "enemy",
-  "enemy_location",
-  "key",
-  "treachery",
-  "scenario",
-  "act",
-  "agenda",
-  "story",
-]);
+const FactionSchema = z.enum(FACTION_ORDER);
+const CardTypeSchema = z.enum(PLAYER_TYPE_ORDER);
 
 const SubtypeSchema = z.enum(["basicweakness", "weakness"]);
 
@@ -102,6 +78,7 @@ const FanMadePackSchema = z.object({
 });
 
 const FanMadeCardSchema = z.object({
+  attachments: z.optional(AttachmentsSchema),
   back_flavor: z.optional(z.string()),
   back_illustrator: z.optional(z.string()),
   back_image_url: z.optional(z.url()),

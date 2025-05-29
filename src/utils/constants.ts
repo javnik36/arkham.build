@@ -1,7 +1,4 @@
 import localPacks from "@/store/services/data/packs.json";
-import type { Card } from "@/store/services/queries.types";
-import type { Filter } from "./fp";
-import i18n from "./i18n";
 
 /**
  * If your language uses a different alphabet, please set the `unicode` flag here to `true`.
@@ -129,6 +126,8 @@ export const FACTION_ORDER = [
 
 export type FactionName = (typeof FACTION_ORDER)[number];
 
+export const COMPARISON_OPERATOR = ["=", "!="] as const;
+
 export const SIDEWAYS_TYPE_CODES = ["act", "agenda", "investigator"];
 
 export const CYCLES_WITH_STANDALONE_PACKS = [
@@ -160,8 +159,6 @@ export const SPECIAL_CARD_CODES = {
   ANCESTRAL_KNOWLEDGE: "07303",
   /** Changes XP calculation for upgrades. */
   ARCANE_RESEARCH: "04109",
-  /** Has separate deck. */
-  BEWITCHING: "10079",
   /** Quantity scales with signature count. */
   BURDEN_OF_DESTINY: "08015",
   /** Allows to exile arbitrary cards. */
@@ -174,12 +171,10 @@ export const SPECIAL_CARD_CODES = {
   DIRECTIVE: "90025",
   /** Changes XP calculation for upgrades. */
   DOWN_THE_RABBIT_HOLE: "08059",
-  /** Has attachments, has additional deck validation rule. */
+  /** Has additional deck validation rule. */
   ELDRITCH_BRAND: "11080",
   /** Adjusts deck size. */
   FORCED_LEARNING: "08031",
-  /** Has separate deck. */
-  JOE_DIAMOND: "05002",
   /** Has deck size selection (and accompanying taboo). */
   MANDY: "06002",
   /** Scales with investigator deck size selection. */
@@ -200,8 +195,6 @@ export const SPECIAL_CARD_CODES = {
   RANDOM_BASIC_WEAKNESS: "01000",
   /** Separate upgrade path. */
   SHREWD_ANALYSIS: "04106",
-  /** Separate deck. */
-  STICK_TO_THE_PLAN: "03264",
   /** Additional XP gain, switches deck investigator with a static investigator on defeat. */
   THE_GREAT_WORK: "11068a",
   /** Investigator can be transformed into this. */
@@ -210,12 +203,10 @@ export const SPECIAL_CARD_CODES = {
   SUZI: "89001",
   /** Connected to parallel wendy's front. */
   TIDAL_MEMENTO: "90038",
-  /** Adjusts deck size, has separate deck. */
+  /** Adjusts deck size. */
   UNDERWORLD_MARKET: "09077",
   /** adds deckbuilding requirements. */
   UNDERWORLD_SUPPORT: "08046",
-  /** Weakness starts in hunch deck. */
-  UNSOLVED_CASE: "05010",
   /** Weakness starts in spirit deck. */
   VENGEFUL_SHADE: "90053",
   /** Adds deckbuilding restriction, adjusts deck size. */
@@ -238,70 +229,6 @@ export const CARD_SET_ORDER = [
   "bonded",
   "level",
 ];
-
-export type AttachableDefinition = {
-  code: string;
-  icon: string;
-  filters?: Filter[];
-  limit?: number;
-  name: string;
-  requiredCards?: Record<string, number>;
-  targetSize: number;
-  traits?: string[];
-};
-
-/**
- * An attachable card is a card that has a separate deck that constructed during the scenario setup.
- * This excludes Parallel Jim's spirit deck, which cannot change between scenarios.
- */
-export function getAttachableCards(): { [code: string]: AttachableDefinition } {
-  return {
-    [SPECIAL_CARD_CODES.BEWITCHING]: {
-      code: SPECIAL_CARD_CODES.BEWITCHING,
-      limit: 1,
-      name: "Bewitching",
-      traits: ["Trick."],
-      icon: "wand",
-      targetSize: 3,
-    },
-    [SPECIAL_CARD_CODES.JOE_DIAMOND]: {
-      code: SPECIAL_CARD_CODES.JOE_DIAMOND,
-      traits: ["Insight."],
-      filters: [(c: Card) => c.type_code === "event"],
-      name: i18n.t("deck.attachments.hunch_deck"),
-      icon: "lightbulb",
-      targetSize: 11,
-      requiredCards: {
-        [SPECIAL_CARD_CODES.UNSOLVED_CASE]: 1,
-      },
-    },
-    [SPECIAL_CARD_CODES.STICK_TO_THE_PLAN]: {
-      code: SPECIAL_CARD_CODES.STICK_TO_THE_PLAN,
-      limit: 1,
-      traits: ["Tactic.", "Supply."],
-      filters: [(c: Card) => c.type_code === "event"],
-      name: i18n.t("deck.attachments.stick_to_the_plan"),
-      icon: "package",
-      targetSize: 3,
-    },
-    [SPECIAL_CARD_CODES.UNDERWORLD_MARKET]: {
-      code: SPECIAL_CARD_CODES.UNDERWORLD_MARKET,
-      traits: ["Illicit."],
-      name: i18n.t("deck.attachments.underworld_market"),
-      icon: "store",
-      targetSize: 10,
-    },
-    [SPECIAL_CARD_CODES.ELDRITCH_BRAND]: {
-      code: SPECIAL_CARD_CODES.ELDRITCH_BRAND,
-      traits: ["Spell."],
-      filters: [(c: Card) => c.xp != null && c.type_code === "asset"],
-      name: i18n.t("deck.attachments.eldritch_brand"),
-      icon: "stamp",
-      limit: 1,
-      targetSize: 1,
-    },
-  };
-}
 
 export const DECK_SIZE_ADJUSTMENTS = {
   [SPECIAL_CARD_CODES.ANCESTRAL_KNOWLEDGE]: 5,

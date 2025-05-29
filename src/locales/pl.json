@@ -676,11 +676,11 @@
       "annotation": "Adnotacje",
       "annotation_tooltip": "Karta ma adnotacje",
       "attachments": {
-        "bewitching": "Zły urok",
-        "eldritch_brand": "Eldritch Brand",
-        "hunch_deck": "Talia przeczuć",
-        "stick_to_the_plan": "Trzymaj się planu",
-        "underworld_market": "Talia handlu"
+        "Bewitching": "Zły urok",
+        "Eldritch Brand": "Eldritch Brand",
+        "Hunch deck": "Talia przeczuć",
+        "Stick to the Plan": "Trzymaj się planu",
+        "Market deck": "Talia handlu"
       },
       "customization_sheet": "Arkusz usprawnień dla {{name}}",
       "id": "ID talii",

@@ -1,10 +1,10 @@
 import { decodeExileSlots } from "@/utils/card-utils";
-import { getAttachableCards } from "@/utils/constants";
 import { isEmpty } from "@/utils/is-empty";
 import { omit } from "@/utils/omit";
 import type { Deck, Id, Slots } from "../slices/data.types";
 import type { EditState, Slot } from "../slices/deck-edits.types";
 import type { Metadata } from "../slices/metadata.types";
+import { getAttachableCards } from "./attachments";
 import {
   decodeAnnotations,
   decodeAttachments,
@@ -120,6 +120,7 @@ export function applyDeckEdits(
   );
 
   const attachmentEdits = mergeAttachmentEdits(
+    metadata,
     edits,
     deck,
     currentDeckMeta,
@@ -183,6 +184,7 @@ function applyInvestigatorSide(
 }
 
 function mergeAttachmentEdits(
+  metadata: Metadata,
   edits: EditState,
   deck: Deck,
   deckMeta: DeckMeta,
@@ -191,7 +193,13 @@ function mergeAttachmentEdits(
   const attachments = decodeAttachments(deckMeta) ?? {};
 
   for (const [targetCode, entries] of Object.entries(edits.attachments ?? {})) {
-    const definition = getAttachableCards()[targetCode];
+    const definition = getAttachableCards(deck, metadata)[targetCode];
+
+    // the relevant card is no longer in deck, ignore edits for it.
+    if (!definition) {
+      continue;
+    }
+
     const attachment = {
       ...attachments[targetCode],
       ...definition.requiredCards,

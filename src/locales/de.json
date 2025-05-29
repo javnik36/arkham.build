@@ -664,11 +664,11 @@
       "annotation": "Anmerkung",
       "annotation_tooltip": "Diese Karte hat eine Anmerkung",
       "attachments": {
-        "bewitching": "Bezaubernd",
-        "eldritch_brand": "Eldritch Brand",
-        "hunch_deck": "Spürnase-Deck",
-        "stick_to_the_plan": "Sich an den Plan halten",
-        "underworld_market": "Marktdeck"
+        "Bewitching": "Bezaubernd",
+        "Eldritch Brand": "Eldritch Brand",
+        "Hunch deck": "Spürnase-Deck",
+        "Stick to the Plan": "Sich an den Plan halten",
+        "Market deck": "Marktdeck"
       },
       "customization_sheet": "Individualisierungen für {{name}}",
       "id": "Deck ID",

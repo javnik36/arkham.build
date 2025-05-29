@@ -650,11 +650,11 @@
       "annotation": "Annotation",
       "annotation_tooltip": "Cette carte a une annotation",
       "attachments": {
-        "bewitching": "Faire du Charme",
-        "eldritch_brand": "Marque Surnaturelle",
-        "hunch_deck": "Deck Intuition",
-        "stick_to_the_plan": "S'en Tenir au Plan",
-        "underworld_market": "Deck Marché"
+        "Bewitching": "Faire du Charme",
+        "Eldritch Brand": "Marque Surnaturelle",
+        "Hunch deck": "Deck Intuition",
+        "Stick to the Plan": "S'en Tenir au Plan",
+        "Market deck": "Deck Marché"
       },
       "customization_sheet": "Feuille de personnalisation pour {{name}}",
       "id": "ID du deck",

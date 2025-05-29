@@ -617,11 +617,11 @@
       "annotation": "Аннотация",
       "annotation_tooltip": "У карты есть аннотация",
       "attachments": {
-        "bewitching": "Обольстить",
-        "eldritch_brand": "Eldritch Brand",
-        "hunch_deck": "Колода чутья",
-        "stick_to_the_plan": "Всё по плану",
-        "underworld_market": "Колода рынка"
+        "Bewitching": "Обольстить",
+        "Eldritch Brand": "Eldritch Brand",
+        "Hunch deck": "Колода чутья",
+        "Stick to the Plan": "Всё по плану",
+        "Market deck": "Колода рынка"
       },
       "customization_sheet": "Лист адаптаций для {{name}}",
       "id": "ID колоды",

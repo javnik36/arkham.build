@@ -664,11 +664,11 @@
       "annotation": "Annotation",
       "annotation_tooltip": "Card has an annotation",
       "attachments": {
-        "bewitching": "Bewitching",
-        "eldritch_brand": "Eldritch Brand",
-        "hunch_deck": "Hunch deck",
-        "stick_to_the_plan": "Stick to the Plan",
-        "underworld_market": "Market deck"
+        "Bewitching": "Bewitching",
+        "Eldritch Brand": "Eldritch Brand",
+        "Hunch deck": "Hunch deck",
+        "Stick to the Plan": "Stick to the Plan",
+        "Market deck": "Market deck"
       },
       "customization_sheet": "Customization sheet for {{name}}",
       "id": "Deck ID",
