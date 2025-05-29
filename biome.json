@@ -39,5 +39,10 @@
         "useAwait": "error"
       }
     }
+  },
+  "css": {
+    "parser": {
+      "cssModules": true
+    }
   }
 }
