@@ -9,6 +9,7 @@ import localPacks from "@/store/services/data/packs.json";
  * Some languages add specific additional characters to the latin alphabet. These can be added as `additionalCharacters`.
  */
 export const LOCALES = [
+  { value: "zh", label: "简体中文/Chinese (zh)", unicode: true },
   { value: "de", label: "Deutsch (de)", additionalCharacters: "ß" },
   { value: "en", label: "English (en)" },
   { value: "es", label: "Español (es)", additionalCharacters: "ñ" },
