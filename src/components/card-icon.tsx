@@ -39,7 +39,7 @@ export function CardIcon(props: Props) {
           inverted && css["icon_inverted"],
         )}
       >
-        <EncounterIcon code={card.encounter_code} />
+        <EncounterIcon code={card.encounter_code} invert />
       </div>
     );
   }

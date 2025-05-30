@@ -330,6 +330,14 @@
   font-weight: 700;
 }
 
+.text img {
+  display: inline-block;
+}
+
+.text img:not([width]) {
+  width: 1em;
+}
+
 .flavor {
   font-size: var(--card-text-size-sm);
   max-width: 60ch;
