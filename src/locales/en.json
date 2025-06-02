@@ -195,6 +195,7 @@
       },
       "reset": "Reset",
       "seal": "Seal",
+      "set_as_default": "Set as default",
       "shroud": "Shroud",
       "skill": {
         "agility": "Agility",
@@ -667,8 +668,8 @@
         "Bewitching": "Bewitching",
         "Eldritch Brand": "Eldritch Brand",
         "Hunch deck": "Hunch deck",
-        "Stick to the Plan": "Stick to the Plan",
-        "Market deck": "Market deck"
+        "Market deck": "Market deck",
+        "Stick to the Plan": "Stick to the Plan"
       },
       "customization_sheet": "Customization sheet for {{name}}",
       "id": "Deck ID",
@@ -838,6 +839,7 @@
         },
         "storage_provider": {
           "local": "Private",
+          "shared": "Shared",
           "title": "Storage provider"
         },
         "taboo": "Taboo list",

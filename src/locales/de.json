@@ -195,6 +195,7 @@
       },
       "reset": "Zurücksetzen",
       "seal": "Versiegeln",
+      "set_as_default": "Als Standard festlegen",
       "shroud": "Schleier",
       "skill": {
         "agility": "Beweglichkeit",
@@ -667,8 +668,8 @@
         "Bewitching": "Bezaubernd",
         "Eldritch Brand": "Eldritch Brand",
         "Hunch deck": "Spürnase-Deck",
-        "Stick to the Plan": "Sich an den Plan halten",
-        "Market deck": "Marktdeck"
+        "Market deck": "Marktdeck",
+        "Stick to the Plan": "Sich an den Plan halten"
       },
       "customization_sheet": "Individualisierungen für {{name}}",
       "id": "Deck ID",
@@ -838,6 +839,7 @@
         },
         "storage_provider": {
           "local": "Lokal",
+          "shared": "Freigegeben",
           "title": "Speicherort"
         },
         "taboo": "Tabuliste",

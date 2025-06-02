@@ -365,6 +365,11 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     });
 
     await state.dehydrate("app");
+
+    if (state.deckCreate.provider === "shared") {
+      await state.createShare(deck.id as string);
+    }
+
     return deck.id;
   },
   async deleteDeck(id, cb) {
