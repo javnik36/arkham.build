@@ -110,7 +110,12 @@ export function useRestingTooltip(options?: UseFloatingOptions<ReferenceType>) {
     ...options,
   });
 
-  const { isMounted, styles } = useTransitionStyles(context);
+  const { isMounted, styles } = useTransitionStyles(context, {
+    duration: {
+      open: 250,
+      close: 50,
+    },
+  });
 
   const onPointerLeave = useCallback(() => {
     clearTimeout(restTimeoutRef.current);
