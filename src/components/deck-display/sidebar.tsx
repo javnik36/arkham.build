@@ -20,7 +20,11 @@ import {
 } from "@/store/selectors/shared";
 import type { Id } from "@/store/slices/data.types";
 import { cx } from "@/utils/cx";
-import { capitalize, formatTabooSet } from "@/utils/formatting";
+import {
+  capitalize,
+  formatDeckOptionString,
+  formatTabooSet,
+} from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { useHotkey } from "@/utils/use-hotkey";
 import {
@@ -162,7 +166,7 @@ function SidebarDetails(props: { deck: ResolvedDeck }) {
               className={css["detail-label"]}
               data-testid={`selection-${key}-label`}
             >
-              {t(`common.deck_options.${selection.name}`)}
+              {formatDeckOptionString(selection.name)}
             </div>
             {selection.type === "deckSize" && (
               <p
@@ -192,7 +196,7 @@ function SidebarDetails(props: { deck: ResolvedDeck }) {
                 className={css["detail-value"]}
                 data-testid={`selection-${key}-value`}
               >
-                {t(`common.deck_options.${selection.value?.name}`)}
+                {formatDeckOptionString(selection.value?.name)}
               </p>
             )}
           </li>

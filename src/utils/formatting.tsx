@@ -92,3 +92,8 @@ export function shortenPackName(pack: Pack) {
     .replace(i18n.t("common.packs_new_format.player"), "")
     .trim();
 }
+
+export function formatDeckOptionString(str: string | undefined) {
+  const key = `common.deck_options.${str}`;
+  return i18n.exists(key) ? i18n.t(key) : (str ?? "");
+}
