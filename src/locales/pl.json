@@ -2,11 +2,11 @@
   "translation": {
     "about": {
       "description": "<p>Informacje zawarte w tej aplikacji o <ffg>Horrorze w Arkham: Grze karcianej™</ffg>, zarówno tekstowe, jak i graficzne, są zastrzeżone przez © Fantasy Flight Games {{date}}. Ta aplikacja jest projektem fanowskim i nie jest produkowana, popierana, wspierana ani powiązana z Fantasy Flight Games.</p><p>Aplikacja została stworzona przez <felix_url>Felix'a</felix_url> i <contrib_url>kontrybutorów</contrib_url> w celu wsparcia społeczności Horroru w Arkham: Gry karcianej. Kod źródłowy tego projektu jest dostępny na <github_url>Github'ie</github_url>. Recenzje i zgłoszenia błędów są mile widziane za pośrednictwem Github'a lub dedykowanego kanału na serwerze Discord Mythos Busters.</p><p>Wszystkie dzieła sztuki i ilustracje są własnością intelektualną ich twórców. Wszystkie obrazki i grafiki Horroru w Arkham: Gry karcianej są własnością intelektualną Fantasy Flight Games.</p>",
-      "halloffame": {
-        "ArkhamDB": "Za dostęp do OAuth, ustrukturyzowane dane kart i za bycie wieloletnią podstawą społeczności.",
+      "hall_of_fame": {
+        "arkham_db": "Za dostęp do OAuth, ustrukturyzowane dane kart i za bycie wieloletnią podstawą społeczności.",
         "card_design": "Za dostosowany do aplikacji projekt kart.",
         "code": "Za znaczący wkład w kod aplikacji.",
-        "customizationAPI": "Za dostęp do API z arkuszami usprawnień.",
+        "customization_api": "Za dostęp do API z arkuszami usprawnień.",
         "testing": "Za cierpliwy feedback i testowanie podczas opracowywania wstępnej wersji oraz koncepcje projektowe.",
         "title": "Galeria Sław",
         "translation": {
@@ -22,7 +22,7 @@
       },
       "image_credits": {
         "404": "Ilustracja błędu 404 (edycja)",
-        "AC_icons": "Użyte ikony aplikacji ArkhamCards",
+        "arkham_cards_icons": "Użyte ikony aplikacji ArkhamCards",
         "card_icons": "Ikony kart",
         "logo": "Projekt logo",
         "other": "Inne ikony",

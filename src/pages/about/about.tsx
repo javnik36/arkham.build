@@ -5,12 +5,13 @@ import { cx } from "@/utils/cx";
 import { useGoBack } from "@/utils/use-go-back";
 import { ChevronLeftIcon } from "lucide-react";
 import { Trans, useTranslation } from "react-i18next";
-import { Link } from "wouter";
 import css from "./about.module.css";
 
 function About() {
   const goBack = useGoBack();
   const { t } = useTranslation();
+
+  const date = new Date().getUTCFullYear();
 
   return (
     <AppLayout title={t("about.title")}>
@@ -23,83 +24,85 @@ function About() {
         <Trans
           i18nKey="about.description"
           t={t}
-          values={{ date: new Date().getUTCFullYear() }}
+          values={{ date }}
           components={{
             ffg: (
-              <Link
-                to="https://www.fantasyflightgames.com/en/products/arkham-horror-the-card-game/"
+              // biome-ignore lint/a11y/useAnchorContent: not relevant here.
+              <a
+                href="https://www.fantasyflightgames.com/en/products/arkham-horror-the-card-game/"
                 rel="noreferrer"
                 target="_blank"
               />
             ),
             felix_url: (
-              <Link
-                to="https://spoettel.dev"
-                rel="noreferrer"
-                target="_blank"
-              />
+              // biome-ignore lint/a11y/useAnchorContent: not relevant here.
+              <a href="https://spoettel.dev" rel="noreferrer" target="_blank" />
             ),
             contrib_url: (
-              <Link
-                to="https://github.com/fspoettel/arkham.build/graphs/contributors"
+              // biome-ignore lint/a11y/useAnchorContent: not relevant here.
+              <a
+                href="https://github.com/fspoettel/arkham.build/graphs/contributors"
                 rel="noreferrer"
                 target="_blank"
               />
             ),
             github_url: (
-              <Link
-                to="https://github.com/fspoettel/arkham.build"
+              // biome-ignore lint/a11y/useAnchorContent: not relevant here.
+              <a
+                href="https://github.com/fspoettel/arkham.build"
                 rel="noreferrer"
                 target="_blank"
               />
             ),
           }}
         />
-        <h2>🌟 {t("about.halloffame.title")} 🌟</h2>
+        <h2>🌟 {t("about.hall_of_fame.title")} 🌟</h2>
         <ul>
           <li>
-            <strong>@zzorba:</strong> {t("about.halloffame.zzorba")} 🙇‍♂️
+            <strong>@zzorba:</strong> {t("about.hall_of_fame.zzorba")} 🙇‍♂️
           </li>
           <li>
             <strong>@kamalisk &amp; ArkhamDB crew: </strong>{" "}
-            {t("about.halloffame.ArkhamDB")}
+            {t("about.hall_of_fame.arkham_db")}
           </li>
           <li>
             <strong>@Chr1Z</strong>, <strong>@Dangaroo</strong>,{" "}
-            <strong>@5argon</strong>: {t("about.halloffame.testing")}
+            <strong>@5argon</strong>: {t("about.hall_of_fame.testing")}
           </li>
           <li>
             <strong>@TartanLlama</strong>, <strong>@blu</strong>,{" "}
-            <strong>@5argon</strong>: {t("about.halloffame.code")}
+            <strong>@5argon</strong>: {t("about.hall_of_fame.code")}
           </li>
           <li>
-            <strong>@morvael</strong>: {t("about.halloffame.customizationAPI")}
+            <strong>@morvael</strong>:{" "}
+            {t("about.hall_of_fame.customization_api")}
           </li>
           <li>
-            <strong>@HatfulBob</strong>: {t("about.halloffame.card_design")}
+            <strong>@HatfulBob</strong>: {t("about.hall_of_fame.card_design")}
           </li>
         </ul>
-        <p>{t("about.halloffame.translation.title")}:</p>
+        <p>{t("about.hall_of_fame.translation.title")}:</p>
         <ul>
           <li>
-            {t("about.halloffame.translation.ko")}:{" "}
+            {t("about.hall_of_fame.translation.ko")}:{" "}
             <strong>푸른이(@derornos)</strong>
           </li>
           <li>
-            {t("about.halloffame.translation.pl")}: <strong>@javnik36</strong>
+            {t("about.hall_of_fame.translation.pl")}: <strong>@javnik36</strong>
           </li>
           <li>
-            {t("about.halloffame.translation.ru")}: <strong>@Evgeny727</strong>
+            {t("about.hall_of_fame.translation.ru")}:{" "}
+            <strong>@Evgeny727</strong>
           </li>
           <li>
-            {t("about.halloffame.translation.fr")}: <strong>@Zaratan</strong>
+            {t("about.hall_of_fame.translation.fr")}: <strong>@Zaratan</strong>
           </li>
           <li>
-            {t("about.halloffame.translation.es")}:{" "}
+            {t("about.hall_of_fame.translation.es")}:{" "}
             <strong>@AdrianMeizoso</strong>
           </li>
           <li>
-            {t("about.halloffame.translation.zh")}:{" "}
+            {t("about.hall_of_fame.translation.zh")}:{" "}
             <strong>泡菜大王(@Ruikoto)</strong>
           </li>
         </ul>
@@ -113,8 +116,8 @@ function About() {
             <strong>{t("about.image_credits.logo")}:</strong> Dangaroo
           </li>
           <li>
-            <strong>{t("about.image_credits.AC_icons")}:</strong> Eugene
-            Sarnetsky
+            <strong>{t("about.image_credits.arkham_cards_icons")}:</strong>{" "}
+            Eugene Sarnetsky
           </li>
           <li>
             <strong>{t("about.image_credits.404")}:</strong> FFG & 5argon
