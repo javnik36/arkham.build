@@ -378,21 +378,26 @@ class DeckLimitsValidator implements SlotValidator {
   violations: Record<string, DeckLimitViolation> = {};
   quantityByName: Record<string, number> = {};
   ignoreDeckLimitSlots: Record<string, number> = {};
+  eldritchBranded?: string;
 
   constructor(deck: ResolvedDeck) {
     this.ignoreDeckLimitSlots = deck.ignoreDeckLimitSlots ?? {};
+
     if (deck.slots[SPECIAL_CARD_CODES.UNDERWORLD_SUPPORT]) {
       this.limitOverride = 1;
     }
+
+    this.eldritchBranded = this.parseBrandedCard(deck);
   }
 
   add(card: Card, quantity: number) {
     if (card.xp == null) return;
+
     const name = SPECIAL_CARD_CODES.PRECIOUS_MEMENTOS.includes(card.code)
       ? `${displayAttribute(card, "name")} (${displayAttribute(card, "subname")})`
       : displayAttribute(card, "name");
 
-    const limit = card.myriad ? 3 : cardLimit(card, this.limitOverride);
+    const limit = this.getCardLimit(card);
 
     // some copies of this card might be ignored, e.g. for parallel Agnes and TCU "Ace of Rods".
     const copies = quantity - (this.ignoreDeckLimitSlots[card.code] ?? 0);
@@ -419,6 +424,24 @@ class DeckLimitsValidator implements SlotValidator {
           },
         ]
       : [];
+  }
+
+  private getCardLimit(card: Card): number {
+    if (card.myriad) return 3;
+    if (this.eldritchBranded && card.code === this.eldritchBranded) return 1;
+    return cardLimit(card, this.limitOverride);
+  }
+
+  private parseBrandedCard(deck: ResolvedDeck) {
+    const branded = deck.attachments?.[SPECIAL_CARD_CODES.ELDRITCH_BRAND];
+
+    if (!deck.slots[SPECIAL_CARD_CODES.ELDRITCH_BRAND] || !branded) {
+      return;
+    }
+
+    for (const [code, quantity] of Object.entries(branded)) {
+      if (quantity > 0) return code;
+    }
   }
 }
 
