@@ -232,7 +232,7 @@
       },
       "reset": "Resetuj",
       "seal": "Pieczęć",
-      "set_as_default": "Set as default",
+      "set_as_default": "Ustaw jako domyślne",
       "shroud": "Zasłona",
       "skill": {
         "agility": "Zręczność",
@@ -881,8 +881,8 @@
           "parallel_front": "Równoległy awers"
         },
         "storage_provider": {
-          "local": "Lokalnie",
-          "shared": "Shared",
+          "local": "Lokalne",
+          "shared": "Współdzielone",
           "title": "Miejsce przechowywania talii"
         },
         "taboo": "Lista tabu",
