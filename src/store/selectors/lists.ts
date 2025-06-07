@@ -718,10 +718,18 @@ const selectListFilterProperties = createSelector(
     const traits = new Set<string>();
     const types = new Set<string>();
     const illustrators = new Set<string>();
+    const investigators = new Set<string>();
+    const packs = new Set<string>();
 
     if (cards) {
       for (const card of cards) {
+        if (card.type_code === "investigator") {
+          investigators.add(card.code);
+        }
+
         types.add(card.type_code);
+
+        packs.add(card.pack_code);
 
         if (card.illustrator) {
           illustrators.add(card.illustrator);
@@ -790,6 +798,8 @@ const selectListFilterProperties = createSelector(
       cost,
       health,
       illustrators,
+      investigators,
+      packs,
       sanity,
       skills,
       traits,
@@ -941,28 +951,25 @@ export const selectIllustratorOptions = createSelector(
  */
 
 export const selectInvestigatorOptions = createSelector(
-  selectLookupTables,
+  selectListFilterProperties,
   selectMetadata,
   selectLocaleSortingCollator,
-  (lookupTables, metadata, collator) => {
-    const investigatorTable = lookupTables.typeCode["investigator"];
+  (listFilterProperties, metadata, collator) => {
+    const investigators = Array.from(listFilterProperties.investigators).reduce<
+      Card[]
+    >((acc, code) => {
+      const card = metadata.cards[code];
 
-    const investigators = Object.keys(investigatorTable).reduce<Card[]>(
-      (acc, code) => {
-        const card = metadata.cards[code];
+      if (
+        card &&
+        !card.encounter_code &&
+        (!card.alt_art_investigator || card.parallel)
+      ) {
+        acc.push(card);
+      }
 
-        if (
-          card &&
-          !card.encounter_code &&
-          (!card.alt_art_investigator || card.parallel)
-        ) {
-          acc.push(card);
-        }
-
-        return acc;
-      },
-      [],
-    );
+      return acc;
+    }, []);
 
     investigators.sort(sortByName(collator));
     return investigators;
@@ -1072,18 +1079,27 @@ const filterNewFormat = (packs: Pack[], cardType?: string) => {
 };
 
 export const selectPackOptions = createSelector(
+  selectListFilterProperties,
   selectCyclesAndPacks,
   selectActiveList,
-  (cycles, list) => {
-    return cycles.flatMap((cycle) => {
+  (listFilterProperties, cycles, list) => {
+    return cycles.reduce((acc, cycle) => {
+      const present = cycle.packs.some((pack) =>
+        listFilterProperties.packs.has(pack.code),
+      );
+
+      if (!present) return acc;
+
       if (cycle.reprintPacks.length && cycle.code !== "core") {
-        return filterNewFormat(cycle.reprintPacks, list?.cardType);
+        acc.push(...filterNewFormat(cycle.reprintPacks, list?.cardType));
+      } else if (cycle.official !== false && cycle.packs.length === 2) {
+        acc.push(...filterNewFormat(cycle.packs, list?.cardType));
+      } else {
+        acc.push(...cycle.packs);
       }
 
-      return cycle.official !== false && cycle.packs.length === 2
-        ? filterNewFormat(cycle.packs, list?.cardType)
-        : [...cycle.reprintPacks, ...cycle.packs];
-    });
+      return acc;
+    }, [] as Pack[]);
   },
 );
 
