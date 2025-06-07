@@ -1096,6 +1096,7 @@ export const selectPackOptions = createSelector(
         acc.push(...filterNewFormat(cycle.packs, list?.cardType));
       } else {
         acc.push(...cycle.packs);
+        acc.push(...cycle.reprintPacks);
       }
 
       return acc;
