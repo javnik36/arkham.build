@@ -52,7 +52,7 @@ export function resolveDeck(
 
   if (!investigator) {
     throw new Error(
-      `Investigator not found in store: ${deck.investigator_code}`,
+      `Investigator not found in store: ${deck.id} - ${deck.investigator_code}`,
     );
   }
 
