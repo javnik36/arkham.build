@@ -1026,9 +1026,9 @@ function makePlayerCardsFilter(
   config?: InvestigatorAccessConfig,
 ) {
   let options = investigator[optionsAccessor];
-  const requirements = investigator[requiredAccessor]?.card;
+  const requirements = investigator[requiredAccessor]?.card ?? {};
 
-  if (!requirements || !options) {
+  if (!options) {
     return undefined;
   }
 

@@ -490,7 +490,7 @@ class DeckRequiredCardsValidator implements SlotValidator {
   }
 
   validateCardRequirements(): Error[] {
-    const requirementCounts = Object.keys(this.requirements.card).reduce(
+    const requirementCounts = Object.keys(this.requirements.card ?? {}).reduce(
       (counts, code) => {
         counts[code] = 0;
         return counts;
@@ -503,7 +503,7 @@ class DeckRequiredCardsValidator implements SlotValidator {
       const card = cards[i];
       const quantity = this.quantities[card.code];
 
-      const matches = Object.entries(this.requirements.card).filter(
+      const matches = Object.entries(this.requirements.card ?? {}).filter(
         (r) => !!r[1][card.code],
       );
 
