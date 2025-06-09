@@ -31,7 +31,7 @@ function DrawSimulatorCard(props: DrawSimulatorCardProps) {
   const { card, dispatch, index, state } = props;
 
   const { refs, referenceProps, isMounted, floatingStyles, transitionStyles } =
-    useRestingTooltip({ delay: 200 });
+    useRestingTooltip({ delay: 350 });
 
   return (
     <li className={css["card"]}>
