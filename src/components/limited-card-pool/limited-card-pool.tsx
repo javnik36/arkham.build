@@ -1,12 +1,15 @@
 import { useStore } from "@/store";
-import type { SealedDeck } from "@/store/lib/types";
+import type { ResolvedDeck, SealedDeck } from "@/store/lib/types";
 import {
   selectCyclesAndPacks,
   selectPackOptions,
 } from "@/store/selectors/lists";
+import { selectMetadata } from "@/store/selectors/shared";
 import type { Cycle, Pack } from "@/store/services/queries.types";
+import type { StoreState } from "@/store/slices";
 import { assert } from "@/utils/assert";
 import { campaignPlayalongPacks } from "@/utils/campaign-playalong";
+import { displayAttribute } from "@/utils/card-utils";
 import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
 import { displayPackName } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
@@ -17,34 +20,50 @@ import { useCallback, useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { createSelector } from "reselect";
 import { useShallow } from "zustand/react/shallow";
-import css from "./limited-card-pool.module.css";
-import { PackName } from "./pack-name";
-import { Button } from "./ui/button";
-import { Combobox } from "./ui/combobox/combobox";
-import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
-import { useDialogContextChecked } from "./ui/dialog.hooks";
-import { Field, FieldLabel } from "./ui/field";
-import { FileInput } from "./ui/file-input";
-import { Modal, ModalContent } from "./ui/modal";
-import { Tag } from "./ui/tag";
-import { useToast } from "./ui/toast.hooks";
+import { ListCardInner } from "../list-card/list-card-inner";
+import { PackName } from "../pack-name";
+import { Button } from "../ui/button";
+import { Combobox } from "../ui/combobox/combobox";
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import { useDialogContextChecked } from "../ui/dialog.hooks";
+import { Field, FieldLabel } from "../ui/field";
+import { FileInput } from "../ui/file-input";
+import { Modal, ModalContent } from "../ui/modal";
+import { Tag } from "../ui/tag";
+import { useToast } from "../ui/toast.hooks";
 import {
   DefaultTooltip,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "./ui/tooltip";
+} from "../ui/tooltip";
+import { CardPoolExtension } from "./card-pool-extension";
+import css from "./limited-card-pool.module.css";
+
+const selectLimitedCardPoolCards = createSelector(
+  selectMetadata,
+  (_: StoreState, cardPool: string[] | undefined) => cardPool,
+  (metadata, cardPool) => {
+    return cardPool
+      ?.filter((str) => str.startsWith("card:"))
+      .map((str) => metadata.cards[str.replace("card:", "")]);
+  },
+);
 
 export function LimitedCardPoolTag() {
   const ctx = useResolvedDeck();
   const { t } = useTranslation();
 
-  const cardPool = ctx.resolvedDeck?.metaParsed.card_pool;
+  const cardPool = ctx.resolvedDeck?.cardPool;
 
   const selectedPacks = useStore(
     useShallow((state) =>
       selectPackOptions(state).filter((pack) => cardPool?.includes(pack.code)),
     ),
+  );
+
+  const selectedCards = useStore((state) =>
+    selectLimitedCardPoolCards(state, cardPool),
   );
 
   if (isEmpty(selectedPacks)) return null;
@@ -61,6 +80,19 @@ export function LimitedCardPoolTag() {
               </li>
             ) : null;
           })}
+          {!isEmpty(selectedCards) &&
+            selectedCards.map((card) => (
+              <li className={css["pack"]} key={card.code}>
+                <ListCardInner
+                  cardShowCollectionNumber
+                  cardLevelDisplay="icon-only"
+                  size="xs"
+                  omitBorders
+                  omitThumbnail
+                  card={card}
+                />
+              </li>
+            ))}
         </ol>
       }
     >
@@ -146,6 +178,32 @@ export function LimitedCardPoolField(props: {
         <ChooseCampaignModal onValueChange={onValueChange} />
       </DialogContent>
     </Dialog>
+  );
+}
+
+export function CardPoolExtensionField(props: {
+  deck: ResolvedDeck;
+  value?: string[];
+}) {
+  const { deck } = props;
+
+  const cardsWithExtensions = Object.values(deck.cards.slots).filter(
+    (c) => c.card.card_pool_extension,
+  );
+
+  if (isEmpty(cardsWithExtensions)) return null;
+
+  return (
+    <>
+      {cardsWithExtensions.map(({ card }) => (
+        <Field key={card.code} bordered>
+          <FieldLabel className={css["card-pool-extension-name"]}>
+            {displayAttribute(card, "name")}
+          </FieldLabel>
+          <CardPoolExtension canEdit card={card} deck={deck} />
+        </Field>
+      ))}
+    </>
   );
 }
 

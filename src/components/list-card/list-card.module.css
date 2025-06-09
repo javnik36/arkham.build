@@ -117,7 +117,7 @@
 .name :where(a, button),
 .name :where(a, button) > * {
   background: none;
-  font-size: var(--text-base);
+  font-size: inherit;
   font-family: var(--font-family-content);
   font-weight: 700;
   line-height: 1.125;

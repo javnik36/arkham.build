@@ -97,6 +97,8 @@ export type DeckMeta = {
   [key in `attachments_${string}`]: string | null;
 } & {
   [key in `annotation_${string}`]: string | null;
+} & {
+  [key in `card_pool_extension_${string}`]: string | null;
 };
 
 type DeckSizeSelection = {

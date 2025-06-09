@@ -77,6 +77,10 @@ const FanMadePackSchema = z.object({
   position: z.optional(z.number()),
 });
 
+const CardPoolExtensionSchema = z.object({
+  type: z.enum(["card"]),
+});
+
 const FanMadeCardSchema = z.object({
   attachments: z.optional(AttachmentsSchema),
   back_flavor: z.optional(z.string()),
@@ -89,6 +93,7 @@ const FanMadeCardSchema = z.object({
   back_traits: z.optional(z.string()),
   bonded_count: z.optional(z.number()),
   bonded_to: z.optional(z.string()),
+  card_pool_extension: z.optional(CardPoolExtensionSchema),
   clues: z.optional(z.nullable(z.number())),
   clues_fixed: z.optional(z.boolean()),
   code: z.string(),

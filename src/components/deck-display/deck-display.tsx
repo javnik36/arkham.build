@@ -14,7 +14,10 @@ import { DeckTools } from "../deck-tools/deck-tools";
 import { Decklist } from "../decklist/decklist";
 import { DecklistValidation } from "../decklist/decklist-validation";
 import type { ViewMode } from "../decklist/decklist.types";
-import { LimitedCardPoolTag, SealedDeckTag } from "../limited-card-pool";
+import {
+  LimitedCardPoolTag,
+  SealedDeckTag,
+} from "../limited-card-pool/limited-card-pool";
 import { Dialog } from "../ui/dialog";
 import { Plane } from "../ui/plane";
 import {

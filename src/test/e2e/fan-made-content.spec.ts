@@ -2,6 +2,7 @@ import path from "node:path";
 import { type Page, expect, test } from "@playwright/test";
 import {
   fillSearch,
+  importPackFromFile,
   openUrlInNewContext,
   shareDeck,
   unshareDeck,
@@ -11,18 +12,6 @@ import { mockApiCalls } from "./mocks";
 test.beforeEach(async ({ page }) => {
   await mockApiCalls(page);
 });
-
-async function importPackFromFile(page: Page, packPath: string) {
-  const fileChooserPromise = page.waitForEvent("filechooser");
-
-  await page.getByTestId("collection-import-button").click();
-
-  const fileChooser = await fileChooserPromise;
-
-  await fileChooser.setFiles([
-    path.join(process.cwd(), "src/test/fixtures/stubs", packPath),
-  ]);
-}
 
 test.describe("fan-made content", () => {
   test("import pack from file", async ({ page }) => {

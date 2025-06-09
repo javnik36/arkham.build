@@ -26,6 +26,7 @@ import {
   filterActions,
   filterAssets,
   filterBacksides,
+  filterCardPool,
   filterCost,
   filterDuplicates,
   filterEncounterCards,
@@ -377,9 +378,8 @@ const deckAccessEqualSelector = createCustomEqualSelector((a, b) => {
         JSON.stringify(getAdditionalDeckOptions(b)) && // 4
       JSON.stringify(a.customizations) === JSON.stringify(b.customizations) && // 5
       JSON.stringify(a.selections) === JSON.stringify(b.selections) && // 6
-      JSON.stringify(a.metaParsed.card_pool) ===
-        JSON.stringify(b.metaParsed.card_pool) && // 7
-      a.metaParsed.sealed_deck === b.metaParsed.sealed_deck && // 8
+      JSON.stringify(a.cardPool) === JSON.stringify(b.cardPool) && // 7
+      a.sealedDeck === b.sealedDeck && // 8
       a.date_update === b.date_update // 9
     );
   }
@@ -462,9 +462,10 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
 
     const cardPool = resolvedDeck.cardPool;
     if (cardPool?.length) {
-      const packFilter = filterPackCode(cardPool, metadata, lookupTables);
-      if (packFilter) {
-        ands.push(or([packFilter, (c) => c.xp == null]));
+      const cardPoolFilter = filterCardPool(cardPool, metadata, lookupTables);
+
+      if (cardPoolFilter) {
+        ands.push(or([cardPoolFilter, (c) => c.xp == null]));
       }
     }
 
