@@ -1,16 +1,10 @@
 import { useStore } from "@/store";
-import type { ResolvedDeck, SealedDeck } from "@/store/lib/types";
-import {
-  selectCyclesAndPacks,
-  selectPackOptions,
-} from "@/store/selectors/lists";
+import type { SealedDeck } from "@/store/lib/types";
+import { selectPackOptions } from "@/store/selectors/lists";
 import { selectMetadata } from "@/store/selectors/shared";
-import type { Cycle, Pack } from "@/store/services/queries.types";
+import type { Pack } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
 import { assert } from "@/utils/assert";
-import { campaignPlayalongPacks } from "@/utils/campaign-playalong";
-import { displayAttribute } from "@/utils/card-utils";
-import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
 import { displayPackName } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { parseCsv } from "@/utils/parse-csv";
@@ -25,10 +19,8 @@ import { PackName } from "../pack-name";
 import { Button } from "../ui/button";
 import { Combobox } from "../ui/combobox/combobox";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
-import { useDialogContextChecked } from "../ui/dialog.hooks";
 import { Field, FieldLabel } from "../ui/field";
 import { FileInput } from "../ui/file-input";
-import { Modal, ModalContent } from "../ui/modal";
 import { Tag } from "../ui/tag";
 import { useToast } from "../ui/toast.hooks";
 import {
@@ -37,7 +29,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "../ui/tooltip";
-import { CardPoolExtension } from "./card-pool-extension";
+import { ChooseCampaignModal } from "./choose-campaign-modal";
 import css from "./limited-card-pool.module.css";
 
 const selectLimitedCardPoolCards = createSelector(
@@ -181,32 +173,6 @@ export function LimitedCardPoolField(props: {
   );
 }
 
-export function CardPoolExtensionField(props: {
-  deck: ResolvedDeck;
-  value?: string[];
-}) {
-  const { deck } = props;
-
-  const cardsWithExtensions = Object.values(deck.cards.slots).filter(
-    (c) => c.card.card_pool_extension,
-  );
-
-  if (isEmpty(cardsWithExtensions)) return null;
-
-  return (
-    <>
-      {cardsWithExtensions.map(({ card }) => (
-        <Field key={card.code} bordered>
-          <FieldLabel className={css["card-pool-extension-name"]}>
-            {displayAttribute(card, "name")}
-          </FieldLabel>
-          <CardPoolExtension canEdit card={card} deck={deck} />
-        </Field>
-      ))}
-    </>
-  );
-}
-
 export function SealedDeckField(props: {
   onValueChange: (payload: SealedDeck | undefined) => void;
   value?: SealedDeck;
@@ -343,73 +309,5 @@ export function SealedDeckTag() {
         {value.name} ({count} {t("common.card", { count })})
       </TooltipContent>
     </Tooltip>
-  );
-}
-
-const selectCampaignCycles = createSelector(selectCyclesAndPacks, (cycles) =>
-  cycles.filter((cycle) => !CYCLES_WITH_STANDALONE_PACKS.includes(cycle.code)),
-);
-
-function ChooseCampaignModal(props: {
-  onValueChange: (items: string[]) => void;
-}) {
-  const { onValueChange } = props;
-  const { t } = useTranslation();
-
-  const dialogCtx = useDialogContextChecked();
-  const cycles = useStore(selectCampaignCycles);
-
-  const packRenderer = useCallback(
-    (cycle: Cycle) => <PackName pack={cycle} shortenNewFormat />,
-    [],
-  );
-
-  const packToString = useCallback(
-    (pack: Cycle) => displayPackName(pack).toLowerCase(),
-    [],
-  );
-
-  const selectCampaign = useCallback(
-    (selection: string[]) => {
-      if (!selection.length) return;
-      const cycle = selection[0];
-
-      const packs = campaignPlayalongPacks(cycle);
-      onValueChange(packs);
-      dialogCtx.setOpen(false);
-    },
-    [onValueChange, dialogCtx.setOpen],
-  );
-
-  const selectedItems = useMemo(() => [], []);
-
-  return (
-    <Modal size="60rem">
-      <ModalContent title={t("deck_edit.config.card_pool.choose_campaign")}>
-        <Field
-          full
-          padded
-          bordered
-          helpText={t("deck_edit.config.card_pool.cpa_help")}
-        >
-          <Combobox
-            autoFocus
-            id="campaign-playalong-combobox"
-            limit={1}
-            placeholder={t(
-              "deck_edit.config.card_pool.choose_campaign_placeholder",
-            )}
-            renderItem={packRenderer}
-            renderResult={packRenderer}
-            itemToString={packToString}
-            onValueChange={selectCampaign}
-            items={cycles}
-            label={t("deck_edit.config.card_pool.campaign")}
-            showLabel
-            selectedItems={selectedItems}
-          />
-        </Field>
-      </ModalContent>
-    </Modal>
   );
 }

@@ -2,10 +2,13 @@ import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { selectCardOptions } from "@/store/selectors/lists";
 import type { Card } from "@/store/services/queries.types";
+import { displayAttribute } from "@/utils/card-utils";
+import { isEmpty } from "@/utils/is-empty";
 import { PlusSquareIcon } from "lucide-react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { CardsCombobox } from "../cards-combobox";
+import { Field, FieldLabel } from "../ui/field";
 import css from "./card-pool-extension.module.css";
 
 type Props = {
@@ -59,6 +62,32 @@ export function CardPoolExtension(props: Props) {
       showLabel
       selectedItems={selectedItems}
     />
+  );
+}
+
+export function CardPoolExtensionFields(props: {
+  deck: ResolvedDeck;
+  value?: string[];
+}) {
+  const { deck } = props;
+
+  const cardsWithExtensions = Object.values(deck.cards.slots).filter(
+    (c) => c.card.card_pool_extension,
+  );
+
+  if (isEmpty(cardsWithExtensions)) return null;
+
+  return (
+    <>
+      {cardsWithExtensions.map(({ card }) => (
+        <Field key={card.code} bordered>
+          <FieldLabel className={css["card-pool-extension-name"]}>
+            {displayAttribute(card, "name")}
+          </FieldLabel>
+          <CardPoolExtension canEdit card={card} deck={deck} />
+        </Field>
+      ))}
+    </>
   );
 }
 
