@@ -81,7 +81,7 @@ export const CardRecommender = forwardRef(function CardRecommender(
           dateRangeStrings,
         );
     },
-    listState?.cards, //Allows the new version of listState.cards to be a subset of the old one
+    listState?.cards.map((c) => c.code), //Allows the new version of listState.cards to be a subset of the old one
     [
       resolvedDeck?.id,
       resolvedDeck?.investigator_code,
