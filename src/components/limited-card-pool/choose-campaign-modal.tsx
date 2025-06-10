@@ -17,7 +17,11 @@ import { Field } from "../ui/field";
 import { Modal, ModalContent } from "../ui/modal";
 
 const selectCampaignCycles = createSelector(selectCyclesAndPacks, (cycles) =>
-  cycles.filter((cycle) => !CYCLES_WITH_STANDALONE_PACKS.includes(cycle.code)),
+  cycles.filter(
+    (cycle) =>
+      cycle.official !== false &&
+      !CYCLES_WITH_STANDALONE_PACKS.includes(cycle.code),
+  ),
 );
 
 export function ChooseCampaignModal(props: {
