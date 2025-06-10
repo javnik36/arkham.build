@@ -58,9 +58,9 @@ export const CardRecommender = forwardRef(function CardRecommender(
         string,
         string,
       ];
-      // We don't want to recommend signatures, story cards, or weaknesses
+      // We don't want to recommend fan-made cards signatures, story cards, or weaknesses.
       const toRecommend = listState.cards
-        .filter((card) => card.xp != null)
+        .filter((card) => card.official && card.xp != null)
         .map((card) => card.code);
 
       const canonicalFrontCode =
