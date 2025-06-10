@@ -211,8 +211,9 @@ function validateInvestigator(deck: ResolvedDeck) {
     investigatorBack.type_code !== "investigator" ||
     !investigatorBack.deck_options ||
     !investigatorBack.deck_requirements
-  )
+  ) {
     return false;
+  }
 
   let valid = true;
 

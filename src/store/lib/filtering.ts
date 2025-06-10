@@ -998,9 +998,13 @@ export function makeOptionFilter(
   // on your own
   if (option.slot) {
     filterCount += 1;
+    const ors: Filter[] = [];
+
     for (const slot of option.slot) {
-      optionFilter.push(filterSlots(slot));
+      ors.push(filterSlots(slot));
     }
+
+    optionFilter.push(or(ors));
   }
 
   if (filterCount <= 1) {
