@@ -46,7 +46,7 @@ function calculateOptimalXpSpent(
   const defaultResult = calculateXpSpent(prev, next, changes);
 
   if (
-    !prev.slots[SPECIAL_CARD_CODES.DOWN_THE_RABBIT_HOLE] ||
+    !prev.slots[SPECIAL_CARD_CODES.ARCANE_RESEARCH] ||
     !prev.slots[SPECIAL_CARD_CODES.DOWN_THE_RABBIT_HOLE]
   ) {
     return defaultResult;

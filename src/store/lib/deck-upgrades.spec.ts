@@ -14,6 +14,8 @@ import arcaneResearch from "@/test/fixtures/decks/upgrades/arcane_research_base_
 import arcaneResearch2 from "@/test/fixtures/decks/upgrades/arcane_research_base_2.json";
 import arcaneResearchDtrh from "@/test/fixtures/decks/upgrades/arcane_research_dtrh_1.json";
 import arcaneResearchDtrh2 from "@/test/fixtures/decks/upgrades/arcane_research_dtrh_2.json";
+import arcaneResearchDtrhAlt from "@/test/fixtures/decks/upgrades/arcane_research_dtrh_alt_1.json";
+import arcaneResearchDtrhAlt2 from "@/test/fixtures/decks/upgrades/arcane_research_dtrh_alt_2.json";
 import arcaneResearchSwap from "@/test/fixtures/decks/upgrades/arcane_research_swap_1.json";
 import arcaneResearchSwap2 from "@/test/fixtures/decks/upgrades/arcane_research_swap_2.json";
 import customizable from "@/test/fixtures/decks/upgrades/customizable_1.json";
@@ -308,7 +310,7 @@ describe("getChangeStats", () => {
         expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
       });
 
-      it("handles case: interaction with arcane research", () => {
+      it("handles case: interaction with arcane research (DtRH first)", () => {
         const state = store.getState();
         const lookupTables = selectLookupTables(state);
         const collator = selectLocaleSortingCollator(state);
@@ -323,6 +325,26 @@ describe("getChangeStats", () => {
           { metadata: state.metadata, lookupTables, sharing: state.sharing },
           collator,
           arcaneResearchDtrh2,
+        );
+
+        expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
+      });
+
+      it("handles case: interaction with arcane research (DtRH last)", () => {
+        const state = store.getState();
+        const lookupTables = selectLookupTables(state);
+        const collator = selectLocaleSortingCollator(state);
+
+        const prev = resolveDeck(
+          { metadata: state.metadata, lookupTables, sharing: state.sharing },
+          collator,
+          arcaneResearchDtrhAlt,
+        );
+
+        const next = resolveDeck(
+          { metadata: state.metadata, lookupTables, sharing: state.sharing },
+          collator,
+          arcaneResearchDtrhAlt2,
         );
 
         expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
