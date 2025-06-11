@@ -107,7 +107,7 @@ test.describe("limited card pool", () => {
     await page.getByTestId("combobox-input").click();
     await page.getByTestId("combobox-input").fill("revised core");
     await page.getByTestId("combobox-menu-item-rcore").click();
-    await page.getByTestId("combobox-input").fill("CPA");
+    await page.getByTestId("combobox-input").fill("CPA Basic Contracts");
     await page
       .getByTestId("combobox-menu-item-095447eb-1bcb-4203-9328-5a58436abbed")
       .click();

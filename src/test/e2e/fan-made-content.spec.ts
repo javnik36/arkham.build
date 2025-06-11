@@ -31,9 +31,9 @@ test.describe("fan-made content", () => {
       .fill("https://fan-made-project-mock.example.com");
 
     await page.getByTestId("collection-import-url-submit").click();
-    await expect(page.getByTestId("collection-project-title")).toContainText(
-      "Ordinary Citizens",
-    );
+    await expect(
+      page.getByTestId("collection").getByTestId("collection-project-title"),
+    ).toContainText("Ordinary Citizens");
   });
 
   test("remove pack", async ({ page }) => {

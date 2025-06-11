@@ -162,7 +162,7 @@ function Collection() {
   const removeFanMadeProject = useStore((state) => state.removeFanMadeProject);
 
   return (
-    <section className={css["section"]}>
+    <section className={css["section"]} data-testid="collection">
       <header className={css["header"]}>
         <h2 className={css["title"]}>
           {t("fan_made_content.installed_content")}
