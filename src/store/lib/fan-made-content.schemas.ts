@@ -98,10 +98,9 @@ const FanMadeCardSchema = z.object({
   clues_fixed: z.optional(z.boolean()),
   code: z.string(),
   cost: z.optional(z.nullable(z.number())),
-  // not supported right now. TODO: review if the logic is generic enough.
-  // customization_change: z.optional(z.string()),
-  // customization_options: z.optional(z.array(z.looseObject({}))),
-  // customization_text: z.optional(z.string()),
+  customization_change: z.optional(z.string()),
+  customization_options: z.optional(z.array(z.looseObject({}))),
+  customization_text: z.optional(z.string()),
   deck_requirements: z.optional(z.nullable(z.string())),
   deck_options: z.optional(z.nullable(z.array(z.looseObject({})))),
   deck_limit: z.optional(z.number()),
