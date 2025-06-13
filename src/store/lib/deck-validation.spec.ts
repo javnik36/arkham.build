@@ -1,4 +1,4 @@
-import myriad from "@/test/fixtures/decks/upgrades/dtrh_myriad_2.json";
+import myriad from "@/test/fixtures/decks/upgrades/dtrh_penalty_myriad_2.json";
 import accessCustomizableValid from "@/test/fixtures/decks/validation/access_customizable.json";
 import accessCustomizableInvalid from "@/test/fixtures/decks/validation/access_customizable_invalid.json";
 import atleastAncestralKnowledge from "@/test/fixtures/decks/validation/atleast_ancestral_knowledge.json";
