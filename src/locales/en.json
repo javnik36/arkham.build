@@ -1077,6 +1077,7 @@
         "final": "Final"
       },
       "status_installed": "Installed",
+      "status_update_available": "Update content",
       "tags": "Tags",
       "title": "Fan-made content",
       "types": {

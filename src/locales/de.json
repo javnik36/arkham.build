@@ -847,6 +847,7 @@
           "help": "Auswahl gilt nicht für Ermittler, Signaturkarten und Schwächen.",
           "placeholder": "Packs auswählen...",
           "section_title": "Kartenpooleinstellungen",
+          "selected_cards": "Ausgewählte Karten",
           "title": "Eingeschränkter Kartenpool",
           "use_preset": "\"Campaign Play-Along\" Voreinstellung"
         },
@@ -1076,6 +1077,7 @@
         "final": "Final"
       },
       "status_installed": "Hinzugefügt",
+      "status_update_available": "Inhalt aktualisieren",
       "tags": "Tags",
       "title": "Inoffizielle Inhalte",
       "types": {
