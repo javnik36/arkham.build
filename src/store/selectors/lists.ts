@@ -1108,8 +1108,13 @@ export const selectPackOptions = createSelector(
 export const selectLimitedPoolPackOptions = createSelector(
   selectCyclesAndPacks,
   selectActiveList,
-  (cycles, list) => {
+  (state: StoreState) => state.fanMadeData.projects,
+  (cycles, list, fanMadeProjects) => {
     return cycles.flatMap((cycle) => {
+      if (cycle.official === false && !fanMadeProjects?.[cycle.code]) {
+        return [];
+      }
+
       if (cycle.reprintPacks.length && cycle.code !== "core") {
         return filterNewFormat(cycle.reprintPacks, list?.cardType);
       }
