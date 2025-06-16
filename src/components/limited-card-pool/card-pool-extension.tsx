@@ -15,10 +15,11 @@ type Props = {
   canEdit?: boolean;
   card: Card;
   deck: ResolvedDeck;
+  showLabel?: boolean;
 };
 
 export function CardPoolExtension(props: Props) {
-  const { canEdit, card, deck } = props;
+  const { canEdit, card, deck, showLabel } = props;
 
   const { t } = useTranslation();
 
@@ -59,7 +60,7 @@ export function CardPoolExtension(props: Props) {
       }
       onValueChange={onCardPoolChange}
       readonly={!canEdit}
-      showLabel
+      showLabel={showLabel}
       selectedItems={selectedItems}
     />
   );
@@ -80,8 +81,8 @@ export function CardPoolExtensionFields(props: {
   return (
     <>
       {cardsWithExtensions.map(({ card }) => (
-        <Field key={card.code} bordered>
-          <FieldLabel className={css["card-pool-extension-name"]}>
+        <Field className={css["extension"]} key={card.code} bordered>
+          <FieldLabel className={css["extension-name"]}>
             {displayAttribute(card, "name")}
           </FieldLabel>
           <CardPoolExtension canEdit card={card} deck={deck} />

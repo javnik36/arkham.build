@@ -113,6 +113,7 @@ export function CardModal(props: Props) {
                   canEdit={canEdit}
                   card={cardWithRelations.card}
                   deck={ctx.resolvedDeck}
+                  showLabel
                 />
               </div>
             )}
