@@ -210,6 +210,10 @@
   flex: 0 0 auto;
 }
 
+:root[data-theme="light"] .skill-icons:not(.as_printed) {
+  color: var(--palette-5);
+}
+
 .skill-icons.as_printed {
   font-size: 0.9375rem;
 }
@@ -275,8 +279,8 @@
 }
 
 .annotation-icon svg {
-  color: var(--nord-9);
-  fill: var(--nord-9);
+  color: var(--color-link);
+  fill: var(--color-link);
 }
 
 .listcard-wrapper.mythos .caption {
