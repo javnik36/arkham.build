@@ -202,7 +202,6 @@ function Collection({ onAddProject, listingsQuery }: RegistryProps) {
                   installed={project}
                   remote={listing}
                   onUpdate={onAddFromRegistry}
-                  showFallback
                 />
               )}
               <Dialog>
