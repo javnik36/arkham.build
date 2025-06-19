@@ -115,7 +115,7 @@
   --sanity: #2c7fc0;
 
   --color-inverted: var(--nord-6);
-  --color-link: var(--nord-10);
+  --color-link: var(--nord-9);
   --color-scrollbar-thumb: #969ba5;
   --color-scrollbar: rgba(0, 0, 0, 0.05);
   --focus: var(--nord-6);
