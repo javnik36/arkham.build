@@ -479,3 +479,57 @@ test.describe("deck view", () => {
     });
   });
 });
+
+test.describe("quick edit title and tags", () => {
+  test("quick edit title", async ({ page }) => {
+    await importStandardDeck(page);
+    await page.getByTestId("name-edit-trigger").click();
+
+    await page
+      .getByTestId("name-edit-name")
+      .fill("Kōhaku, Fifty Shades of Blurse|FHV Intro");
+
+    await page.getByTestId("name-edit-submit").click();
+
+    await expect(page.getByTestId("view-title")).toContainText(
+      "Kōhaku, Fifty Shades of Blurse|FHV Intro 1.1",
+    );
+  });
+
+  test("quick edit tags", async ({ page }) => {
+    await importStandardDeck(page);
+    await page.getByTestId("name-edit-trigger").click();
+    await page.getByTestId("name-edit-tags").dblclick();
+
+    await page
+      .getByTestId("name-edit-tags")
+      .fill("solo multiplayer theme advanced");
+    await page.getByTestId("name-edit-submit").click();
+
+    await expect(page.getByTestId("view-tags")).toContainText(
+      "PrivateSoloMultiplayerThemeAdvanced",
+    );
+  });
+
+  test("quick edit title w/ outstanding edits", async ({ page }) => {
+    await importStandardDeck(page);
+    await page.getByTestId("view-edit").click();
+    await page
+      .getByTestId("editor-tabs-slots")
+      .getByTestId("listcard-10013")
+      .getByTestId("quantity-decrement")
+      .click();
+    await page.goBack();
+    await page.getByTestId("name-edit-trigger").click();
+    await page.getByTestId("name-edit-name").click();
+    await page.getByTestId("name-edit-name").fill("Kōhaku");
+    await page.getByTestId("name-edit-submit").click();
+    await page.getByTestId("view-edit").click();
+    await expect(
+      page
+        .getByTestId("editor-tabs-slots")
+        .getByTestId("listcard-10013")
+        .getByTestId("quantity-value"),
+    ).toContainText("0");
+  });
+});

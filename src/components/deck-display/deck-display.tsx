@@ -76,9 +76,13 @@ export function DeckDisplay(props: DeckDisplayProps) {
         <header className={css["header"]}>
           <Dialog>
             <DialogTrigger asChild>
-              <button className={css["title-modal-trigger"]} type="button">
+              <button
+                className={css["name-modal-trigger"]}
+                type="button"
+                data-testid="name-edit-trigger"
+              >
                 <DefaultTooltip tooltip={t("deck_edit.config.title_and_tags")}>
-                  <SquarePenIcon className={css["title-modal-icon"]} />
+                  <SquarePenIcon className={css["name-modal-icon"]} />
                 </DefaultTooltip>
                 <h1 className={css["title"]} data-testid="view-title">
                   {deck.name} <small>{deck.version}</small>
@@ -90,7 +94,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
             </DialogContent>
           </Dialog>
 
-          <div className={css["tags"]}>
+          <div className={css["tags"]} data-testid="view-tags">
             <DeckTags
               tags={
                 origin === "local"
@@ -277,6 +281,7 @@ function TitleEditModal(props: TitleEditModalProps) {
             <Field full padded>
               <FieldLabel>{t("deck_edit.config.name")}</FieldLabel>
               <input
+                data-testid="name-edit-name"
                 autoComplete="off"
                 type="text"
                 name="name"
@@ -286,10 +291,21 @@ function TitleEditModal(props: TitleEditModalProps) {
             </Field>
             <Field full padded helpText={t("deck_edit.config.tags_help")}>
               <FieldLabel>{t("deck_edit.config.tags")}</FieldLabel>
-              <input type="text" name="tags" defaultValue={deck.tags} />
+              <input
+                autoComplete="off"
+                data-testid="name-edit-tags"
+                type="text"
+                name="tags"
+                defaultValue={deck.tags}
+              />
             </Field>
-            <div className={css["title-modal-footer"]}>
-              <Button disabled={loading} variant="primary" type="submit">
+            <div className={css["name-modal-footer"]}>
+              <Button
+                disabled={loading}
+                variant="primary"
+                type="submit"
+                data-testid="name-edit-submit"
+              >
                 {t("deck_edit.save_short")}
               </Button>
               <Button onClick={onCloseModal} variant="bare">
