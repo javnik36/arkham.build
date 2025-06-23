@@ -75,20 +75,20 @@ export function DeckDisplay(props: DeckDisplayProps) {
       <main className={css["main"]} style={cssVariables}>
         <header className={css["header"]}>
           <Dialog>
-            <DialogTrigger asChild>
-              <button
-                className={css["name-modal-trigger"]}
-                type="button"
-                data-testid="name-edit-trigger"
-              >
-                <DefaultTooltip tooltip={t("deck_edit.config.title_and_tags")}>
+            <DefaultTooltip tooltip={t("deck_edit.config.title_and_tags")}>
+              <DialogTrigger asChild>
+                <button
+                  className={css["name-modal-trigger"]}
+                  type="button"
+                  data-testid="name-edit-trigger"
+                >
                   <SquarePenIcon className={css["name-modal-icon"]} />
-                </DefaultTooltip>
-                <h1 className={css["title"]} data-testid="view-title">
-                  {deck.name} <small>{deck.version}</small>
-                </h1>
-              </button>
-            </DialogTrigger>
+                  <h1 className={css["title"]} data-testid="view-title">
+                    {deck.name} <small>{deck.version}</small>
+                  </h1>
+                </button>
+              </DialogTrigger>
+            </DefaultTooltip>
             <DialogContent>
               <TitleEditModal deck={deck} />
             </DialogContent>
@@ -252,6 +252,7 @@ function TitleEditModal(props: TitleEditModalProps) {
         toast.show({
           children: t("deck_edit.save_success"),
           variant: "success",
+          duration: 3000,
         });
 
         onCloseModal();
