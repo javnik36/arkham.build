@@ -70,29 +70,37 @@ export function DeckDisplay(props: DeckDisplayProps) {
     [setCurrentTab],
   );
 
+  const titleNode = (
+    <h1 className={css["title"]} data-testid="view-title">
+      {deck.name} <small>{deck.version}</small>
+    </h1>
+  );
+
   return (
     <AppLayout title={deck ? deck.name : ""}>
       <main className={css["main"]} style={cssVariables}>
         <header className={css["header"]}>
-          <Dialog>
-            <DefaultTooltip tooltip={t("deck_edit.config.title_and_tags")}>
-              <DialogTrigger asChild>
-                <button
-                  className={css["name-modal-trigger"]}
-                  type="button"
-                  data-testid="name-edit-trigger"
-                >
-                  <SquarePenIcon className={css["name-modal-icon"]} />
-                  <h1 className={css["title"]} data-testid="view-title">
-                    {deck.name} <small>{deck.version}</small>
-                  </h1>
-                </button>
-              </DialogTrigger>
-            </DefaultTooltip>
-            <DialogContent>
-              <TitleEditModal deck={deck} />
-            </DialogContent>
-          </Dialog>
+          {origin === "local" ? (
+            <Dialog>
+              <DefaultTooltip tooltip={t("deck_edit.config.title_and_tags")}>
+                <DialogTrigger asChild>
+                  <button
+                    className={css["name-modal-trigger"]}
+                    type="button"
+                    data-testid="name-edit-trigger"
+                  >
+                    <SquarePenIcon className={css["name-modal-icon"]} />
+                    {titleNode}
+                  </button>
+                </DialogTrigger>
+              </DefaultTooltip>
+              <DialogContent>
+                <TitleEditModal deck={deck} />
+              </DialogContent>
+            </Dialog>
+          ) : (
+            titleNode
+          )}
 
           <div className={css["tags"]} data-testid="view-tags">
             <DeckTags
