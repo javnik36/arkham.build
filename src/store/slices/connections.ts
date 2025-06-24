@@ -53,7 +53,7 @@ export const createConnectionsSlice: StateCreator<
     await state.dehydrate("app");
     return connections;
   },
-  async removeConnection(provider) {
+  async unsync(provider) {
     const state = get();
 
     const patch = {

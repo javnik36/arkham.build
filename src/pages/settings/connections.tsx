@@ -73,16 +73,14 @@ function ConnectionDetails(props: {
   const { t } = useTranslation();
 
   const { connection, lastSyncedAt } = props;
-  const removeConnection = useStore((state) => state.removeConnection);
+  const unsync = useStore((state) => state.unsync);
 
   const connectionLock = useStore(selectConnectionLock);
 
   const onRemoveConnection = useCallback(async () => {
     // TODO: surface this error
-    await removeConnection(connection.provider as Provider).catch(
-      console.error,
-    );
-  }, [removeConnection, connection]);
+    await unsync(connection.provider as Provider).catch(console.error);
+  }, [unsync, connection]);
 
   return (
     <>
