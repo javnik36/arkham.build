@@ -1189,12 +1189,14 @@ export const selectResolvedCardById = createSelector(
   selectLocaleSortingCollator,
   (_: StoreState, code: string) => code,
   (_: StoreState, __: string, resolvedDeck?: ResolvedDeck) => resolvedDeck,
-  (metadata, lookupTables, collator, code, resolvedDeck) => {
+  (state: StoreState, __: string, resolvedDeck?: ResolvedDeck) =>
+    selectCanonicalTabooSetId(state, resolvedDeck),
+  (metadata, lookupTables, collator, code, resolvedDeck, tabooSetId) => {
     return resolveCardWithRelations(
       { metadata, lookupTables },
       collator,
       code,
-      resolvedDeck?.taboo_id,
+      tabooSetId,
       resolvedDeck?.customizations,
       true,
     );
