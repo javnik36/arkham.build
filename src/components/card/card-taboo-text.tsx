@@ -44,7 +44,7 @@ export function CardTabooText(props: Props) {
         </DefaultTooltip>
       )}
       {taboo_xp != null && (
-        <p>
+        <p className={css["taboo-chain"]}>
           <i className="icon-tablet color-taboo icon-text" />
           {taboo_xp > 0
             ? t("common.taboo_chained", { xp: taboo_xp })
