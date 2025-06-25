@@ -1,4 +1,4 @@
-import test, { type Page, expect } from "@playwright/test";
+import test, { expect, type Page } from "@playwright/test";
 import {
   defaultScreenshotMask,
   importDeck,
@@ -367,7 +367,7 @@ test.describe("deck view", () => {
 
   test("prefill upgrade xp from url", async ({ page }) => {
     await importStandardDeck(page);
-    await page.goto(page.url() + `?upgrade_xp=666`);
+    await page.goto(`${page.url()}?upgrade_xp=666`);
     await expect(page.getByTestId("upgrade-xp")).toHaveValue("666");
   });
 

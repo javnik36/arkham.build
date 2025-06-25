@@ -1,7 +1,7 @@
+import { useTranslation } from "react-i18next";
 import type { Card } from "@/store/services/queries.types";
 import { displayAttribute, parseCardTextHtml } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
-import { useTranslation } from "react-i18next";
 import { DefaultTooltip } from "../ui/tooltip";
 import css from "./card.module.css";
 

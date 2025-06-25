@@ -3,9 +3,7 @@ import { DiscordIcon } from "./icons/discord-icon";
 import { GithubIcon } from "./icons/github-icon";
 import { Button } from "./ui/button";
 
-export function Socials(props: {
-  className?: string;
-}) {
+export function Socials(props: { className?: string }) {
   return (
     <div className={props.className}>
       <Button

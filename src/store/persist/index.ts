@@ -1,6 +1,6 @@
 import type { StoreState } from "../slices";
 import { migrate } from "./migrate";
-import { VERSION, makeStorageAdapter } from "./storage";
+import { makeStorageAdapter, VERSION } from "./storage";
 
 type AppState = Pick<
   StoreState,

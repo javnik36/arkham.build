@@ -1,3 +1,5 @@
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useStore } from "@/store";
 import {
   selectActiveList,
@@ -10,8 +12,6 @@ import { isPackFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
 import { shortenPackName } from "@/utils/formatting";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
-import { useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { PackName } from "../pack-name";
 import type { FilterProps } from "./filters.types";
 import { MultiselectFilter } from "./primitives/multiselect-filter";

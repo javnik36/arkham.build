@@ -1,11 +1,11 @@
-import { getMockStore } from "@/test/get-mock-store";
 import { beforeAll, describe, expect, it } from "vitest";
-import { StoreApi } from "zustand";
+import type { StoreApi } from "zustand";
+import { getMockStore } from "@/test/get-mock-store";
 import {
   selectLocaleSortingCollator,
   selectLookupTables,
 } from "../selectors/shared";
-import { StoreState } from "../slices";
+import type { StoreState } from "../slices";
 import { getChangeStats } from "./deck-upgrades";
 import { resolveDeck } from "./resolve-deck";
 

@@ -1,6 +1,5 @@
-import { assert } from "@/utils/assert";
 import type { StateCreator } from "zustand";
-import type { StoreState } from ".";
+import { assert } from "@/utils/assert";
 import { formatDeckImport, formatDeckShare } from "../lib/deck-io";
 import { selectDeckHistory } from "../selectors/decks";
 import {
@@ -10,6 +9,7 @@ import {
   selectMetadata,
 } from "../selectors/shared";
 import { createShare, deleteShare, updateShare } from "../services/queries";
+import type { StoreState } from ".";
 import { type Deck, isDeck } from "./data.types";
 import type { SharingSlice } from "./sharing.types";
 

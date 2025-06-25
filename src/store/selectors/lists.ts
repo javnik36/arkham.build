@@ -1,3 +1,4 @@
+import { createSelector } from "reselect";
 import { displayAttribute, splitMultiValue } from "@/utils/card-utils";
 import {
   ASSET_SLOT_ORDER,
@@ -5,8 +6,8 @@ import {
   type FactionName,
   NO_SLOT_STRING,
   SKILL_KEYS,
-  SPECIAL_CARD_CODES,
   type SkillKey,
+  SPECIAL_CARD_CODES,
 } from "@/utils/constants";
 import { createCustomEqualSelector } from "@/utils/custom-equal-selector";
 import {
@@ -19,7 +20,6 @@ import { and, not, or } from "@/utils/fp";
 import i18n from "@/utils/i18n";
 import { isEmpty } from "@/utils/is-empty";
 import { time, timeEnd } from "@/utils/time";
-import { createSelector } from "reselect";
 import { applyCardChanges } from "../lib/card-edits";
 import { getAdditionalDeckOptions } from "../lib/deck-validation";
 import {
@@ -59,7 +59,7 @@ import {
   sortByEncounterSet,
   sortByName,
 } from "../lib/sorting";
-import { type ResolvedDeck, isResolvedDeck } from "../lib/types";
+import { isResolvedDeck, type ResolvedDeck } from "../lib/types";
 import type { Card, Cycle, Pack } from "../services/queries.types";
 import type { StoreState } from "../slices";
 import type {

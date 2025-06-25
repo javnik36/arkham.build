@@ -1,10 +1,10 @@
+import { ChevronLeftIcon } from "lucide-react";
+import { Trans, useTranslation } from "react-i18next";
 import { Socials } from "@/components/socials";
 import { Button } from "@/components/ui/button";
 import { AppLayout } from "@/layouts/app-layout";
 import { cx } from "@/utils/cx";
 import { useGoBack } from "@/utils/use-go-back";
-import { ChevronLeftIcon } from "lucide-react";
-import { Trans, useTranslation } from "react-i18next";
 import css from "./about.module.css";
 
 function About() {

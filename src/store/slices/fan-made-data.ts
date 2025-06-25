@@ -1,9 +1,9 @@
 import type { StateCreator } from "zustand";
-import type { StoreState } from ".";
 import {
   parseFanMadeProject,
   validateFanMadeProject,
 } from "../lib/fan-made-content";
+import type { StoreState } from ".";
 import type { FanMadeDataSlice, FanMadeDataState } from "./fan-made-data.types";
 
 function getInitialFanMadeData(): FanMadeDataState {
