@@ -152,7 +152,7 @@ test.describe("deck view", () => {
   });
 
   test("render customizable cards with options", async ({ page }) => {
-    await importDeckFromFile(page, "validation/access_customizable.json", {
+    await importDeckFromFile(page, "validation/customizable_level.json", {
       navigate: "view",
     });
 
@@ -405,7 +405,7 @@ test.describe("deck view", () => {
   });
 
   test("limited slots in deck investigator", async ({ page }) => {
-    await importDeckFromFile(page, "validation/limit_dunwich.json", {
+    await importDeckFromFile(page, "validation/dunwich.json", {
       navigate: "view",
     });
 
@@ -420,7 +420,7 @@ test.describe("deck view", () => {
   });
 
   test("limited slots in deck tools", async ({ page }) => {
-    await importDeckFromFile(page, "validation/limit_dunwich.json", {
+    await importDeckFromFile(page, "validation/dunwich.json", {
       navigate: "view",
     });
     await page.getByRole("tab", { name: "Tools" }).click();
