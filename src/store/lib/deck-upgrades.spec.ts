@@ -113,6 +113,10 @@ const tests = [
     "Does not error with negative quantity of cards in deck",
     "negative_quantity",
   ],
+  [
+    "Upgrade a card with subname x to two cards with subnames y and z",
+    "one_to_many_subnames",
+  ],
 ];
 
 describe("getChangeStats", () => {
