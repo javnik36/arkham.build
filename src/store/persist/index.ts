@@ -1,15 +1,21 @@
+import { time, timeEnd } from "@/utils/time";
 import type { StoreState } from "../slices";
 import { migrate } from "./migrate";
 import { makeStorageAdapter, VERSION } from "./storage";
+import { TabSync } from "./tab-sync";
 
 type AppState = Pick<
   StoreState,
   "app" | "connections" | "data" | "settings" | "sharing" | "fanMadeData"
 >;
 
+export type StorageType = "app" | "edits" | "metadata";
+
 type EditsState = Pick<StoreState, "deckEdits">;
 
 type MetadataState = Pick<StoreState, "metadata">;
+
+export const tabSync = new TabSync();
 
 const metadataStorage = makeStorageAdapter<MetadataState>(
   "deckbuilder-metadata",
@@ -72,14 +78,43 @@ export async function hydrate() {
   return state;
 }
 
-export function dehydrateMetadata(state: StoreState) {
-  return metadataStorage.set(state);
-}
+export async function dehydrate(
+  state: StoreState,
+  ...types: ("all" | StorageType)[]
+) {
+  time("dehydration");
 
-export function dehydrateApp(state: StoreState) {
-  return appStorage.set(state);
-}
+  try {
+    const partials = await Promise.all(
+      types.reduce(
+        (acc, t) => {
+          if (t === "all" || t === "app") {
+            acc.push(appStorage.set(state));
+          }
 
-export function dehydrateEdits(state: StoreState) {
-  return editsStorage.set(state);
+          if (t === "all" || t === "edits") {
+            acc.push(editsStorage.set(state));
+          }
+
+          if (t === "all" || t === "metadata") {
+            acc.push(metadataStorage.set(state));
+          }
+
+          return acc;
+        },
+        [] as Promise<Partial<StoreState>>[],
+      ),
+    );
+
+    try {
+      tabSync.send(Object.assign({}, ...partials));
+    } catch (err) {
+      console.error("[tab-sync] failed:", err);
+    }
+
+    timeEnd("dehydration");
+  } catch (err) {
+    timeEnd("dehydration");
+    throw err;
+  }
 }

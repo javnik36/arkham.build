@@ -3,6 +3,7 @@ import { assert } from "@/utils/assert";
 import { applyDeckEdits } from "../lib/deck-edits";
 import { cloneDeck } from "../lib/deck-factory";
 import { formatDeckImport } from "../lib/deck-io";
+import { dehydrate } from "../persist";
 import { selectClientId, selectMetadata } from "../selectors/shared";
 import { importDeck } from "../services/queries";
 import type { StoreState } from ".";
@@ -44,7 +45,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
       },
     });
 
-    state.dehydrate("app");
+    dehydrate(get(), "app");
   },
 
   async importFromFiles(files) {
@@ -89,7 +90,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
       },
     });
 
-    state.dehydrate("app");
+    dehydrate(get(), "app");
   },
 
   async duplicateDeck(id, options) {
@@ -117,7 +118,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
       },
     });
 
-    await state.dehydrate("app");
+    await dehydrate(get(), "app");
 
     return newDeck.id;
   },

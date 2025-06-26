@@ -31,12 +31,7 @@ import { resolveDeck } from "../lib/resolve-deck";
 import { decodeExtraSlots, encodeExtraSlots } from "../lib/slots";
 import { disconnectProviderIfUnauthorized, syncAdapters } from "../lib/sync";
 import type { DeckMeta } from "../lib/types";
-import {
-  dehydrateApp,
-  dehydrateEdits,
-  dehydrateMetadata,
-  hydrate,
-} from "../persist";
+import { dehydrate, hydrate } from "../persist";
 import { selectDeckCreateCardSets } from "../selectors/deck-create";
 import {
   selectDeckHistory,
@@ -228,7 +223,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     timeEnd("create_store_data");
 
-    await state.dehydrate("all");
+    await dehydrate(get(), "all");
     return true;
   },
   async createDeck() {
@@ -369,7 +364,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       deckCreate: undefined,
     });
 
-    await state.dehydrate("app");
+    await dehydrate(get(), "app");
 
     if (state.deckCreate.provider === "shared") {
       await state.createShare(deck.id as string);
@@ -432,7 +427,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       deckEdits,
     });
 
-    await state.dehydrate("app", "edits");
+    await dehydrate(get(), "app", "edits");
   },
   async deleteAllDecks() {
     const state = get();
@@ -459,7 +454,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       },
     });
 
-    await state.dehydrate("app", "edits");
+    await dehydrate(get(), "app", "edits");
 
     if (Object.keys(state.sharing.decks).length) {
       await state.deleteAllShares().catch(console.error);
@@ -519,7 +514,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     tryEnablePersistence();
 
-    await state.dehydrate("app", "edits");
+    await dehydrate(get(), "app", "edits");
 
     return nextDeck.id;
   },
@@ -618,7 +613,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     tryEnablePersistence();
 
-    await state.dehydrate("app", "edits");
+    await dehydrate(get(), "app", "edits");
     return nextDeck.id;
   },
   async upgradeDeck({ id, xp, exileString, usurped }) {
@@ -788,7 +783,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     tryEnablePersistence();
 
-    await state.dehydrate("app", "edits");
+    await dehydrate(get(), "app", "edits");
     return newDeck;
   },
   async deleteUpgrade(id, cb) {
@@ -848,7 +843,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       },
     });
 
-    await state.dehydrate("app", "edits");
+    await dehydrate(get(), "app", "edits");
     return previousId;
   },
   backup() {
@@ -860,7 +855,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
   },
   async restore(buffer) {
     set(await restoreBackup(get(), buffer));
-    await get().dehydrate("all");
+    await dehydrate(get(), "app");
   },
   async dismissBanner(bannerId) {
     const state = get();
@@ -875,33 +870,6 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       },
     });
 
-    await state.dehydrate("app");
-  },
-  async dehydrate(...partials) {
-    time("dehydration");
-
-    const state = get();
-
-    try {
-      const promises = [];
-
-      for (const partial of partials) {
-        if (partial === "all" || partial === "app") {
-          promises.push(dehydrateApp(state));
-        }
-
-        if (partial === "all" || partial === "metadata") {
-          promises.push(dehydrateMetadata(state));
-        }
-
-        if (partial === "all" || partial === "edits") {
-          promises.push(dehydrateEdits(state));
-        }
-      }
-
-      await Promise.all(promises);
-    } finally {
-      timeEnd("dehydration");
-    }
+    await dehydrate(get(), "app");
   },
 });
