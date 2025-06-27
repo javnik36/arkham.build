@@ -1,4 +1,5 @@
 import { Combobox } from "@/components/ui/combobox/combobox";
+import { useStore } from "@/store";
 import type { Coded } from "@/store/services/queries.types";
 import { FilterContainer } from "./filter-container";
 import { useFilterCallbacks } from "./filter-hooks";
@@ -32,6 +33,8 @@ export function MultiselectFilter<T extends Coded>(props: Props<T>) {
 
   const { onReset, onOpenChange, onChange } = useFilterCallbacks<string[]>(id);
 
+  const locale = useStore((state) => state.settings.locale);
+
   return (
     <FilterContainer
       changes={changes}
@@ -47,6 +50,7 @@ export function MultiselectFilter<T extends Coded>(props: Props<T>) {
         itemToString={itemToString}
         items={options}
         label={title}
+        locale={locale}
         onValueChange={onChange}
         placeholder={placeholder}
         renderItem={nameRenderer}

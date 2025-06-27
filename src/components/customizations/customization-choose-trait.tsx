@@ -36,6 +36,8 @@ export function CustomizationChooseTraits(props: Props) {
   const traits = useStore(selectTraitOptions);
   const { t } = useTranslation();
 
+  const locale = useStore((state) => state.settings.locale);
+
   const nameRenderer = useCallback(
     (trait: { code: string; name: string }) => trait.name,
     [],
@@ -48,6 +50,7 @@ export function CustomizationChooseTraits(props: Props) {
       items={traits}
       label={t("common.trait", { count: limit })}
       limit={limit}
+      locale={locale}
       readonly={readonly}
       renderItem={nameRenderer}
       renderResult={nameRenderer}

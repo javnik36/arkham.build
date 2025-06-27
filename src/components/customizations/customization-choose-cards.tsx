@@ -103,6 +103,8 @@ export function CustomizationChooseCards(props: Props) {
     selectPlayerCardsForCustomizationOptions(state, config),
   );
 
+  const locale = useStore((state) => state.settings.locale);
+
   return (
     <CardsCombobox
       disabled={disabled}
@@ -110,6 +112,7 @@ export function CustomizationChooseCards(props: Props) {
       items={cards}
       label={t("common.card", { count: limit })}
       limit={limit}
+      locale={locale}
       onValueChange={onChange}
       readonly={readonly}
       selectedItems={selections}

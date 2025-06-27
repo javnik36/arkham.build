@@ -10,9 +10,9 @@ import {
   useFloating,
   useInteractions,
 } from "@floating-ui/react";
-import uFuzzy from "@leeoniya/ufuzzy";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { instantiateSearchFromLocale } from "@/store/lib/searching";
 import type { Coded } from "@/store/services/queries.types";
 import { FLOATING_PORTAL_ID } from "@/utils/constants";
 import { cx } from "@/utils/cx";
@@ -31,6 +31,7 @@ function defaultRenderer<T extends Coded>(val: T) {
 }
 
 function fuzzyMatch<T extends Coded>(
+  locale: string,
   search: string,
   items: T[],
   itemToString: (item: T) => string,
@@ -39,7 +40,7 @@ function fuzzyMatch<T extends Coded>(
 
   const normalizedSearchTerm = normalizeDiacritics(search);
 
-  const uf = new uFuzzy();
+  const uf = instantiateSearchFromLocale(locale);
 
   // Normalize diacritics in search items to stripped letters
   const searchItems = items.map((item) =>
@@ -67,6 +68,7 @@ export type Props<T extends Coded> = {
   items: T[];
   itemToString?: (item: T) => string;
   label: React.ReactNode;
+  locale: string;
   limit?: number;
   omitItemPadding?: boolean;
   onValueChange?: (value: string[]) => void;
@@ -92,6 +94,7 @@ export function Combobox<T extends Coded>(props: Props<T>) {
     items,
     itemToString = defaultItemToString,
     label,
+    locale,
     limit,
     placeholder,
     omitItemPadding,
@@ -134,8 +137,8 @@ export function Combobox<T extends Coded>(props: Props<T>) {
   const { getReferenceProps, getFloatingProps } = useInteractions([dismiss]);
 
   const filteredItems = useMemo(
-    () => fuzzyMatch(inputValue, items, itemToString),
-    [items, inputValue, itemToString],
+    () => fuzzyMatch(locale, inputValue, items, itemToString),
+    [items, inputValue, itemToString, locale],
   );
 
   const setSelectedItem = useCallback(

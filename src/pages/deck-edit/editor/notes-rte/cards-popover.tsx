@@ -54,6 +54,8 @@ export function CardsPopover(props: Props) {
   const lookupTables = useStore(selectLookupTables);
   const setSettings = useStore((state) => state.setSettings);
 
+  const locale = useStore((state) => state.settings.locale);
+
   const onUpdateDefaults = useCallback(() => {
     setSettings({
       notesEditor: {
@@ -156,6 +158,7 @@ export function CardsPopover(props: Props) {
           items={cards}
           label={t("deck_edit.notes.toolbar.card")}
           limit={1}
+          locale={locale}
           omitFloatingPortal
           onEscapeBlur={onEscapePress}
           selectedItems={emptySelection}

@@ -21,6 +21,8 @@ export function InvestigatorCardAccessFilter(props: FilterProps) {
 
   const filter = useStore((state) => selectActiveListFilter(state, id));
 
+  const locale = useStore((state) => state.settings.locale);
+
   const cards = useStore(selectCardOptions);
 
   assert(
@@ -46,6 +48,7 @@ export function InvestigatorCardAccessFilter(props: FilterProps) {
         autoFocus
         id={`${id}-choose-cards`}
         items={cards}
+        locale={locale}
         onValueChange={onChange}
         selectedItems={value}
         label={t("common.card", { count: 2 })}

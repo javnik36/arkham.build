@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Combobox } from "@/components/ui/combobox/combobox";
+import { useStore } from "@/store";
 import type { Coded } from "@/store/services/queries.types";
 import { SKILL_KEYS } from "@/utils/constants";
 
@@ -22,6 +23,8 @@ export function CustomizationChooseSkill(props: Props) {
   const { disabled, id, onChange, readonly, selections } = props;
   const { t } = useTranslation();
 
+  const locale = useStore((state) => state.settings.locale);
+
   const options = useMemo(
     () =>
       SKILL_KEYS.filter((x) => x !== "wild").map((key) => ({
@@ -38,6 +41,7 @@ export function CustomizationChooseSkill(props: Props) {
       items={options}
       label={t("common.skill.title")}
       limit={1}
+      locale={locale}
       onValueChange={onChange}
       placeholder={t("deck_edit.customizable.skill_placeholder")}
       readonly={readonly}

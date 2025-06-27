@@ -109,6 +109,8 @@ export function LimitedCardPoolField(props: {
 
   const packs = useStore(selectLimitedPoolPackOptions);
 
+  const locale = useStore((state) => state.settings.locale);
+
   const items = useMemo(
     () =>
       packs.filter(
@@ -163,6 +165,7 @@ export function LimitedCardPoolField(props: {
           items={items}
           itemToString={packToString}
           label={t("deck_edit.config.card_pool.title")}
+          locale={locale}
           onValueChange={onValueChange}
           placeholder={t("deck_edit.config.card_pool.placeholder")}
           renderItem={packRenderer}

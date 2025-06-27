@@ -52,6 +52,8 @@ export function AssetFilter({ id, resolvedDeck }: FilterProps) {
 
   const options = useStore((state) => selectAssetOptions(state, resolvedDeck));
 
+  const locale = useStore((state) => state.settings.locale);
+
   const { onReset, onChange, onOpenChange } =
     useFilterCallbacks<Partial<AssetFilterType>>(id);
 
@@ -118,6 +120,7 @@ export function AssetFilter({ id, resolvedDeck }: FilterProps) {
         id="asset-slots"
         items={options.slots}
         label={t("filters.slot.title")}
+        locale={locale}
         onValueChange={onChangeSlot}
         placeholder={t("filters.slot.placeholder")}
         renderItem={renderSlot}
@@ -145,6 +148,7 @@ export function AssetFilter({ id, resolvedDeck }: FilterProps) {
         id="asset-uses"
         items={options.uses}
         label={t("filters.uses.title")}
+        locale={locale}
         onValueChange={onChangeUses}
         placeholder={t("filters.uses.placeholder")}
         renderItem={renderName}

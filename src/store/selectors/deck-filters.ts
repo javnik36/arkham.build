@@ -1,4 +1,3 @@
-import uFuzzy from "@leeoniya/ufuzzy";
 import { createSelector } from "reselect";
 import { assert } from "@/utils/assert";
 import { displayAttribute } from "@/utils/card-utils";
@@ -7,6 +6,7 @@ import { and, or } from "@/utils/fp";
 import i18n from "@/utils/i18n";
 import { normalizeDiacritics } from "@/utils/normalize-diacritics";
 import { extendedDeckTags } from "../lib/resolve-deck";
+import { instantiateSearchFromLocale } from "../lib/searching";
 import type { ResolvedDeck } from "../lib/types";
 import type { StoreState } from "../slices";
 import type {
@@ -249,11 +249,12 @@ const selectDecksFiltered = createSelector(
   selectDeckSearchTerm,
   selectSearchableTextInDecks,
   selectFilteringFunc,
-  (decks, searchTerm, searchableText, filterFunc) => {
+  (state: StoreState) => state.settings,
+  (decks, searchTerm, searchableText, filterFunc, settings) => {
     let decksToFilter: ResolvedDeck[];
 
     if (searchTerm) {
-      const finder = new uFuzzy({
+      const finder = instantiateSearchFromLocale(settings.locale, {
         intraMode: 0,
         interIns: MATCHING_MAX_TOKEN_DISTANCE_DECKS,
       });

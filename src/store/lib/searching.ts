@@ -56,15 +56,13 @@ function prepareCardBack(card: Card, search: Search) {
   return needle.join("|");
 }
 
-export function applySearch(
-  search: Search,
-  cards: Card[],
-  metadata: Metadata,
+export function instantiateSearchFromLocale(
   locale: string,
-): Card[] {
+  opts: Partial<uFuzzy.Options> = {},
+): uFuzzy {
   const options: uFuzzy.Options = {
     intraMode: 0,
-    interIns: MATCHING_MAX_TOKEN_DISTANCE,
+    ...opts,
   };
 
   const localeDefinition = LOCALES[locale];
@@ -84,7 +82,18 @@ export function applySearch(
     options.alpha = alpha;
   }
 
-  const uf = new uFuzzy(options);
+  return new uFuzzy(options);
+}
+
+export function applySearch(
+  search: Search,
+  cards: Card[],
+  metadata: Metadata,
+  locale: string,
+): Card[] {
+  const uf = instantiateSearchFromLocale(locale, {
+    interIns: MATCHING_MAX_TOKEN_DISTANCE,
+  });
 
   const searchCards = cards.map((card) => {
     let content = prepareCardFace(card, search);

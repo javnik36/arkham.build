@@ -33,6 +33,8 @@ export function ChooseCampaignModal(props: {
   const dialogCtx = useDialogContextChecked();
   const cycles = useStore(selectCampaignCycles);
 
+  const locale = useStore((state) => state.settings.locale);
+
   const campaignPlayalongProject = useStore(
     (state) => state.fanMadeData.projects[CAMPAIGN_PLAYALONG_PROJECT_ID],
   );
@@ -82,6 +84,7 @@ export function ChooseCampaignModal(props: {
             autoFocus
             id="campaign-playalong-combobox"
             limit={1}
+            locale={locale}
             placeholder={t(
               "deck_edit.config.card_pool.choose_campaign_placeholder",
             )}

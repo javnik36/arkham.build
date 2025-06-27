@@ -27,6 +27,8 @@ export function CardPoolExtension(props: Props) {
 
   const items = useStore(selectCardOptions);
 
+  const locale = useStore((state) => state.settings.locale);
+
   const updateMetaProperty = useStore((state) => state.updateMetaProperty);
 
   const onCardPoolChange = useCallback(
@@ -58,6 +60,7 @@ export function CardPoolExtension(props: Props) {
           {t("deck_edit.config.card_pool.selected_cards")}
         </span>
       }
+      locale={locale}
       onValueChange={onCardPoolChange}
       readonly={!canEdit}
       showLabel={showLabel}

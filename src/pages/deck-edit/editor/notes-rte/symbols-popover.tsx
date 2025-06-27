@@ -2,6 +2,7 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Combobox } from "@/components/ui/combobox/combobox";
 import { Field, FieldLabel } from "@/components/ui/field";
+import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import css from "./notes-rte.module.css";
 import { useNotesRichTextEditorContext } from "./notes-rte-context";
@@ -77,6 +78,8 @@ export function SymbolsPopover(props: Props) {
   const { t } = useTranslation();
   const symbols = useAvailableSymbols();
 
+  const locale = useStore((state) => state.settings.locale);
+
   const { insertTextAtCaret } = useNotesRichTextEditorContext();
 
   const onSelectItem = useCallback(
@@ -101,6 +104,7 @@ export function SymbolsPopover(props: Props) {
         id="insert-symbol-combobox"
         items={symbols}
         label={t("deck_edit.notes.toolbar.symbol")}
+        locale={locale}
         limit={1}
         omitFloatingPortal
         placeholder={t("deck_edit.notes.toolbar.symbol_placeholder")}

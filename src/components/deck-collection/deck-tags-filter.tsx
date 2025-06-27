@@ -23,6 +23,8 @@ export function DeckTagsFilter({ containerClass }: Props) {
   const open = useStore((state) => state.deckFilters.open.tags);
   const value = useStore((state) => selectDeckFilterValue(state, "tags"));
 
+  const locale = useStore((state) => state.settings.locale);
+
   const setFilterValue = useStore((state) => state.addDecksFilter);
   const setFilterOpen = useStore((state) => state.setDeckFilterOpen);
   const resetFilter = useStore((state) => state.resetDeckFilter);
@@ -65,6 +67,7 @@ export function DeckTagsFilter({ containerClass }: Props) {
           id="tag-deck-filter"
           items={options}
           label={t("deck_collection.tags_filter.title")}
+          locale={locale}
           onValueChange={onChange}
           placeholder={t("deck_collection.tags_filter.placeholder")}
           selectedItems={value}
