@@ -70,45 +70,31 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
   app: getInitialAppState(),
 
   async init(queryMetadata, queryDataVersion, queryCards, refresh, locale) {
-    const initialState = get();
     const persistedState = await hydrate();
 
-    const state: StoreState = {
-      ...initialState,
-      ...persistedState,
-      app: {
-        ...persistedState?.app,
-        clientId: persistedState?.app?.clientId || randomId(),
-      },
-      settings: {
-        ...initialState.settings,
-        ...persistedState?.settings,
-        lists: {
-          ...initialState.settings.lists,
-          ...persistedState?.settings?.lists,
-        },
-      },
-    };
-
-    if (!refresh && state.metadata.dataVersion?.cards_updated_at) {
+    if (!refresh && persistedState?.metadata?.dataVersion?.cards_updated_at) {
       const metadata = {
-        ...applyLocalData(state.metadata),
+        ...applyLocalData(persistedState.metadata),
         factions: mappedByCode(factions),
         subtypes: mappedByCode(subTypes),
         types: mappedByCode(types),
       };
 
-      set({
-        ...state,
-        lists: makeLists(state.settings),
-        metadata,
-        ui: {
-          ...state.ui,
-          initialized: true,
-          fanMadeContentCache: buildCacheFromDecks(
-            Object.values(state.data.decks),
-          ),
-        },
+      set((prev) => {
+        const merged = mergeInitialState(prev, persistedState);
+
+        return {
+          ...merged,
+          lists: makeLists(merged.settings),
+          metadata,
+          ui: {
+            ...prev.ui,
+            initialized: true,
+            fanMadeContentCache: buildCacheFromDecks(
+              Object.values(merged.data.decks),
+            ),
+          },
+        };
       });
 
       return false;
@@ -208,22 +194,33 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       }
     }
 
-    set({
-      ...state,
-      metadata,
-      ui: {
-        ...state.ui,
-        initialized: true,
-        fanMadeContentCache: buildCacheFromDecks(
-          Object.values(state.data.decks),
-        ),
-      },
-      lists: makeLists(state.settings),
+    set((prev) => {
+      const merged = mergeInitialState(prev, persistedState);
+
+      return {
+        ...merged,
+        metadata,
+        ui: {
+          ...merged.ui,
+          fanMadeContentCache: buildCacheFromDecks(
+            Object.values(merged.data.decks),
+          ),
+        },
+        lists: makeLists(merged.settings),
+      };
     });
 
     timeEnd("create_store_data");
 
     await dehydrate(get(), "all");
+
+    set((prev) => ({
+      ui: {
+        ...prev.ui,
+        initialized: true,
+      },
+    }));
+
     return true;
   },
   async createDeck() {
@@ -873,3 +870,25 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     await dehydrate(get(), "app");
   },
 });
+
+function mergeInitialState(
+  initialState: StoreState,
+  persistedState: Partial<StoreState> | undefined,
+) {
+  return {
+    ...initialState,
+    ...persistedState,
+    app: {
+      ...persistedState?.app,
+      clientId: persistedState?.app?.clientId || randomId(),
+    },
+    settings: {
+      ...initialState.settings,
+      ...persistedState?.settings,
+      lists: {
+        ...initialState.settings.lists,
+        ...persistedState?.settings?.lists,
+      },
+    },
+  };
+}

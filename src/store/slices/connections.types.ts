@@ -35,17 +35,16 @@ export type ConnectionsState = {
   lastSyncedAt?: number;
 };
 
+export type SyncInit = {
+  provider: Provider;
+  user: ConnectionUser;
+};
+
 export type ConnectionsSlice = {
   connections: ConnectionsState;
 
-  createConnection(
-    provider: Provider,
-    user: ConnectionUser,
-  ): Promise<ConnectionsState>;
+  sync(init?: SyncInit): Promise<void>;
   unsync(provider: Provider): Promise<void>;
-
-  sync(): Promise<void>;
-  syncProvider(provider: Provider): Promise<void>;
 
   uploadDeck(id: Id, provider: Provider): Promise<Id>;
 };

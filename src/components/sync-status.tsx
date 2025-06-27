@@ -27,11 +27,11 @@ export function SyncStatus() {
   const onSyncButtonClick = useCallback(() => {
     if (syncing) return;
     if (healthy) {
-      sync(connections);
+      sync();
     } else {
       navigate("~/settings");
     }
-  }, [healthy, sync, syncing, connections, navigate]);
+  }, [healthy, sync, syncing, navigate]);
 
   if (isEmpty(connections.data)) return null;
 

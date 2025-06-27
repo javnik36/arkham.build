@@ -10,7 +10,7 @@ import { Connect } from "./pages/connect/connect";
 import { Error404 } from "./pages/errors/404";
 import { CardDataSync } from "./pages/settings/card-data-sync";
 import { useStore } from "./store";
-import { useSync } from "./store/hooks/use-sync";
+import { shouldAutoSync, useSync } from "./store/hooks/use-sync";
 import { tabSync } from "./store/persist";
 import type { TabSyncEvent } from "./store/persist/tab-sync";
 import { selectIsInitialized } from "./store/selectors/shared";
@@ -89,6 +89,10 @@ function Providers(props: { children: React.ReactNode }) {
   );
 }
 
+// TECH DEBT: This prevents a double call to `init` when the app is loaded.
+//            Ideally this is a lock in the store.
+let initOnceLock = false;
+
 function AppInner() {
   const { t } = useTranslation();
   const toast = useToast();
@@ -99,6 +103,9 @@ function AppInner() {
   applyStoredColorTheme();
 
   useEffect(() => {
+    if (initOnceLock) return;
+    initOnceLock = true;
+
     async function initStore() {
       try {
         await init(queryMetadata, queryDataVersion, queryCards, false);
@@ -237,8 +244,8 @@ function AppTasks() {
     }
 
     if (
-      location !== "/settings" &&
-      location !== "/connect" &&
+      !location.includes("/settings") &&
+      !location.includes("/connect") &&
       !cardDataLock.current
     ) {
       updateCardData().catch(console.error);
@@ -248,15 +255,9 @@ function AppTasks() {
   const autoSyncLock = useRef(false);
 
   useEffect(() => {
-    const lastSyncedAt = connections.lastSyncedAt;
-    if (
-      location !== "/settings" &&
-      location !== "/connect" &&
-      (!lastSyncedAt || Date.now() - lastSyncedAt > 30 * 60 * 1000) &&
-      !autoSyncLock.current
-    ) {
+    if (!autoSyncLock.current && shouldAutoSync(location, connections)) {
       autoSyncLock.current = true;
-      sync(connections).catch(console.error);
+      sync().catch(console.error);
     }
   }, [sync, location, connections]);
 

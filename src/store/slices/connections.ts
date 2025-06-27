@@ -1,4 +1,4 @@
-import type { StateCreator } from "zustand";
+import type { StateCreator, StoreApi } from "zustand";
 
 import { assertCanPublishDeck } from "@/utils/arkhamdb";
 import { assert } from "@/utils/assert";
@@ -13,8 +13,9 @@ import {
 import { ApiError, getDecks, newDeck, updateDeck } from "../services/queries";
 import type { StoreState } from ".";
 import type {
+  Connection,
   ConnectionsSlice,
-  Provider,
+  SyncInit,
   SyncSuccessState,
 } from "./connections.types";
 import type { Id } from "./data.types";
@@ -33,27 +34,37 @@ export const createConnectionsSlice: StateCreator<
 > = (set, get) => ({
   connections: getInitialConnectionsState(),
 
-  async createConnection(provider, user) {
-    const state = get();
-
-    const connections = {
-      lastSyncedAt: undefined,
-      data: {
-        ...state.connections.data,
-        [provider]: {
-          createdAt: Date.now(),
-          status: "connected" as const,
-          user,
-          provider,
+  async sync(init) {
+    if (init) {
+      await createConnection(init, get, set);
+    } else {
+      set((prev) => ({
+        remoting: {
+          ...prev.remoting,
+          sync: true,
         },
-      },
-    };
+      }));
+    }
 
-    set({ connections });
+    try {
+      for (const connection of Object.values(get().connections.data)) {
+        await syncConnection(connection, get, set);
+      }
 
-    await dehydrate(get(), "app");
-    return connections;
+      await dehydrate(get(), "app");
+    } catch (err) {
+      await dehydrate(get(), "app");
+      throw err;
+    } finally {
+      set((prev) => ({
+        remoting: {
+          ...prev.remoting,
+          sync: false,
+        },
+      }));
+    }
   },
+
   async unsync(provider) {
     const state = get();
 
@@ -75,149 +86,6 @@ export const createConnectionsSlice: StateCreator<
     set(patch);
 
     await dehydrate(get(), "app");
-  },
-  async sync() {
-    const state = get();
-
-    set({
-      connections: {
-        ...state.connections,
-        lastSyncedAt: Date.now(),
-      },
-      remoting: {
-        ...state.remoting,
-        sync: true,
-      },
-    });
-
-    try {
-      for (const provider of Object.keys(state.connections.data)) {
-        await state.syncProvider(provider as Provider);
-      }
-    } finally {
-      set({
-        remoting: {
-          ...get().remoting,
-          sync: false,
-        },
-      });
-    }
-
-    dehydrate(get(), "app").catch(console.error);
-  },
-  async syncProvider(provider) {
-    const state = get();
-
-    const adapater = new syncAdapters[provider](state);
-
-    const connection = state.connections.data[provider];
-    assert(connection, `Connection for ${provider} was not found.`);
-
-    try {
-      const res = await getDecks(
-        (connection.syncDetails as SyncSuccessState)?.lastModified,
-      );
-
-      if (res) {
-        const { data: apiDecks, lastModified } = res;
-
-        const data = { ...state.data };
-
-        const apiDeckIds = new Set(apiDecks.map((deck) => deck.id));
-
-        for (const deck of Object.values(state.data.decks)) {
-          if (deck.source === provider && !apiDeckIds.has(deck.id)) {
-            delete data.decks[deck.id];
-          }
-        }
-
-        for (const deck of apiDecks) {
-          data.decks[deck.id] = adapater.in(deck);
-        }
-
-        const history = Object.values(data.decks)
-          .filter((deck) => !deck.next_deck)
-          .reduce(
-            (acc, deck) => {
-              acc[deck.id] = [];
-              if (!deck.previous_deck) return acc;
-
-              let current = deck;
-              const history = [];
-
-              while (
-                current.previous_deck &&
-                data.decks[current.previous_deck]
-              ) {
-                current = data.decks[current.previous_deck];
-                history.push(current.id);
-              }
-
-              acc[deck.id] = history;
-              return acc;
-            },
-            {} as Record<Id, Id[]>,
-          );
-
-        data.history = history;
-
-        const user = apiDecks.length
-          ? {
-              id: apiDecks[0].user_id ?? undefined,
-            }
-          : state.connections.data[provider]?.user;
-
-        set({
-          data,
-          connections: {
-            lastSyncedAt: Date.now(),
-            data: {
-              ...state.connections.data,
-              [provider]: {
-                ...state.connections.data[provider],
-                status: "connected",
-                user,
-                syncDetails: {
-                  status: "success",
-                  errors: [],
-                  lastModified,
-                  itemsSynced: apiDecks.length,
-                  itemsTotal: apiDecks.length,
-                },
-              },
-            },
-          },
-        });
-      } else {
-        set({
-          connections: {
-            ...state.connections,
-            lastSyncedAt: Date.now(),
-          },
-        });
-      }
-    } catch (err) {
-      set({
-        connections: {
-          lastSyncedAt: Date.now(),
-          data: {
-            ...state.connections.data,
-            [provider]: {
-              ...state.connections.data[provider],
-              status:
-                err instanceof ApiError && err.status === 401
-                  ? "disconnected"
-                  : "connected",
-              syncDetails: {
-                status: "error",
-                errors: [(err as Error)?.message ?? "Unknown error"],
-              },
-            },
-          },
-        },
-      });
-      throw err;
-    }
   },
   async uploadDeck(id, provider) {
     const state = get();
@@ -281,3 +149,148 @@ export const createConnectionsSlice: StateCreator<
     }
   },
 });
+
+function getInitialConnection({ user, provider }: SyncInit) {
+  return {
+    createdAt: Date.now(),
+    provider,
+    status: "connected" as const,
+    user,
+  };
+}
+
+async function createConnection(
+  { provider, user }: SyncInit,
+  get: StoreApi<StoreState>["getState"],
+  set: StoreApi<StoreState>["setState"],
+) {
+  assert(provider, "Provider must be defined");
+
+  set((prev) => ({
+    connections: {
+      ...prev.connections,
+      data: {
+        ...prev.connections.data,
+        [provider]: getInitialConnection({ user, provider }),
+      },
+    },
+    remoting: {
+      ...prev.remoting,
+      sync: true,
+    },
+  }));
+
+  await dehydrate(get(), "app");
+}
+
+async function syncConnection(
+  connection: Connection,
+  get: StoreApi<StoreState>["getState"],
+  set: StoreApi<StoreState>["setState"],
+) {
+  const adapater = new syncAdapters[connection.provider](get());
+
+  try {
+    const res = await getDecks(
+      (connection.syncDetails as SyncSuccessState)?.lastModified,
+    );
+
+    if (res) {
+      set((prev) => {
+        const { data: apiDecks, lastModified } = res;
+        const data = { ...prev.data };
+        const apiDeckIds = new Set(apiDecks.map((deck) => deck.id));
+
+        for (const deck of Object.values(prev.data.decks)) {
+          if (deck.source === connection.provider && !apiDeckIds.has(deck.id)) {
+            delete data.decks[deck.id];
+          }
+        }
+
+        for (const deck of apiDecks) {
+          data.decks[deck.id] = adapater.in(deck);
+        }
+
+        data.history = Object.values(data.decks)
+          .filter((deck) => !deck.next_deck)
+          .reduce(
+            (acc, deck) => {
+              acc[deck.id] = [];
+              if (!deck.previous_deck) return acc;
+
+              let current = deck;
+              const history = [];
+
+              while (
+                current.previous_deck &&
+                data.decks[current.previous_deck]
+              ) {
+                current = data.decks[current.previous_deck];
+                history.push(current.id);
+              }
+
+              acc[deck.id] = history;
+              return acc;
+            },
+            {} as Record<Id, Id[]>,
+          );
+
+        const user = apiDecks.length
+          ? {
+              id: apiDecks[0].user_id ?? undefined,
+            }
+          : prev.connections.data[connection.provider]?.user;
+
+        return {
+          data,
+          connections: {
+            lastSyncedAt: Date.now(),
+            data: {
+              ...prev.connections.data,
+              [connection.provider]: {
+                ...prev.connections.data[connection.provider],
+                status: "connected",
+                user,
+                syncDetails: {
+                  status: "success",
+                  errors: [],
+                  lastModified,
+                  itemsSynced: apiDecks.length,
+                  itemsTotal: apiDecks.length,
+                },
+              },
+            },
+          },
+        };
+      });
+    } else {
+      set((prev) => ({
+        connections: {
+          ...prev.connections,
+          lastSyncedAt: Date.now(),
+        },
+      }));
+    }
+  } catch (err) {
+    set((prev) => ({
+      connections: {
+        lastSyncedAt: Date.now(),
+        data: {
+          ...prev.connections.data,
+          [connection.provider]: {
+            ...prev.connections.data[connection.provider],
+            status:
+              err instanceof ApiError && err.status === 401
+                ? "disconnected"
+                : "connected",
+            syncDetails: {
+              status: "error",
+              errors: [(err as Error)?.message ?? "Unknown error"],
+            },
+          },
+        },
+      },
+    }));
+    throw err;
+  }
+}

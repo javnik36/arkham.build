@@ -1,0 +1,10 @@
+.connect {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.connect-icon {
+  font-size: 5rem;
+}

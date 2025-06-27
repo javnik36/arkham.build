@@ -11,6 +11,7 @@ import {
 import dotenv from "dotenv";
 
 dotenv.config();
+dotenv.config({ path: ".env.e2e" });
 
 /**
  * See https://playwright.dev/docs/test-configuration.

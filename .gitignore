@@ -26,8 +26,10 @@ dist-ssr
 # coverage
 coverage
 
-# env file
+# env files
 .env
+.env*
+!.env*.example
 
 # auto-generated folders
 .husky

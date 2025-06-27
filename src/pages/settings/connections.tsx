@@ -51,7 +51,7 @@ function ConnectionStatusOutput(props: { connection: Connection }) {
   const { t } = useTranslation();
 
   return (
-    <output className={css["status"]}>
+    <output className={css["status"]} data-testid="connection-status">
       <span className={cx(css["status-icon"], css[status])}>
         {status === "connected" && <CheckIcon />}
         {status === "disconnected" && <CloudOffIcon />}

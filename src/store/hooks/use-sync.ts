@@ -4,7 +4,7 @@ import { useToast } from "@/components/ui/toast.hooks";
 import { isEmpty } from "@/utils/is-empty";
 import { useStore } from "..";
 import { syncHealthy } from "../selectors/connections";
-import type { ConnectionsState } from "../slices/connections.types";
+import type { ConnectionsState, SyncInit } from "../slices/connections.types";
 
 export function useSync() {
   const toast = useToast();
@@ -12,10 +12,8 @@ export function useSync() {
 
   const sync = useStore((state) => state.sync);
 
-  const onSync = useCallback(
-    async (connections: ConnectionsState) => {
-      if (!syncHealthy(connections) || isEmpty(connections.data)) return;
-
+  const syncHandler = useCallback(
+    async (create?: SyncInit) => {
       const provider = "ArkhamDB";
 
       const toastId = toast.show({
@@ -24,7 +22,7 @@ export function useSync() {
       });
 
       try {
-        await sync();
+        await sync(create);
         toast.dismiss(toastId);
 
         toast.show({
@@ -33,7 +31,6 @@ export function useSync() {
           variant: "success",
         });
       } catch (err) {
-        console.error(err);
         toast.dismiss(toastId);
         toast.show({
           children: t("settings.connections.provider_error", {
@@ -49,5 +46,19 @@ export function useSync() {
     [sync, toast, t],
   );
 
-  return onSync;
+  return syncHandler;
+}
+
+export function shouldAutoSync(
+  location: string,
+  connections: ConnectionsState,
+) {
+  return (
+    !isEmpty(connections.data) &&
+    syncHealthy(connections) &&
+    !location.includes("settings") &&
+    !location.includes("connect") &&
+    (!connections.lastSyncedAt ||
+      Date.now() - connections.lastSyncedAt > 30 * 60 * 1000)
+  );
 }
