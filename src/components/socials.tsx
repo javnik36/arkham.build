@@ -42,7 +42,7 @@ export function Socials(props: { className?: string }) {
       </Button>
       <Button
         as="a"
-        href="https://discord.com/channels/225349059689447425/1264242716179431670"
+        href="https://discord.gg/tq96ZJrXtY"
         target="_blank"
         rel="noreferrer"
         variant="bare"
