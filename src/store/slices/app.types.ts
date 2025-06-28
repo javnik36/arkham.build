@@ -3,6 +3,7 @@ import type {
   DataVersionResponse,
   MetadataResponse,
 } from "@/store/services/queries";
+import type { StoreState } from ".";
 import type { Deck, Id } from "./data.types";
 import type { Locale } from "./settings.types";
 
@@ -20,6 +21,7 @@ export type AppSlice = {
     queryCards: (locale?: Locale) => Promise<AllCardResponse>,
     refresh?: boolean,
     locale?: Locale,
+    overrides?: Partial<StoreState>,
   ): Promise<boolean>;
 
   createDeck(): Promise<Id>;

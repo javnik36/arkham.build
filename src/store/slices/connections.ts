@@ -1,11 +1,11 @@
 import type { StateCreator, StoreApi } from "zustand";
-
 import { assertCanPublishDeck } from "@/utils/arkhamdb";
 import { assert } from "@/utils/assert";
 import { resolveDeck } from "../lib/resolve-deck";
 import { disconnectProviderIfUnauthorized, syncAdapters } from "../lib/sync";
 import { dehydrate } from "../persist";
 import {
+  selectIsInitialized,
   selectLocaleSortingCollator,
   selectLookupTables,
   selectMetadata,
@@ -35,6 +35,11 @@ export const createConnectionsSlice: StateCreator<
   connections: getInitialConnectionsState(),
 
   async sync(init) {
+    assert(
+      selectIsInitialized(get()),
+      "Store must be initialized before syncing",
+    );
+
     if (init) {
       await createConnection(init, get, set);
     } else {
@@ -50,12 +55,9 @@ export const createConnectionsSlice: StateCreator<
       for (const connection of Object.values(get().connections.data)) {
         await syncConnection(connection, get, set);
       }
-
-      await dehydrate(get(), "app");
-    } catch (err) {
-      await dehydrate(get(), "app");
-      throw err;
     } finally {
+      await dehydrate(get(), "app");
+
       set((prev) => ({
         remoting: {
           ...prev.remoting,
@@ -123,19 +125,19 @@ export const createConnectionsSlice: StateCreator<
         await updateDeck(adapter.out({ ...deck, id })),
       );
 
-      set({
+      set((prev) => ({
         data: {
-          ...state.data,
+          ...prev.data,
           decks: {
-            ...state.data.decks,
+            ...prev.data.decks,
             [nextDeck.id]: nextDeck,
           },
           history: {
-            ...state.data.history,
+            ...prev.data.history,
             [nextDeck.id]: [],
           },
         },
-      });
+      }));
 
       await state.deleteDeck(deck.id);
 

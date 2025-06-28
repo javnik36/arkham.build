@@ -48,7 +48,7 @@ i18n.on("languageChanged", (lng) => {
 
 export function changeLanguage(lng: Locale) {
   if (i18n.language === lng) return;
-  i18n.changeLanguage(lng);
+  return i18n.changeLanguage(lng);
 }
 
 export default i18n;

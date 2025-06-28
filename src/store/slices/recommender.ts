@@ -1,4 +1,5 @@
 import type { StateCreator } from "zustand";
+import { assert } from "@/utils/assert";
 import type { StoreState } from ".";
 import type { Id } from "./data.types";
 import type { RecommenderSlice, RecommenderState } from "./recommender.types";
@@ -44,62 +45,62 @@ export const createRecommenderSlice: StateCreator<
   [],
   [],
   RecommenderSlice
-> = (set, get) => ({
+> = (set) => ({
   ...getInitialRecommenderState(),
   setIncludeSideDeck(value: boolean) {
-    set({
-      recommender: {
-        ...get().recommender,
-        includeSideDeck: value,
-      },
-    });
-  },
-  setIsRelative(value: boolean) {
-    set({
-      recommender: {
-        ...get().recommender,
-        isRelative: value,
-      },
-    });
-  },
-  setRecommenderDeckFilter(value: [number, number]) {
-    set({
-      recommender: {
-        ...get().recommender,
-        deckFilter: value,
-      },
-    });
-  },
-  addCoreCard(deckId: Id, value: string) {
-    const state = get();
-
-    const currentState = state.recommender.coreCards[deckId] ?? [];
-    if (currentState.includes(value)) return;
-
-    set({
+    set((state) => ({
       recommender: {
         ...state.recommender,
-        coreCards: {
-          ...state.recommender.coreCards,
-          [deckId]: [...currentState, value],
-        },
+        includeSideDeck: value,
       },
+    }));
+  },
+  setIsRelative(value: boolean) {
+    set((state) => ({
+      recommender: {
+        ...state.recommender,
+        isRelative: value,
+      },
+    }));
+  },
+  setRecommenderDeckFilter(value: [number, number]) {
+    set((state) => ({
+      recommender: {
+        ...state.recommender,
+        deckFilter: value,
+      },
+    }));
+  },
+  addCoreCard(deckId: Id, value: string) {
+    set((state) => {
+      const current = state.recommender.coreCards[deckId] ?? [];
+      assert(!current.includes(value), `${value} already is a core card.`);
+
+      return {
+        recommender: {
+          ...state.recommender,
+          coreCards: {
+            ...state.recommender.coreCards,
+            [deckId]: [...current, value],
+          },
+        },
+      };
     });
   },
   removeCoreCard(deckId: Id, value: string) {
-    const state = get();
+    set((state) => {
+      const current = state.recommender.coreCards[deckId] ?? [];
+      assert(current.includes(value), `${value} is not a core card.`);
 
-    const currentState = state.recommender.coreCards[deckId] ?? [];
-    if (!currentState.includes(value)) return;
-
-    set({
-      recommender: {
-        ...state.recommender,
-        coreCards: {
-          ...state.recommender.coreCards,
-          [deckId]: currentState.filter((v) => v !== value),
+      return {
+        recommender: {
+          ...state.recommender,
+          coreCards: {
+            ...state.recommender.coreCards,
+            [deckId]: current.filter((v) => v !== value),
+          },
         },
-      },
+      };
     });
   },
 });

@@ -122,14 +122,7 @@ export type DeckEditsSlice = {
 
   updateAnnotation(deckId: Id, code: string, value: string | null): void;
 
-  upgradeCard(payload: {
-    availableUpgrades: AvailableUpgrades;
-    code: string;
-    deckId: Id;
-    delta: number;
-    slots: "slots" | "extraSlots";
-    upgradeCode: string;
-  }): void;
+  upgradeCard(payload: UpgradePayload): void;
 
   applyShrewdAnalysis(payload: {
     availableUpgrades: AvailableUpgrades;
@@ -137,4 +130,13 @@ export type DeckEditsSlice = {
     code: string;
     slots: "slots" | "extraSlots";
   }): void;
+};
+
+export type UpgradePayload = {
+  availableUpgrades: AvailableUpgrades;
+  code: string;
+  deckId: Id;
+  delta: number;
+  slots: "slots" | "extraSlots";
+  upgradeCode: string;
 };

@@ -14,17 +14,15 @@ export const createRemotingSlice: StateCreator<
   [],
   [],
   RemotingSlice
-> = (set, get) => ({
+> = (set) => ({
   remoting: getRemotingState(),
 
   setRemoting(name, value) {
-    const state = get();
-
-    set({
+    set((state) => ({
       remoting: {
         ...state.remoting,
         [name]: value,
       },
-    });
+    }));
   },
 });

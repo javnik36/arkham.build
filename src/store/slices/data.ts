@@ -25,72 +25,60 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
   ...getInitialDataState(),
 
   async importDeck(input) {
-    const state = get();
+    const { data, type } = await importDeck(selectClientId(get()), input);
 
-    const { data, type } = await importDeck(selectClientId(state), input);
-
-    const deck = formatDeckImport(state, data, type);
-
-    set({
-      data: {
-        ...state.data,
-        decks: {
-          ...state.data.decks,
-          [deck.id]: deck,
+    set((state) => {
+      const deck = formatDeckImport(state, data, type);
+      return {
+        data: {
+          ...state.data,
+          decks: {
+            ...state.data.decks,
+            [deck.id]: deck,
+          },
+          history: {
+            ...state.data.history,
+            [deck.id]: [],
+          },
         },
-        history: {
-          ...state.data.history,
-          [deck.id]: [],
-        },
-      },
+      };
     });
 
-    dehydrate(get(), "app");
+    await dehydrate(get(), "app");
   },
 
   async importFromFiles(files) {
-    let state = get();
-    const decks = [];
+    const decks: Deck[] = await Promise.all(
+      Array.from(files).map((file) => file.text().then(JSON.parse)),
+    ).then((res) => res.filter(isDeck));
 
-    for (const file of files) {
-      try {
-        const text = await file.text();
-        const parsed = JSON.parse(text);
+    get().cacheFanMadeContent(decks);
 
-        assert(isDeck(parsed), `file '${file.name}' is not an arkhamdb deck`);
+    const formatted = decks.map((deck) =>
+      formatDeckImport(get(), deck, "deck"),
+    );
 
-        state.cacheFanMadeContent([parsed]);
-        state = get();
-
-        const deck = formatDeckImport(state, parsed, "deck");
-
-        decks.push(deck);
-      } catch (err) {
-        console.error(`could not import deck '${file.name}':`, err);
-      }
-    }
-
-    set({
+    set((state) => ({
       data: {
         ...state.data,
         decks: {
           ...state.data.decks,
-          ...decks.reduce<Record<Id, Deck>>((acc, deck) => {
+          ...formatted.reduce<Record<Id, Deck>>((acc, deck) => {
             acc[deck.id] = deck;
             return acc;
           }, {}),
         },
         history: {
           ...state.data.history,
-          ...decks.reduce<Record<Id, string[]>>((acc, deck) => {
+          ...formatted.reduce<Record<Id, string[]>>((acc, deck) => {
             acc[deck.id] = [];
             return acc;
           }, {}),
         },
       },
-    });
+    }));
 
-    dehydrate(get(), "app");
+    await dehydrate(get(), "app");
   },
 
   async duplicateDeck(id, options) {
@@ -104,19 +92,19 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
       ? cloneDeck(applyDeckEdits(deck, state.deckEdits[id], metadata, true))
       : cloneDeck(deck);
 
-    set({
+    set((prev) => ({
       data: {
-        ...state.data,
+        ...prev.data,
         decks: {
-          ...state.data.decks,
+          ...prev.data.decks,
           [newDeck.id]: newDeck,
         },
         history: {
-          ...state.data.history,
+          ...prev.data.history,
           [newDeck.id]: [],
         },
       },
-    });
+    }));
 
     await dehydrate(get(), "app");
 

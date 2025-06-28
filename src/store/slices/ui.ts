@@ -1,5 +1,6 @@
 import type { StateCreator } from "zustand";
 import { buildCacheFromDecks } from "../lib/fan-made-content";
+import type { DeckFanMadeContent } from "../lib/types";
 import type { StoreState } from ".";
 import type { UISlice, UIState } from "./ui.types";
 
@@ -16,42 +17,47 @@ function getInitialUIState(): UIState {
 
 export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
   set,
-  get,
 ) => ({
   ...getInitialUIState(),
   setShowUnusableCards(showUnusableCards: boolean) {
-    set({ ui: { ...get().ui, showUnusableCards } });
+    set((state) => ({ ui: { ...state.ui, showUnusableCards } }));
   },
   setShowLimitedAccess(showLimitedAccess: boolean) {
-    set({ ui: { ...get().ui, showLimitedAccess } });
+    set((state) => ({ ui: { ...state.ui, showLimitedAccess } }));
   },
   cacheFanMadeContent(decks) {
-    set((state) => {
-      const cache = state.ui.fanMadeContentCache;
-      const deckContent = buildCacheFromDecks(decks);
-      return {
-        ui: {
-          ...state.ui,
-          fanMadeContentCache: {
-            cards: {
-              ...cache?.cards,
-              ...deckContent.cards,
-            },
-            cycles: {
-              ...cache?.cycles,
-              ...deckContent.cycles,
-            },
-            packs: {
-              ...cache?.packs,
-              ...deckContent.packs,
-            },
-            encounter_sets: {
-              ...cache?.encounter_sets,
-              ...deckContent.encounter_sets,
-            },
-          },
-        },
-      };
-    });
+    set((state) => ({
+      ui: {
+        ...state.ui,
+        fanMadeContentCache: mergeFanMadeContent(
+          state.ui.fanMadeContentCache,
+          buildCacheFromDecks(decks),
+        ),
+      },
+    }));
   },
 });
+
+export function mergeFanMadeContent(
+  a: Partial<DeckFanMadeContent> | undefined,
+  b: Partial<DeckFanMadeContent> | undefined,
+) {
+  return {
+    cards: {
+      ...a?.cards,
+      ...b?.cards,
+    },
+    cycles: {
+      ...a?.cycles,
+      ...b?.cycles,
+    },
+    packs: {
+      ...a?.packs,
+      ...b?.packs,
+    },
+    encounter_sets: {
+      ...a?.encounter_sets,
+      ...b?.encounter_sets,
+    },
+  };
+}

@@ -56,396 +56,392 @@ function getInitialList() {
 
 export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
   set,
-  get,
 ) => ({
   activeList: getInitialList(),
   lists: {},
 
   changeList(value, path) {
-    const state = get();
-    const prefix = path.includes("edit") ? "editor" : "browse";
-
-    const listKey = `${prefix}_${value}`;
-
-    if (state.lists[listKey]) {
-      set({
-        activeList: listKey,
-      });
-    }
+    set((state) => {
+      const prefix = path.includes("edit") ? "editor" : "browse";
+      const listKey = `${prefix}_${value}`;
+      assert(state.lists[listKey], `list ${listKey} not defined.`);
+      return { activeList: listKey };
+    });
   },
 
   resetFilters() {
-    const state = get();
-    if (!state.activeList) return;
+    set((state) => {
+      const activeList = state.activeList;
+      assert(activeList, "no active list is defined.");
 
-    const list = state.lists[state.activeList];
-    if (!list) return;
+      const list = state.lists[activeList];
+      assert(list, `list ${activeList} not defined.`);
 
-    set({
-      lists: {
-        ...state.lists,
-        [state.activeList]: makeList({
-          ...list,
-          initialValues: {
-            fan_made_content: getInitialFanMadeContentFilter(state.settings),
-            ownership: getInitialOwnershipFilter(state.settings),
-            subtype: getInitialSubtypeFilter(state.settings),
-          },
-        }),
-      },
+      return {
+        lists: {
+          ...state.lists,
+          [activeList]: makeList({
+            ...list,
+            initialValues: {
+              fan_made_content: getInitialFanMadeContentFilter(state.settings),
+              ownership: getInitialOwnershipFilter(state.settings),
+              subtype: getInitialSubtypeFilter(state.settings),
+            },
+          }),
+        },
+      };
     });
   },
 
   resetFilter(id) {
-    const state = get();
-    assert(state.activeList, "no active list is defined.");
+    set((state) => {
+      assert(state.activeList, "no active list is defined.");
 
-    const list = state.lists[state.activeList];
-    assert(list, `list ${state.activeList} not defined.`);
+      const list = state.lists[state.activeList];
+      assert(list, `list ${state.activeList} not defined.`);
 
-    const filterValues = { ...list.filterValues };
-    assert(filterValues[id], `${state.activeList} has not filter ${id}.`);
+      const filterValues = { ...list.filterValues };
+      assert(filterValues[id], `${state.activeList} has not filter ${id}.`);
 
-    filterValues[id] = makeFilterValue(filterValues[id].type, list.cardType);
+      filterValues[id] = makeFilterValue(filterValues[id].type, list.cardType);
 
-    set({
-      lists: {
-        ...state.lists,
-        [state.activeList]: {
-          ...list,
-          filterValues,
+      return {
+        lists: {
+          ...state.lists,
+          [state.activeList]: {
+            ...list,
+            filterValues,
+          },
         },
-      },
+      };
     });
   },
 
   setActiveList(value) {
-    const state = get();
-
     if (value == null) {
-      set({
-        activeList: undefined,
-      });
-    } else if (state.lists[value] && state.activeList !== value) {
-      set({
-        activeList: value,
+      set({ activeList: undefined });
+    } else {
+      set((state) => {
+        assert(state.lists[value], `list ${value} not defined.`);
+        return { activeList: value };
       });
     }
   },
 
   setFilterOpen(id, open) {
-    const state = get();
-    assert(state.activeList, "no active list is defined.");
+    set((state) => {
+      assert(state.activeList, "no active list is defined.");
 
-    const list = state.lists[state.activeList];
-    assert(list, `list ${state.activeList} not defined.`);
+      const list = state.lists[state.activeList];
+      assert(list, `list ${state.activeList} not defined.`);
 
-    const filterValues = { ...list.filterValues };
-    assert(filterValues[id], `${state.activeList} has not filter ${id}.`);
+      const filterValues = { ...list.filterValues };
+      assert(filterValues[id], `${state.activeList} has not filter ${id}.`);
 
-    filterValues[id] = { ...filterValues[id], open };
+      filterValues[id] = { ...filterValues[id], open };
 
-    set({
-      lists: {
-        ...state.lists,
-        [state.activeList]: {
-          ...list,
-          filterValues,
+      return {
+        lists: {
+          ...state.lists,
+          [state.activeList]: {
+            ...list,
+            filterValues,
+          },
         },
-      },
+      };
     });
   },
 
   setFilterValue(id, payload) {
-    const state = get();
+    set((state) => {
+      assert(state.activeList, "no active list is defined.");
 
-    assert(state.activeList, "no active list is defined.");
+      const list = state.lists[state.activeList];
+      assert(list, `list ${state.activeList} not defined.`);
 
-    const list = state.lists[state.activeList];
-    assert(list, `list ${state.activeList} not defined.`);
+      const filterValues = { ...list.filterValues };
+      assert(filterValues[id], `${state.activeList} has not filter ${id}.`);
 
-    const filterValues = { ...list.filterValues };
-    assert(filterValues[id], `${state.activeList} has not filter ${id}.`);
+      switch (filterValues[id].type) {
+        case "illustrator":
+        case "action":
+        case "encounter_set":
+        case "trait":
+        case "type":
+        case "pack":
+        case "faction": {
+          assert(
+            isMultiSelectFilter(payload),
+            `filter ${id} value must be an array.`,
+          );
+          filterValues[id] = { ...filterValues[id], value: payload };
+          break;
+        }
 
-    switch (filterValues[id].type) {
-      case "illustrator":
-      case "action":
-      case "encounter_set":
-      case "trait":
-      case "type":
-      case "pack":
-      case "faction": {
-        assert(
-          isMultiSelectFilter(payload),
-          `filter ${id} value must be an array.`,
-        );
-        filterValues[id] = { ...filterValues[id], value: payload };
-        break;
+        case "cost": {
+          const currentValue = filterValues[id].value as CostFilter;
+          const value = { ...currentValue, ...payload };
+
+          assert(
+            isCostFilter(value),
+            `filter ${id} value must be a cost object.`,
+          );
+
+          filterValues[id] = { ...filterValues[id], value };
+          break;
+        }
+
+        case "fan_made_content": {
+          assert(
+            isFanMadeContentFilter(payload),
+            `filter ${id} value must be a string.`,
+          );
+          filterValues[id] = { ...filterValues[id], value: payload };
+          break;
+        }
+
+        case "level": {
+          const currentValue = filterValues[id].value as LevelFilter;
+          const value = { ...currentValue, ...payload };
+
+          assert(
+            isLevelFilter(value),
+            `filter ${id} value must be an level object.`,
+          );
+
+          filterValues[id] = { ...filterValues[id], value };
+          break;
+        }
+
+        case "ownership": {
+          assert(
+            isOwnershipFilter(payload),
+            `filter ${id} value must be a string.`,
+          );
+          filterValues[id] = { ...filterValues[id], value: payload };
+          break;
+        }
+
+        case "investigator": {
+          assert(
+            typeof payload === "string",
+            `filter ${id} value must be a string.`,
+          );
+          filterValues[id] = { ...filterValues[id], value: payload };
+          break;
+        }
+
+        case "tabooSet": {
+          filterValues[id] = {
+            ...filterValues[id],
+            value: payload as number | undefined,
+          };
+          break;
+        }
+
+        case "subtype": {
+          const currentValue = filterValues[id].value as SubtypeFilter;
+          const value = { ...currentValue, ...payload };
+
+          assert(
+            isSubtypeFilter(value),
+            `filter ${id} value must be a map of booleans.`,
+          );
+
+          filterValues[id] = { ...filterValues[id], value };
+          break;
+        }
+
+        case "properties": {
+          const currentValue = filterValues[id].value as PropertiesFilter;
+          const value = { ...currentValue, ...payload };
+
+          assert(
+            isPropertiesFilter(value),
+            `filter ${id} value must be a map of booleans.`,
+          );
+
+          filterValues[id] = { ...filterValues[id], value };
+          break;
+        }
+
+        case "asset": {
+          const currentValue = filterValues[id].value as AssetFilter;
+          const value = { ...currentValue, ...payload };
+          assert(
+            isAssetFilter(value),
+            `filter ${id} value must be an asset object.`,
+          );
+
+          filterValues[id] = { ...filterValues[id], value };
+          break;
+        }
+
+        case "health":
+        case "sanity": {
+          assert(
+            isRangeFilter(payload),
+            `filter ${id} value must be an array of two numbers.`,
+          );
+          filterValues[id] = { ...filterValues[id], value: payload };
+          break;
+        }
+
+        case "skillIcons": {
+          assert(
+            isSkillIconsFilter(payload),
+            `filter ${id} value must be an object.`,
+          );
+          const currentValue = filterValues[id].value as SkillIconsFilter;
+          const value = { ...currentValue, ...payload };
+
+          filterValues[id] = { ...filterValues[id], value };
+          break;
+        }
+
+        case "investigator_skills": {
+          assert(
+            isInvestigatorSkillsFilter(payload),
+            `filter ${id} value must be an object.`,
+          );
+          filterValues[id] = { ...filterValues[id], value: payload };
+          break;
+        }
+
+        case "investigator_card_access": {
+          assert(
+            isMultiSelectFilter(payload),
+            `filter ${id} value must be an array.`,
+          );
+          filterValues[id] = { ...filterValues[id], value: payload };
+          break;
+        }
       }
 
-      case "cost": {
-        const currentValue = filterValues[id].value as CostFilter;
-        const value = { ...currentValue, ...payload };
-
-        assert(
-          isCostFilter(value),
-          `filter ${id} value must be a cost object.`,
-        );
-
-        filterValues[id] = { ...filterValues[id], value };
-        break;
-      }
-
-      case "fan_made_content": {
-        assert(
-          isFanMadeContentFilter(payload),
-          `filter ${id} value must be a string.`,
-        );
-        filterValues[id] = { ...filterValues[id], value: payload };
-        break;
-      }
-
-      case "level": {
-        const currentValue = filterValues[id].value as LevelFilter;
-        const value = { ...currentValue, ...payload };
-
-        assert(
-          isLevelFilter(value),
-          `filter ${id} value must be an level object.`,
-        );
-
-        filterValues[id] = { ...filterValues[id], value };
-        break;
-      }
-
-      case "ownership": {
-        assert(
-          isOwnershipFilter(payload),
-          `filter ${id} value must be a string.`,
-        );
-        filterValues[id] = { ...filterValues[id], value: payload };
-        break;
-      }
-
-      case "investigator": {
-        assert(
-          typeof payload === "string",
-          `filter ${id} value must be a string.`,
-        );
-        filterValues[id] = { ...filterValues[id], value: payload };
-        break;
-      }
-
-      case "tabooSet": {
-        filterValues[id] = {
-          ...filterValues[id],
-          value: payload as number | undefined,
-        };
-        break;
-      }
-
-      case "subtype": {
-        const currentValue = filterValues[id].value as SubtypeFilter;
-        const value = { ...currentValue, ...payload };
-
-        assert(
-          isSubtypeFilter(value),
-          `filter ${id} value must be a map of booleans.`,
-        );
-
-        filterValues[id] = { ...filterValues[id], value };
-        break;
-      }
-
-      case "properties": {
-        const currentValue = filterValues[id].value as PropertiesFilter;
-        const value = { ...currentValue, ...payload };
-
-        assert(
-          isPropertiesFilter(value),
-          `filter ${id} value must be a map of booleans.`,
-        );
-
-        filterValues[id] = { ...filterValues[id], value };
-        break;
-      }
-
-      case "asset": {
-        const currentValue = filterValues[id].value as AssetFilter;
-        const value = { ...currentValue, ...payload };
-        assert(
-          isAssetFilter(value),
-          `filter ${id} value must be an asset object.`,
-        );
-
-        filterValues[id] = { ...filterValues[id], value };
-        break;
-      }
-
-      case "health":
-      case "sanity": {
-        assert(
-          isRangeFilter(payload),
-          `filter ${id} value must be an array of two numbers.`,
-        );
-        filterValues[id] = { ...filterValues[id], value: payload };
-        break;
-      }
-
-      case "skillIcons": {
-        assert(
-          isSkillIconsFilter(payload),
-          `filter ${id} value must be an object.`,
-        );
-        const currentValue = filterValues[id].value as SkillIconsFilter;
-        const value = { ...currentValue, ...payload };
-
-        filterValues[id] = { ...filterValues[id], value };
-        break;
-      }
-
-      case "investigator_skills": {
-        assert(
-          isInvestigatorSkillsFilter(payload),
-          `filter ${id} value must be an object.`,
-        );
-        filterValues[id] = { ...filterValues[id], value: payload };
-        break;
-      }
-
-      case "investigator_card_access": {
-        assert(
-          isMultiSelectFilter(payload),
-          `filter ${id} value must be an array.`,
-        );
-        filterValues[id] = { ...filterValues[id], value: payload };
-        break;
-      }
-    }
-
-    set({
-      lists: {
-        ...state.lists,
-        [state.activeList]: {
-          ...list,
-          filterValues,
+      return {
+        lists: {
+          ...state.lists,
+          [state.activeList]: {
+            ...list,
+            filterValues,
+          },
         },
-      },
+      };
     });
   },
 
   setSearchFlag(flag, value) {
-    const state = get();
-    assert(state.activeList, "no active list is defined.");
+    set((state) => {
+      assert(state.activeList, "no active list is defined.");
 
-    const list = state.lists[state.activeList];
-    assert(list, `list ${state.activeList} not defined.`);
+      const list = state.lists[state.activeList];
+      assert(list, `list ${state.activeList} not defined.`);
 
-    set({
-      lists: {
-        ...state.lists,
-        [state.activeList]: {
-          ...list,
-          search: {
-            ...list.search,
-            [flag]: value,
+      return {
+        lists: {
+          ...state.lists,
+          [state.activeList]: {
+            ...list,
+            search: {
+              ...list.search,
+              [flag]: value,
+            },
           },
         },
-      },
+      };
     });
   },
 
   setSearchValue(value) {
-    const state = get();
-    assert(state.activeList, "no active list is defined.");
+    set((state) => {
+      assert(state.activeList, "no active list is defined.");
 
-    const list = state.lists[state.activeList];
-    assert(list, `list ${state.activeList} not defined.`);
+      const list = state.lists[state.activeList];
+      assert(list, `list ${state.activeList} not defined.`);
 
-    set({
-      lists: {
-        ...state.lists,
-        [state.activeList]: {
-          ...list,
-          search: {
-            ...list.search,
-            value,
+      return {
+        lists: {
+          ...state.lists,
+          [state.activeList]: {
+            ...list,
+            search: {
+              ...list.search,
+              value,
+            },
           },
         },
-      },
+      };
     });
   },
 
   setFiltersEnabled(value) {
-    const state = get();
-    assert(state.activeList, "no active list is defined.");
+    set((state) => {
+      assert(state.activeList, "no active list is defined.");
 
-    const list = state.lists[state.activeList];
-    assert(list, `list ${state.activeList} not defined.`);
+      const list = state.lists[state.activeList];
+      assert(list, `list ${state.activeList} not defined.`);
 
-    set({
-      lists: {
-        ...state.lists,
-        [state.activeList]: {
-          ...list,
-          filtersEnabled: value,
+      return {
+        lists: {
+          ...state.lists,
+          [state.activeList]: {
+            ...list,
+            filtersEnabled: value,
+          },
         },
-      },
+      };
     });
   },
 
   setListViewMode(viewMode) {
-    const state = get();
-    assert(state.activeList, "no active list is defined.");
+    set((state) => {
+      assert(state.activeList, "no active list is defined.");
 
-    const list = state.lists[state.activeList];
-    assert(list, `list ${state.activeList} not defined.`);
+      const list = state.lists[state.activeList];
+      assert(list, `list ${state.activeList} not defined.`);
 
-    set({
-      lists: {
-        ...state.lists,
-        [state.activeList]: {
-          ...list,
-          display: {
-            ...list.display,
-            viewMode,
+      return {
+        lists: {
+          ...state.lists,
+          [state.activeList]: {
+            ...list,
+            display: {
+              ...list.display,
+              viewMode,
+            },
           },
         },
-      },
+      };
     });
   },
 
   addList(key, cardType, initialValues) {
-    const state = get();
+    set((state) => {
+      const lists = { ...state.lists };
+      assert(!lists[key], `list ${key} already exists.`);
 
-    const lists = { ...state.lists };
-    assert(!lists[key], `list ${key} already exists.`);
+      assert(cardType === "player", "only player lists are supported for now.");
 
-    assert(cardType === "player", "only player lists are supported for now.");
+      lists[key] = makePlayerCardsList(key, state.settings, {
+        showInvestigators: true,
+        additionalFilters: ["illustrator"],
+        initialValues: {
+          ...initialValues,
+          fan_made_content: getInitialFanMadeContentFilter(state.settings),
+          ownership: getInitialOwnershipFilter(state.settings),
+          subtype: getInitialSubtypeFilter(state.settings),
+        },
+      });
 
-    lists[key] = makePlayerCardsList(key, state.settings, {
-      showInvestigators: true,
-      additionalFilters: ["illustrator"],
-      initialValues: {
-        ...initialValues,
-        fan_made_content: getInitialFanMadeContentFilter(state.settings),
-        ownership: getInitialOwnershipFilter(state.settings),
-        subtype: getInitialSubtypeFilter(state.settings),
-      },
-    });
-
-    set({
-      lists,
+      return { lists };
     });
   },
 
   removeList(key) {
-    const state = get();
-    const lists = { ...state.lists };
-    delete lists[key];
-
-    set({
-      lists,
+    set((state) => {
+      const lists = { ...state.lists };
+      delete lists[key];
+      return { lists };
     });
   },
 });

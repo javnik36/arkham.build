@@ -54,14 +54,14 @@ export const createSharingSlice: StateCreator<
       ),
     );
 
-    set({
+    set((prev) => ({
       sharing: {
         decks: {
-          ...state.sharing.decks,
+          ...prev.sharing.decks,
           [id]: deck.date_update,
         },
       },
-    });
+    }));
 
     await dehydrate(get(), "app");
   },
@@ -86,15 +86,15 @@ export const createSharingSlice: StateCreator<
       ),
     );
 
-    set({
+    set((prev) => ({
       sharing: {
-        ...state.sharing,
+        ...prev.sharing,
         decks: {
-          ...state.sharing.decks,
+          ...prev.sharing.decks,
           [deck.id]: deck.date_update,
         },
       },
-    });
+    }));
 
     await dehydrate(get(), "app");
 
@@ -108,13 +108,14 @@ export const createSharingSlice: StateCreator<
 
     await deleteShare(selectClientId(state), id);
 
-    const decks = { ...state.sharing.decks };
-    delete decks[id];
-
-    set({
-      sharing: {
-        decks,
-      },
+    set((prev) => {
+      const decks = { ...prev.sharing.decks };
+      delete decks[id];
+      return {
+        sharing: {
+          decks,
+        },
+      };
     });
 
     await dehydrate(get(), "app");
@@ -123,11 +124,11 @@ export const createSharingSlice: StateCreator<
   async deleteAllShares() {
     const state = get();
 
-    const decks = { ...state.sharing.decks };
-
     // TODO: surface this error.
     await Promise.all(
-      Object.keys(decks).map((id) => deleteShare(selectClientId(state), id)),
+      Object.keys(state.sharing.decks).map((id) =>
+        deleteShare(selectClientId(state), id),
+      ),
     ).catch(console.error);
 
     set({
@@ -149,19 +150,19 @@ export const createSharingSlice: StateCreator<
     const deck = formatDeckImport(state, importDeck as Deck, "deck");
     assert(isDeck(deck), "Invalid deck data.");
 
-    set({
+    set((prev) => ({
       data: {
-        ...state.data,
+        ...prev.data,
         decks: {
-          ...state.data.decks,
+          ...prev.data.decks,
           [deck.id]: deck,
         },
         history: {
-          ...state.data.history,
+          ...prev.data.history,
           [deck.id]: [],
         },
       },
-    });
+    }));
 
     await dehydrate(get(), "app");
 

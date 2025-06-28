@@ -1,3 +1,4 @@
+import { tryEnablePersistence } from "@/utils/persistence";
 import { time, timeEnd } from "@/utils/time";
 import type { StoreState } from "../slices";
 import { migrate } from "./migrate";
@@ -83,6 +84,8 @@ export async function dehydrate(
   ...types: ("all" | StorageType)[]
 ) {
   time("dehydration");
+
+  tryEnablePersistence();
 
   try {
     const partials = await Promise.all(

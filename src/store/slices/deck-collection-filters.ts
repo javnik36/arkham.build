@@ -35,35 +35,33 @@ export const createDeckFiltersSlice: StateCreator<
   [],
   [],
   DeckFiltersSlice
-> = (set, get) => ({
+> = (set) => ({
   deckFilters: getInitialUIState(),
   addDecksFilter(type, value) {
-    const state = get();
-    const filterValues = structuredClone(state.deckFilters.filters);
-    filterValues[type] = value;
+    set((state) => {
+      const filterValues = structuredClone(state.deckFilters.filters);
+      filterValues[type] = value;
 
-    set({
-      deckFilters: {
-        ...state.deckFilters,
-        filters: filterValues,
-      },
+      return {
+        deckFilters: {
+          ...state.deckFilters,
+          filters: filterValues,
+        },
+      };
     });
   },
 
   setDeckFilterOpen(filter, value) {
-    const state = get();
-
-    set({
+    set((state) => ({
       deckFilters: {
         ...state.deckFilters,
         open: { ...state.deckFilters.open, [filter]: value },
       },
-    });
+    }));
   },
 
   setDeckSort(payload) {
-    const state = get();
-    set({
+    set((state) => ({
       deckFilters: {
         ...state.deckFilters,
         sort: {
@@ -71,19 +69,19 @@ export const createDeckFiltersSlice: StateCreator<
           ...payload,
         },
       },
-    });
+    }));
   },
 
   resetDeckFilter(filter) {
-    const state = get();
-    const initialState = getInitialUIState().filters[filter];
-
-    set({
-      deckFilters: {
-        ...state.deckFilters,
-        open: { ...state.deckFilters.open },
-        filters: { ...state.deckFilters.filters, [filter]: initialState },
-      },
+    set((state) => {
+      const initialState = getInitialUIState().filters[filter];
+      return {
+        deckFilters: {
+          ...state.deckFilters,
+          open: { ...state.deckFilters.open },
+          filters: { ...state.deckFilters.filters, [filter]: initialState },
+        },
+      };
     });
   },
 });

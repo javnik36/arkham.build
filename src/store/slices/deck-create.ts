@@ -12,62 +12,62 @@ export const createDeckCreateSlice: StateCreator<
   [],
   [],
   DeckCreateSlice
-> = (set, get) => ({
+> = (set) => ({
   deckCreate: undefined,
 
   initCreate(code: string, initialInvestigatorChoice?: string) {
-    const state = get();
-    const metadata = selectMetadata(state);
-    const settings = state.settings;
-    const connections = selectConnectionsData(state);
+    set((state) => {
+      const metadata = selectMetadata(state);
+      const settings = state.settings;
+      const connections = selectConnectionsData(state);
 
-    const investigator = metadata.cards[code];
-
-    assert(
-      investigator && investigator.type_code === "investigator",
-      "Deck configure must be initialized with an investigator card.",
-    );
-
-    const canonicalCode = getCanonicalCardCode(investigator);
-
-    const choice = initialInvestigatorChoice
-      ? metadata.cards[initialInvestigatorChoice]
-      : undefined;
-
-    if (initialInvestigatorChoice) {
+      const investigator = metadata.cards[code];
       assert(
-        choice && choice.type_code === "investigator",
+        investigator && investigator.type_code === "investigator",
         "Deck configure must be initialized with an investigator card.",
       );
 
-      assert(
-        choice.real_name === investigator.real_name,
-        "Parallel investigator must have the same real name as the investigator.",
-      );
-    }
+      const canonicalCode = getCanonicalCardCode(investigator);
 
-    const provider = settings.defaultStorageProvider;
+      const choice = initialInvestigatorChoice
+        ? metadata.cards[initialInvestigatorChoice]
+        : undefined;
 
-    // when arkhamdb is set as default storage, but not available, default to local.
-    const providerExists =
-      provider !== "arkhamdb" ||
-      connections.some((c) => c.provider === provider);
+      if (initialInvestigatorChoice) {
+        assert(
+          choice && choice.type_code === "investigator",
+          "Deck configure must be initialized with an investigator card.",
+        );
 
-    set({
-      deckCreate: {
-        extraCardQuantities: {},
-        investigatorBackCode: choice ? choice.code : canonicalCode,
-        investigatorCode: canonicalCode,
-        investigatorFrontCode: choice ? choice.code : canonicalCode,
-        provider: providerExists ? provider : "local",
-        selections: {},
-        sets: ["requiredCards"],
-        tabooSetId: state.settings.tabooSetId ?? undefined,
-        title: getDefaultDeckName(
-          displayAttribute(investigator, "name"),
-          investigator.faction_code,
-        ),
-      },
+        assert(
+          choice.real_name === investigator.real_name,
+          "Parallel investigator must have the same real name as the investigator.",
+        );
+      }
+
+      const provider = settings.defaultStorageProvider;
+
+      // when arkhamdb is set as default storage, but not available, default to local.
+      const providerExists =
+        provider !== "arkhamdb" ||
+        connections.some((c) => c.provider === provider);
+
+      return {
+        deckCreate: {
+          extraCardQuantities: {},
+          investigatorBackCode: choice ? choice.code : canonicalCode,
+          investigatorCode: canonicalCode,
+          investigatorFrontCode: choice ? choice.code : canonicalCode,
+          provider: providerExists ? provider : "local",
+          selections: {},
+          sets: ["requiredCards"],
+          tabooSetId: state.settings.tabooSetId ?? undefined,
+          title: getDefaultDeckName(
+            displayAttribute(investigator, "name"),
+            investigator.faction_code,
+          ),
+        },
+      };
     });
   },
 
@@ -78,69 +78,71 @@ export const createDeckCreateSlice: StateCreator<
   },
 
   deckCreateSetTitle(value: string) {
-    const state = get();
-    assert(state.deckCreate, "DeckCreate slice must be initialized.");
+    set((state) => {
+      assert(state.deckCreate, "DeckCreate slice must be initialized.");
 
-    set({
-      deckCreate: {
-        ...state.deckCreate,
-        title: value,
-      },
+      return {
+        deckCreate: {
+          ...state.deckCreate,
+          title: value,
+        },
+      };
     });
   },
 
   deckCreateSetTabooSet(value: number | undefined) {
-    const state = get();
-    assert(state.deckCreate, "DeckCreate slice must be initialized.");
+    set((state) => {
+      assert(state.deckCreate, "DeckCreate slice must be initialized.");
 
-    set({
-      deckCreate: {
-        ...state.deckCreate,
-        tabooSetId: value,
-      },
+      return {
+        deckCreate: {
+          ...state.deckCreate,
+          tabooSetId: value,
+        },
+      };
     });
   },
 
   deckCreateSetInvestigatorCode(value: string, side?: "front" | "back") {
-    const state = get();
+    set((state) => {
+      assert(state.deckCreate, "DeckCreate slice must be initialized.");
 
-    assert(state.deckCreate, "DeckCreate slice must be initialized.");
+      if (!side) {
+        return {
+          deckCreate: {
+            ...state.deckCreate,
+            investigatorCode: value,
+            investigatorFrontCode: value,
+            investigatorBackCode: value,
+          },
+        };
+      }
 
-    if (!side) {
-      set({
+      const path =
+        side === "front" ? "investigatorFrontCode" : "investigatorBackCode";
+
+      return {
         deckCreate: {
           ...state.deckCreate,
-          investigatorCode: value,
-          investigatorFrontCode: value,
-          investigatorBackCode: value,
+          [path]: value,
         },
-      });
-      return;
-    }
-
-    const path =
-      side === "front" ? "investigatorFrontCode" : "investigatorBackCode";
-
-    set({
-      deckCreate: {
-        ...state.deckCreate,
-        [path]: value,
-      },
+      };
     });
   },
 
   deckCreateSetSelection(key, value) {
-    const state = get();
-    assert(state.deckCreate, "DeckCreate slice must be initialized.");
+    set((state) => {
+      assert(state.deckCreate, "DeckCreate slice must be initialized.");
 
-    set({
-      deckCreate: {
-        ...state.deckCreate,
-        selections: {
-          ...state.deckCreate.selections,
-          [key]: value,
+      return {
+        deckCreate: {
+          ...state.deckCreate,
+          selections: {
+            ...state.deckCreate.selections,
+            [key]: value,
+          },
         },
-      },
+      };
     });
   },
 
@@ -169,51 +171,54 @@ export const createDeckCreateSlice: StateCreator<
   },
 
   deckCreateChangeExtraCardQuantity(card, quantity) {
-    const state = get();
-    assert(state.deckCreate, "DeckCreate slice must be initialized.");
+    set((state) => {
+      assert(state.deckCreate, "DeckCreate slice must be initialized.");
 
-    const currentQuantity =
-      state.deckCreate.extraCardQuantities[card.code] ?? card.quantity;
+      const currentQuantity =
+        state.deckCreate.extraCardQuantities[card.code] ?? card.quantity;
 
-    set({
-      deckCreate: {
-        ...state.deckCreate,
-        extraCardQuantities: {
-          ...state.deckCreate.extraCardQuantities,
-          [card.code]: currentQuantity + quantity,
+      return {
+        deckCreate: {
+          ...state.deckCreate,
+          extraCardQuantities: {
+            ...state.deckCreate.extraCardQuantities,
+            [card.code]: currentQuantity + quantity,
+          },
         },
-      },
+      };
     });
   },
   deckCreateSetCardPool(value) {
-    const state = get();
-    assert(state.deckCreate, "DeckCreate slice must be initialized.");
-
-    set({
-      deckCreate: {
-        ...state.deckCreate,
-        cardPool: value,
-      },
+    set((state) => {
+      assert(state.deckCreate, "DeckCreate slice must be initialized.");
+      return {
+        deckCreate: {
+          ...state.deckCreate,
+          cardPool: value,
+        },
+      };
     });
   },
   deckCreateSetSealed(sealed) {
-    const state = get();
-    assert(state.deckCreate, "DeckCreate slice must be initialized.");
-    set({
-      deckCreate: {
-        ...state.deckCreate,
-        sealed,
-      },
+    set((state) => {
+      assert(state.deckCreate, "DeckCreate slice must be initialized.");
+      return {
+        deckCreate: {
+          ...state.deckCreate,
+          sealed,
+        },
+      };
     });
   },
   deckCreateSetProvider(provider) {
-    const state = get();
-    assert(state.deckCreate, "DeckCreate slice must be initialized.");
-    set({
-      deckCreate: {
-        ...state.deckCreate,
-        provider,
-      },
+    set((state) => {
+      assert(state.deckCreate, "DeckCreate slice must be initialized.");
+      return {
+        deckCreate: {
+          ...state.deckCreate,
+          provider,
+        },
+      };
     });
   },
 });

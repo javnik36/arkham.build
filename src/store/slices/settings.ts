@@ -90,40 +90,38 @@ export const createSettingsSlice: StateCreator<
     const state = get();
 
     if (settings.locale !== state.settings.locale) {
-      set({
-        settings: {
-          ...state.settings,
-          ...settings,
-        },
-      });
-
-      changeLanguage(settings.locale);
-
       await state.init(
         queryMetadata,
         queryDataVersion,
         queryCards,
         true,
         settings.locale,
+        {
+          lists: makeLists(settings),
+          settings: {
+            ...state.settings,
+            ...settings,
+          },
+        },
       );
+
+      await changeLanguage(settings.locale);
+    } else {
+      set({
+        settings,
+        lists: makeLists(settings),
+      });
+
+      await dehydrate(get(), "app");
     }
-
-    set({
-      settings,
-      lists: makeLists(settings),
-    });
-
-    await dehydrate(get(), "app");
   },
   async setSettings(payload) {
-    const state = get();
-
-    set({
+    set((state) => ({
       settings: {
         ...state.settings,
         ...payload,
       },
-    });
+    }));
 
     await dehydrate(get(), "app");
   },

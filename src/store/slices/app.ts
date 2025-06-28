@@ -14,7 +14,6 @@ import {
 } from "@/utils/constants";
 import { randomId } from "@/utils/crypto";
 import { download } from "@/utils/download";
-import { tryEnablePersistence } from "@/utils/persistence";
 import { time, timeEnd } from "@/utils/time";
 import { prepareBackup, restoreBackup } from "../lib/backup";
 import { applyCardChanges } from "../lib/card-edits";
@@ -69,7 +68,14 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 ) => ({
   app: getInitialAppState(),
 
-  async init(queryMetadata, queryDataVersion, queryCards, refresh, locale) {
+  async init(
+    queryMetadata,
+    queryDataVersion,
+    queryCards,
+    refresh,
+    locale,
+    overrides,
+  ) {
     const persistedState = await hydrate();
 
     if (!refresh && persistedState?.metadata?.dataVersion?.cards_updated_at) {
@@ -81,7 +87,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       };
 
       set((prev) => {
-        const merged = mergeInitialState(prev, persistedState);
+        const merged = mergeInitialState(prev, persistedState, overrides);
 
         return {
           ...merged,
@@ -195,7 +201,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     }
 
     set((prev) => {
-      const merged = mergeInitialState(prev, persistedState);
+      const merged = mergeInitialState(prev, persistedState, overrides);
 
       return {
         ...merged,
@@ -346,20 +352,20 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       }
     }
 
-    set({
+    set((prev) => ({
       data: {
-        ...state.data,
+        ...prev.data,
         decks: {
-          ...state.data.decks,
+          ...prev.data.decks,
           [deck.id]: deck,
         },
         history: {
-          ...state.data.history,
+          ...prev.data.history,
           [deck.id]: [],
         },
       },
       deckCreate: undefined,
-    });
+    }));
 
     await dehydrate(get(), "app");
 
@@ -371,25 +377,9 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
   },
   async deleteDeck(id, cb) {
     const state = get();
-    const decks = { ...state.data.decks };
 
-    const deckEdits = { ...state.deckEdits };
-    delete deckEdits[id];
-
-    const deck = decks[id];
+    const deck = state.data.decks[id];
     assert(deck.next_deck == null, "Cannot delete a deck that has upgrades.");
-
-    delete decks[id];
-    const history = { ...state.data.history };
-    const undoHistory = { ...state.data.undoHistory };
-
-    const historyEntries = history[id] ?? [];
-
-    for (const prevId of historyEntries) {
-      delete decks[prevId];
-      delete deckEdits[prevId];
-      delete undoHistory[prevId];
-    }
 
     if (deck.source === "arkhamdb") {
       state.setRemoting("arkhamdb", true);
@@ -403,58 +393,75 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       }
     } else {
       await Promise.allSettled(
-        [...history[id], deck.id].map((curr) =>
+        [...state.data.history[id], deck.id].map((curr) =>
           state.deleteShare(curr as string),
         ),
       );
     }
 
-    delete history[id];
-    delete undoHistory[id];
-
     cb?.();
 
-    set({
-      data: {
-        ...state.data,
-        decks,
-        history,
-        undoHistory,
-      },
-      deckEdits,
+    set((prev) => {
+      const history = { ...prev.data.history };
+      const undoHistory = { ...prev.data.undoHistory };
+      const decks = { ...prev.data.decks };
+      const deckEdits = { ...prev.deckEdits };
+
+      delete deckEdits[id];
+      delete decks[id];
+      delete history[id];
+      delete undoHistory[id];
+
+      const historyEntries = history[id] ?? [];
+
+      for (const prevId of historyEntries) {
+        delete decks[prevId];
+        delete deckEdits[prevId];
+        delete undoHistory[prevId];
+      }
+
+      return {
+        data: {
+          ...prev.data,
+          decks,
+          history,
+          undoHistory,
+        },
+        deckEdits,
+      };
     });
 
     await dehydrate(get(), "app", "edits");
   },
   async deleteAllDecks() {
-    const state = get();
+    set((state) => {
+      const decks = { ...state.data.decks };
+      const history = { ...state.data.history };
+      const edits = { ...state.deckEdits };
+      const undoHistory = { ...state.data.undoHistory };
 
-    const decks = { ...state.data.decks };
-    const history = { ...state.data.history };
-    const edits = { ...state.deckEdits };
-    const undoHistory = { ...state.data.undoHistory };
-
-    for (const id of Object.keys(decks)) {
-      if (decks[id].source !== "arkhamdb") {
-        delete decks[id];
-        delete history[id];
-        delete edits[id];
-        delete undoHistory[id];
+      for (const id of Object.keys(decks)) {
+        if (decks[id].source !== "arkhamdb") {
+          delete decks[id];
+          delete history[id];
+          delete edits[id];
+          delete undoHistory[id];
+        }
       }
-    }
 
-    set({
-      data: {
-        ...state.data,
-        decks,
-        history,
-      },
+      return {
+        data: {
+          ...state.data,
+          decks,
+          history,
+        },
+      };
     });
 
     await dehydrate(get(), "app", "edits");
 
-    if (Object.keys(state.sharing.decks).length) {
-      await state.deleteAllShares().catch(console.error);
+    if (Object.keys(get().sharing.decks).length) {
+      await get().deleteAllShares().catch(console.error);
     }
   },
   // TECH DEBT: Generalize.
@@ -508,8 +515,6 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         },
       };
     });
-
-    tryEnablePersistence();
 
     await dehydrate(get(), "app", "edits");
 
@@ -572,43 +577,47 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       await state.updateShare(nextDeck);
     }
 
-    const deckEdits = { ...state.deckEdits };
-    delete deckEdits[deckId];
+    set((prev) => {
+      const deckEdits = { ...prev.deckEdits };
+      delete deckEdits[deckId];
 
-    const undoHistory = { ...state.data.undoHistory };
+      const undoHistory = { ...prev.data.undoHistory };
 
-    const resolveState = {
-      metadata: selectMetadata(state),
-      lookupTables: selectLookupTables(state),
-      sharing: state.sharing,
-    };
+      const resolveState = {
+        metadata: selectMetadata(state),
+        lookupTables: selectLookupTables(state),
+        sharing: state.sharing,
+      };
 
-    const undoEntry = {
-      changes: getChangeRecord(
-        resolveDeck(resolveState, selectLocaleSortingCollator(state), deck),
-        resolveDeck(resolveState, selectLocaleSortingCollator(state), nextDeck),
-        true,
-      ),
-      date_update: nextDeck.date_update,
-      version: nextDeck.version,
-    };
+      const undoEntry = {
+        changes: getChangeRecord(
+          resolveDeck(resolveState, selectLocaleSortingCollator(state), deck),
+          resolveDeck(
+            resolveState,
+            selectLocaleSortingCollator(state),
+            nextDeck,
+          ),
+          true,
+        ),
+        date_update: nextDeck.date_update,
+        version: nextDeck.version,
+      };
 
-    set({
-      deckEdits,
-      data: {
-        ...state.data,
-        decks: {
-          ...state.data.decks,
-          [nextDeck.id]: nextDeck,
+      return {
+        deckEdits,
+        data: {
+          ...prev.data,
+          decks: {
+            ...prev.data.decks,
+            [nextDeck.id]: nextDeck,
+          },
+          undoHistory: {
+            ...undoHistory,
+            [nextDeck.id]: [...(undoHistory[nextDeck.id] ?? []), undoEntry],
+          },
         },
-        undoHistory: {
-          ...undoHistory,
-          [nextDeck.id]: [...(undoHistory[nextDeck.id] ?? []), undoEntry],
-        },
-      },
+      };
     });
-
-    tryEnablePersistence();
 
     await dehydrate(get(), "app", "edits");
     return nextDeck.id;
@@ -742,43 +751,43 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       );
     }
 
-    const history = { ...state.data.history };
-    history[newDeck.id] = [deck.id, ...history[deck.id]];
-    delete history[deck.id];
+    set((prev) => {
+      const history = { ...prev.data.history };
+      history[newDeck.id] = [deck.id, ...history[deck.id]];
+      delete history[deck.id];
 
-    const deckEdits = { ...state.deckEdits };
-    delete deckEdits[deck.id];
+      const deckEdits = { ...prev.deckEdits };
+      delete deckEdits[deck.id];
 
-    const undoHistory = { ...state.data.undoHistory };
-    delete undoHistory[deck.id];
+      const undoHistory = { ...prev.data.undoHistory };
+      delete undoHistory[deck.id];
 
-    const sharedDecks = { ...state.sharing.decks };
-    if (isShared) {
-      sharedDecks[newDeck.id] = newDeck.date_update;
-    }
+      const sharedDecks = { ...prev.sharing.decks };
+      if (isShared) {
+        sharedDecks[newDeck.id] = newDeck.date_update;
+      }
 
-    set({
-      deckEdits,
-      data: {
-        ...state.data,
-        decks: {
-          ...state.data.decks,
-          [deck.id]: {
-            ...deck,
-            next_deck: newDeck.id,
+      return {
+        deckEdits,
+        data: {
+          ...prev.data,
+          decks: {
+            ...prev.data.decks,
+            [deck.id]: {
+              ...deck,
+              next_deck: newDeck.id,
+            },
+            [newDeck.id]: newDeck,
           },
-          [newDeck.id]: newDeck,
+          history,
+          undoHistory,
         },
-        history,
-        undoHistory,
-      },
-      sharing: {
-        ...state.sharing,
-        decks: sharedDecks,
-      },
+        sharing: {
+          ...prev.sharing,
+          decks: sharedDecks,
+        },
+      };
     });
-
-    tryEnablePersistence();
 
     await dehydrate(get(), "app", "edits");
     return newDeck;
@@ -787,31 +796,17 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     const state = get();
 
     const deck = state.data.decks[id];
-    assert(deck, `Deck ${id} does not exist.`);
 
     const previousId = deck.previous_deck;
 
+    assert(deck, `Deck ${id} does not exist.`);
     assert(previousId, "Deck does not have a previous deck");
+    assert(state.data.decks[previousId], "Previous deck does not exist");
 
-    const decks = { ...state.data.decks };
-    assert(decks[previousId], "Previous deck does not exist");
-
-    const history = { ...state.data.history };
-
-    const deckHistory = history[deck.id];
-    assert(Array.isArray(deckHistory), "Deck history does not exist");
-
-    history[previousId] = deckHistory.filter((x) => deck.previous_deck !== x);
-    delete history[deck.id];
-
-    decks[previousId] = { ...decks[previousId], next_deck: null };
-    delete decks[deck.id];
-
-    const deckEdits = { ...state.deckEdits };
-    delete deckEdits[deck.id];
-
-    const undoHistory = { ...state.data.undoHistory };
-    delete undoHistory[deck.id];
+    assert(
+      Array.isArray(state.data.history[deck.id]),
+      "Deck history does not exist",
+    );
 
     if (deck.source === "arkhamdb") {
       state.setRemoting("arkhamdb", true);
@@ -830,14 +825,32 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     cb?.(previousId);
 
-    set({
-      deckEdits,
-      data: {
-        ...state.data,
-        decks,
-        history,
-        undoHistory,
-      },
+    set((prev) => {
+      const decks = { ...prev.data.decks };
+      const history = { ...prev.data.history };
+      const deckHistory = history[deck.id];
+
+      history[previousId] = deckHistory.filter((x) => deck.previous_deck !== x);
+      delete history[deck.id];
+
+      decks[previousId] = { ...decks[previousId], next_deck: null };
+      delete decks[deck.id];
+
+      const deckEdits = { ...prev.deckEdits };
+      delete deckEdits[deck.id];
+
+      const undoHistory = { ...prev.data.undoHistory };
+      delete undoHistory[deck.id];
+
+      return {
+        deckEdits,
+        data: {
+          ...prev.data,
+          decks,
+          history,
+          undoHistory,
+        },
+      };
     });
 
     await dehydrate(get(), "app", "edits");
@@ -855,16 +868,16 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     await dehydrate(get(), "app");
   },
   async dismissBanner(bannerId) {
-    const state = get();
+    set((state) => {
+      const banners = new Set(state.app.bannersDismissed);
+      banners.add(bannerId);
 
-    const banners = new Set(state.app.bannersDismissed);
-    banners.add(bannerId);
-
-    set({
-      app: {
-        ...state.app,
-        bannersDismissed: Array.from(banners),
-      },
+      return {
+        app: {
+          ...state.app,
+          bannersDismissed: Array.from(banners),
+        },
+      };
     });
 
     await dehydrate(get(), "app");
@@ -874,20 +887,26 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 function mergeInitialState(
   initialState: StoreState,
   persistedState: Partial<StoreState> | undefined,
+  partial: Partial<StoreState> | undefined,
 ) {
   return {
     ...initialState,
     ...persistedState,
+    ...partial,
     app: {
       ...persistedState?.app,
-      clientId: persistedState?.app?.clientId || randomId(),
+      ...partial?.app,
+      clientId:
+        partial?.app?.clientId || persistedState?.app?.clientId || randomId(),
     },
     settings: {
       ...initialState.settings,
       ...persistedState?.settings,
+      ...partial?.settings,
       lists: {
         ...initialState.settings.lists,
         ...persistedState?.settings?.lists,
+        ...partial?.settings?.lists,
       },
     },
   };
