@@ -21,7 +21,7 @@ import {
   makeOptionFilter,
 } from "./filtering";
 import type { LookupTables } from "./lookup-tables.types";
-import type { ResolvedDeck } from "./types";
+import type { DeckMeta, ResolvedDeck } from "./types";
 
 export type DeckValidationResult = {
   valid: boolean;
@@ -225,7 +225,8 @@ function validateInvestigator(deck: ResolvedDeck) {
         !!deck.metaParsed.faction_selected ||
         (!!deck.metaParsed.faction_1 && !!deck.metaParsed.faction_2);
     } else if (option.option_select) {
-      valid = !!deck.metaParsed.option_selected;
+      const key = option.id ?? "option_selected";
+      valid = !!deck.metaParsed[key as keyof DeckMeta];
     }
 
     if (!valid) break;

@@ -68,7 +68,7 @@ export function decodeSelections(
           accessor: key,
           name: option.name ?? key,
           value: option.option_select.find(
-            (x) => x.id === deckMeta.option_selected,
+            (x) => x.id === deckMeta[key as keyof DeckMeta],
           ),
         };
       }

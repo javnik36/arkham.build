@@ -927,7 +927,7 @@ export function makeOptionFilter(
   if (option.option_select) {
     const selectFilters: Filter[] = [];
 
-    let selection = config?.selections?.["option_selected"]?.value;
+    let selection = config?.selections?.[option.id ?? "option_selected"]?.value;
     selection = isOptionSelect(selection) ? selection.id : undefined;
 
     for (const select of option.option_select) {

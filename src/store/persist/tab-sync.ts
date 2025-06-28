@@ -16,6 +16,8 @@ export class TabSync {
   }
 
   send(state: Partial<StoreState>, retry = 0) {
+    if (import.meta.env.MODE === "test") return;
+
     assert(this.broadcastChannel, "BroadcastChannel is not initialized");
 
     try {
