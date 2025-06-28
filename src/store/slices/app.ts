@@ -409,8 +409,6 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
       delete deckEdits[id];
       delete decks[id];
-      delete history[id];
-      delete undoHistory[id];
 
       const historyEntries = history[id] ?? [];
 
@@ -419,6 +417,9 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         delete deckEdits[prevId];
         delete undoHistory[prevId];
       }
+
+      delete history[id];
+      delete undoHistory[id];
 
       return {
         data: {
@@ -887,26 +888,26 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 function mergeInitialState(
   initialState: StoreState,
   persistedState: Partial<StoreState> | undefined,
-  partial: Partial<StoreState> | undefined,
+  overrides: Partial<StoreState> | undefined,
 ) {
   return {
     ...initialState,
     ...persistedState,
-    ...partial,
+    ...overrides,
     app: {
       ...persistedState?.app,
-      ...partial?.app,
+      ...overrides?.app,
       clientId:
-        partial?.app?.clientId || persistedState?.app?.clientId || randomId(),
+        overrides?.app?.clientId || persistedState?.app?.clientId || randomId(),
     },
     settings: {
       ...initialState.settings,
       ...persistedState?.settings,
-      ...partial?.settings,
+      ...overrides?.settings,
       lists: {
         ...initialState.settings.lists,
         ...persistedState?.settings?.lists,
-        ...partial?.settings?.lists,
+        ...overrides?.settings?.lists,
       },
     },
   };
