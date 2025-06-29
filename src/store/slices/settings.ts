@@ -89,6 +89,10 @@ export const createSettingsSlice: StateCreator<
   async applySettings(settings) {
     const state = get();
 
+    // This has to happen first, since the constructed metadata in `init` depends on the locale in some places.
+    // TODO: revisit where this dependency is coming from.
+    await changeLanguage(settings.locale);
+
     if (settings.locale !== state.settings.locale) {
       await state.init(
         queryMetadata,
@@ -104,8 +108,6 @@ export const createSettingsSlice: StateCreator<
           },
         },
       );
-
-      await changeLanguage(settings.locale);
     } else {
       set({
         settings,
