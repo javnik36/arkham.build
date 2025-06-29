@@ -116,7 +116,6 @@ export function CardGrid(props: CardListImplementationProps) {
           customScrollParent={scrollParent}
           ref={virtuosoRef}
           data={data.groups}
-          defaultItemHeight={400}
           overscan={2}
           rangeChanged={rangeChanged}
           itemContent={(index, group) => (

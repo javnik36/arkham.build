@@ -207,6 +207,7 @@ export function CardList(props: CardListImplementationProps) {
           />
         ) : (
           <GroupedVirtuoso
+            skipAnimationFrameInResizeObserver
             context={{ currentTop }}
             customScrollParent={scrollParent}
             groupContent={(index) => (
