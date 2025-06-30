@@ -77,11 +77,10 @@ test.describe("settings", () => {
     await page.getByTestId("search-game-text").click();
     await fillSearch(page, "Mutated");
 
-    await expect(
-      page.getByRole("button", { name: "Rex Murphy" }),
-    ).toBeVisible();
-
-    await page.getByRole("button", { name: "Rex Murphy" }).click();
+    await page
+      .getByTestId("listcard-02002")
+      .getByTestId("listcard-title")
+      .click();
     await expect(page.getByTestId("card-text").first()).toContainText(
       "Mutated. After you succeed at a skill test by 2 or more while investigating: Discover 1 clue at your location. (Limit once per round.)",
     );

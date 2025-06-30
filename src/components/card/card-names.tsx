@@ -1,8 +1,10 @@
+import { useCallback } from "react";
 import { Link } from "wouter";
 import { useStore } from "@/store";
 import type { Card } from "@/store/services/queries.types";
 import { displayAttribute, parseCardTitle } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
+import { preventLeftClick } from "@/utils/prevent-links";
 import { useCardModalContextChecked } from "../card-modal/card-modal-context";
 import { CardName } from "../card-name";
 import { UniqueIcon } from "../icons/unique-icon";
@@ -42,24 +44,34 @@ export function CardNames(props: Props) {
     </>
   );
 
+  const hasModal =
+    (titleLinks === "card-modal" && cardModalContext) ||
+    (titleLinks === "dialog" && dialogContext);
+
+  const onCardTitleClick = useCallback(
+    (evt: React.MouseEvent<HTMLAnchorElement>) => {
+      const linkPrevented = preventLeftClick(evt);
+      if (linkPrevented) {
+        if (titleLinks === "card-modal") {
+          cardModalContext.setOpen({ code: card.code });
+        } else if (dialogContext) {
+          dialogContext.setOpen(true);
+        }
+      }
+    },
+    [card.code, cardModalContext, dialogContext, titleLinks],
+  );
+
   return (
     <div className={css["name-row"]}>
       <h1 className={css["name"]} data-testid="card-name">
         {titleLinks === "card" && (
           <Link href={`/card/${card.code}`}>{cardName}</Link>
         )}
-        {titleLinks === "card-modal" && cardModalContext && (
-          <button
-            onClick={() => cardModalContext.setOpen({ code: card.code })}
-            type="button"
-          >
+        {hasModal && (
+          <Link href={`~/card/${card.code}`} onClick={onCardTitleClick}>
             {cardName}
-          </button>
-        )}
-        {titleLinks === "dialog" && dialogContext && (
-          <button onClick={() => dialogContext.setOpen(true)} type="button">
-            {cardName}
-          </button>
+          </Link>
         )}
         {!titleLinks && cardName}
       </h1>

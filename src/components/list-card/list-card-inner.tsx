@@ -2,6 +2,7 @@ import type { ReferenceType } from "@floating-ui/react";
 import { FileWarningIcon, StarIcon } from "lucide-react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "wouter";
 import type { Card } from "@/store/services/queries.types";
 import type { SettingsState } from "@/store/slices/settings.types";
 import {
@@ -15,6 +16,7 @@ import {
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { cx } from "@/utils/cx";
 import { dataLanguage } from "@/utils/formatting";
+import { preventLeftClick } from "@/utils/prevent-links";
 import { AnnotationIndicator } from "../annotation-indicator";
 import { CardDetails } from "../card/card-details";
 import { CardIcons } from "../card/card-icons";
@@ -28,6 +30,7 @@ import { MulticlassIcons } from "../icons/multiclass-icons";
 import { SkillIcons } from "../skill-icons/skill-icons";
 import { SkillIconsInvestigator } from "../skill-icons/skill-icons-investigator";
 import { TabooIndicator } from "../taboo-indicator";
+import { useDialogContext } from "../ui/dialog.hooks";
 import { QuantityInput } from "../ui/quantity-input";
 import { QuantityOutput } from "../ui/quantity-output";
 import { DefaultTooltip } from "../ui/tooltip";
@@ -65,6 +68,7 @@ export type Props = {
   size?: "xs" | "sm" | "investigator";
   showCardText?: boolean;
   showInvestigatorIcons?: boolean;
+  titleOpens?: "card-modal" | "dialog";
 };
 
 export function ListCardInner(props: Props) {
@@ -98,10 +102,12 @@ export function ListCardInner(props: Props) {
     showCardText,
     showInvestigatorIcons,
     size,
+    titleOpens = "card-modal",
   } = props;
 
   const { t } = useTranslation();
   const modalContext = useCardModalContextChecked();
+  const dialogContext = useDialogContext();
 
   const ignoredCount = isIgnored ?? 0;
 
@@ -115,9 +121,19 @@ export function ListCardInner(props: Props) {
     [onChangeCardQuantity, card],
   );
 
-  const openModal = useCallback(() => {
-    modalContext.setOpen({ code: card.code });
-  }, [modalContext, card.code]);
+  const openModal = useCallback(
+    (evt: React.MouseEvent) => {
+      const linkPrevented = preventLeftClick(evt);
+      if (linkPrevented) {
+        if (titleOpens === "dialog" && dialogContext) {
+          dialogContext.setOpen(true);
+        } else {
+          modalContext.setOpen({ code: card.code });
+        }
+      }
+    },
+    [modalContext, card.code, titleOpens, dialogContext],
+  );
 
   const limit = cardLimit(card, limitOverride);
 
@@ -159,15 +175,16 @@ export function ListCardInner(props: Props) {
         <div className={css["listcard-main"]}>
           <figure className={css["content"]} ref={figureRef}>
             {!omitThumbnail && (
-              <button
-                onClick={disableModalOpen ? undefined : openModal}
-                tabIndex={-1}
-                type="button"
+              <ListCardLink
+                card={card}
+                className={css["thumbnail-link"]}
+                disableModalOpen={disableModalOpen}
+                openModal={openModal}
               >
                 <div className={css["thumbnail"]} {...referenceProps}>
                   <CardThumbnail card={card} />
                 </div>
-              </button>
+              </ListCardLink>
             )}
 
             {size !== "xs" && card.faction_code !== "mythos" && (
@@ -179,11 +196,11 @@ export function ListCardInner(props: Props) {
             <figcaption className={css["caption"]}>
               <div className={cx(css["name-container"], colorCls)}>
                 <h4 className={css["name"]} {...referenceProps}>
-                  <button
-                    onClick={disableModalOpen ? undefined : openModal}
-                    tabIndex={-1}
-                    type="button"
+                  <ListCardLink
+                    card={card}
                     data-testid="listcard-title"
+                    disableModalOpen={disableModalOpen}
+                    openModal={openModal}
                   >
                     <CardName
                       card={card}
@@ -194,7 +211,7 @@ export function ListCardInner(props: Props) {
                       }
                       cardShowCollectionNumber={cardShowCollectionNumber}
                     />
-                  </button>
+                  </ListCardLink>
                 </h4>
 
                 {ownedCount != null &&
@@ -333,5 +350,34 @@ export function ListCardInner(props: Props) {
         </div>
       )}
     </Element>
+  );
+}
+
+function ListCardLink({
+  card,
+  children,
+  disableModalOpen,
+  openModal,
+  ...rest
+}: {
+  card: Card;
+  children: React.ReactNode;
+  disableModalOpen?: boolean;
+  openModal?: (evt: React.MouseEvent) => void;
+  className?: string;
+  "data-testid"?: string;
+}) {
+  if (disableModalOpen) {
+    return (
+      <span className={cx(css["name-static"], rest.className)} {...rest}>
+        {children}
+      </span>
+    );
+  }
+
+  return (
+    <Link {...rest} href={`~/card/${card.code}`} onClick={openModal}>
+      {children}
+    </Link>
   );
 }

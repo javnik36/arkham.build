@@ -3,7 +3,7 @@ import { useCardModalContextChecked } from "@/components/card-modal/card-modal-c
 import { DeckInvestigator } from "@/components/deck-investigator/deck-investigator";
 import { DeckInvestigatorModal } from "@/components/deck-investigator/deck-investigator-modal";
 import { ListCard } from "@/components/list-card/list-card";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useDialogContextChecked } from "@/components/ui/dialog.hooks";
 import type { ResolvedDeck } from "@/store/lib/types";
 import css from "./investigator-listcard.module.css";
@@ -46,23 +46,21 @@ function InvestigatorListcardInner({ deck }: Props) {
       className={css["investigator-container"]}
       data-testid="investigator-container"
     >
-      <DialogTrigger className={css["trigger-container"]}>
-        <ListCard
-          card={card}
-          disableModalOpen
-          omitBorders
-          showInvestigatorIcons
-          size="investigator"
-          tooltip={
-            <DeckInvestigator
-              canToggleBack={false}
-              deck={deck}
-              readonly
-              size="tooltip"
-            />
-          }
-        />
-      </DialogTrigger>
+      <ListCard
+        card={card}
+        omitBorders
+        showInvestigatorIcons
+        size="investigator"
+        titleOpens="dialog"
+        tooltip={
+          <DeckInvestigator
+            canToggleBack={false}
+            deck={deck}
+            readonly
+            size="tooltip"
+          />
+        }
+      />
       <DialogContent>
         <DeckInvestigatorModal deck={deck} onCloseModal={onCloseModal} />
       </DialogContent>

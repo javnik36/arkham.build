@@ -114,8 +114,8 @@
   flex-flow: row wrap;
 }
 
-.name :where(a, button),
-.name :where(a, button) > * {
+.name :where(a, button, .name-static),
+.name :where(a, button, .name-static) > * {
   background: none;
   font-size: inherit;
   font-family: var(--font-family-content);
@@ -130,6 +130,13 @@
   &:active {
     outline: none;
     background: none;
+  }
+}
+
+.name :where(a) {
+  &:hover,
+  &:focus-visible,
+  &:active {
     text-decoration: underline;
     text-decoration-color: currentColor;
   }
@@ -177,6 +184,7 @@
 }
 
 .thumbnail {
+  font-size: 1rem;
   width: var(--card-image-height);
 }
 

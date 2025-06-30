@@ -1,13 +1,13 @@
-/** biome-ignore-all lint/a11y/noNoninteractiveTabindex: needs tabIndex to avoid list jumping on modal close */
-/** biome-ignore-all lint/a11y/noStaticElementInteractions: nested button elements */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { type ListRange, Virtuoso, type VirtuosoHandle } from "react-virtuoso";
+import { Link } from "wouter";
 import type {
   CardGroup as CardGroupType,
   ListState,
 } from "@/store/selectors/lists";
 import type { Card } from "@/store/services/queries.types";
 import type { Metadata } from "@/store/slices/metadata.types";
+import { preventLeftClick } from "@/utils/prevent-links";
 import { useCardModalContextChecked } from "../card-modal/card-modal-context";
 import { CardScan } from "../card-scan";
 import { Scroller } from "../ui/scroller";
@@ -188,6 +188,14 @@ export function CardGridItem(
     modalContext.setOpen({ code: card.code });
   }, [modalContext, card.code]);
 
+  const onClick = useCallback(
+    (evt: React.MouseEvent) => {
+      const linkPrevented = preventLeftClick(evt);
+      if (linkPrevented) openModal();
+    },
+    [openModal],
+  );
+
   const onPressEnter = useCallback(
     (evt: React.KeyboardEvent) => {
       if (evt.key === "Enter" && evt.target === evt.currentTarget) {
@@ -205,14 +213,15 @@ export function CardGridItem(
       key={card.code}
       data-component="card-group-item"
     >
-      <div
+      <Link
+        href={`~/card/${card.code}`}
         className={css["group-item-scan"]}
-        onClick={openModal}
+        onClick={onClick}
         onKeyUp={onPressEnter}
         tabIndex={0}
       >
         <CardScan card={card} lazy />
-      </div>
+      </Link>
       <div className={css["group-item-actions"]}>
         <CardActions
           card={card}

@@ -384,7 +384,7 @@ test.describe("deck view", () => {
     await importStandardDeck(page);
     await page
       .getByTestId("deck-investigator-front")
-      .getByTestId("card-name")
+      .getByTestId("card-name-inner")
       .click();
     await expect(page.getByTestId("investigator-modal")).toBeVisible();
   });
@@ -393,7 +393,7 @@ test.describe("deck view", () => {
     await importStandardDeck(page);
     await page
       .getByTestId("deck-investigator-front")
-      .getByTestId("card-name")
+      .getByTestId("card-name-inner")
       .click();
     await page
       .getByTestId("cardset-requiredCards")
