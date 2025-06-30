@@ -1,17 +1,21 @@
-import { Content, Root, Trigger } from "@radix-ui/react-collapsible";
-import { FilterIcon, Minimize2Icon } from "lucide-react";
-import { useRef, useState } from "react";
+import { CircleIcon, FilterIcon } from "lucide-react";
+import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useStore } from "@/store";
 import {
   selectDeckFactionFilter,
+  selectDeckFilterChanges,
   selectDeckSearchTerm,
   selectFactionsInLocalDecks,
 } from "@/store/selectors/deck-filters";
 import { FactionToggle } from "../faction-toggle";
 import { Button } from "../ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Scroller } from "../ui/scroller";
 import { SearchInput } from "../ui/search-input";
 import css from "./deck-collection-filters.module.css";
+import { DeckXPCostFilter } from "./deck-exp-cost-filter";
+import { DeckPropertiesFilter } from "./deck-properties-filter";
 import { DeckSortingOptions } from "./deck-sorting-options";
 import { DeckTagsFilter } from "./deck-tags-filter";
 
@@ -24,7 +28,7 @@ export function DeckCollectionFilters(props: Props) {
   const { filteredCount, totalCount } = props;
   const { t } = useTranslation();
 
-  const [open, setOpen] = useState(false);
+  const hasChanges = useStore(selectDeckFilterChanges);
 
   const addFilter = useStore((state) => state.addDecksFilter);
 
@@ -41,9 +45,7 @@ export function DeckCollectionFilters(props: Props) {
   };
 
   return (
-    <Root
-      open={open}
-      onOpenChange={setOpen}
+    <section
       className={css["filters-wrap"]}
       data-testid="deck-filters-container"
     >
@@ -59,37 +61,42 @@ export function DeckCollectionFilters(props: Props) {
           value={searchValue}
           className={css["search-outer"]}
         />
-        <Trigger asChild>
-          <Button
-            data-testid="expand-deck-filters"
-            tooltip={
-              open
-                ? t("deck_collection.close_filters")
-                : t("deck_collection.more_filters")
-            }
-            variant="bare"
-          >
-            {open ? <Minimize2Icon /> : <FilterIcon />}
-          </Button>
-        </Trigger>
+        <Popover placement="right-start" modal>
+          <PopoverTrigger asChild>
+            <Button
+              className={css["expand-filters"]}
+              data-testid="expand-deck-filters"
+              tooltip={t("deck_collection.more_filters")}
+              variant="bare"
+            >
+              {hasChanges && <CircleIcon className={css["active"]} />}
+              <FilterIcon />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <Scroller
+              type="auto"
+              className={css["filters-container"]}
+              data-testid="deck-filters-expanded"
+            >
+              {factionOptions.length > 1 && (
+                <FactionToggle
+                  options={factionOptions}
+                  value={selectedFactions}
+                  onValueChange={onFactionFilterChange}
+                />
+              )}
+              <DeckTagsFilter containerClass={css["filter"]} />
+              <DeckXPCostFilter containerClass={css["filter"]} />
+              <DeckPropertiesFilter containerClass={css["filter"]} />
+            </Scroller>
+          </PopoverContent>
+        </Popover>
       </div>
-      <Content
-        className={css["filters-container"]}
-        data-testid="deck-filters-expanded"
-      >
-        {factionOptions.length > 1 && (
-          <FactionToggle
-            options={factionOptions}
-            value={selectedFactions}
-            onValueChange={onFactionFilterChange}
-          />
-        )}
-        <DeckTagsFilter containerClass={css["filter"]} />
-      </Content>
       <DeckSortingOptions
         filteredCount={filteredCount}
         totalCount={totalCount}
       />
-    </Root>
+    </section>
   );
 }

@@ -16,7 +16,7 @@ type Props = {
   containerClass?: string;
 };
 
-export function ValidityFilter({ containerClass }: Props) {
+export function DeckValidityFilter({ containerClass }: Props) {
   const open = useStore((state) => state.deckFilters.open.validity);
   const value = useStore<DeckValidity>((state) =>
     selectDeckFilterValue(state, "validity"),
@@ -54,14 +54,14 @@ export function ValidityFilter({ containerClass }: Props) {
       title="Validity"
     >
       <RadioButtonGroup icons onValueChange={onChange} value={value}>
+        <RadioButtonGroupItem tooltip="All" value="all">
+          <TicketsIcon />
+        </RadioButtonGroupItem>
         <RadioButtonGroupItem tooltip="Only valid" value="valid">
           <TicketCheckIcon />
         </RadioButtonGroupItem>
         <RadioButtonGroupItem tooltip="Only invalid" value="invalid">
           <TicketXIcon />
-        </RadioButtonGroupItem>
-        <RadioButtonGroupItem tooltip="All" value="all">
-          <TicketsIcon />
         </RadioButtonGroupItem>
       </RadioButtonGroup>
     </FilterContainer>

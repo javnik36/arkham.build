@@ -714,7 +714,6 @@
       }
     },
     "deck_collection": {
-      "close_filters": "Закрыть фильтры",
       "collection_empty": "Коллекция пуста",
       "connect_arkhamdb": "Подключение к ArkhamDB",
       "count": "{{count}} колод",

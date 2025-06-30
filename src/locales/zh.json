@@ -766,7 +766,6 @@
       }
     },
     "deck_collection": {
-      "close_filters": "关闭筛选",
       "collection_empty": "收藏为空",
       "connect_arkhamdb": "连接至ArkhamDB",
       "count": "{{count}}个卡组",

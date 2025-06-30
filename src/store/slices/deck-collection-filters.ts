@@ -18,8 +18,8 @@ function getInitialUIState(): DeckFiltersState {
       expCost: undefined,
     },
     open: {
-      tags: true,
-      properties: false,
+      tags: false,
+      properties: true,
       validity: false,
       expCost: false,
     },

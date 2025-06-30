@@ -766,7 +766,6 @@
       }
     },
     "deck_collection": {
-      "close_filters": "Filter schließen",
       "collection_empty": "Keine Decks",
       "connect_arkhamdb": "ArkhamDB verbinden",
       "count": "{{count}} Decks",

@@ -1,10 +1,11 @@
-// Currently unused, functionality preserved for 'My Decks' dedicated page.
-
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
+import { useShallow } from "zustand/react/shallow";
 import { useStore } from "@/store";
 import {
   selectDeckFilterValue,
-  selectPropertiesChanges,
+  selectDeckProperties,
+  selectDeckPropertiesChanges,
 } from "@/store/selectors/deck-filters";
 import type { DeckPropertyName } from "@/store/slices/deck-collection-filters.types";
 import { FilterContainer } from "../filters/primitives/filter-container";
@@ -15,16 +16,15 @@ type Props = {
   containerClass?: string;
 };
 
-const DeckPropKeyValues: Record<DeckPropertyName, string> = {
-  parallel: "Parallel",
-};
-
 export function DeckPropertiesFilter({ containerClass }: Props) {
-  const changes = useStore(selectPropertiesChanges);
+  const { t } = useTranslation();
+
+  const open = useStore((state) => state.deckFilters.open.properties);
+  const properties = useStore(useShallow(selectDeckProperties));
+  const changes = useStore(selectDeckPropertiesChanges);
   const values = useStore((state) =>
     selectDeckFilterValue(state, "properties"),
   );
-  const open = useStore((state) => state.deckFilters.open.properties);
 
   const setFilterValue = useStore((state) => state.addDecksFilter);
   const setFilterOpen = useStore((state) => state.setDeckFilterOpen);
@@ -55,16 +55,16 @@ export function DeckPropertiesFilter({ containerClass }: Props) {
       onOpenChange={onOpenChange}
       onReset={onReset}
       open={open}
-      title="Properties"
+      title={t("filters.properties.title")}
     >
-      <CheckboxGroup cols={2}>
-        {Object.keys(DeckPropKeyValues).map((key) => (
+      <CheckboxGroup cols={1}>
+        {Object.keys(properties).map((key) => (
           <Checkbox
             checked={values[key as DeckPropertyName]}
             data-key={key}
             id={`deck-property-${key}`}
             key={key}
-            label={DeckPropKeyValues[key as DeckPropertyName]}
+            label={properties[key as DeckPropertyName]}
             onCheckedChange={(val) =>
               onPropertyChange(key as DeckPropertyName, !!val)
             }

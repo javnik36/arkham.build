@@ -319,7 +319,7 @@ function ToggleableFloatingPortal(
 ) {
   if (!props.enabled) return props.children;
   return (
-    <FloatingPortal id={FLOATING_PORTAL_ID} {...props}>
+    <FloatingPortal preserveTabOrder id={FLOATING_PORTAL_ID} {...props}>
       {props.children}
     </FloatingPortal>
   );

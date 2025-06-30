@@ -81,11 +81,22 @@ export const selectTagsChanges = createSelector(
 export const selectDeckPropertiesFilter = (state: StoreState) =>
   state.deckFilters.filters.properties;
 
-export const selectPropertiesChanges = createSelector(
+export const selectDeckProperties = createSelector(
+  (state: StoreState) => state.deckFilters.filters.properties,
+  (_) => {
+    return {
+      parallel: i18n.t("common.parallel"),
+    } as Record<string, string>;
+  },
+);
+
+export const selectDeckPropertiesChanges = createSelector(
   selectDeckPropertiesFilter,
-  (properties) => {
-    return Object.keys(properties)
-      .filter((prop) => properties[prop as DeckPropertyName])
+  selectDeckProperties,
+  (filterValues, properties) => {
+    return Object.keys(filterValues)
+      .filter((prop) => filterValues[prop as DeckPropertyName])
+      .map((prop) => properties[prop])
       .join(` ${i18n.t("filters.and")} `);
   },
 );
@@ -97,13 +108,14 @@ const makeDeckPropertiesFilter = (
   for (const property of Object.keys(properties)) {
     if (properties[property as DeckPropertyName]) {
       switch (property) {
-        case "parallel":
+        case "parallel": {
           filters.push((deck: ResolvedDeck) =>
             Boolean(
               deck.investigatorFront.card.parallel ||
                 deck.investigatorBack.card.parallel,
             ),
           );
+        }
       }
     }
   }
@@ -143,7 +155,9 @@ export const selectExpCostChanges = createSelector(
   selectDeckFilters,
   (filters) => {
     const expMinMax = filters.expCost;
-    return expMinMax ? `${expMinMax[0]}-${expMinMax[1]} experience` : "";
+    return expMinMax
+      ? `${expMinMax[0]}-${expMinMax[1]} ${i18n.t("common.xp", { count: 2 })}`
+      : "";
   },
 );
 
@@ -358,4 +372,21 @@ export const selectDecksDisplayList = createSelector(
       total: decks.total,
     };
   },
+);
+
+const selectDeckFactionChanges = createSelector(
+  selectDeckFilters,
+  (filters) => {
+    const factionFilters = filters.faction;
+    if (!factionFilters.length) return "";
+    return factionFilters.join(` ${i18n.t("filters.or")} `);
+  },
+);
+
+export const selectDeckFilterChanges = createSelector(
+  selectExpCostChanges,
+  selectDeckPropertiesChanges,
+  selectTagsChanges,
+  selectDeckFactionChanges,
+  (...changes) => changes.some((c) => c),
 );

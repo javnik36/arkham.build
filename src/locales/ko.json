@@ -766,7 +766,6 @@
       }
     },
     "deck_collection": {
-      "close_filters": "필터 닫기",
       "collection_empty": "보유 게임이 비어있음",
       "connect_arkhamdb": "아컴디비 사이트에 연결",
       "count": "덱 {{count}}개",

@@ -36,23 +36,46 @@ test.describe("deck filtering", () => {
 
     // Only show factions for decks in collection
     await expect(
-      page.getByTestId("filters-faction").first().getByRole("button"),
+      page
+        .getByTestId("deck-filters-expanded")
+        .getByTestId("filters-faction")
+        .first()
+        .getByRole("button"),
     ).toHaveCount(2);
 
     // Faction filtering
-    await page.getByTestId("filters-faction-mystic").first().click();
+    await page
+      .getByTestId("deck-filters-expanded")
+      .getByTestId("filters-faction-mystic")
+      .first()
+      .click();
     await expect(page.getByTestId("collection-deck")).toHaveCount(0);
-    await page.getByTestId("filters-faction-mystic").first().click();
-    await page.getByTestId("filters-faction-guardian").first().click();
+    await page
+      .getByTestId("deck-filters-expanded")
+      .getByTestId("filters-faction-mystic")
+      .first()
+      .click();
+    await page
+      .getByTestId("deck-filters-expanded")
+      .getByTestId("filters-faction-guardian")
+      .first()
+      .click();
     await expect(page.getByTestId("collection-deck")).toHaveCount(1);
 
     await page.getByTestId("deck-search-input").clear();
-    await page.getByTestId("filters-faction-guardian").first().click();
+    await page
+      .getByTestId("deck-filters-expanded")
+      .getByTestId("filters-faction-guardian")
+      .first()
+      .click();
+
+    await page.getByTestId("deck-tags-filter").click();
 
     await page
       .getByTestId("deck-tags-filter")
       .getByTestId("combobox-input")
       .click();
+
     await page
       .getByTestId("deck-tags-filter")
       .getByTestId("combobox-input")

@@ -767,7 +767,6 @@
       }
     },
     "deck_collection": {
-      "close_filters": "Close filters",
       "collection_empty": "Collection empty",
       "connect_arkhamdb": "Connect to ArkhamDB",
       "count": "{{count}} decks",

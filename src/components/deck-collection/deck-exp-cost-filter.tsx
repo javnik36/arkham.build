@@ -1,6 +1,5 @@
-// Currently unused, functionality preserved for 'My Decks' dedicated page.
-
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { useStore } from "@/store";
 import {
   selectDeckFilterValue,
@@ -14,7 +13,9 @@ type Props = {
   containerClass?: string;
 };
 
-export function ExpCostFilters({ containerClass }: Props) {
+export function DeckXPCostFilter({ containerClass }: Props) {
+  const { t } = useTranslation();
+
   const changes = useStore(selectExpCostChanges);
   const [min, max] = useStore(selectDecksMinMaxExpCost);
 
@@ -51,12 +52,12 @@ export function ExpCostFilters({ containerClass }: Props) {
         onOpenChange={onOpenChange}
         onReset={onReset}
         open={open}
-        title="Experience cost"
+        title={t("deck.stats.xp_required")}
       >
         <RangeSelect
           data-testid="filters-cost-range"
           id="cost-select"
-          label="Cost"
+          label={t("common.xp", { count: 2 })}
           max={max}
           min={min}
           onValueCommit={onValueCommit}

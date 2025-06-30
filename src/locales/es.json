@@ -724,7 +724,6 @@
       }
     },
     "deck_collection": {
-      "close_filters": "Cerrar filtros",
       "collection_empty": "Colección vacía",
       "connect_arkhamdb": "Conectar con ArkhamDB",
       "count": "{{count}} mazos",
