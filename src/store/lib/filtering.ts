@@ -848,19 +848,6 @@ export function makeOptionFilter(
 
   let filterCount = 0;
 
-  if (option.not) {
-    filterCount += 1;
-  }
-
-  if (option.limit) {
-    filterCount += 1;
-  }
-
-  if (option.faction) {
-    filterCount += 1;
-    optionFilter.push(filterFactions(option.faction));
-  }
-
   if (option.faction_select) {
     filterCount += 1;
 
@@ -873,6 +860,62 @@ export function makeOptionFilter(
         ? filterFactions([selection])
         : filterFactions(option.faction_select),
     );
+  }
+
+  // parallel wendy + marion
+  if (option.option_select) {
+    const selectFilters: Filter[] = [];
+
+    let selection = config?.selections?.[option.id ?? "option_selected"]?.value;
+    selection = isOptionSelect(selection) ? selection.id : undefined;
+
+    for (const select of option.option_select) {
+      if (selection && select.id !== selection) {
+        continue;
+      }
+
+      const {
+        optionFilter: optionSelectFilters,
+        filterCount: optionSelectFilterCount,
+      } = parseOption(select, config);
+
+      if (optionSelectFilterCount <= 1) {
+        console.debug("unknown option select", select);
+      }
+
+      selectFilters.push(and(optionSelectFilters));
+    }
+
+    filterCount += selectFilters.length + 1;
+    optionFilter.push(or(selectFilters));
+  }
+
+  const parsed = parseOption(option, config);
+  optionFilter.push(...parsed.optionFilter);
+  filterCount += parsed.filterCount;
+
+  if (filterCount <= 1) {
+    console.debug("unknown deck requirement", option);
+  }
+
+  return filterCount > 1 ? and(optionFilter) : undefined;
+}
+
+function parseOption(option: DeckOption, config?: InvestigatorAccessConfig) {
+  const optionFilter = [];
+  let filterCount = 0;
+
+  if (option.not) {
+    filterCount += 1;
+  }
+
+  if (option.limit) {
+    filterCount += 1;
+  }
+
+  if (option.faction) {
+    filterCount += 1;
+    optionFilter.push(filterFactions(option.faction));
   }
 
   if (option.base_level || option.level) {
@@ -923,43 +966,6 @@ export function makeOptionFilter(
     optionFilter.push(filterType(option.type));
   }
 
-  // parallel wendy + marion
-  if (option.option_select) {
-    const selectFilters: Filter[] = [];
-
-    let selection = config?.selections?.[option.id ?? "option_selected"]?.value;
-    selection = isOptionSelect(selection) ? selection.id : undefined;
-
-    for (const select of option.option_select) {
-      if (selection && select.id !== selection) {
-        continue;
-      }
-
-      const optionSelectFilters: Filter[] = [];
-
-      if (select.level) {
-        optionSelectFilters.push(
-          filterCardLevel([select.level.min, select.level.max], {
-            customizable: config?.customizable,
-          }),
-        );
-      }
-
-      if (select.trait) {
-        optionSelectFilters.push(filterTraits(select.trait.map(capitalize)));
-      }
-
-      if (select.type) {
-        optionSelectFilters.push(filterType(select.type));
-      }
-
-      selectFilters.push(and(optionSelectFilters));
-    }
-
-    filterCount += selectFilters.length + 1;
-    optionFilter.push(or(selectFilters));
-  }
-
   // tag-based access
   if (option.tag?.length) {
     filterCount += 1;
@@ -995,7 +1001,7 @@ export function makeOptionFilter(
     optionFilter.push(or(ors));
   }
 
-  // on your own
+  // slot-based access
   if (option.slot) {
     filterCount += 1;
     const ors: Filter[] = [];
@@ -1007,11 +1013,7 @@ export function makeOptionFilter(
     optionFilter.push(or(ors));
   }
 
-  if (filterCount <= 1) {
-    console.debug("unknown deck requirement", option);
-  }
-
-  return filterCount > 1 ? and(optionFilter) : undefined;
+  return { filterCount, optionFilter };
 }
 
 export function filterInvestigatorAccess(
