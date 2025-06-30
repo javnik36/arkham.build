@@ -137,7 +137,7 @@ export function decodeSlots(
       if (bound?.length) {
         for (const boundCard of bound) {
           if (
-            !boundCard.code.endsWith("b") &&
+            !boundCard.linked &&
             !bonded.some((c) => c.code === boundCard.code) &&
             deck.slots[code] > 0
           ) {
