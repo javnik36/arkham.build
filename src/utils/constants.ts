@@ -169,8 +169,6 @@ export const SPECIAL_CARD_CODES = {
   ACE_OF_RODS: "05040",
   /** Changes XP calculation for upgrades. */
   ADAPTABLE: "02110",
-  /** Adjusts deck size, has separate deck. */
-  ANCESTRAL_KNOWLEDGE: "07303",
   /** Changes XP calculation for upgrades. */
   ARCANE_RESEARCH: "04109",
   /** Quantity scales with signature count. */
@@ -187,8 +185,6 @@ export const SPECIAL_CARD_CODES = {
   DOWN_THE_RABBIT_HOLE: "08059",
   /** Has additional deck validation rule. */
   ELDRITCH_BRAND: "11080",
-  /** Adjusts deck size. */
-  FORCED_LEARNING: "08031",
   /** Has deck size selection (and accompanying taboo). */
   MANDY: "06002",
   /** Scales with investigator deck size selection. */
@@ -217,14 +213,10 @@ export const SPECIAL_CARD_CODES = {
   SUZI: "89001",
   /** Connected to parallel wendy's front. */
   TIDAL_MEMENTO: "90038",
-  /** Adjusts deck size. */
-  UNDERWORLD_MARKET: "09077",
   /** adds deckbuilding requirements. */
   UNDERWORLD_SUPPORT: "08046",
   /** Weakness starts in spirit deck. */
   VENGEFUL_SHADE: "90053",
-  /** Adds deckbuilding restriction, adjusts deck size. */
-  VERSATILE: "06167",
 };
 
 export const PLAYER_CARDS_ENCOUNTER_BACK_IDS = ["06028", "11016"];
@@ -243,14 +235,6 @@ export const CARD_SET_ORDER = [
   "bonded",
   "level",
 ];
-
-export const DECK_SIZE_ADJUSTMENTS = {
-  [SPECIAL_CARD_CODES.ANCESTRAL_KNOWLEDGE]: 5,
-  [SPECIAL_CARD_CODES.FORCED_LEARNING]: 15,
-  [SPECIAL_CARD_CODES.UNDERWORLD_MARKET]: 10,
-  [SPECIAL_CARD_CODES.UNDERWORLD_SUPPORT]: -5,
-  [SPECIAL_CARD_CODES.VERSATILE]: 5,
-};
 
 export const MQ_FLOATING_SIDEBAR = "(max-width: 52rem)";
 export const MQ_FLOATING_FILTERS = "(max-width: 75rem)";

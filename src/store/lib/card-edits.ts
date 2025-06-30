@@ -194,13 +194,18 @@ export function applyTaboo(
   if (!tabooSetId) return card;
 
   const taboo = metadata.taboos[`${card.code}-${tabooSetId}`];
-  return taboo
-    ? // taboos duplicate the card structure, so a simple merge is safe to apply them.
-      {
-        ...card,
-        ...taboo,
-      }
-    : card;
+  if (!taboo) return card;
+
+  const nextCard: Card = { ...card };
+
+  // taboos duplicate the card structure, so a simple merge is safe to apply them.
+  for (const [key, value] of Object.entries(taboo)) {
+    if (value !== undefined) {
+      nextCard[key as keyof Card] = value as never;
+    }
+  }
+
+  return nextCard;
 }
 
 export function applyCardChanges(

@@ -1,5 +1,5 @@
 import { countExperience, realCardLevel } from "@/utils/card-utils";
-import { DECK_SIZE_ADJUSTMENTS, SPECIAL_CARD_CODES } from "@/utils/constants";
+import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { range } from "@/utils/range";
 import type { Card } from "../services/queries.types";
 import type { Customization, ResolvedDeck } from "./types";
@@ -453,12 +453,25 @@ function countFreeLevel0Cards(
 
   if (slotKey === "slots") {
     // when deck size increases, you may purchase x cards to replace existing cards.
-    for (const [code, adjustment] of Object.entries(DECK_SIZE_ADJUSTMENTS)) {
-      const diff = next.slots[code] ?? 0 - prev.slots[code] ?? 0;
-      if (diff > 0) {
-        free0Cards += Math.max(adjustment * diff, 0);
-      }
-    }
+    const adjustment = Object.entries(next[slotKey]).reduce<number>(
+      (acc, [code, quantity]) => {
+        const diff = quantity - (prev[slotKey][code] ?? 0);
+
+        if (diff > 0) {
+          const deckSizeAdjust =
+            next.cards[slotKey][code]?.card?.deck_requirements?.size;
+
+          if (deckSizeAdjust != null) {
+            return acc + deckSizeAdjust * diff;
+          }
+        }
+
+        return acc;
+      },
+      0,
+    );
+
+    free0Cards += Math.max(adjustment, 0);
   }
 
   for (const [code, quantity] of Object.entries(next.exileSlots)) {

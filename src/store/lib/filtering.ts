@@ -905,11 +905,7 @@ function parseOption(option: DeckOption, config?: InvestigatorAccessConfig) {
   const optionFilter = [];
   let filterCount = 0;
 
-  if (option.not) {
-    filterCount += 1;
-  }
-
-  if (option.limit) {
+  if (option.limit || option.atleast || option.not) {
     filterCount += 1;
   }
 

@@ -5,7 +5,7 @@ import {
   isRandomBasicWeaknessLike,
   isStaticInvestigator,
 } from "@/utils/card-utils";
-import { DECK_SIZE_ADJUSTMENTS, SPECIAL_CARD_CODES } from "@/utils/constants";
+import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { range } from "@/utils/range";
 import { time, timeEnd } from "@/utils/time";
 import type {
@@ -260,9 +260,15 @@ function validateDeckSize(deck: ResolvedDeck): Error[] {
   );
   if (selectedOption?.size) investigatorDeckSize += selectedOption.size;
 
-  const adjustment = Object.entries(DECK_SIZE_ADJUSTMENTS).reduce<number>(
-    (acc, [code, adjustment]) => {
-      return deck.slots[code] ? acc + adjustment * deck.slots[code] : acc;
+  const adjustment = Object.entries(deck.slots).reduce<number>(
+    (acc, [code, quantity]) => {
+      if (!quantity) return acc;
+
+      const deckSizeAdjust =
+        deck.cards.slots[code]?.card?.deck_requirements?.size;
+      if (deckSizeAdjust != null) return acc + deckSizeAdjust * quantity;
+
+      return acc;
     },
     0,
   );
@@ -690,18 +696,6 @@ class DeckOptionsValidator implements SlotValidator {
         : [...(deck.investigatorBack.card.side_deck_options || [])];
 
     deckOptions.push(...options);
-
-    if (
-      mode === "slots" &&
-      deck.slots[SPECIAL_CARD_CODES.ANCESTRAL_KNOWLEDGE]
-    ) {
-      deckOptions.push({
-        atleast: { min: 10, types: 1 },
-        type: ["skill"],
-        virtual: true,
-        error: "Deck must have at least 10 skill cards.",
-      });
-    }
 
     const additionalDeckOptions =
       mode === "slots" ? getAdditionalDeckOptions(deck) : [];
