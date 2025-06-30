@@ -376,7 +376,12 @@ function ListCardLink({
   }
 
   return (
-    <Link {...rest} href={`~/card/${card.code}`} onClick={openModal}>
+    <Link
+      {...rest}
+      href={`~/card/${card.code}`}
+      onClick={openModal}
+      tabIndex={-1}
+    >
       {children}
     </Link>
   );
