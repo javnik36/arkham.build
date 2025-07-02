@@ -34,6 +34,7 @@
   align-items: center;
   flex-flow: row nowrap;
   flex: 0 0 auto;
+  z-index: 2;
 }
 
 .extra-row > * {

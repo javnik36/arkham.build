@@ -53,7 +53,7 @@ export function CardExtras(props: Props) {
 
   if (card.code === SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS) {
     return (
-      <>
+      <div className={css["extra-row"]}>
         <DrawBasicWeakness
           deckId={deck.id}
           quantity={quantity}
@@ -64,7 +64,7 @@ export function CardExtras(props: Props) {
           quantity={quantity}
           targetDeck={mapTabToSlot(currentTab)}
         />
-      </>
+      </div>
     );
   }
 
