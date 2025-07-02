@@ -1,0 +1,75 @@
+.container > * + * {
+  margin-top: 0.75rem;
+}
+
+.card-container {
+  position: relative;
+  transition: transform 0.2s ease;
+  user-select: none;
+  will-change: transform;
+
+  &:hover {
+    cursor: pointer;
+    transform: translateY(-0.5rem);
+    transition: transform 0.2s ease;
+  }
+}
+
+.cancel-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10rem;
+  height: 10rem;
+  color: #f53c3c;
+  stroke-width: 3;
+  z-index: 2;
+}
+
+.modal-title {
+  display: inline-flex;
+  gap: 0.375rem;
+}
+
+.title-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.title-container span {
+  cursor: help;
+  text-align: center;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 0.125rem;
+  font-size: var(--text-lg);
+}
+
+.list-container {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0;
+  list-style: none;
+  width: 100%;
+}
+
+.list-item {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+
+.list-item > * + * {
+  margin-top: 0.5rem;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 3.75%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
