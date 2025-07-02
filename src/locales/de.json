@@ -895,7 +895,7 @@
         "choice_title": "Wähle eine Schwäche zum Annullieren",
         "confirm_button": "Bestätigen",
         "cancel_button": "Abbrechen",
-        "alert_select_weakness": "Bitte wähle eine Schwäche zum Annullieren aus."
+        "too_few_rbw": "Nicht genügend Grundschwächen verfügbar, um Draft durchzuführen."
       },
       "notes": {
         "banner_url": "Titelbild URL",
