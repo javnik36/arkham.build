@@ -84,3 +84,7 @@
 .error svg {
   color: var(--nord-11);
 }
+
+.actions > * + * {
+  margin-left: 0.375rem;
+}

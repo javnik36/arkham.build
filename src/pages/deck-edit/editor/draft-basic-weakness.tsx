@@ -172,7 +172,7 @@ function DraftBasicWeaknessModal(props: Props) {
                 />
               ))}
             </ol>
-            <footer style={accentColor}>
+            <footer className={css["actions"]} style={accentColor}>
               <Button
                 type="submit"
                 data-testid="draft-basic-weakness-confirm"
