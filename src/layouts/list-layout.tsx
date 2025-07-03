@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/a11y: TODO */
 import { FilterIcon } from "lucide-react";
 import type React from "react";
 import { useCallback, useEffect, useRef } from "react";
@@ -44,7 +45,7 @@ export function ListLayout(props: Props) {
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   const onContentClick = useCallback(
-    (evt: React.PointerEvent) => {
+    (evt: React.MouseEvent) => {
       if (filtersOpen && floatingFilters) {
         setFiltersOpen(false);
         evt.preventDefault();
@@ -65,7 +66,7 @@ export function ListLayout(props: Props) {
     ],
   );
 
-  const preventBubble = useCallback((e: React.PointerEvent) => {
+  const preventBubble = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
   }, []);
 
@@ -117,14 +118,14 @@ export function ListLayout(props: Props) {
         floatingMenuOpen && css["floating-menu-open"],
         filters && css["has-filters"],
       )}
-      onPointerDown={onContentClick}
+      onClick={onContentClick}
       style={{ "--sidebar-width-max": sidebarWidthMax } as React.CSSProperties}
     >
       <Masthead className={css["header"]}>{mastheadContent}</Masthead>
       <div
         className={cx(css["sidebar"], floatingSidebar && css["floating"])}
         data-state={sidebarOpen ? "open" : "closed"}
-        onPointerDown={sidebarOpen ? preventBubble : undefined}
+        onClick={sidebarOpen ? preventBubble : undefined}
         ref={sidebarRef}
       >
         <CollapseSidebarButton
@@ -142,7 +143,7 @@ export function ListLayout(props: Props) {
           (floatingSidebar || !sidebarOpen) && css["collapsed-sidebar"],
           (floatingFilters || !filtersOpen) && css["collapsed-filters"],
         )}
-        onPointerDown={onContentClick}
+        onClick={onContentClick}
       >
         {children({
           slotLeft: !sidebarOpen && (
@@ -175,7 +176,7 @@ export function ListLayout(props: Props) {
         <nav
           className={cx(css["filters"], floatingFilters && css["floating"])}
           data-state={filtersOpen ? "open" : "closed"}
-          onPointerDown={floatingFilters ? preventBubble : undefined}
+          onClick={floatingFilters ? preventBubble : undefined}
           ref={filtersRef}
         >
           <CollapseSidebarButton

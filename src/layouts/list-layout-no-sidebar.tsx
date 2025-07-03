@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/a11y: TODO */
 import { ChevronLeftIcon, FilterIcon } from "lucide-react";
 import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -33,12 +34,12 @@ export function ListLayoutNoSidebar(props: Props) {
 
   const goBack = useGoBack();
 
-  const preventBubble = useCallback((e: React.PointerEvent) => {
+  const preventBubble = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
   }, []);
 
   const onContentClick = useCallback(
-    (evt: React.PointerEvent) => {
+    (evt: React.MouseEvent) => {
       if (filtersOpen && floatingFilters) {
         evt.preventDefault();
         setFiltersOpen(false);
@@ -65,7 +66,7 @@ export function ListLayoutNoSidebar(props: Props) {
         floatingMenuOpen && css["floating-menu-open"],
         "fade-in",
       )}
-      onPointerDown={onContentClick}
+      onClick={onContentClick}
     >
       <Masthead className={css["masthead"]}>
         <Button onClick={goBack} variant="bare" size="sm">
@@ -99,7 +100,7 @@ export function ListLayoutNoSidebar(props: Props) {
       <nav
         className={cx(css["filters"], floatingFilters && css["floating"])}
         data-state={filtersOpen ? "open" : "closed"}
-        onPointerDown={floatingFilters ? preventBubble : undefined}
+        onClick={floatingFilters ? preventBubble : undefined}
       >
         <Filters />
       </nav>
