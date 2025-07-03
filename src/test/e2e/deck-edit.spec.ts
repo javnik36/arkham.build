@@ -1,4 +1,5 @@
 import test, { expect, type Page } from "@playwright/test";
+import { assert } from "@/utils/assert";
 import {
   adjustDeckCardQuantity,
   adjustListCardQuantity,
@@ -231,6 +232,44 @@ test.describe("deck edit", () => {
     ).toContainText("0");
 
     expect(await sumCardCounts(page)).toEqual(9);
+  });
+
+  test("draft random basic weakness", async ({ page }) => {
+    await page.goto("/deck/create/01001");
+    await page.getByTestId("create-save").click();
+
+    await assertEditorDeckQuantity(page, "01000", 1);
+
+    await page.getByTestId("draft-basic-weakness").click();
+
+    const weaknesses = await page.getByTestId("drafted-weakness").all();
+
+    const codes = await Promise.all(
+      weaknesses.map(async (weakness) => {
+        return await weakness.getAttribute("data-code");
+      }),
+    );
+
+    await weaknesses[0].click();
+
+    await page.getByTestId("draft-basic-weakness-confirm").click();
+
+    await assertEditorDeckQuantity(page, "01000", 0, false);
+    await assertEditorDeckQuantity(page, codes[0] as string, 0, true);
+
+    let count = 0;
+
+    try {
+      await assertEditorDeckQuantity(page, codes[1] as string, 1);
+      count += 1;
+    } catch {}
+
+    try {
+      await assertEditorDeckQuantity(page, codes[2] as string, 1);
+      count += 1;
+    } catch {}
+
+    assert(count === 1, `Expected 1 random basic weakness, got ${count}`);
   });
 
   test("customizable deck limits (honed instinct)", async ({ page }) => {

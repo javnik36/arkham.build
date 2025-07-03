@@ -43,6 +43,7 @@ export function DraftBasicWeakness(props: Props) {
     <Dialog>
       <DialogTrigger asChild>
         <Button
+          data-testid="draft-basic-weakness"
           disabled={!props.quantity || props.targetDeck !== "slots"}
           iconOnly
           size="sm"
@@ -72,10 +73,8 @@ function DraftBasicWeaknessModal(props: Props) {
     })),
   );
 
-  const weaknesses = useMemo(
-    () => selectDraftWeaknesses(deps, deck),
-    [deps, deck],
-  );
+  // biome-ignore lint/correctness/useExhaustiveDependencies: should only be computed once on mount
+  const weaknesses = useMemo(() => selectDraftWeaknesses(deps, deck), []);
 
   const [selectedWeakness, setSelectedWeakness] = useState<
     string | undefined
@@ -89,9 +88,9 @@ function DraftBasicWeaknessModal(props: Props) {
 
   const handleSubmit = useCallback(
     (evt: React.FormEvent<HTMLFormElement>) => {
-      assert(weaknesses, "Submit called before draft initialized.");
-
       evt.preventDefault();
+
+      assert(weaknesses, "Submit called before draft initialized.");
 
       const remainingWeaknesses = weaknesses.filter(
         (w) => w.code !== selectedWeakness,
@@ -103,6 +102,8 @@ function DraftBasicWeaknessModal(props: Props) {
         ];
 
       assert(chosenWeakness, "Could not determine which weakness to add.");
+
+      dialogContext?.setOpen(false);
 
       updateCardQuantity(
         deck.id,
@@ -119,8 +120,6 @@ function DraftBasicWeaknessModal(props: Props) {
           deps.metadata.cards[SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS],
         ),
       );
-
-      dialogContext?.setOpen(false);
 
       toast.show({
         variant: "success",
@@ -161,9 +160,7 @@ function DraftBasicWeaknessModal(props: Props) {
         {weaknesses ? (
           <form className={css["container"]} onSubmit={handleSubmit}>
             <h3>{t("deck_edit.draft_weakness_modal.explanation_title")}</h3>
-            <p className={`${css["p"]}`}>
-              {t("deck_edit.draft_weakness_modal.explanation_body")}
-            </p>
+            <p>{t("deck_edit.draft_weakness_modal.explanation_body")}</p>
             <h3>{t("deck_edit.draft_weakness_modal.choice_title")}</h3>
             <ol className={css["list-container"]}>
               {weaknesses.map((weakness) => (
@@ -178,6 +175,7 @@ function DraftBasicWeaknessModal(props: Props) {
             <footer style={accentColor}>
               <Button
                 type="submit"
+                data-testid="draft-basic-weakness-confirm"
                 disabled={!selectedWeakness}
                 style={accentColor}
                 variant="primary"
@@ -212,8 +210,6 @@ type WeaknessCardProps = {
 function WeaknessCard(props: WeaknessCardProps) {
   const { card, selectedCode, setSelectedCode } = props;
 
-  const { t } = useTranslation();
-
   const { refs, referenceProps, isMounted, floatingStyles, transitionStyles } =
     useRestingTooltip();
 
@@ -227,6 +223,8 @@ function WeaknessCard(props: WeaknessCardProps) {
       {/** biome-ignore lint/a11y/noStaticElementInteractions: CardScan has nested buttons. */}
       {/** biome-ignore lint/a11y/useKeyWithClickEvents: TODO */}
       <div
+        data-testid="drafted-weakness"
+        data-code={card.code}
         className={css["card-container"]}
         onClick={() => {
           setSelectedCode(selectedCode === card.code ? undefined : card.code);
@@ -241,24 +239,19 @@ function WeaknessCard(props: WeaknessCardProps) {
         <CardScan card={card} preventFlip />
       </div>
 
-      <div className={css["title-container"]}>
-        <span ref={refs.setReference} {...referenceProps}>
-          {displayAttribute(card, "name")}
-        </span>
-
-        <Button
-          as="a"
-          href={`/card/${card.code}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          variant="link"
-          size="sm"
-          className={css["title-button"]}
-        >
-          <ExternalLinkIcon className="h-4 w-4 mr-2" />
-          {t("card_modal.actions.open_card_page")}
-        </Button>
-      </div>
+      <Button
+        {...referenceProps}
+        ref={refs.setReference}
+        as="a"
+        href={`/card/${card.code}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        variant="link"
+        className={css["title-button"]}
+      >
+        <ExternalLinkIcon />
+        {displayAttribute(card, "name")}
+      </Button>
 
       {isMounted && (
         <PortaledCardTooltip
