@@ -84,6 +84,7 @@ const tests = [
   ],
   ["Exile: Apply Deja Vu discount", "exile_deja_vu"],
   ["Exile: Apply Deja Vu discount to singles", "exile_deja_vu_singles"],
+  ["Exile: Apply 2x copies of Deja Vu discount", "exile_deja_vu_multiple"],
   [
     "Exile: Don't apply Deja Vu discount to different levels of same card",
     "exile_deja_vu_level_diff",

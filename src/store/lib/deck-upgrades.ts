@@ -217,16 +217,16 @@ function calculateXpSpent(
   function applyDejaVu(card: Card, _cost: number, quantity: number) {
     let cost = _cost;
 
-    const repurchasable = Math.min(
-      modifiers.dejaVu,
-      quantity,
-      next.exileSlots[card.code],
-    );
+    const repurchasable = Math.min(quantity, next.exileSlots[card.code]);
+    const dejaVuQuantity = next.slots[SPECIAL_CARD_CODES.DEJA_VU];
 
     for (const _ of range(0, repurchasable)) {
-      if (cost > 0) {
-        cost -= 1;
-        modifiers.dejaVu -= 1;
+      const mod = modifiers.dejaVu;
+
+      if (mod > 0 && cost > 0) {
+        const discount = Math.min(dejaVuQuantity, cost);
+        cost -= discount;
+        modifiers.dejaVu -= discount;
       }
     }
 
