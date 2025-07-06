@@ -829,8 +829,6 @@ class DeckOptionsValidator implements SlotValidator {
             const val = clustered[curr] ?? 0;
             return val >= acc ? val : acc;
           }, 0);
-
-          actual = clustered[target[0]];
         }
       }
 

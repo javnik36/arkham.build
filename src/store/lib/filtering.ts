@@ -902,10 +902,10 @@ export function makeOptionFilter(
 }
 
 function parseOption(option: DeckOption, config?: InvestigatorAccessConfig) {
-  const optionFilter = [];
+  const optionFilter: Filter[] = [];
   let filterCount = 0;
 
-  if (option.limit || option.atleast || option.not) {
+  if (option.limit || option.not) {
     filterCount += 1;
   }
 
