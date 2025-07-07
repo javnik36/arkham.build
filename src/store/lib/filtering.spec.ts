@@ -488,6 +488,23 @@ describe("filter: investigator access", () => {
         }),
       ).toBeFalsy();
     });
+
+    it("handles an `atleast` deck option", () => {
+      const state = store.getState();
+      expect(applyFilter(state, "10004", "05038")).toBeFalsy();
+      expect(
+        applyFilter(state, "10004", "05038", {
+          additionalDeckOptions: [
+            {
+              atleast: { min: 10, types: 1 },
+              type: ["skill"],
+              virtual: true,
+              error: "Deck must have at least 10 skill cards.",
+            },
+          ],
+        }),
+      ).toBeFalsy();
+    });
   });
 
   describe("parallel jenny: non-`permanent` talents", () => {
