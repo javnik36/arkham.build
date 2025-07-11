@@ -86,7 +86,7 @@ export function Modal(props: Props) {
     <div
       {...rest}
       className={cx(css["modal"], centerContent && css["center"], className)}
-      onClick={onCloseModalOutside}
+      onMouseDown={onCloseModalOutside}
       ref={modalRef}
       style={cssVariables as React.CSSProperties}
     >
