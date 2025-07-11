@@ -6,7 +6,7 @@
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
   width: 100%;
-  z-index: 20;
+  z-index: 90;
   container-type: inline-size;
   padding-left: var(--scrollbar-padding);
 

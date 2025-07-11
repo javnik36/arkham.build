@@ -31,12 +31,16 @@
 }
 
 .card-container {
+  display: block;
+  background: transparent;
+  border-radius: var(--rounded-scan);
   max-width: 15rem;
   margin: 0 auto;
   position: relative;
   transition: transform 0.125s ease;
   user-select: none;
   will-change: transform;
+  width: 100%;
 
   @media screen and (min-width: 40rem) {
     margin: 0;
@@ -48,6 +52,12 @@
     transform: translateY(-0.25rem);
     transition: transform 0.125s ease;
   }
+
+  &:focus-visible {
+    transform: translateY(-0.25rem);
+    transition: transform 0.125s ease;
+    border: 2px solid var(--focus);
+  }
 }
 
 .title-button {
@@ -57,7 +67,7 @@
 .overlay {
   position: absolute;
   inset: 0;
-  border-radius: 3.75%;
+  border-radius: var(--rounded-scan);
   background-color: rgba(0, 0, 0, 0.375);
   z-index: 1;
 }

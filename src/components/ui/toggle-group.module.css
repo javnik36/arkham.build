@@ -29,6 +29,7 @@
 
 .item {
   --background-inactive: var(--palette-point-five);
+  --background-hover: var(--palette-1);
   --background-active: var(--palette-2);
   --color-border: var(--palette-2);
   --active-color: var(--palette-6);
@@ -71,13 +72,13 @@
   }
 
   &:focus-visible {
-    z-index: 2;
+    z-index: 1;
   }
 
   &:hover:not([data-state="on"]),
   &:active:not([data-state="on"]),
   &:focus-visible:not([data-state="on"]) {
-    background: var(--background-inactive);
+    background: var(--background-hover);
   }
 
   &:hover[data-state="on"],
@@ -90,5 +91,6 @@
 :root[data-theme="light"] .item {
   --background-active: var(--white);
   --background-inactive: var(--palette-1);
+  --background-hover: var(--palette-point-five);
   --color-border: var(--palette-2);
 }

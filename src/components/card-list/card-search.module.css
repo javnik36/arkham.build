@@ -42,7 +42,7 @@
     0.125s visibility;
   visibility: hidden;
   width: 100%;
-  z-index: 2;
+  z-index: 1;
 }
 
 .container:focus-within .flags {

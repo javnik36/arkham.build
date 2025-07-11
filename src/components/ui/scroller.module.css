@@ -21,7 +21,7 @@
   touch-action: none;
   padding: 2px;
   background: var(--color-scrollbar);
-  z-index: 4;
+  z-index: 10;
   transition: background 160ms ease-out;
 }
 

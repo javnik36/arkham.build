@@ -45,7 +45,7 @@
   stroke: none;
   top: 0.25rem;
   right: 0.25rem;
-  z-index: 2;
+  z-index: 1;
 }
 
 :root[data-theme="light"] .active {
