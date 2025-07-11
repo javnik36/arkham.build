@@ -220,15 +220,20 @@ function WeaknessCard(props: WeaknessCardProps) {
       key={card.code}
       className={`${css["list-item"]} ${isSelected ? css["selected"] : ""}`}
     >
-      {/** biome-ignore lint/a11y/noStaticElementInteractions: CardScan has nested buttons. */}
-      {/** biome-ignore lint/a11y/useKeyWithClickEvents: TODO */}
-      <div
+      <button
+        className={css["card-container"]}
         data-testid="drafted-weakness"
         data-code={card.code}
-        className={css["card-container"]}
         onClick={() => {
           setSelectedCode(selectedCode === card.code ? undefined : card.code);
         }}
+        onKeyDown={(evt) => {
+          if (evt.key === "Enter" || evt.key === " ") {
+            evt.preventDefault();
+            setSelectedCode(selectedCode === card.code ? undefined : card.code);
+          }
+        }}
+        type="button"
       >
         {isSelected && (
           <>
@@ -237,7 +242,7 @@ function WeaknessCard(props: WeaknessCardProps) {
           </>
         )}
         <CardScan card={card} preventFlip />
-      </div>
+      </button>
 
       <Button
         {...referenceProps}
@@ -248,6 +253,7 @@ function WeaknessCard(props: WeaknessCardProps) {
         rel="noopener noreferrer"
         variant="link"
         className={css["title-button"]}
+        tabIndex={-1}
       >
         <ExternalLinkIcon />
         {displayAttribute(card, "name")}
