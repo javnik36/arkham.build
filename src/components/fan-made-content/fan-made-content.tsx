@@ -401,7 +401,18 @@ function ProjectCard(props: {
       classNames={classNames}
       data-testid="collection-project"
       key={meta.code}
-      headerSlot={headerSlot}
+      headerSlot={
+        <>
+          {headerSlot}
+          {meta.banner_credit && (
+            <p className={cx(css["banner-credit"], "blurred-background")}>
+              {t("fan_made_content.banner_credit", {
+                credit: meta.banner_credit,
+              })}
+            </p>
+          )}
+        </>
+      }
       footerSlot={
         <div className={css["project-footer-row"]}>
           {!isEmpty(project.meta.types) && (

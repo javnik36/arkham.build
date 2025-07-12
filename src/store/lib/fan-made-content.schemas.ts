@@ -29,6 +29,9 @@ const ProjectMetaSchema = z.object({
   author: z.string().register(z.globalRegistry, {
     description: "Author of the project.",
   }),
+  banner_credit: z.optional(z.string()).register(z.globalRegistry, {
+    description: "Credit for the banner image.",
+  }),
   banner_url: z.optional(z.string()).register(z.globalRegistry, {
     description: "URL to a banner image. Ideal dimensions: 1180x500.",
   }),
