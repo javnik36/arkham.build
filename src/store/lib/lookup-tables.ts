@@ -8,6 +8,7 @@ import {
   REGEX_SUCCEED_BY,
 } from "@/utils/constants";
 import { time, timeEnd } from "@/utils/time";
+import { selectSettingsTabooId } from "../selectors/shared";
 import type { Metadata } from "../slices/metadata.types";
 import type { SettingsState } from "../slices/settings.types";
 import type { LookupTable, LookupTables } from "./lookup-tables.types";
@@ -60,7 +61,7 @@ export function createLookupTables(
   for (const card of cards) {
     addCardToLookupTables(
       lookupTables,
-      applyTaboo(card, metadata, settings.tabooSetId),
+      applyTaboo(card, metadata, selectSettingsTabooId(settings, metadata)),
     );
   }
 

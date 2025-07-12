@@ -9,6 +9,7 @@ import { createLookupTables } from "../lib/lookup-tables";
 import type { ResolvedDeck } from "../lib/types";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
+import type { Metadata } from "../slices/metadata.types";
 
 export const selectMetadata = createSelector(
   (state: StoreState) => state.metadata,
@@ -181,3 +182,19 @@ export const selectLocaleSortingCollator = createSelector(
     });
   },
 );
+
+export function selectSettingsTabooId(
+  settings: StoreState["settings"],
+  metadata: Metadata,
+) {
+  const tabooSetId = settings.tabooSetId;
+
+  if (tabooSetId === "latest") {
+    const id = Object.keys(metadata.tabooSets)
+      .sort((a, b) => +a - +b) // INVARIANT: taboo set ids are integers
+      .pop();
+    return id ? +id : undefined;
+  }
+
+  return tabooSetId;
+}

@@ -55,6 +55,7 @@ export function CardListItemFull(props: Props) {
   return (
     <div className={css["card-list-item-full"]}>
       <CardComponent
+        key={card.code}
         slotHeaderActions={<CardActions {...rest} card={card} />}
         resolvedCard={resolvedCard}
         size="full"

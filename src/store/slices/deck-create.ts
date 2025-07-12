@@ -3,10 +3,9 @@ import { assert } from "@/utils/assert";
 import { displayAttribute, getCanonicalCardCode } from "@/utils/card-utils";
 import { getDefaultDeckName } from "../lib/deck-factory";
 import { selectConnectionsData } from "../selectors/connections";
-import { selectMetadata } from "../selectors/shared";
+import { selectMetadata, selectSettingsTabooId } from "../selectors/shared";
 import type { StoreState } from ".";
 import type { CardSet, DeckCreateSlice } from "./deck-create.types";
-import type { Metadata } from "./metadata.types";
 
 export const createDeckCreateSlice: StateCreator<
   StoreState,
@@ -53,11 +52,6 @@ export const createDeckCreateSlice: StateCreator<
         provider !== "arkhamdb" ||
         connections.some((c) => c.provider === provider);
 
-      const tabooSetId: number | undefined =
-        state.settings.tabooSetId === "latest"
-          ? latestTabooSetId(metadata)
-          : state.settings.tabooSetId;
-
       return {
         deckCreate: {
           extraCardQuantities: {},
@@ -67,7 +61,7 @@ export const createDeckCreateSlice: StateCreator<
           provider: providerExists ? provider : "local",
           selections: {},
           sets: ["requiredCards"],
-          tabooSetId,
+          tabooSetId: selectSettingsTabooId(settings, metadata),
           title: getDefaultDeckName(
             displayAttribute(investigator, "name"),
             investigator.faction_code,
@@ -233,11 +227,4 @@ function isCardSet(value: string): value is CardSet {
   return (
     value === "requiredCards" || value === "advanced" || value === "replacement"
   );
-}
-
-function latestTabooSetId(metadata: Metadata) {
-  const id = Object.keys(metadata.tabooSets)
-    .sort((a, b) => +a - +b) // INVARIANT: taboo set ids are integers
-    .pop();
-  return id ? +id : undefined;
 }

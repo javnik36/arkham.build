@@ -85,6 +85,7 @@ import {
   selectLocaleSortingCollator,
   selectLookupTables,
   selectMetadata,
+  selectSettingsTabooId,
 } from "./shared";
 
 export type CardGroup = {
@@ -353,7 +354,7 @@ export function selectCanonicalTabooSetId(
 
   if (typeof filterValue?.value === "number") return filterValue.value;
 
-  return state.settings.tabooSetId;
+  return selectSettingsTabooId(state.settings, selectMetadata(state));
 }
 
 // This selector uses a custom equality check that avoid re-creation on every deck change.
