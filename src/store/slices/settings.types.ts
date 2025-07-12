@@ -48,7 +48,7 @@ export type SettingsState = {
   showMoveToSideDeck: boolean;
   showPreviews: boolean;
   sortIgnorePunctuation: boolean;
-  tabooSetId: number | undefined;
+  tabooSetId: number | undefined | "latest";
   useLimitedPoolForWeaknessDraw: boolean;
 };
 

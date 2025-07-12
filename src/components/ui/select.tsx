@@ -6,7 +6,7 @@ export type SelectOption = {
   value: string | number;
 };
 
-interface Props extends React.ComponentProps<"select"> {
+export interface Props extends React.ComponentProps<"select"> {
   required?: boolean;
   emptyLabel?: string;
   options: SelectOption[];

@@ -4,6 +4,7 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "wouter";
 import { ListCard } from "@/components/list-card/list-card";
+import { TabooSelect } from "@/components/taboo-select";
 import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
 import type { SelectOption } from "@/components/ui/select";
@@ -17,7 +18,6 @@ import {
   selectDeckCreateChecked,
   selectDeckCreateInvestigators,
 } from "@/store/selectors/deck-create";
-import { selectTabooSetSelectOptions } from "@/store/selectors/lists";
 import { selectConnectionLock } from "@/store/selectors/shared";
 import type { Card } from "@/store/services/queries.types";
 import type { DeckStorageProvider } from "@/store/slices/settings.types";
@@ -37,7 +37,6 @@ export function DeckCreateEditor() {
 
   const connections = useStore(selectConnectionsData);
   const connectionLock = useStore(selectConnectionLock);
-  const tabooSets = useStore(selectTabooSetSelectOptions);
   const provider = useStore((state) => state.deckCreate?.provider);
   const settings = useStore((state) => state.settings);
 
@@ -203,14 +202,13 @@ export function DeckCreateEditor() {
       </Field>
 
       <Field full padded>
-        <FieldLabel htmlFor="taboo">{t("deck_edit.config.taboo")}</FieldLabel>
-        <Select
-          data-testid="create-taboo"
-          emptyLabel={t("common.none")}
-          name="taboo"
+        <FieldLabel htmlFor="create-taboo">
+          {t("deck_edit.config.taboo")}
+        </FieldLabel>
+        <TabooSelect
+          id="create-taboo"
           onChange={onTabooSetChange}
-          options={tabooSets}
-          value={deckCreate.tabooSetId ?? ""}
+          value={deckCreate.tabooSetId}
         />
       </Field>
 

@@ -183,6 +183,7 @@
       "fast": "Fast",
       "icon_one": "skill icon",
       "icon_other": "skill icons",
+      "latest": "Latest",
       "level": {
         "base": "Level 0 / Null",
         "none": "No level",

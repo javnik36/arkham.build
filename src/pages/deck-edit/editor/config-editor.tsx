@@ -7,6 +7,7 @@ import {
   LimitedCardPoolField,
   SealedDeckField,
 } from "@/components/limited-card-pool/limited-card-pool";
+import { TabooSelect } from "@/components/taboo-select";
 import { Field, FieldLabel } from "@/components/ui/field";
 import type { SelectOption } from "@/components/ui/select";
 import { Select } from "@/components/ui/select";
@@ -17,7 +18,6 @@ import type {
   ResolvedDeck,
   SealedDeck,
 } from "@/store/lib/types";
-import { selectTabooSetSelectOptions } from "@/store/selectors/lists";
 import type { DeckOptionSelectType } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
 import { debounce } from "@/utils/debounce";
@@ -67,7 +67,6 @@ export function MetaEditor(props: Props) {
   const { deck } = props;
 
   const { t } = useTranslation();
-  const tabooSets = useStore(selectTabooSetSelectOptions);
 
   const selectedPacks = useMemo(() => deck.cardPool ?? [], [deck.cardPool]);
 
@@ -220,13 +219,13 @@ export function MetaEditor(props: Props) {
         />
       )}
       <Field full padded>
-        <FieldLabel>{t("deck_edit.config.taboo")}</FieldLabel>
-        <Select
-          data-testid="meta-taboo-set"
-          emptyLabel={t("common.none")}
+        <FieldLabel htmlFor="meta-taboo-set">
+          {t("deck_edit.config.taboo")}
+        </FieldLabel>
+        <TabooSelect
+          id="meta-taboo-set"
           onChange={onTabooChange}
-          options={tabooSets}
-          value={deck.taboo_id ?? ""}
+          value={deck.taboo_id}
         />
       </Field>
 

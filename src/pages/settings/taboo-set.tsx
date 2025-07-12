@@ -1,39 +1,34 @@
 import { useTranslation } from "react-i18next";
+import { TabooSelect } from "@/components/taboo-select";
 import { Field, FieldLabel } from "@/components/ui/field";
-import { Select } from "@/components/ui/select";
-import { useStore } from "@/store";
-import { selectTabooSetOptions } from "@/store/selectors/lists";
-import { formatTabooSet } from "@/utils/formatting";
 import type { SettingProps } from "./types";
 
 export function TabooSetSetting(props: SettingProps) {
   const { settings, setSettings } = props;
   const { t } = useTranslation();
 
-  const tabooSets = useStore(selectTabooSetOptions);
-
   const onChange = (evt: React.ChangeEvent<HTMLSelectElement>) => {
     if (evt.target instanceof HTMLSelectElement) {
-      const value = +evt.target.value || undefined;
-      setSettings((settings) => ({ ...settings, tabooSetId: value }));
+      const value = evt.target.value;
+      const tabooSetId =
+        value === "latest" ? "latest" : Number.parseInt(value, 10);
+
+      setSettings((settings) => ({ ...settings, tabooSetId }));
     }
   };
 
+  const id = "settings-taboo-set";
+
   return (
     <Field bordered>
-      <FieldLabel htmlFor="taboo-set">
+      <FieldLabel htmlFor={id}>
         {t("settings.general.default_taboo")}
       </FieldLabel>
-      <Select
-        data-testid="settings-taboo-set"
-        emptyLabel={t("common.none")}
-        id="taboo-set"
-        name="taboo-set"
+      <TabooSelect
+        includeLatest
+        id={id}
         onChange={onChange}
-        value={settings.tabooSetId ?? ""}
-        options={tabooSets.map((set) => {
-          return { label: formatTabooSet(set), value: set.id };
-        })}
+        value={settings.tabooSetId}
       />
     </Field>
   );
