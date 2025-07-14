@@ -742,8 +742,8 @@ test.describe("deck edit", () => {
     await page.getByRole("button", { name: "Complete task" }).click();
     await page.locator("body").press("Escape");
 
-    assertEditorDeckQuantity(page, "11755a", 0);
-    assertEditorDeckQuantity(page, "11755b", 1);
+    await assertEditorDeckQuantity(page, "11755a", 0);
+    await assertEditorDeckQuantity(page, "11755b", 1);
   });
 
   test("notes editor: insert card", async ({ page }) => {
