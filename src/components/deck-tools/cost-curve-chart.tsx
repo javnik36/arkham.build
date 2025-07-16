@@ -14,7 +14,7 @@ import type { ChartableData } from "@/store/lib/deck-charts";
 import { cx } from "@/utils/cx";
 import { range } from "@/utils/range";
 import { useElementSize } from "../../utils/use-element-size";
-import { chartsTheme, containerTheme } from "./chart-theme";
+import { chartsTheme, containerTheme, tooltipWidth } from "./chart-theme";
 import css from "./deck-tools.module.css";
 
 type Props = {
@@ -82,7 +82,10 @@ export function CostCurveChart({ data }: Props) {
               size={6}
               labels={formatTooltips(t)}
               labelComponent={
-                <VictoryTooltip flyoutWidth={125} constrainToVisibleArea />
+                <VictoryTooltip
+                  flyoutWidth={tooltipWidth}
+                  constrainToVisibleArea
+                />
               }
             />
           </VictoryChart>

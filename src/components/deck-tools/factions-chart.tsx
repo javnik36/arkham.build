@@ -10,7 +10,7 @@ import type { ChartableData } from "@/store/lib/deck-charts";
 import type { FactionName } from "@/utils/constants";
 import { cx } from "@/utils/cx";
 import { useElementSize } from "../../utils/use-element-size";
-import { chartsTheme, containerTheme } from "./chart-theme";
+import { chartsTheme, containerTheme, tooltipWidth } from "./chart-theme";
 import css from "./deck-tools.module.css";
 
 type Props = {
@@ -98,9 +98,7 @@ function CustomLabel(props: VictoryLabelProps) {
         angle={0}
         theme={chartsTheme}
         labelPlacement="vertical"
-        flyoutWidth={(s) => {
-          return s.text.length * 12;
-        }}
+        flyoutWidth={tooltipWidth}
         constrainToVisibleArea
         text={text}
       />

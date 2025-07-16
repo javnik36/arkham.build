@@ -1,4 +1,9 @@
-import type { VictoryLabelStyleObject, VictoryThemeDefinition } from "victory";
+import type {
+  CallbackArgs,
+  VictoryLabelStyleObject,
+  VictoryThemeDefinition,
+} from "victory";
+import i18n from "@/utils/i18n";
 
 const baseChartProps = {
   height: 250,
@@ -56,7 +61,7 @@ export const chartsTheme: VictoryThemeDefinition = {
       stroke: "var(--palette-2)",
       strokeWidth: 1,
     },
-    flyoutPadding: { top: 12, bottom: 12, left: 6, right: 6 },
+    flyoutPadding: { top: 10, bottom: 10, left: 6, right: 6 },
   },
   pie: {
     ...baseChartProps,
@@ -91,3 +96,9 @@ export const chartsTheme: VictoryThemeDefinition = {
     },
   },
 };
+
+export function tooltipWidth({ text }: CallbackArgs) {
+  const baseWidth = i18n.language === "zh" || i18n.language === "ko" ? 12 : 8;
+
+  return text.length * baseWidth + 20;
+}

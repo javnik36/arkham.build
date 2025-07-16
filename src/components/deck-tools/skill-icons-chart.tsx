@@ -13,7 +13,7 @@ import type { ChartableData } from "@/store/lib/deck-charts";
 import { cx } from "@/utils/cx";
 import { useElementSize } from "../../utils/use-element-size";
 import { SkillIconFancy } from "../icons/skill-icon-fancy";
-import { chartsTheme, containerTheme } from "./chart-theme";
+import { chartsTheme, containerTheme, tooltipWidth } from "./chart-theme";
 import css from "./deck-tools.module.css";
 
 type Props = {
@@ -55,7 +55,7 @@ export function SkillIconsChart({ data }: Props) {
               labelComponent={
                 <VictoryTooltip
                   labelPlacement="vertical"
-                  flyoutWidth={200}
+                  flyoutWidth={tooltipWidth}
                   constrainToVisibleArea
                 />
               }
