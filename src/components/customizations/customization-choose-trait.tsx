@@ -48,6 +48,7 @@ export function CustomizationChooseTraits(props: Props) {
       disabled={disabled}
       id={`${id}-choose-trait`}
       items={traits}
+      itemToString={nameRenderer}
       label={t("common.trait", { count: limit })}
       limit={limit}
       locale={locale}
