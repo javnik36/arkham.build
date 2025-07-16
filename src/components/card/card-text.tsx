@@ -11,14 +11,10 @@ type Props = {
 };
 
 export function CardText(props: Props) {
-  const { flavor, size, text, typeCode, victory } = props;
+  const { flavor, text, typeCode, victory } = props;
   const { t } = useTranslation();
 
   const swapFlavor = ["agenda", "act", "story"].includes(typeCode);
-
-  const flavorIsCardText = swapFlavor || typeCode === "location";
-
-  const showFlavor = flavorIsCardText || size === "full";
 
   const textNode = !!text && (
     <div className={css["text"]} data-testid="card-text">
@@ -40,7 +36,7 @@ export function CardText(props: Props) {
     </div>
   );
 
-  const flavorNode = showFlavor && !!flavor && (
+  const flavorNode = !!flavor && (
     <div className={css["flavor"]}>
       <p
         // biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is from trusted source.

@@ -48,7 +48,7 @@ export function CardMeta(props: Props) {
 }
 
 function PlayerEntry(props: Props) {
-  const { resolvedCard, size } = props;
+  const { resolvedCard } = props;
   const { card, cycle, pack } = resolvedCard;
 
   const duplicates = isCardWithRelations(resolvedCard)
@@ -59,14 +59,13 @@ function PlayerEntry(props: Props) {
 
   return (
     <>
-      {size === "full" &&
-        duplicates?.map((duplicate) => (
-          <p className={css["meta-property"]} key={duplicate.card.code}>
-            {displayPackName(duplicate.pack)}{" "}
-            <PackIcon code={duplicate.pack.code} /> {duplicate.card.position}{" "}
-            <i className="icon-card-outline-bold" /> ×{duplicate.card.quantity}
-          </p>
-        ))}
+      {duplicates?.map((duplicate) => (
+        <p className={css["meta-property"]} key={duplicate.card.code}>
+          {displayPackName(duplicate.pack)}{" "}
+          <PackIcon code={duplicate.pack.code} /> {duplicate.card.position}{" "}
+          <i className="icon-card-outline-bold" /> ×{duplicate.card.quantity}
+        </p>
+      ))}
       <p className={css["meta-property"]}>
         {displayPackName(displayPack)} <PackIcon code={displayPack.code} />{" "}
         {card.position} <i className="icon-card-outline-bold" /> ×
