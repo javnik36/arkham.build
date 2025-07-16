@@ -75,7 +75,13 @@ function formatTooltips(t: TFunction) {
   return (value: { datum: { xName: string; y: number } }) => {
     const { xName, y } = value.datum;
     const skill = xName.replace("skill_", "");
-    return `${y} ${t(`common.skill.${skill}`)} ${t("common.icon", { count: y })}`;
+    const count = y ?? 0;
+
+    return t("deck.tools.skill_icons_tooltip", {
+      count,
+      skill: t(`common.skill.${skill}`),
+      icons: t("common.icon", { count }),
+    });
   };
 }
 

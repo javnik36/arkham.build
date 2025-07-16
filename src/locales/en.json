@@ -183,7 +183,6 @@
       "fast": "Fast",
       "icon_one": "skill icon",
       "icon_other": "skill icons",
-      "latest": "Latest",
       "level": {
         "base": "Level 0 / Null",
         "none": "No level",
@@ -750,11 +749,13 @@
         "cards": "Cards",
         "count": "Count",
         "factions": "Factions",
+        "factions_tooltip": "{{count}} {{faction}} {{cards}}",
         "loading": "Loading deck tools...",
         "resource_cost": "Resource cost",
         "resource_cost_tooltip": "{{count}} {{cards}} of cost {{cost}}",
         "resource_costs": "Resource costs",
         "skill_icons": "Skill icons",
+        "skill_icons_tooltip": "{{count}} {{skill}} {{icons}}",
         "title": "Deck tools"
       },
       "validation": {
@@ -892,13 +893,13 @@
       "discard": "Discard changes",
       "discard_confirm": "Are you sure you want to discard your changes?",
       "draft_weakness_modal": {
-        "too_few_rbw": "Too few random basic weaknesses available to perform draft.",
-        "title": "Drafting a basic weakness",
-        "explanation_title": "Explanation",
-        "explanation_body": "This is a common house rule to give the player more control over the basic weakness in comparison to fully randomizing it. Three basic weaknesses are drawn at random, the player gets to cancel one of them and then one of the remaining two weaknesses is added to the deck at random.",
+        "cancel_button": "Cancel",
         "choice_title": "Choose one weakness to cancel",
         "confirm_button": "Confirm",
-        "cancel_button": "Cancel"
+        "explanation_body": "This is a common house rule to give the player more control over the basic weakness in comparison to fully randomizing it. Three basic weaknesses are drawn at random, the player gets to cancel one of them and then one of the remaining two weaknesses is added to the deck at random.",
+        "explanation_title": "Explanation",
+        "title": "Drafting a basic weakness",
+        "too_few_rbw": "Too few random basic weaknesses available to perform draft."
       },
       "notes": {
         "banner_url": "Banner URL",
@@ -1371,6 +1372,7 @@
       "error": "Failed to save settings: {{error}}",
       "general": {
         "default_taboo": "Default taboo list",
+        "latest_taboo": "Latest",
         "title": "General",
         "weakness_limited_card_pool": "Use limited card pool for random basic weakness draws",
         "weakness_limited_card_pool_help": "When this is checked, the random basic weakness draw will respect the limited card pool of a deck if one is defined."

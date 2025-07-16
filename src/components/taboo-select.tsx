@@ -25,7 +25,10 @@ export function TabooSelect(props: Props) {
 
     if (!includeLatest) return sets;
 
-    return [{ label: t("common.latest"), value: "latest" }, ...sets];
+    return [
+      { label: t("settings.general.latest_taboo"), value: "latest" },
+      ...sets,
+    ];
   }, [tabooSets, t, includeLatest]);
 
   return (

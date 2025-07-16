@@ -68,7 +68,11 @@ function CustomLabel(props: VictoryLabelProps) {
 
   const faction = datum?.xName ?? "unknown";
 
-  const text = `${count} ${t(`common.factions.${datum?.xName ?? "unknown"}`)} ${t("common.card", { count: props.datum?.y })}`;
+  const text = t("deck.tools.factions_tooltip", {
+    count,
+    faction: t(`common.factions.${faction}`),
+    cards: t("common.card", { count }),
+  });
 
   const size = 24;
 

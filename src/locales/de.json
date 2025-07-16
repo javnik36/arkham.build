@@ -7,6 +7,7 @@
         "card_design": "Anwendungsspezifische Spielerkarten.",
         "code": "Signifikante Code-Beiträge zu der Anwendung.",
         "customization_api": "Zugang zu API, die es ermöglicht, Verbesserungsbögen zu zeichnen.",
+        "qa": "QA Testing.",
         "testing": "Testen der Anwendung, Feedback und Fehlermeldungen in der frühen Entwicklungsphase.",
         "title": "Hall of Fame",
         "translation": {
@@ -748,11 +749,13 @@
         "cards": "Karten",
         "count": "Anzahl",
         "factions": "Klassen",
+        "factions_tooltip": "{{count}} {{faction}} {{cards}}",
         "loading": "Werkzeuge laden...",
         "resource_cost": "Ressourcenkosten",
         "resource_cost_tooltip": "{{count}} {{cards}}, die {{cost}} kosten",
         "resource_costs": "Ressourcenkosten",
         "skill_icons": "Fertigkeitssymbole",
+        "skill_icons_tooltip": "{{count}} \"{{skill}}\" {{icons}}",
         "title": "Werkzeuge"
       },
       "validation": {
@@ -874,6 +877,7 @@
         "taboo": "Tabuliste",
         "tags": "Schlagwörter",
         "tags_help": "Schlagwörter, mit Leerzeichen getrennt",
+        "title_and_tags": "Titel & Schlagwörter bearbeiten",
         "version": {
           "switch": "Wechseln",
           "title": "Andere Versionen"
@@ -889,12 +893,12 @@
       "discard": "Verwerfen",
       "discard_confirm": "Bist du sicher, dass du die Änderungen verwerfen möchtest?",
       "draft_weakness_modal": {
-        "title": "Basisschwäche draften",
-        "explanation_title": "Erklärung",
-        "explanation_body": "Dies ist eine gängige Hausregel, um dem Spieler mehr Kontrolle über die Basisschwäche zu geben, anstatt sie vollständig zufällig zu bestimmen. Drei Grundwschwächen werden zufällig bestimmt, der Spieler annuliert eine davon und dann wird zufällig eine der verbleibenden beiden Schwächen dem Deck hinzugefügt.",
+        "cancel_button": "Abbrechen",
         "choice_title": "Wähle eine Schwäche zum Annullieren",
         "confirm_button": "Bestätigen",
-        "cancel_button": "Abbrechen",
+        "explanation_body": "Dies ist eine gängige Hausregel, um dem Spieler mehr Kontrolle über die Basisschwäche zu geben, anstatt sie vollständig zufällig zu bestimmen. Drei Grundwschwächen werden zufällig bestimmt, der Spieler annuliert eine davon und dann wird zufällig eine der verbleibenden beiden Schwächen dem Deck hinzugefügt.",
+        "explanation_title": "Erklärung",
+        "title": "Basisschwäche draften",
         "too_few_rbw": "Nicht genügend Grundschwächen verfügbar, um Draft durchzuführen."
       },
       "notes": {
@@ -1058,6 +1062,7 @@
         "view_external": "Mehr erfahren"
       },
       "available_content": "Verfügbare Inhalte",
+      "banner_credit": "Illus. {{credit}}",
       "content_types": "Inhaltstypen",
       "content_version": "Inhaltsversion",
       "empty": "Keine Inhalte installiert",
@@ -1367,6 +1372,7 @@
       "error": "Speichern der Einstellungen fehlgeschlagen: {{error}}",
       "general": {
         "default_taboo": "Voreingestellte Tabuliste",
+        "latest_taboo": "Aktuelle Tabuliste",
         "title": "Allgemein",
         "weakness_limited_card_pool": "Zufällige Basisschwäche aus eingeschränktem Kartenpool ziehen",
         "weakness_limited_card_pool_help": "Wenn dies aktiviert ist, berücksichtigt das Ziehen der zufälligen Basisschwäche den eingeschränkten Kartenpool eines Decks, wenn einer hinterlegt ist."
