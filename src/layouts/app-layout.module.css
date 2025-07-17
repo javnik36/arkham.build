@@ -1,7 +1,5 @@
 .layout {
-  height: 100vh;
-  overflow: auto;
-  scrollbar-gutter: stable;
+  min-height: 100vh;
 }
 
 .layout-inner {
