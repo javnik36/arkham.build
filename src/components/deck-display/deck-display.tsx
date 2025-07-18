@@ -14,6 +14,7 @@ import type { DeckValidationResult } from "@/store/lib/deck-validation";
 import { deckTags, extendedDeckTags } from "@/store/lib/resolve-deck";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { History } from "@/store/selectors/decks";
+import { selectConnectionLockForDeck } from "@/store/selectors/shared";
 import { isEmpty } from "@/utils/is-empty";
 import { useAccentColor } from "@/utils/use-accent-color";
 import DeckDescription from "../deck-description";
@@ -28,7 +29,13 @@ import {
 } from "../limited-card-pool/limited-card-pool";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
-import { Modal, ModalContent } from "../ui/modal";
+import {
+  DefaultModalContent,
+  Modal,
+  ModalActions,
+  ModalBackdrop,
+  ModalInner,
+} from "../ui/modal";
 import { Plane } from "../ui/plane";
 import {
   Tabs,
@@ -59,7 +66,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
   const contentRef = useRef<HTMLDivElement>(null);
 
   const { t } = useTranslation();
-  const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
+  const cssVariables = useAccentColor(deck.investigatorBack.card);
   const hasHistory = !isEmpty(history);
 
   const onTabChange = useCallback(
@@ -226,12 +233,16 @@ function TitleEditModal(props: TitleEditModalProps) {
 
   const [loading, setLoading] = useState(false);
 
+  const connectionLock = useStore((state) =>
+    selectConnectionLockForDeck(state, deck),
+  );
+
   const { t } = useTranslation();
   const toast = useToast();
   const modalContext = useDialogContextChecked();
-  const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
+  const cssVariables = useAccentColor(deck.investigatorBack.card);
 
-  const updateNameAndTag = useStore((state) => state.updateNameAndTag);
+  const updateDeckProperties = useStore((state) => state.updateDeckProperties);
 
   const onCloseModal = useCallback(() => {
     modalContext?.setOpen(false);
@@ -251,7 +262,7 @@ function TitleEditModal(props: TitleEditModalProps) {
       try {
         const values = new FormData(evt.target as HTMLFormElement);
 
-        await updateNameAndTag(deck.id, {
+        await updateDeckProperties(deck.id, {
           name: values.get("name")?.toString() || "",
           tags: values.get("tags")?.toString() || "",
         });
@@ -266,7 +277,7 @@ function TitleEditModal(props: TitleEditModalProps) {
       } catch (err) {
         toast.show({
           children: t("deck_edit.save_error", {
-            message: (err as Error).message,
+            error: (err as Error).message,
           }),
           variant: "error",
         });
@@ -275,53 +286,58 @@ function TitleEditModal(props: TitleEditModalProps) {
         setLoading(false);
       }
     },
-    [deck.id, updateNameAndTag, onCloseModal, toast, t],
+    [deck.id, updateDeckProperties, onCloseModal, toast, t],
   );
 
   return (
     <DialogContent>
-      <Modal size="45rem" onClose={onCloseModal}>
-        <ModalContent
-          title={t("deck_edit.config.title_and_tags")}
-          style={cssVariables}
-        >
-          <form onSubmit={handleSubmit}>
-            <Field full padded>
-              <FieldLabel>{t("deck_edit.config.name")}</FieldLabel>
-              <input
-                data-testid="name-edit-name"
-                autoComplete="off"
-                type="text"
-                name="name"
-                required
-                defaultValue={deck.name}
-              />
-            </Field>
-            <Field full padded helpText={t("deck_edit.config.tags_help")}>
-              <FieldLabel>{t("deck_edit.config.tags")}</FieldLabel>
-              <input
-                autoComplete="off"
-                data-testid="name-edit-tags"
-                type="text"
-                name="tags"
-                defaultValue={deck.tags}
-              />
-            </Field>
-            <div className={css["name-modal-footer"]}>
-              <Button
-                disabled={loading}
-                variant="primary"
-                type="submit"
-                data-testid="name-edit-submit"
-              >
-                {t("deck_edit.save_short")}
-              </Button>
-              <Button onClick={onCloseModal} variant="bare">
-                {t("common.cancel")}
-              </Button>
-            </div>
-          </form>
-        </ModalContent>
+      <Modal>
+        <ModalBackdrop />
+        <ModalInner size="45rem">
+          <ModalActions />
+          <DefaultModalContent
+            title={t("deck_edit.config.title_and_tags")}
+            style={cssVariables}
+          >
+            <form onSubmit={handleSubmit}>
+              <Field full padded>
+                <FieldLabel>{t("deck_edit.config.name")}</FieldLabel>
+                <input
+                  data-testid="name-edit-name"
+                  autoComplete="off"
+                  type="text"
+                  name="name"
+                  required
+                  defaultValue={deck.name}
+                />
+              </Field>
+              <Field full padded helpText={t("deck_edit.config.tags_help")}>
+                <FieldLabel>{t("deck_edit.config.tags")}</FieldLabel>
+                <input
+                  autoComplete="off"
+                  data-testid="name-edit-tags"
+                  type="text"
+                  name="tags"
+                  defaultValue={deck.tags}
+                />
+              </Field>
+              <div className={css["name-modal-footer"]}>
+                <Button
+                  disabled={!!connectionLock || loading}
+                  variant="primary"
+                  type="submit"
+                  data-testid="name-edit-submit"
+                  tooltip={connectionLock}
+                >
+                  {t("deck_edit.save_short")}
+                </Button>
+                <Button onClick={onCloseModal} variant="bare">
+                  {t("common.cancel")}
+                </Button>
+              </div>
+            </form>
+          </DefaultModalContent>
+        </ModalInner>
       </Modal>
     </DialogContent>
   );
