@@ -5,17 +5,19 @@ import css from "./quantity-input.module.css";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   disabled?: boolean;
-  tabIndex?: number;
+  highlightValue?: boolean;
+  limit: number;
   limitOverride?: number;
   onValueChange?: (value: number, limit: number) => void;
+  tabIndex?: number;
   value: number;
-  limit: number;
 }
 
 export function QuantityInput(props: Props) {
   const {
     className,
     disabled,
+    highlightValue,
     limit,
     limitOverride,
     onValueChange,
@@ -35,7 +37,14 @@ export function QuantityInput(props: Props) {
   };
 
   return (
-    <div {...rest} className={cx(css["container"], className)}>
+    <div
+      {...rest}
+      className={cx(
+        css["container"],
+        highlightValue && value > 0 && css["has-value"],
+        className,
+      )}
+    >
       <Button
         data-testid="quantity-decrement"
         disabled={disabled || value <= 0}

@@ -35,6 +35,7 @@ export function CardListItemCompact(props: Props) {
       annotation={resolvedDeck?.annotations[card.code]}
       card={card}
       disableKeyboard
+      highlightQuantity
       isActive={index === currentTop}
       key={card.code}
       quantity={quantity}

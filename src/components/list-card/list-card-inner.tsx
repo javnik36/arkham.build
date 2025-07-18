@@ -49,6 +49,7 @@ export type Props = {
   disableKeyboard?: boolean;
   disableModalOpen?: boolean;
   figureRef?: (node: ReferenceType | null) => void;
+  highlightQuantity?: boolean;
   isActive?: boolean;
   isForbidden?: boolean;
   isIgnored?: number;
@@ -83,6 +84,7 @@ export function ListCardInner(props: Props) {
     disableKeyboard,
     disableModalOpen,
     figureRef,
+    highlightQuantity,
     isActive,
     isForbidden,
     isIgnored,
@@ -159,6 +161,7 @@ export function ListCardInner(props: Props) {
         {quantity != null &&
           (onChangeCardQuantity ? (
             <QuantityInput
+              highlightValue={highlightQuantity}
               limit={limit}
               limitOverride={limitOverride}
               onValueChange={onQuantityChange}
