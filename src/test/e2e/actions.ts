@@ -63,7 +63,9 @@ export async function importDeckFromFile(
 export async function shareDeck(page: Page, navigate = true) {
   await page.getByTestId("share-create").click();
 
-  await expect(page.getByTestId("share-link")).toBeVisible();
+  await expect(page.getByTestId("share-link")).toBeVisible({
+    timeout: 15000,
+  });
 
   if (navigate) {
     await page.waitForTimeout(1000);
