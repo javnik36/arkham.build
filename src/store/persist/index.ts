@@ -85,7 +85,10 @@ export async function dehydrate(
 ) {
   time("dehydration");
 
-  tryEnablePersistence();
+  // Only ask for persistence when saving app data
+  if (types.includes("app")) {
+    tryEnablePersistence();
+  }
 
   try {
     const partials = await Promise.all(
