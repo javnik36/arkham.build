@@ -186,8 +186,16 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       if (card.encounter_code) {
         const encounterSet = metadata.encounterSets[card.encounter_code];
 
-        if (encounterSet && !encounterSet.pack_code) {
-          encounterSet.pack_code = card.pack_code;
+        if (encounterSet) {
+          if (
+            card.position < (encounterSet.position ?? Number.MAX_SAFE_INTEGER)
+          ) {
+            encounterSet.position = card.position;
+          }
+
+          if (!encounterSet.pack_code) {
+            encounterSet.pack_code = card.pack_code;
+          }
         }
       }
     }

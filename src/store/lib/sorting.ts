@@ -162,6 +162,7 @@ export function sortByEncounterSet(
     return (
       cycleA.position - cycleB.position ||
       packA.position - packB.position ||
+      (setA.position ?? 0) - (setB.position ?? 0) ||
       collator.compare(setA.name, setB.name)
     );
   };
