@@ -36,6 +36,15 @@ type Props = {
   readonly?: boolean;
 };
 
+const diffCardProps = {
+  size: "xs" as const,
+  omitBorders: true,
+  omitThumbnail: true,
+  omitIcon: true,
+  omitDetails: true,
+  cardShowCollectionNumber: false,
+};
+
 export function LatestUpgrade(props: Props) {
   const { currentTab, overflowScroll, readonly, deck } = props;
   const { t } = useTranslation();
@@ -111,23 +120,23 @@ export function LatestUpgrade(props: Props) {
           <SlotDiff
             title={t("common.decks.slots")}
             differences={differences.slots}
-            size="sm"
+            listCardProps={diffCardProps}
           />
           <SlotDiff
             title={t("common.decks.extraSlots")}
             differences={differences.extraSlots}
-            size="sm"
+            listCardProps={diffCardProps}
           />
           <SlotDiff
             title={t("common.exiled_cards")}
             differences={differences.exileSlots}
             omitHeadings
-            size="sm"
+            listCardProps={diffCardProps}
           />
           <CustomizableDiff
             title={t("common.customizations")}
             differences={differences.customizations}
-            size="sm"
+            listCardProps={diffCardProps}
           />
         </>
       ) : (

@@ -1,18 +1,22 @@
 import { useTranslation } from "react-i18next";
-import { ListCard } from "@/components/list-card/list-card";
+import {
+  ListCard,
+  type Props as ListcardProps,
+} from "@/components/list-card/list-card";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { SlotUpgrade } from "@/store/selectors/decks";
 import { cx } from "@/utils/cx";
 import css from "./diffs.module.css";
 
 export function SlotDiff(props: {
+  listCardProps?: Partial<ListcardProps>;
   differences: SlotUpgrade[];
   deck?: ResolvedDeck;
   omitHeadings?: boolean;
   size?: "sm";
   title: React.ReactNode;
 }) {
-  const { deck, differences, omitHeadings, size, title } = props;
+  const { deck, differences, listCardProps, omitHeadings, size, title } = props;
   const { t } = useTranslation();
 
   if (!differences.length) return null;
@@ -44,11 +48,11 @@ export function SlotDiff(props: {
           <ol className={css["diffs"]}>
             {additions.map((change, idx) => (
               <DiffEntry
+                listCardProps={listCardProps}
                 // biome-ignore lint/suspicious/noArrayIndexKey: no natural key available.
                 key={idx}
                 deck={deck}
                 change={change}
-                size={size}
               />
             ))}
           </ol>
@@ -64,11 +68,11 @@ export function SlotDiff(props: {
           <ol className={css["diffs"]}>
             {removals.map((change, idx) => (
               <DiffEntry
+                listCardProps={listCardProps}
                 // biome-ignore lint/suspicious/noArrayIndexKey: no natural key available.
                 key={idx}
                 deck={deck}
                 change={change}
-                size={size}
               />
             ))}
           </ol>
@@ -79,11 +83,11 @@ export function SlotDiff(props: {
 }
 
 function DiffEntry(props: {
+  listCardProps?: Partial<ListcardProps>;
   deck?: ResolvedDeck;
   change: SlotUpgrade;
-  size?: "sm";
 }) {
-  const { deck, change, size } = props;
+  const { deck, change, listCardProps } = props;
 
   return (
     <li className={css["diff"]}>
@@ -97,12 +101,11 @@ function DiffEntry(props: {
         {Math.abs(change.diff)}
       </span>
       <ListCard
+        {...listCardProps}
         annotation={deck?.annotations[change.card.code]}
         key={change.card.code}
         card={change.card}
         omitBorders
-        omitThumbnail={size === "sm"}
-        size={size === "sm" ? "xs" : "sm"}
       />
     </li>
   );

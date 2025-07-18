@@ -42,7 +42,7 @@ export type Props = {
   annotation?: string | null;
   as?: "li" | "div";
   card: Card;
-  cardLevelDisplay: SettingsState["cardLevelDisplay"];
+  cardLevelDisplay?: SettingsState["cardLevelDisplay"];
   cardShowCollectionNumber?: SettingsState["cardShowCollectionNumber"];
   cardSkillIconsDisplay?: SettingsState["cardSkillIconsDisplay"];
   className?: string;
@@ -56,6 +56,8 @@ export type Props = {
   isRemoved?: boolean;
   limitOverride?: number;
   omitBorders?: boolean;
+  omitDetails?: boolean;
+  omitIcon?: boolean;
   omitThumbnail?: boolean;
   onChangeCardQuantity?: (card: Card, quantity: number, limit: number) => void;
   ownedCount?: number;
@@ -66,7 +68,7 @@ export type Props = {
   renderCardBefore?: RenderCallback;
   renderCardMetaExtra?: RenderCallback;
   renderCardExtra?: RenderCallback;
-  size?: "xs" | "sm" | "investigator";
+  size?: "xs" | "sm" | "investigator" | "standard";
   showCardText?: boolean;
   showInvestigatorIcons?: boolean;
   titleOpens?: "card-modal" | "dialog";
@@ -91,6 +93,8 @@ export function ListCardInner(props: Props) {
     isRemoved,
     limitOverride,
     omitBorders,
+    omitDetails,
+    omitIcon,
     omitThumbnail,
     onChangeCardQuantity,
     ownedCount,
@@ -190,7 +194,7 @@ export function ListCardInner(props: Props) {
               </ListCardLink>
             )}
 
-            {size !== "xs" && card.faction_code !== "mythos" && (
+            {!omitIcon && size !== "xs" && card.faction_code !== "mythos" && (
               <div className={cx(css["icon"], colorCls)}>
                 <CardIcon card={card} />
               </div>
@@ -210,7 +214,7 @@ export function ListCardInner(props: Props) {
                       cardLevelDisplay={
                         cardLevelDisplay === "icon-only" && size === "xs"
                           ? "dots"
-                          : cardLevelDisplay
+                          : (cardLevelDisplay ?? "icon-only")
                       }
                       cardShowCollectionNumber={cardShowCollectionNumber}
                     />
@@ -252,7 +256,7 @@ export function ListCardInner(props: Props) {
                 )}
               </div>
 
-              {size !== "xs" && (
+              {!omitDetails && size !== "xs" && (
                 <div className={css["meta"]}>
                   {card.type_code !== "investigator" && !card.subtype_code && (
                     <MulticlassIcons

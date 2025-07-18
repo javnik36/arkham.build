@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ListCardInner } from "@/components/list-card/list-card-inner";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -21,40 +21,151 @@ export function CardDisplaySettings(props: SettingProps) {
 
   const [liveValue, setLiveValue] = useState<Partial<SettingsState>>(settings);
 
+  const setValue = useCallback(
+    (value: Partial<SettingsState>) => {
+      setLiveValue((prev) => ({ ...prev, ...value }));
+      setSettings((prev) => ({ ...prev, ...value }));
+    },
+    [setSettings],
+  );
+
+  const resolve = resolver(liveValue, settings);
+
   return (
     <Field className={css["field"]} bordered>
       <FieldLabel>{t("settings.display.card_display")}</FieldLabel>
 
       <Field>
         <Checkbox
-          id="show-pack-icon"
-          label={t("settings.display.card_show_collection_number")}
-          checked={
-            liveValue.cardShowCollectionNumber ??
-            settings.cardShowCollectionNumber
-          }
+          id="show-thumbnail"
+          label={t("settings.display.card_show_thumbnail")}
+          checked={resolve("cardShowThumbnail")}
           onCheckedChange={(value) => {
-            setLiveValue({ cardShowCollectionNumber: !!value });
-            setSettings({ ...settings, cardShowCollectionNumber: !!value });
+            setValue({ cardShowThumbnail: !!value });
           }}
         />
       </Field>
 
-      <CardLevelDisplaySetting
-        settings={settings}
-        onChange={(value) => {
-          setLiveValue({ cardLevelDisplay: value });
-          setSettings({ ...settings, cardLevelDisplay: value });
-        }}
-      />
+      <Field>
+        <Checkbox
+          id="show-icon"
+          label={t("settings.display.card_show_icon")}
+          checked={resolve("cardShowIcon")}
+          onCheckedChange={(value) => {
+            setValue({ cardShowIcon: !!value });
+          }}
+        />
+      </Field>
 
-      <CardSkillIconsSetting
-        settings={settings}
-        onChange={(value) => {
-          setLiveValue({ cardSkillIconsDisplay: value });
-          setSettings({ ...settings, cardSkillIconsDisplay: value });
-        }}
-      />
+      <Field>
+        <Checkbox
+          id="show-details"
+          label={t("settings.display.card_show_details")}
+          checked={resolve("cardShowDetails")}
+          onCheckedChange={(value) => {
+            setValue({ cardShowDetails: !!value });
+          }}
+        />
+      </Field>
+
+      <Field>
+        <Checkbox
+          id="show-pack-icon"
+          label={t("settings.display.card_show_collection_number")}
+          checked={resolve("cardShowCollectionNumber")}
+          onCheckedChange={(value) => {
+            setValue({ cardShowCollectionNumber: !!value });
+          }}
+        />
+      </Field>
+
+      <Field>
+        <FieldLabel htmlFor="display-card-size">
+          {t("settings.display.card_size")}
+        </FieldLabel>
+        <Select
+          className={css["input"]}
+          onChange={(evt) => {
+            setValue({
+              cardSize: evt.target.value as SettingsState["cardSize"],
+            });
+          }}
+          options={[
+            { value: "sm", label: t("settings.display.card_size_sm") },
+            {
+              value: "standard",
+              label: t("settings.display.card_size_standard"),
+            },
+          ]}
+          required
+          name="display-card-size"
+          value={resolve("cardSize") ?? "standard"}
+        />
+      </Field>
+
+      <Field>
+        <FieldLabel htmlFor="display-card-level">
+          {t("settings.display.card_level")}
+        </FieldLabel>
+        <div>
+          <Select
+            className={css["input"]}
+            onChange={(evt) => {
+              setValue({
+                cardLevelDisplay: evt.target
+                  .value as SettingsState["cardLevelDisplay"],
+              });
+            }}
+            options={[
+              {
+                value: "icon-only",
+                label: t("settings.display.card_level_icon_only"),
+              },
+              {
+                value: "dots",
+                label: t("settings.display.card_level_as_dots"),
+              },
+              {
+                value: "text",
+                label: t("settings.display.card_level_as_text"),
+              },
+            ]}
+            required
+            name="display-card-level"
+            value={resolve("cardLevelDisplay")}
+          />
+        </div>
+      </Field>
+
+      <Field>
+        <FieldLabel htmlFor="display-card-skill-icons">
+          {t("settings.display.card_skill_icons")}
+        </FieldLabel>
+        <div>
+          <Select
+            className={css["input"]}
+            onChange={(evt) => {
+              setValue({
+                cardSkillIconsDisplay: evt.target
+                  .value as SettingsState["cardSkillIconsDisplay"],
+              });
+            }}
+            options={[
+              {
+                value: "simple",
+                label: t("settings.display.card_skill_icons_simple"),
+              },
+              {
+                value: "as_printed",
+                label: t("settings.display.card_skill_icons_as_printed"),
+              },
+            ]}
+            required
+            name="display-card-skill-icons"
+            value={resolve("cardSkillIconsDisplay")}
+          />
+        </div>
+      </Field>
 
       <div className={css["preview"]}>
         <h4>{t("settings.preview")}</h4>
@@ -64,21 +175,17 @@ export function CardDisplaySettings(props: SettingProps) {
             if (!card) return null;
             return (
               <ListCardInner
-                cardLevelDisplay={
-                  liveValue.cardLevelDisplay ?? settings.cardLevelDisplay
-                }
-                cardShowCollectionNumber={
-                  liveValue.cardShowCollectionNumber ??
-                  settings.cardShowCollectionNumber
-                }
-                cardSkillIconsDisplay={
-                  liveValue.cardSkillIconsDisplay ??
-                  settings.cardSkillIconsDisplay
-                }
                 as="li"
-                key={id}
                 card={card}
+                cardLevelDisplay={resolve("cardLevelDisplay")}
+                cardShowCollectionNumber={resolve("cardShowCollectionNumber")}
+                cardSkillIconsDisplay={resolve("cardSkillIconsDisplay")}
+                key={id}
                 omitBorders
+                omitDetails={!resolve("cardShowDetails")}
+                omitIcon={!resolve("cardShowIcon")}
+                omitThumbnail={!resolve("cardShowThumbnail")}
+                size={resolve("cardSize")}
               />
             );
           })}
@@ -88,94 +195,10 @@ export function CardDisplaySettings(props: SettingProps) {
   );
 }
 
-type CardLevelDisplay = SettingsState["cardLevelDisplay"];
-
-function CardLevelDisplaySetting(props: {
-  settings: SettingProps["settings"];
-  onChange: (value: CardLevelDisplay) => void;
-}) {
-  const { onChange, settings } = props;
-  const { t } = useTranslation();
-
-  const options = useMemo(
-    () => [
-      { value: "icon-only", label: t("settings.display.card_level_icon_only") },
-      { value: "dots", label: t("settings.display.card_level_as_dots") },
-      { value: "text", label: t("settings.display.card_level_as_text") },
-    ],
-    [t],
-  );
-
-  const onChangeValue = useCallback(
-    (evt: React.ChangeEvent<HTMLSelectElement>) => {
-      const value = evt.target.value as CardLevelDisplay;
-      onChange(value);
-    },
-    [onChange],
-  );
-
-  return (
-    <Field>
-      <FieldLabel htmlFor="display-card-level">
-        {t("settings.display.card_level")}
-      </FieldLabel>
-      <div>
-        <Select
-          className={css["input"]}
-          onChange={onChangeValue}
-          options={options}
-          required
-          name="display-card-level"
-          defaultValue={settings.cardLevelDisplay ?? "icon-only"}
-        />
-      </div>
-    </Field>
-  );
-}
-
-type CardSkillIconsDisplay = SettingsState["cardSkillIconsDisplay"];
-
-function CardSkillIconsSetting(props: {
-  settings: SettingProps["settings"];
-  onChange: (value: CardSkillIconsDisplay) => void;
-}) {
-  const { onChange, settings } = props;
-  const { t } = useTranslation();
-
-  const options = useMemo(
-    () => [
-      { value: "simple", label: t("settings.display.card_skill_icons_simple") },
-      {
-        value: "as_printed",
-        label: t("settings.display.card_skill_icons_as_printed"),
-      },
-    ],
-    [t],
-  );
-
-  const onChangeValue = useCallback(
-    (evt: React.ChangeEvent<HTMLSelectElement>) => {
-      const value = evt.target.value as CardSkillIconsDisplay;
-      onChange(value);
-    },
-    [onChange],
-  );
-
-  return (
-    <Field>
-      <FieldLabel htmlFor="display-card-skill-icons">
-        {t("settings.display.card_skill_icons")}
-      </FieldLabel>
-      <div>
-        <Select
-          className={css["input"]}
-          onChange={onChangeValue}
-          options={options}
-          required
-          name="display-card-skill-icons"
-          defaultValue={settings.cardSkillIconsDisplay ?? "simple"}
-        />
-      </div>
-    </Field>
-  );
+function resolver(liveValue: Partial<SettingsState>, settings: SettingsState) {
+  return function resolve<K extends keyof SettingsState>(
+    key: K,
+  ): SettingsState[K] {
+    return liveValue[key] ?? settings[key];
+  };
 }

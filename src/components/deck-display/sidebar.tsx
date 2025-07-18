@@ -428,7 +428,7 @@ function SidebarActions(props: {
                   <SuziStandaloneSetupDialog deck={deck}>
                     <DropdownButton data-testid="view-suzi-chaos-mode">
                       <DicesIcon />
-                      Standalone setup
+                      {t("suzi_standalone_setup.title_short")}
                     </DropdownButton>
                   </SuziStandaloneSetupDialog>
 

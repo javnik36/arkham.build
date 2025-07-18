@@ -45,6 +45,8 @@ function InvestigatorListcardInner({ deck }: Props) {
       <ListCard
         card={card}
         omitBorders
+        omitDetails={false}
+        omitThumbnail={false}
         showInvestigatorIcons
         size="investigator"
         titleOpens="dialog"

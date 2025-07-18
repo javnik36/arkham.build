@@ -19,7 +19,7 @@ export function CardsCombobox(props: Props) {
   const { t } = useTranslation();
 
   const cardRenderer = useCallback(
-    (item: Card) => <ListCard disableModalOpen card={item} size="sm" />,
+    (item: Card) => <ListCard disableModalOpen card={item} />,
     [],
   );
 

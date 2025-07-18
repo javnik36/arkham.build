@@ -5,10 +5,7 @@ import type { Props as ListCardInnerProps } from "./list-card-inner";
 import { ListCardInner } from "./list-card-inner";
 
 export interface Props
-  extends Omit<
-    ListCardInnerProps,
-    "figureRef" | "referenceProps" | "cardLevelDisplay"
-  > {
+  extends Omit<ListCardInnerProps, "figureRef" | "referenceProps"> {
   tooltip?: React.ReactNode;
 }
 
@@ -27,11 +24,19 @@ export function ListCard(props: Props) {
       <ListCardInner
         {...rest}
         card={card}
-        cardLevelDisplay={settings.cardLevelDisplay}
-        cardShowCollectionNumber={settings.cardShowCollectionNumber}
-        cardSkillIconsDisplay={settings.cardSkillIconsDisplay}
+        omitThumbnail={rest.omitThumbnail ?? !settings.cardShowThumbnail}
+        omitDetails={rest.omitDetails ?? !settings.cardShowDetails}
+        omitIcon={rest.omitIcon ?? !settings.cardShowIcon}
+        cardLevelDisplay={rest.cardLevelDisplay ?? settings.cardLevelDisplay}
+        cardShowCollectionNumber={
+          rest.cardShowCollectionNumber ?? settings.cardShowCollectionNumber
+        }
+        cardSkillIconsDisplay={
+          rest.cardSkillIconsDisplay ?? settings.cardSkillIconsDisplay
+        }
         figureRef={refs.setReference}
         referenceProps={referenceProps}
+        size={rest.size ?? settings.cardSize}
       />
       {isMounted && (
         <PortaledCardTooltip

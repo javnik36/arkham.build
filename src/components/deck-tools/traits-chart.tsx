@@ -13,7 +13,6 @@ import {
 } from "@/store/selectors/shared";
 import { cx } from "@/utils/cx";
 import { ListCard } from "../list-card/list-card";
-import { ListCardInner } from "../list-card/list-card-inner";
 import { Scroller } from "../ui/scroller";
 import { DefaultTooltip } from "../ui/tooltip";
 import css from "./deck-tools.module.css";
@@ -123,7 +122,7 @@ function TraitsChartTooltip({
   return (
     <ol className={css["trait-tooltip"]}>
       {cards.map((card) => (
-        <ListCardInner
+        <ListCard
           card={card}
           cardLevelDisplay="icon-only"
           key={card.code}

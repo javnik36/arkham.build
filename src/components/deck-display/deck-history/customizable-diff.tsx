@@ -1,5 +1,8 @@
 import { CustomizationOption } from "@/components/customizations/customization-option";
-import { ListCard } from "@/components/list-card/list-card";
+import {
+  ListCard,
+  type Props as ListCardProps,
+} from "@/components/list-card/list-card";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { CustomizationUpgrade } from "@/store/selectors/decks";
 import { displayAttribute } from "@/utils/card-utils";
@@ -9,12 +12,13 @@ import css from "./diffs.module.css";
 type Props = {
   deck?: ResolvedDeck;
   differences: CustomizationUpgrade[];
-  size?: "sm";
+  listCardProps?: Partial<ListCardProps>;
   title: React.ReactNode;
+  size?: "sm";
 };
 
 export function CustomizableDiff(props: Props) {
-  const { deck, differences, size, title } = props;
+  const { deck, differences, listCardProps, size, title } = props;
 
   if (!differences.length) return null;
 
@@ -27,12 +31,10 @@ export function CustomizableDiff(props: Props) {
         {differences.map(({ card, diff, xpMax }) => (
           <li key={card.code}>
             <ListCard
+              {...listCardProps}
               annotation={deck?.annotations[card.code]}
               key={card.code}
               card={card}
-              omitBorders
-              omitThumbnail={size === "sm"}
-              size={size === "sm" ? "xs" : "sm"}
             />
             <ol className={css["diff-customizations"]}>
               {diff.map(

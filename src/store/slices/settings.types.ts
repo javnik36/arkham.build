@@ -26,6 +26,10 @@ export type SettingsState = {
   cardLevelDisplay: "icon-only" | "dots" | "text";
   cardListsDefaultContentType: FanMadeContentFilter;
   cardShowCollectionNumber?: boolean;
+  cardShowIcon: boolean;
+  cardShowDetails: boolean;
+  cardShowThumbnail: boolean;
+  cardSize: "sm" | "standard";
   cardSkillIconsDisplay: "simple" | "as_printed";
   collection: Record<string, number>; // track as "quantity" owned to accomodate the core set.
   defaultStorageProvider: DeckStorageProvider;
