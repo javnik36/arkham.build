@@ -11,6 +11,7 @@ function getInitialUIState(): UIState {
       showUnusableCards: false,
       showLimitedAccess: true,
       fanMadeContentCache: {},
+      navigationHistory: [],
     },
   };
 }
@@ -33,6 +34,28 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
           state.ui.fanMadeContentCache,
           buildCacheFromDecks(decks),
         ),
+      },
+    }));
+  },
+  pushHistory(path: string) {
+    set((state) => {
+      if (state.ui.navigationHistory.at(-1) === path) {
+        return state;
+      }
+
+      return {
+        ui: {
+          ...state.ui,
+          navigationHistory: [...state.ui.navigationHistory, path].slice(-10),
+        },
+      };
+    });
+  },
+  pruneHistory(index: number) {
+    set((state) => ({
+      ui: {
+        ...state.ui,
+        navigationHistory: state.ui.navigationHistory.slice(0, index),
       },
     }));
   },

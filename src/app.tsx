@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Route, Router, Switch, useLocation } from "wouter";
+import { Route, Router, Switch, useLocation, useSearch } from "wouter";
 import { useBrowserLocation } from "wouter/use-browser-location";
 import { ErrorBoundary } from "./components/error-boundary";
 import { Loader } from "./components/ui/loader";
@@ -175,7 +175,14 @@ function AppInner() {
 }
 
 function RouteReset() {
+  const pushHistory = useStore((state) => state.pushHistory);
+
   const [pathname] = useLocation();
+  const search = useSearch();
+
+  useEffect(() => {
+    pushHistory(pathname + (search ? `?${search}` : ""));
+  }, [pathname, search, pushHistory]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: a change to pathname indicates a change to window.location.
   useEffect(() => {

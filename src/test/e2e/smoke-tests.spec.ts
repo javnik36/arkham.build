@@ -85,4 +85,34 @@ test.describe("smoke tests", () => {
     await page.keyboard.press("Control+s");
     await expect(page.getByTestId("view-edit")).toBeVisible();
   });
+
+  test(
+    "back button goes back to previous page",
+    { tag: "@smoke" },
+    async ({ page }) => {
+      await page.goto("/");
+
+      await importDeckFromFile(page, "validation/base_case.json", {
+        navigate: "view",
+      });
+
+      await page.getByTestId("masthead-settings").click();
+      await page.getByTestId("tab-collection").click();
+      await page.getByRole("navigation").getByRole("button").click();
+      await page.getByTestId("masthead-about").click();
+      await page.getByRole("button", { name: "Back" }).click();
+      await page.getByTestId("settings-back").click();
+      expect(page.url()).toContain("/deck/view/");
+    },
+  );
+
+  test(
+    "back button does not go back to previous tab",
+    { tag: "@smoke" },
+    async ({ baseURL, page }) => {
+      await page.goto("/settings");
+      await page.getByTestId("settings-back").click();
+      expect(page.url()).toBe(`${baseURL}/`);
+    },
+  );
 });
