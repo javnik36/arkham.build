@@ -349,9 +349,11 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
       try {
         const adapter = new syncAdapters["arkhamdb"](state);
-        const { id } = await newDeck(deck);
+        const { id } = await newDeck(state.app.clientId, deck);
 
-        deck = adapter.in(await updateDeck(adapter.out({ ...deck, id })));
+        deck = adapter.in(
+          await updateDeck(state.app.clientId, adapter.out({ ...deck, id })),
+        );
       } catch (err) {
         disconnectProviderIfUnauthorized("arkhamdb", err, set);
         throw err;
@@ -392,7 +394,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     if (deck.source === "arkhamdb") {
       state.setRemoting("arkhamdb", true);
       try {
-        await deleteDeck(id, true);
+        await deleteDeck(state.app.clientId, id, true);
       } catch (err) {
         disconnectProviderIfUnauthorized("arkhamdb", err, set);
         // when deleting, we ignore the remote error and continue to delete
@@ -492,7 +494,9 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
       try {
         const adapter = new syncAdapters.arkhamdb(state);
-        nextDeck = adapter.in(await updateDeck(adapter.out(nextDeck)));
+        nextDeck = adapter.in(
+          await updateDeck(state.app.clientId, adapter.out(nextDeck)),
+        );
       } catch (err) {
         disconnectProviderIfUnauthorized("arkhamdb", err, set);
         throw err;
@@ -581,7 +585,9 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
       try {
         const adapter = new syncAdapters.arkhamdb(state);
-        nextDeck = adapter.in(await updateDeck(adapter.out(nextDeck)));
+        nextDeck = adapter.in(
+          await updateDeck(state.app.clientId, adapter.out(nextDeck)),
+        );
       } catch (err) {
         disconnectProviderIfUnauthorized("arkhamdb", err, set);
         throw err;
@@ -731,7 +737,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       state.setRemoting("arkhamdb", true);
       try {
         const adapter = new syncAdapters.arkhamdb(state);
-        const res = await upgradeDeck(deck.id, {
+        const res = await upgradeDeck(state.app.clientId, deck.id, {
           xp,
           exiles: exileString,
           meta: newDeck.meta,
@@ -827,7 +833,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       state.setRemoting("arkhamdb", true);
 
       try {
-        await deleteDeck(deck.id, false);
+        await deleteDeck(state.app.clientId, deck.id, false);
       } catch (err) {
         disconnectProviderIfUnauthorized("arkhamdb", err, set);
         throw err;

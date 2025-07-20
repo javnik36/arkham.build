@@ -120,9 +120,9 @@ export const createConnectionsSlice: StateCreator<
     state.setRemoting("arkhamdb", true);
 
     try {
-      const { id } = await newDeck(deck);
+      const { id } = await newDeck(state.app.clientId, deck);
       const nextDeck = adapter.in(
-        await updateDeck(adapter.out({ ...deck, id })),
+        await updateDeck(state.app.clientId, adapter.out({ ...deck, id })),
       );
 
       set((prev) => ({
@@ -190,10 +190,12 @@ async function syncConnection(
   get: StoreApi<StoreState>["getState"],
   set: StoreApi<StoreState>["setState"],
 ) {
-  const adapater = new syncAdapters[connection.provider](get());
+  const state = get();
+  const adapater = new syncAdapters[connection.provider](state);
 
   try {
     const res = await getDecks(
+      state.app.clientId,
       (connection.syncDetails as SyncSuccessState)?.lastModified,
     );
 

@@ -246,13 +246,16 @@ type DecksResponse = {
 };
 
 export async function getDecks(
+  clientId: string,
   lastSyncedDate?: string,
 ): Promise<DecksResponse | undefined> {
-  const headers = lastSyncedDate
-    ? {
-        "If-Modified-Since": lastSyncedDate,
-      }
-    : undefined;
+  const headers: Record<string, string> = {
+    "X-Client-Id": clientId,
+  };
+
+  if (lastSyncedDate) {
+    headers["If-Modified-Since"] = lastSyncedDate;
+  }
 
   const res = await authenticatedRequest("/user/decks", { headers });
 
@@ -264,10 +267,11 @@ export async function getDecks(
       };
 }
 
-export async function newDeck(deck: Deck): Promise<Deck> {
+export async function newDeck(clientId: string, deck: Deck): Promise<Deck> {
   const res = await authenticatedRequest("/user/decks", {
     headers: {
       "Content-Type": "application/json",
+      "X-Client-Id": clientId,
     },
     body: JSON.stringify({
       investigator: deck.investigator_code,
@@ -282,10 +286,11 @@ export async function newDeck(deck: Deck): Promise<Deck> {
   return await res.json();
 }
 
-export async function updateDeck(deck: Deck): Promise<Deck> {
+export async function updateDeck(clientId: string, deck: Deck): Promise<Deck> {
   const res = await authenticatedRequest(`/user/decks/${deck.id}`, {
     headers: {
       "Content-Type": "application/json",
+      "X-Client-Id": clientId,
     },
     body: JSON.stringify(deck),
     method: "PUT",
@@ -294,16 +299,24 @@ export async function updateDeck(deck: Deck): Promise<Deck> {
   return await res.json();
 }
 
-export async function deleteDeck(id: Id, allVersions?: boolean) {
+export async function deleteDeck(
+  clientId: string,
+  id: Id,
+  allVersions?: boolean,
+) {
   const path = `/user/decks/${id}`;
 
   await authenticatedRequest(allVersions ? `${path}?all=true` : path, {
+    headers: {
+      "X-Client-Id": clientId,
+    },
     body: allVersions ? JSON.stringify({ all: true }) : undefined,
     method: "DELETE",
   });
 }
 
 export async function upgradeDeck(
+  clientId: string,
   id: Id,
   payload: {
     xp: number;
@@ -314,6 +327,7 @@ export async function upgradeDeck(
   const res = await authenticatedRequest(`/user/decks/${id}/upgrade`, {
     headers: {
       "Content-Type": "application/json",
+      "X-Client-Id": clientId,
     },
     body: JSON.stringify(payload),
     method: "POST",
