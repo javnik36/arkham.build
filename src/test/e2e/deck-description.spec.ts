@@ -63,7 +63,10 @@ test.describe("deck description", () => {
 
     await expect(page.getByTestId("card-modal")).toBeVisible();
     await expect(
-      page.getByTestId("card-face").getByTestId("card-name"),
+      page
+        .getByTestId("card-modal")
+        .getByTestId("card-face")
+        .getByTestId("card-name"),
     ).toContainText("True Grit");
   });
 
