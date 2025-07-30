@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useRef } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Route, Router, Switch, useLocation, useSearch } from "wouter";
 import { useBrowserLocation } from "wouter/use-browser-location";
@@ -11,64 +11,34 @@ import { Error404 } from "./pages/errors/404";
 import { CardDataSync } from "./pages/settings/card-data-sync";
 import { useStore } from "./store";
 import { shouldAutoSync, useSync } from "./store/hooks/use-sync";
-import { tabSync } from "./store/persist";
-import type { TabSyncEvent } from "./store/persist/tab-sync";
 import { selectIsInitialized } from "./store/selectors/shared";
-import {
-  queryCards,
-  queryDataVersion,
-  queryMetadata,
-} from "./store/services/queries";
+import { queryDataVersion } from "./store/services/queries";
 import { useAgathaEasterEggHint } from "./utils/easter-egg-agatha";
-import { retryFailedDynamicImport } from "./utils/retry-failed-dynamic-import";
-import { applyStoredColorTheme } from "./utils/use-color-theme";
 
-const Browse = lazy(() =>
-  import("./pages/browse/browse").catch(retryFailedDynamicImport),
+const Browse = lazy(() => import("./pages/browse/browse"));
+
+const DeckEdit = lazy(() => import("./pages/deck-edit/deck-edit"));
+
+const ChooseInvestigator = lazy(
+  () => import("./pages/choose-investigator/choose-investigator"),
 );
 
-const DeckEdit = lazy(() =>
-  import("./pages/deck-edit/deck-edit").catch(retryFailedDynamicImport),
-);
+const DeckCreate = lazy(() => import("./pages/deck-create/deck-create"));
 
-const ChooseInvestigator = lazy(() =>
-  import("./pages/choose-investigator/choose-investigator").catch(
-    retryFailedDynamicImport,
-  ),
-);
+const DeckView = lazy(() => import("./pages/deck-view/deck-view"));
 
-const DeckCreate = lazy(() =>
-  import("./pages/deck-create/deck-create").catch(retryFailedDynamicImport),
-);
+const Settings = lazy(() => import("./pages/settings/settings"));
 
-const DeckView = lazy(() =>
-  import("./pages/deck-view/deck-view").catch(retryFailedDynamicImport),
-);
+const CardView = lazy(() => import("./pages/card-view/card-view"));
 
-const Settings = lazy(() =>
-  import("./pages/settings/settings").catch(retryFailedDynamicImport),
-);
+const CardViewUsable = lazy(() => import("./pages/card-view/usable-cards"));
 
-const CardView = lazy(() =>
-  import("./pages/card-view/card-view").catch(retryFailedDynamicImport),
-);
+const About = lazy(() => import("./pages/about/about"));
 
-const CardViewUsable = lazy(() =>
-  import("./pages/card-view/usable-cards").catch(retryFailedDynamicImport),
-);
+const Share = lazy(() => import("./pages/share/share"));
 
-const About = lazy(() =>
-  import("./pages/about/about").catch(retryFailedDynamicImport),
-);
-
-const Share = lazy(() =>
-  import("./pages/share/share").catch(retryFailedDynamicImport),
-);
-
-const CollectionStats = lazy(() =>
-  import("./pages/collection-stats/collection-stats").catch(
-    retryFailedDynamicImport,
-  ),
+const CollectionStats = lazy(
+  () => import("./pages/collection-stats/collection-stats"),
 );
 
 function App() {
@@ -89,56 +59,16 @@ function Providers(props: { children: React.ReactNode }) {
   );
 }
 
-// TECH DEBT: This prevents a double call to `init` when the app is loaded.
-//            Ideally this is a lock in the store.
-let initOnceLock = false;
-
 function AppInner() {
   const { t } = useTranslation();
-  const toast = useToast();
   const storeInitialized = useStore(selectIsInitialized);
-  const settings = useStore((state) => state.settings);
-  const init = useStore((state) => state.init);
-
-  applyStoredColorTheme();
-
-  useEffect(() => {
-    if (initOnceLock) return;
-    initOnceLock = true;
-
-    async function initStore() {
-      try {
-        await init(queryMetadata, queryDataVersion, queryCards, false);
-      } catch (err) {
-        console.error(err);
-        toast.show({
-          children: t("app.init_error", {
-            error: (err as Error)?.message ?? "Unknown error",
-          }),
-          variant: "error",
-        });
-      }
-    }
-
-    initStore();
-  }, [init, toast.show, t]);
+  const fontSize = useStore((state) => state.settings.fontSize);
 
   useEffect(() => {
     if (storeInitialized) {
-      document.documentElement.style.fontSize = `${settings.fontSize}%`;
+      document.documentElement.style.fontSize = `${fontSize}%`;
     }
-  }, [storeInitialized, settings.fontSize]);
-
-  const onTabSync = useCallback((evt: TabSyncEvent) => {
-    useStore.setState(evt.state);
-  }, []);
-
-  useEffect(() => {
-    tabSync.addListener(onTabSync);
-    return () => {
-      tabSync.removeListener(onTabSync);
-    };
-  }, [onTabSync]);
+  }, [storeInitialized, fontSize]);
 
   return (
     <>
@@ -214,13 +144,10 @@ function AppTasks() {
 
   useAgathaEasterEggHint();
 
-  const cardDataLock = useRef(false);
-
   useEffect(() => {
-    async function updateCardData() {
-      if (cardDataLock.current) return;
-      cardDataLock.current = true;
+    let mounted = true;
 
+    async function updateCardData() {
       const data = await queryDataVersion(locale);
 
       const upToDate =
@@ -231,7 +158,7 @@ function AppTasks() {
         data.translation_updated_at === dataVersion.translation_updated_at &&
         data.version === dataVersion.version;
 
-      if (!upToDate && !toastId.current) {
+      if (!upToDate && !toastId.current && mounted) {
         toastId.current = toast.show({
           children: (
             <div>
@@ -250,13 +177,13 @@ function AppTasks() {
       }
     }
 
-    if (
-      !location.includes("/settings") &&
-      !location.includes("/connect") &&
-      !cardDataLock.current
-    ) {
+    if (!location.includes("/settings") && !location.includes("/connect")) {
       updateCardData().catch(console.error);
     }
+
+    return () => {
+      mounted = false;
+    };
   }, [dataVersion, toast.dismiss, toast.show, location, locale]);
 
   const autoSyncLock = useRef(false);

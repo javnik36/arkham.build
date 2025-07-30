@@ -1,5 +1,5 @@
 import { RotateCcwIcon } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useStore } from "@/store";
 import type { Card } from "@/store/schemas/card.schema";
@@ -190,10 +190,7 @@ export function CardScanInner(
   } = props;
 
   const [shown, setShown] = useState(!hidden);
-
-  useEffect(() => {
-    if (!hidden) setShown(true);
-  }, [hidden]);
+  if (!hidden && !shown) setShown(true);
 
   return (
     <div

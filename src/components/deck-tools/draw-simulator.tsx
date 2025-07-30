@@ -1,8 +1,9 @@
 import { ShuffleIcon } from "lucide-react";
-import { useCallback, useEffect, useReducer, useRef } from "react";
+import { useCallback, useReducer } from "react";
 import { useTranslation } from "react-i18next";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/schemas/card.schema";
+import type { Id } from "@/store/slices/data.types";
 import { cx } from "@/utils/cx";
 import { isEmpty } from "@/utils/is-empty";
 import { range } from "@/utils/range";
@@ -62,20 +63,7 @@ export function DrawSimulator(props: Props) {
 
   const { t } = useTranslation();
 
-  const mounted = useRef(false);
   const [state, dispatch] = useReducer(drawReducer, initialState(deck));
-
-  const init = useCallback(() => {
-    dispatch({ type: "init", deck });
-  }, [deck]);
-
-  useEffect(() => {
-    if (mounted.current) {
-      init();
-    } else {
-      mounted.current = true;
-    }
-  }, [init]);
 
   const drawAmount = useCallback((count: number) => {
     dispatch({ type: "draw", amount: count });
@@ -194,16 +182,25 @@ type State = {
   bag: string[];
   drawn: string[];
   selection: number[];
+  deckId: Id;
 };
 
 function initialState(deck: ResolvedDeck): State {
   const bag = prepareBag(deck);
-  return { bag, drawn: [], selection: [] };
+
+  return drawReducer(
+    { bag, drawn: [], selection: [], deckId: deck.id },
+    {
+      type: "init",
+      deck,
+    },
+  );
 }
 
 function drawReducer(state: State, action: Action): State {
   switch (action.type) {
     case "init": {
+      if (state.deckId === action.deck.id) return state;
       const bag = prepareBag(action.deck);
       return { ...state, bag, drawn: [], selection: [] };
     }
@@ -241,7 +238,7 @@ function drawReducer(state: State, action: Action): State {
         drawn.push(bag.shift()!);
       }
 
-      return { bag, drawn, selection: [] };
+      return { ...state, bag, drawn, selection: [] };
     }
 
     case "reshuffle": {
@@ -255,7 +252,7 @@ function drawReducer(state: State, action: Action): State {
         (_, index) => !state.selection.includes(index),
       );
 
-      return { bag, drawn, selection: [] };
+      return { ...state, bag, drawn, selection: [] };
     }
 
     case "select": {

@@ -8,7 +8,7 @@ import {
   ShareIcon,
   Trash2Icon,
 } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { Link, useLocation, useSearch } from "wouter";
 import { DeckInvestigator } from "@/components/deck-investigator/deck-investigator";
@@ -40,10 +40,8 @@ import {
 } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { useHotkey } from "@/utils/use-hotkey";
-import { useCardModalContextChecked } from "../card-modal/card-modal-context";
 import { DeckInvestigatorModal } from "../deck-investigator/deck-investigator-modal";
 import { CopyToClipboard } from "../ui/copy-to-clipboard";
-import { useDialogContextChecked } from "../ui/dialog.hooks";
 import { HotkeyTooltip } from "../ui/hotkey";
 import { LatestUpgrade } from "./deck-history/latest-upgrade";
 import {
@@ -70,21 +68,12 @@ import { SuziStandaloneSetupDialog } from "../suzi-standalone-setup/suzi-standal
 export function Sidebar(props: Props) {
   const { className, origin, deck } = props;
 
-  const dialogContext = useDialogContextChecked();
-  const cardModalContext = useCardModalContextChecked();
-
   const connectionsData = useStore(selectConnectionsData);
 
   const uploadDeck = useUploadDeck();
   const onUpload = useCallback(() => {
     uploadDeck(deck.id);
   }, [deck.id, uploadDeck]);
-
-  useEffect(() => {
-    if (cardModalContext.isOpen) {
-      dialogContext?.setOpen(false);
-    }
-  }, [cardModalContext.isOpen, dialogContext.setOpen]);
 
   const isReadOnly = !!deck.next_deck;
 

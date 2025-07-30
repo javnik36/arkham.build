@@ -1,5 +1,5 @@
 import { ALargeSmallIcon } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Slider } from "@/components/ui/slider";
@@ -17,10 +17,6 @@ export function FontSizeSetting(props: SettingProps) {
   const value = useMemo(() => [settings.fontSize], [settings]);
 
   const [liveValue, setLiveValue] = useState(value);
-
-  useEffect(() => {
-    setLiveValue(value);
-  }, [value]);
 
   const onValueChange = useCallback(
     (values: number[]) => {

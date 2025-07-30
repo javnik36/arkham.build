@@ -64,7 +64,12 @@ const CustomizationChoice = z.enum([
   "choose_skill",
 ]);
 
-const CustomizationTextChange = z.enum(["append", "insert", "replace"]);
+const CustomizationTextChange = z.enum([
+  "append",
+  "insert",
+  "replace",
+  "trait",
+]);
 
 const CustomizationOptionSchema = z.object({
   card: z.optional(
@@ -115,7 +120,7 @@ export type OptionSelect = z.infer<typeof OptionSelectSchema>;
 const DeckOptionSchema = z.object({
   atleast: z.optional(AtLeastSchema),
   base_level: z.optional(z.object({ min: z.number(), max: z.number() })),
-  deck_size_select: z.optional(z.union([z.number(), z.array(z.number())])),
+  deck_size_select: z.optional(z.union([z.string(), z.array(z.string())])),
   error: z.optional(z.string()),
   faction_select: z.optional(z.array(z.string())),
   faction: z.optional(z.array(z.string())),

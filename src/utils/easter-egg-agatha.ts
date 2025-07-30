@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect } from "react";
 import { useStore } from "@/store";
 
 const FLAG = "easter_egg_agatha";
@@ -42,12 +42,9 @@ export function useAgathaEasterEggTransform(code: string) {
 
 export function useAgathaEasterEggHint() {
   const settings = useStore((state) => state.settings);
-  const lock = useRef(false);
 
   useEffect(() => {
-    if (!settings.showPreviews || lock.current || aprilFools()) return;
-
-    lock.current = true;
+    if (!settings.showPreviews || aprilFools()) return;
 
     const flag = settings.flags?.[FLAG];
 

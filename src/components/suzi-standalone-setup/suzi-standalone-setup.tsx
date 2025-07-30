@@ -72,12 +72,13 @@ function SuziStandaloneSetupInner(props: Pick<Props, "deck">) {
   );
   const [ultimatumOfExile, setUltimatumOfExile] = useState<boolean>(false);
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       setResults([]);
       setRevealed({});
-    };
-  }, []);
+    },
+    [],
+  );
 
   const drawResults = useCallback(
     (evt: React.FormEvent) => {

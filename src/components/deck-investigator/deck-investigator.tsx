@@ -11,11 +11,13 @@ import { formatRelationTitle } from "@/utils/formatting";
 import { CardBack } from "../card/card-back";
 import { CardContainer } from "../card/card-container";
 import { CardFace } from "../card/card-face";
+import { useCardModalContext } from "../card-modal/card-modal-context";
 import { SpecialistAccess } from "../card-modal/specialist";
 import { CardSet } from "../cardset";
 import { AttachableCards } from "../deck-tools/attachable-cards";
 import { LimitedSlots } from "../deck-tools/limited-slots";
 import { Button } from "../ui/button";
+import { useDialogContextChecked } from "../ui/dialog.hooks";
 import css from "./deck-investigator.module.css";
 
 type Props = {
@@ -29,6 +31,11 @@ type Props = {
 };
 
 export function DeckInvestigator(props: Props) {
+  // TECH DEBT: If a card modal is open, close this dialog.
+  const cardModalContext = useCardModalContext();
+  const dialogContext = useDialogContextChecked();
+  if (cardModalContext?.isOpen) dialogContext?.setOpen(false);
+
   const {
     canToggleBack = true,
     className,

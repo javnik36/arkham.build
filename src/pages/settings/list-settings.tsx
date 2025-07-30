@@ -1,5 +1,5 @@
 import type React from "react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -86,6 +86,7 @@ export function ListSettings(props: Props) {
         [listKey]: getDefaultsForList(listKey),
       },
     }));
+
     setVersion((v) => v + 1);
   }, [listKey, setSettings]);
 
@@ -105,20 +106,20 @@ export function ListSettings(props: Props) {
       <ListSettingsList
         activeItems={settings.lists[listKey].group}
         items={getGroupItemsForList(listKey)}
+        key={`${version}-${listKey}-group`}
         listKey={listKey}
-        subKey="group"
         setSettings={setSettings}
+        subKey="group"
         title={t("lists.group_by")}
-        version={version}
       />
       <ListSettingsList
         activeItems={settings.lists[listKey].sort}
         items={getSortItemsForList(listKey)}
+        key={`${version}-${listKey}-sort`}
         listKey={listKey}
-        subKey="sort"
         setSettings={setSettings}
+        subKey="sort"
         title={t("lists.sort_by")}
-        version={version}
       />
     </section>
   );
@@ -143,17 +144,10 @@ function ListSettingsList<T extends string>(props: {
   setSettings: React.Dispatch<React.SetStateAction<SettingsState>>;
   subKey: "sort" | "group";
   title: React.ReactNode;
-  version: number;
 }) {
-  const { activeItems, items, listKey, subKey, title, setSettings, version } =
-    props;
+  const { activeItems, items, listKey, subKey, title, setSettings } = props;
 
   const [listItems, setListItems] = useState(sortListItems(items, activeItems));
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: We only resort when necessary
-  useEffect(() => {
-    setListItems(sortListItems(items, activeItems));
-  }, [version]);
 
   const updateOrder = useCallback(
     (active: T[]) => {

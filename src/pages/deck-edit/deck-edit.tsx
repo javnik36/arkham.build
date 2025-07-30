@@ -56,60 +56,11 @@ import { UndoHistory } from "./editor/undo-history";
 function DeckEdit() {
   const { id } = useParams<{ id: string }>();
 
-  const { t } = useTranslation();
-  const toast = useToast();
   const activeListId = useStore((state) => state.activeList);
   const resetFilters = useStore((state) => state.resetFilters);
   const setActiveList = useStore((state) => state.setActiveList);
-  const discardEdits = useStore((state) => state.discardEdits);
 
   const deck = useStore((state) => selectResolvedDeckById(state, id, true));
-
-  const changes = useStore((state) => state.deckEdits[id]);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: we only want to run this effect once on mount.
-  useEffect(() => {
-    let toastId: string | null = null;
-
-    if (changes) {
-      toastId = toast.show({
-        children({ onClose }) {
-          return (
-            <>
-              {t("deck_edit.changes_restored")}
-              <div className={css["restore"]}>
-                <Button onClick={onClose} size="sm">
-                  {t("common.ok")}
-                </Button>
-                <Button
-                  onClick={() => {
-                    const safeguardColdtoes = confirm(
-                      t("deck_edit.discard_confirm"),
-                    );
-                    if (safeguardColdtoes) {
-                      discardEdits(id);
-                      onClose();
-                    }
-                  }}
-                  size="sm"
-                >
-                  <UndoIcon />
-                  {t("common.undo")}
-                </Button>
-              </div>
-            </>
-          );
-        },
-        variant: "success",
-      });
-    }
-
-    return () => {
-      if (toastId) {
-        toast.dismiss(toastId);
-      }
-    };
-  }, [discardEdits, id, toast]);
 
   useEffect(() => {
     setActiveList("editor_player");
@@ -130,6 +81,7 @@ function DeckEdit() {
       canEdit={!isStaticInvestigator(deck.investigatorBack.card)}
       resolvedDeck={deck}
     >
+      <RestoreDeckChanges id={id} />
       <CardModalProvider>
         <DeckEditInner />
       </CardModalProvider>
@@ -387,6 +339,59 @@ function DeckEditInner() {
       </NotesRichTextEditorContextProvider>
     </ListLayoutContextProvider>
   );
+}
+
+function RestoreDeckChanges({ id }: { id: string }) {
+  const { t } = useTranslation();
+  const toast = useToast();
+  const discardEdits = useStore((state) => state.discardEdits);
+  const changes = useStore((state) => state.deckEdits[id]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: should only fire on initial changes present.
+  useEffect(() => {
+    let toastId: string | null = null;
+
+    if (changes) {
+      toastId = toast.show({
+        children({ onClose }) {
+          return (
+            <>
+              {t("deck_edit.changes_restored")}
+              <div className={css["restore"]}>
+                <Button onClick={onClose} size="sm">
+                  {t("common.ok")}
+                </Button>
+                <Button
+                  onClick={() => {
+                    const safeguardColdtoes = confirm(
+                      t("deck_edit.discard_confirm"),
+                    );
+                    if (safeguardColdtoes) {
+                      discardEdits(id);
+                      onClose();
+                    }
+                  }}
+                  size="sm"
+                >
+                  <UndoIcon />
+                  {t("common.undo")}
+                </Button>
+              </div>
+            </>
+          );
+        },
+        variant: "success",
+      });
+    }
+
+    return () => {
+      if (toastId) {
+        toast.dismiss(toastId);
+      }
+    };
+  }, [discardEdits, id, toast, t]);
+
+  return null;
 }
 
 export default DeckEdit;

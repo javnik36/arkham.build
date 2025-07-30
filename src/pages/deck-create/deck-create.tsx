@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams, useSearch } from "wouter";
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
@@ -22,9 +22,10 @@ function DeckCreate() {
 
   useDocumentTitle("Create deck");
 
-  const sealedLock = useRef(false);
-
   useEffect(() => {
+    let mounted = true;
+    let toastId: string | undefined;
+
     const params = new URLSearchParams(search);
 
     const initialInvestigatorChoice = params
@@ -34,15 +35,16 @@ function DeckCreate() {
     initialize(code, initialInvestigatorChoice);
 
     async function applySealedDeck(id: string) {
-      sealedLock.current = true;
-
-      const toastId = toast.show({
+      toastId = toast.show({
         variant: "loading",
         children: t("deck_create.sealed_deck.loading"),
       });
 
       try {
-        setSealedDeck(await querySealedDeck(id));
+        const sealedDeck = await querySealedDeck(id);
+        if (!mounted) return;
+
+        setSealedDeck(sealedDeck);
         toast.dismiss(toastId);
         toast.show({
           variant: "success",
@@ -50,6 +52,7 @@ function DeckCreate() {
           duration: 3000,
         });
       } catch (err) {
+        if (!mounted) return;
         toast.dismiss(toastId);
         toast.show({
           variant: "error",
@@ -62,9 +65,11 @@ function DeckCreate() {
     }
 
     const sealedDeckId = params.get("sealed_deck_id")?.toString();
-    if (sealedDeckId && !sealedLock.current) applySealedDeck(sealedDeckId);
+    if (sealedDeckId) applySealedDeck(sealedDeckId);
 
     return () => {
+      if (toastId) toast.dismiss(toastId);
+      mounted = false;
       destroy();
     };
   }, [code, destroy, initialize, search, setSealedDeck, t, toast]);

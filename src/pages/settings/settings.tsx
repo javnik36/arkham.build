@@ -5,7 +5,7 @@ import {
   LibraryIcon,
   SlidersVerticalIcon,
 } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearch } from "wouter";
 import { CollectionSettings } from "@/components/collection/collection";
@@ -21,6 +21,7 @@ import {
 import { useToast } from "@/components/ui/toast.hooks";
 import { AppLayout } from "@/layouts/app-layout";
 import { useStore } from "@/store";
+import type { SettingsState } from "@/store/slices/settings.types";
 import { useColorThemeManager } from "@/utils/use-color-theme";
 import { useGoBack } from "@/utils/use-go-back";
 import { BackupRestore } from "./backup-restore";
@@ -42,6 +43,33 @@ import { ThemeSetting } from "./theme";
 import { WeaknessPoolSetting } from "./weakness-pool";
 
 function Settings() {
+  const settings = useStore((state) => state.settings);
+  const updateSettings = useStore((state) => state.applySettings);
+
+  const [colorTheme, updateColorTheme] = useColorThemeManager();
+
+  return (
+    <SettingsInner
+      colorTheme={colorTheme}
+      key={`${settingsKey}-${colorTheme}`}
+      settings={settings}
+      updateColorTheme={updateColorTheme}
+      updateSettings={updateSettings}
+    />
+  );
+}
+
+function SettingsInner({
+  colorTheme: persistedColorTheme,
+  settings: persistedSettings,
+  updateColorTheme,
+  updateSettings,
+}: {
+  colorTheme: string;
+  settings: SettingsState;
+  updateColorTheme: (theme: string) => void;
+  updateSettings: (settings: SettingsState) => Promise<void>;
+}) {
   const { t } = useTranslation();
 
   const [tab, onTabChange] = useTabUrlState("general");
@@ -50,17 +78,8 @@ function Settings() {
   const toast = useToast();
   const goBack = useGoBack(search.includes("login_state") ? "/" : undefined);
 
-  const updateStoredSettings = useStore((state) => state.applySettings);
-
-  const storedSettings = useStore((state) => state.settings);
-  const [settings, setSettings] = useState(structuredClone(storedSettings));
-
-  const [storedTheme, persistColorTheme] = useColorThemeManager();
-  const [theme, setTheme] = useState<string>(storedTheme);
-
-  useEffect(() => {
-    setSettings(storedSettings);
-  }, [storedSettings]);
+  const [settings, setSettings] = useState(structuredClone(persistedSettings));
+  const [theme, setTheme] = useState<string>(persistedColorTheme);
 
   const onSubmit = useCallback(
     async (evt: React.FormEvent) => {
@@ -72,8 +91,8 @@ function Settings() {
       });
 
       try {
-        await updateStoredSettings(settings);
-        persistColorTheme(theme);
+        await updateSettings(settings);
+        updateColorTheme(theme);
         toast.dismiss(toastId);
         toast.show({
           children: t("settings.success"),
@@ -88,7 +107,7 @@ function Settings() {
         });
       }
     },
-    [updateStoredSettings, settings, toast, t, theme, persistColorTheme],
+    [updateSettings, settings, toast, t, theme, updateColorTheme],
   );
 
   return (
@@ -239,6 +258,10 @@ function Settings() {
       </form>
     </AppLayout>
   );
+}
+
+function settingsKey(settings: SettingsState): string {
+  return JSON.stringify(settings);
 }
 
 export default Settings;

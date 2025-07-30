@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useStore } from "@/store";
 import { selectActiveListSearch } from "@/store/selectors/lists";
@@ -47,10 +47,6 @@ export function CardSearch(props: Props) {
   }, []);
 
   useHotkey("/", onShortcut);
-
-  useEffect(() => {
-    setInputValue(search.value ?? "");
-  }, [search]);
 
   const debouncedSetSearchValue = useMemo(
     () => debounce(setSearchValue, 50),
