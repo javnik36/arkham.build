@@ -103,7 +103,7 @@ export type DeckMeta = {
 type DeckSizeSelection = {
   type: "deckSize";
   value: number;
-  options: number[];
+  options: string[];
   name: string;
   accessor: string;
 };

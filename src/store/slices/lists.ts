@@ -353,6 +353,8 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
   },
 
   setSearchValue(value) {
+    console.log("@@@", value);
+
     set((state) => {
       assert(state.activeList, "no active list is defined.");
 

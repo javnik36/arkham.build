@@ -20,7 +20,13 @@ import {
   queryDataVersion,
   queryMetadata,
 } from "./store/services/queries";
+import { retryFailedDynamicImport } from "./utils/retry-failed-dynamic-import";
 import { applyStoredColorTheme } from "./utils/use-color-theme";
+
+// see: https://vite.dev/guide/build.html#load-error-handling
+window.addEventListener("vite:preloadError", () => {
+  retryFailedDynamicImport();
+});
 
 const rootNode = document.getElementById("root");
 
@@ -33,6 +39,15 @@ ReactDOM.createRoot(rootNode).render(
     <App />
   </React.StrictMode>,
 );
+
+init().catch((err) => {
+  console.error(err);
+  alert(
+    i18n.t("app.init_error", {
+      error: (err as Error)?.message ?? "Unknown error",
+    }),
+  );
+});
 
 async function init() {
   applyStoredColorTheme();
@@ -51,12 +66,3 @@ async function init() {
     tabSync.removeListener(tabSyncListener);
   });
 }
-
-init().catch((err) => {
-  console.error(err);
-  alert(
-    i18n.t("app.init_error", {
-      error: (err as Error)?.message ?? "Unknown error",
-    }),
-  );
-});

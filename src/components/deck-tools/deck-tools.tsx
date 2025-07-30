@@ -2,7 +2,6 @@ import { forwardRef, lazy, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { cx } from "@/utils/cx";
-import { retryFailedDynamicImport } from "@/utils/retry-failed-dynamic-import";
 import { Loader } from "../ui/loader";
 import { Scroller } from "../ui/scroller";
 import { AllAttachables } from "./all-attachables";
@@ -19,9 +18,7 @@ type Props = {
   slotRight?: React.ReactNode;
 };
 
-const LazyChartContainer = lazy(() =>
-  import("./chart-container").catch(retryFailedDynamicImport),
-);
+const LazyChartContainer = lazy(() => import("./chart-container"));
 
 export const DeckTools = forwardRef(function DeckTools(
   props: Props,
