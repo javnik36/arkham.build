@@ -11,7 +11,7 @@ VITE_ARKHAMDB_BASE_URL = "https://arkhamdb.com"
 # VITE_ARKHAMDB_BASE_URL = "http://localhost:8000"
 VITE_CARD_IMAGE_URL = "https://assets.arkham.build"
 VITE_PAGE_NAME = "arkham.build"
-VITE_RECOMMENDATION_API_URL = "https://recommendations.arkham.build"
+VITE_RECOMMENDATION_API_URL = "https://api-v2.arkham.build"
 VITE_SHOW_PREVIEW_BANNER="false"
 
 [env.production.vars]

@@ -336,7 +336,7 @@ export async function upgradeDeck(
   return await res.json();
 }
 
-async function recommendationRequest(
+async function apiV2Request(
   path: string,
   options: RequestInit = {},
 ): Promise<Response> {
@@ -353,19 +353,6 @@ async function recommendationRequest(
   return res;
 }
 
-type RecommendationAnalysisAlgorithm =
-  | "absolute percentage"
-  | "percentile rank";
-
-type RecommendationRequest = {
-  canonical_investigator_code: string;
-  analyze_side_decks: boolean;
-  analysis_algorithm: RecommendationAnalysisAlgorithm;
-  required_cards: string[];
-  cards_to_recommend: string[];
-  date_range: [string, string];
-};
-
 type RecommendationApiResponse = {
   data: {
     recommendations: Recommendations;
@@ -377,27 +364,24 @@ export async function getRecommendations(
   analyzeSideDecks: boolean,
   relativeAnalysis: boolean,
   requiredCards: string[],
-  cardsToRecommend: string[],
   dateRange: [string, string],
 ) {
-  const req: RecommendationRequest = {
-    canonical_investigator_code: canonicalInvestigatorCode,
-    analyze_side_decks: analyzeSideDecks,
-    analysis_algorithm: relativeAnalysis
-      ? "percentile rank"
-      : "absolute percentage",
-    required_cards: requiredCards,
-    cards_to_recommend: cardsToRecommend,
-    date_range: dateRange,
-  };
+  const search = new URLSearchParams([
+    ["algo", relativeAnalysis ? "percentile_rank" : "absolute_rank"],
+    ["analyze_side_decks", analyzeSideDecks ? "true" : "false"],
+    ["date_range_start", dateRange[0]],
+    ["date_range_end", dateRange[1]],
+    ...requiredCards.map((card) => ["card", card]),
+  ]);
 
-  const res = await recommendationRequest("/recommendations", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  console.log(search.toString());
+
+  const res = await apiV2Request(
+    `/v2/public/recommendations/${canonicalInvestigatorCode}?${search.toString()}`,
+    {
+      method: "GET",
     },
-    body: JSON.stringify(req),
-  });
+  );
   const { data }: RecommendationApiResponse = await res.json();
   return data.recommendations;
 }

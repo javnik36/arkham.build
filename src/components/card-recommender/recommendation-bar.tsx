@@ -1,20 +1,27 @@
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import type { Card } from "@/store/schemas/card.schema";
 import type { Recommendation } from "@/store/schemas/recommendations.schema";
-import { getCardColor } from "@/utils/card-utils";
+import { displayAttribute, getCardColor } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { DefaultTooltip } from "../ui/tooltip";
 import css from "./card-recommender.module.css";
 
 type RecommendationBarProps = {
   card: Card;
+  decksAnalyzed: number;
+  investigator: Card;
+  isRelative: boolean;
   recommendations: Record<string, Recommendation>;
-  investigator: string;
-  deckCount: number;
 };
 
 export function RecommendationBar(props: RecommendationBarProps) {
-  const recData = props.recommendations[props.card.code];
+  const { card, decksAnalyzed, recommendations, isRelative, investigator } =
+    props;
+
+  const { t } = useTranslation();
+
+  const recData = recommendations[card.code];
   const recommendation = recData.recommendation;
   const wholeRec = Math.floor(recommendation);
 
@@ -29,11 +36,25 @@ export function RecommendationBar(props: RecommendationBarProps) {
   return (
     <div className={cx(css["recommendation-bar-container"])}>
       <DefaultTooltip
-        tooltip={recData.explanation}
+        tooltip={
+          isRelative
+            ? t("deck_edit.recommendations.tooltip_relative", {
+                investigator: displayAttribute(investigator, "name"),
+                name: displayAttribute(card, "name"),
+                percentile: wholeRec,
+              })
+            : t("deck_edit.recommendations.tooltip_absolute", {
+                investigator: displayAttribute(investigator, "name"),
+                decksPercentage: wholeRec,
+                decksAnalyzed,
+                decksMatched: Math.round((decksAnalyzed / 100) * wholeRec),
+                name: displayAttribute(card, "name"),
+              })
+        }
         options={{ placement: "bottom" }}
       >
         <div
-          className={cx(css["recommendation-bar"], getCardColor(props.card))}
+          className={cx(css["recommendation-bar"], getCardColor(card))}
           style={cssVariables}
         >
           <span className={css["recommendation-bar-label"]}>{wholeRec}%</span>

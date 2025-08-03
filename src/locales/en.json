@@ -943,7 +943,7 @@
       "read_only": "This deck has an upgrade and is read-only.",
       "recommendations": {
         "absolute": "Absolute",
-        "absolute_help": "Count how many {{name}} decks each card is used in",
+        "absolute_help": "Shows the most used cards in {{name}} decks, ranked by percentage of decks that contain them.",
         "analyze_side_decks": "Analyze side decks",
         "core": "Core",
         "core_help": "Marking a card as \"Core\" tells the recommendation engine to only consider decks that contain it.",
@@ -952,7 +952,9 @@
         "no_results": "No recommendations for this configuration.",
         "publication_date": "Publication date",
         "relative": "Relative",
-        "relative_help": "Count how many {{name}} decks each card is used in compared to other investigators who have access to it"
+        "relative_help": "Shows which cards {{name}} is more likely to use than other investigators, ranked by percentile.",
+        "tooltip_absolute": "{{name}} is used in {{decksPercentage}}% of {{investigator}} decks. ({{decksMatched}}/{{decksAnalyzed}})",
+        "tooltip_relative": "{{investigator}} uses {{name}} more often than {{percentile}}% of all investigators."
       },
       "save": "Save deck",
       "save_error": "Failed to save deck: {{error}}",

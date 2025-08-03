@@ -1,4 +1,4 @@
-import { forwardRef, type MutableRefObject, useCallback, useRef } from "react";
+import { forwardRef, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ErrorDisplay } from "@/pages/errors/error-display";
 import { useStore } from "@/store";
@@ -40,6 +40,8 @@ export const CardRecommender = forwardRef(function CardRecommender(
     selectListCards(state, resolvedDeck, "slots"),
   );
 
+  const metadata = useStore(selectMetadata);
+
   const recommender = useStore((state) => state.recommender);
   const {
     includeSideDeck,
@@ -48,51 +50,40 @@ export const CardRecommender = forwardRef(function CardRecommender(
     coreCards,
   } = recommender;
 
-  const recommendationQuery = useMemoSubset(
-    () => {
-      if (!resolvedDeck?.id || !listState?.cards) {
-        return () =>
-          Promise.resolve({ recommendations: [], decks_analyzed: 0 });
-      }
-      const dateRangeStrings = dateRange.map(deckTickToString) as [
-        string,
-        string,
-      ];
-      // We don't want to recommend fan-made cards, signatures, story cards, or weaknesses.
-      const toRecommend = listState.cards
-        .filter((card) => card.official && card.xp != null)
-        .map((card) => card.code);
+  const recommendationQuery = useMemo(() => {
+    if (!resolvedDeck?.id) {
+      return () => Promise.resolve({ recommendations: [], decks_analyzed: 0 });
+    }
+    const dateRangeStrings = dateRange.map(deckTickToString) as [
+      string,
+      string,
+    ];
+    const canonicalFrontCode =
+      resolvedDeck?.metaParsed.alternate_front ??
+      resolvedDeck?.investigator_code;
+    const canonicalBackCode =
+      resolvedDeck?.metaParsed.alternate_back ??
+      resolvedDeck?.investigator_code;
+    const canonicalizedInvestigatorCode = `${canonicalFrontCode}-${canonicalBackCode}`;
 
-      const canonicalFrontCode =
-        resolvedDeck?.metaParsed.alternate_front ??
-        resolvedDeck?.investigator_code;
-      const canonicalBackCode =
-        resolvedDeck?.metaParsed.alternate_back ??
-        resolvedDeck?.investigator_code;
-      const canonicalizedInvestigatorCode = `${canonicalFrontCode}-${canonicalBackCode}`;
-
-      return () =>
-        getRecommendations(
-          canonicalizedInvestigatorCode,
-          includeSideDeck,
-          isRelative,
-          coreCards[resolvedDeck.id] || [],
-          toRecommend,
-          dateRangeStrings,
-        );
-    },
-    listState?.cards.map((c) => c.code), //Allows the new version of listState.cards to be a subset of the old one
-    [
-      resolvedDeck?.id,
-      resolvedDeck?.investigator_code,
-      resolvedDeck?.metaParsed.alternate_back,
-      resolvedDeck?.metaParsed.alternate_front,
-      includeSideDeck,
-      isRelative,
-      dateRange,
-      coreCards,
-    ],
-  );
+    return () =>
+      getRecommendations(
+        canonicalizedInvestigatorCode,
+        includeSideDeck,
+        isRelative,
+        coreCards[resolvedDeck.id] || [],
+        dateRangeStrings,
+      );
+  }, [
+    resolvedDeck?.id,
+    resolvedDeck?.investigator_code,
+    resolvedDeck?.metaParsed.alternate_back,
+    resolvedDeck?.metaParsed.alternate_front,
+    includeSideDeck,
+    isRelative,
+    dateRange,
+    coreCards,
+  ]);
 
   const { data, state } = useQuery(recommendationQuery);
 
@@ -119,6 +110,8 @@ export const CardRecommender = forwardRef(function CardRecommender(
 
   if (!listState || !resolvedDeck) return null;
 
+  const investigator = metadata.cards[resolvedDeck.investigator_code];
+
   return (
     <article className={cx(css["card-recommender"])} ref={ref}>
       <div className={cx(css["container"])}>
@@ -132,10 +125,8 @@ export const CardRecommender = forwardRef(function CardRecommender(
           <DeckDateRangeFilter />
           <div className={cx(css["toggle-container"])}>
             <IncludeSideDeckToggle />
-            {data && <DeckCount decks_analyzed={data?.decks_analyzed} />}
-            <RecommenderRelativityToggle
-              investigator={resolvedDeck.investigator_name}
-            />
+            {data && <DeckCount decksAnalyzed={data?.decks_analyzed} />}
+            <RecommenderRelativityToggle investigator={investigator} />
           </div>
         </div>
         {(state === "loading" || state === "initial") && (
@@ -153,6 +144,8 @@ export const CardRecommender = forwardRef(function CardRecommender(
           <CardRecommenderInner
             {...rest}
             data={data}
+            investigator={investigator}
+            isRelative={isRelative}
             listState={listState}
             resolvedDeck={resolvedDeck}
           />
@@ -163,16 +156,16 @@ export const CardRecommender = forwardRef(function CardRecommender(
   );
 });
 
-function DeckCount(props: { decks_analyzed?: number }) {
-  const { decks_analyzed } = props;
+function DeckCount(props: { decksAnalyzed?: number }) {
+  const { decksAnalyzed } = props;
   const { t } = useTranslation();
 
-  if (!decks_analyzed == null) return null;
+  if (!decksAnalyzed == null) return null;
 
   return (
     <span className={css["toggle-decks-count"]}>
       <i className="icon-deck" />
-      {t("deck_collection.count", { count: decks_analyzed })}
+      {t("deck_collection.count", { count: decksAnalyzed })}
     </span>
   );
 }
@@ -182,9 +175,19 @@ function CardRecommenderInner(
     data: Recommendations;
     listState: ListState;
     resolvedDeck: ResolvedDeck;
+    investigator: Card;
+    isRelative: boolean;
   },
 ) {
-  const { data, quantities, resolvedDeck, listState, getListCardProps } = props;
+  const {
+    data,
+    investigator,
+    isRelative,
+    quantities,
+    resolvedDeck,
+    listState,
+    getListCardProps,
+  } = props;
 
   const { t } = useTranslation();
   const theme = useResolvedColorTheme();
@@ -202,11 +205,16 @@ function CardRecommenderInner(
   );
 
   const sortedCards = listState.cards
-    .filter((card) => indexedRecommendations[card.code] !== undefined)
+    .filter(
+      (card) =>
+        indexedRecommendations[card.code] !== undefined &&
+        card.xp != null &&
+        indexedRecommendations[card.code].recommendation !== 0,
+    )
     .sort(
       (a, b) =>
-        indexedRecommendations[b.code].ordering -
-        indexedRecommendations[a.code].ordering,
+        indexedRecommendations[b.code].recommendation -
+        indexedRecommendations[a.code].recommendation,
     );
 
   const newData: ListState = {
@@ -223,8 +231,9 @@ function CardRecommenderInner(
       renderCardAfter: (card: Card) => (
         <RecommendationBar
           card={card}
-          deckCount={decks_analyzed}
-          investigator={resolvedDeck.investigator_name}
+          decksAnalyzed={decks_analyzed}
+          isRelative={isRelative}
+          investigator={investigator}
           recommendations={indexedRecommendations}
         />
       ),
@@ -232,8 +241,9 @@ function CardRecommenderInner(
     [
       getListCardProps,
       decks_analyzed,
-      resolvedDeck.investigator_name,
+      investigator,
       indexedRecommendations,
+      isRelative,
     ],
   );
 
@@ -264,41 +274,4 @@ function CardRecommenderInner(
       getListCardProps={listCardPropsWithRecommendations}
     />
   );
-}
-
-// Like useMemo, but has one argument that is allowed to be a subset of previous renders
-function useMemoSubset<T, S extends unknown[]>(
-  fn: () => T,
-  subsetDep: S | undefined,
-  deps: unknown[],
-): T {
-  type State = {
-    value: T | null;
-    subset: S | undefined;
-    deps: unknown[];
-  };
-  const state: MutableRefObject<State | null> = useRef(null);
-
-  const needsRecompute = () => {
-    if (state.current === null) {
-      return true;
-    }
-    if (!subsetDep?.every((val) => state.current?.subset?.includes(val))) {
-      return true;
-    }
-
-    if (!state.current.deps.every((val, idx) => val === deps[idx])) {
-      return true;
-    }
-  };
-
-  if (needsRecompute()) {
-    state.current = {
-      value: fn(),
-      subset: subsetDep,
-      deps: deps,
-    };
-  }
-
-  return state.current?.value as T;
 }

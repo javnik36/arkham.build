@@ -952,7 +952,9 @@
         "no_results": "Keine Empfehlungen für diese Konfiguration.",
         "publication_date": "Veröffentlichungsdatum",
         "relative": "Relativ",
-        "relative_help": "Vergleicht, wie oft {{name}} die jeweilige Karte verwendet, verglichen mit anderen Ermittlern, die ebenfalls Zugriff auf diese haben."
+        "relative_help": "Vergleicht, wie oft {{name}} die jeweilige Karte verwendet, verglichen mit anderen Ermittlern, die ebenfalls Zugriff auf diese haben.",
+        "tooltip_absolute": "{{decksPercentage}}% aller {{investigator}} Decks beinhalten {{name}}. ({{decksMatched}}/{{decksAnalyzed}})",
+        "tooltip_relative": "{{investigator}} nutzt {{name}} {{percentile}}% öfter als andere Ermittler."
       },
       "save": "Deck speichern",
       "save_error": "Speichern des Decks fehlgeschlagen: {{error}}",
