@@ -16,9 +16,9 @@ test.describe("fan-made content", () => {
   test("import pack from file", async ({ page }) => {
     await page.goto("/settings?tab=fan-made-content");
     await importPackFromFile(page, "fan_made_investigator_project.json");
-    await expect(page.getByTestId("collection-project-title")).toContainText(
-      "Ordinary Citizens",
-    );
+    await expect(
+      page.getByTestId("collection").getByTestId("collection-project-title"),
+    ).toContainText("Ordinary Citizens");
   });
 
   test("import pack from URL", async ({ page }) => {
