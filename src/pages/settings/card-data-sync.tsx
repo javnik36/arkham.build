@@ -1,3 +1,4 @@
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { CheckIcon, FileDownIcon } from "lucide-react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -11,7 +12,6 @@ import {
   queryMetadata,
 } from "@/store/services/queries";
 import { cx } from "@/utils/cx";
-import { useMutate, useQuery } from "@/utils/use-query";
 import css from "./card-data-sync.module.css";
 
 type Props = {
@@ -30,12 +30,12 @@ export function CardDataSync(props: Props) {
   const dataVersion = useStore((state) => state.metadata.dataVersion);
   const settings = useStore((state) => state.settings);
 
-  const localizedDataVersionQuery = useCallback(
-    () => queryDataVersion(settings.locale),
-    [settings.locale],
-  );
+  const queryFn = () => queryDataVersion(settings.locale);
 
-  const { data, error, state } = useQuery(localizedDataVersionQuery);
+  const { data, error, isPending } = useQuery({
+    queryKey: ["dataVersion", settings.locale],
+    queryFn,
+  });
 
   const initStore = useCallback(
     () =>
@@ -43,10 +43,12 @@ export function CardDataSync(props: Props) {
     [init, settings.locale],
   );
 
-  const { error: syncError, state: syncState, mutate } = useMutate(initStore);
+  const initMutation = useMutation({
+    mutationFn: initStore,
+  });
 
   const onSync = useCallback(async () => {
-    await mutate().catch(console.error);
+    await initMutation.mutateAsync().catch(console.error);
 
     toast.show({
       children: t("settings.card_data.sync_success"),
@@ -55,7 +57,7 @@ export function CardDataSync(props: Props) {
     });
 
     onSyncComplete?.();
-  }, [mutate, onSyncComplete, toast.show, t]);
+  }, [initMutation, onSyncComplete, toast.show, t]);
 
   const upToDate =
     data &&
@@ -65,7 +67,7 @@ export function CardDataSync(props: Props) {
     data.translation_updated_at === dataVersion.translation_updated_at &&
     data.version === dataVersion.version;
 
-  const loading = state === "loading" || syncState === "loading";
+  const loading = isPending || initMutation.isPending;
 
   return (
     <>
@@ -75,7 +77,9 @@ export function CardDataSync(props: Props) {
       >
         <div className={css["status"]}>
           {loading && <p>{t("settings.card_data.loading")}</p>}
-          {(!!error || !!syncError) && <p>{t("settings.card_data.error")}</p>}
+          {(!!error || !!initMutation.error) && (
+            <p>{t("settings.card_data.error")}</p>
+          )}
           {!loading &&
             data &&
             (upToDate ? (

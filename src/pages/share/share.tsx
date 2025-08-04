@@ -1,4 +1,5 @@
-import { useCallback } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { createSelector } from "reselect";
 import { useParams } from "wouter";
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
@@ -13,11 +14,11 @@ import {
   selectMetadata,
 } from "@/store/selectors/shared";
 import { getShare } from "@/store/services/queries";
+import { ApiError } from "@/store/services/requests/shared";
 import type { StoreState } from "@/store/slices";
 import type { Deck } from "@/store/slices/data.types";
-import { useQuery } from "@/utils/use-query";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
-import { Error404 } from "../errors/404";
+import { ErrorStatus } from "../errors/404";
 
 const selectResolvedShare = createSelector(
   selectMetadata,
@@ -47,15 +48,20 @@ function Share() {
 export function ShareInner(props: { id: string }) {
   const { id } = props;
 
+  const { t } = useTranslation();
+
   const cacheFanMadeContent = useStore((state) => state.cacheFanMadeContent);
 
-  const query = useCallback(async () => {
+  async function queryFn() {
     const shareRead = await getShare(id);
     cacheFanMadeContent([shareRead.data]);
     return shareRead;
-  }, [id, cacheFanMadeContent]);
+  }
 
-  const { data, state, error } = useQuery(query);
+  const { data, isPending, error } = useQuery({
+    queryFn,
+    queryKey: ["share", id],
+  });
 
   const resolvedDeck = useStore((state) =>
     selectResolvedShare(state, data?.data),
@@ -63,9 +69,12 @@ export function ShareInner(props: { id: string }) {
 
   const validation = useStore((state) => selectDeckValid(state, resolvedDeck));
 
-  if (state === "initial" || state === "loading")
-    return <Loader show message="Loading shared deck..." />;
-  if (error) return <Error404 />;
+  if (isPending) return <Loader show message={t("deck_view.loading")} />;
+
+  if (error) {
+    const statusCode = error instanceof ApiError ? error.status : 500;
+    return <ErrorStatus statusCode={statusCode} />;
+  }
 
   if (!resolvedDeck) return null;
 

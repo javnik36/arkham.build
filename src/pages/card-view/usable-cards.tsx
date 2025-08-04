@@ -9,7 +9,7 @@ import { useStore } from "@/store";
 import type { Card } from "@/store/schemas/card.schema";
 import { selectMetadata } from "@/store/selectors/shared";
 import { displayAttribute } from "@/utils/card-utils";
-import { Error404 } from "../errors/404";
+import { ErrorStatus } from "../errors/404";
 
 type Props = {
   code: string;
@@ -21,7 +21,7 @@ function UsableCards() {
   const card = useStore((state) => selectMetadata(state).cards[params.code]);
 
   if (!card || card.type_code !== "investigator") {
-    return <Error404 />;
+    return <ErrorStatus statusCode={404} />;
   }
 
   return (

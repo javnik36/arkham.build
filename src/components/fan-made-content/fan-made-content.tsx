@@ -1,3 +1,4 @@
+import { type UseQueryResult, useQuery } from "@tanstack/react-query";
 import {
   BookDashedIcon,
   CheckIcon,
@@ -38,7 +39,6 @@ import { cx } from "@/utils/cx";
 import { capitalize, formatDate } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { parseMarkdown } from "@/utils/markdown";
-import { type QueryState, useQuery } from "@/utils/use-query";
 import { CardGrid } from "../card-list/card-grid";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
@@ -66,7 +66,10 @@ export function FanMadeContent(props: SettingProps) {
 
   const addFanMadeProject = useStore((state) => state.addFanMadeProject);
 
-  const listingsQuery = useQuery(queryFanMadeProjects);
+  const listingsQuery = useQuery({
+    queryFn: queryFanMadeProjects,
+    queryKey: ["fan-made-projects"],
+  });
 
   const onAddProject = useCallback(
     async (payload: unknown) => {
@@ -164,7 +167,7 @@ function DisplaySettings(props: SettingProps) {
 
 type RegistryProps = {
   onAddProject: (payload: unknown) => Promise<void>;
-  listingsQuery: QueryState<FanMadeProjectListing[]>;
+  listingsQuery: UseQueryResult<FanMadeProjectListing[]>;
 };
 
 function Collection({ onAddProject, listingsQuery }: RegistryProps) {
@@ -290,8 +293,6 @@ function Registry({ onAddProject, listingsQuery }: RegistryProps) {
 
   const owned = useStore((state) => state.fanMadeData.projects);
 
-  const loading = !listingsQuery.data && !listingsQuery.error;
-
   return (
     <section className={css["section"]}>
       <header className={css["header"]}>
@@ -308,7 +309,7 @@ function Registry({ onAddProject, listingsQuery }: RegistryProps) {
         </div>
       )}
 
-      {loading && (
+      {listingsQuery.isPending && (
         <div className={css["loader"]}>
           <Loader
             message={t("fan_made_content.messages.available_content_loading")}

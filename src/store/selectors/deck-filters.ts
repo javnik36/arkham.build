@@ -61,7 +61,10 @@ const makeDeckFactionFilter = (values: MultiselectFilter) => {
 
 // Tag
 const filterDeckByTag = (tag: string) => {
-  return (deck: ResolvedDeck) => extendedDeckTags(deck, true).includes(tag);
+  return (deck: ResolvedDeck) =>
+    extendedDeckTags(deck, {
+      includeCardPool: true,
+    }).includes(tag);
 };
 
 const makeDeckTagsFilter = (values: MultiselectFilter) => {
@@ -243,7 +246,11 @@ export const selectTagsInLocalDecks = createSelector(
     const tags: string[] = [];
 
     for (const deck of decks) {
-      tags.push(...extendedDeckTags(deck, true));
+      tags.push(
+        ...extendedDeckTags(deck, {
+          includeCardPool: true,
+        }),
+      );
     }
 
     const uniqueTags = [...new Set(tags)].map((tag) => {

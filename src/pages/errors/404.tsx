@@ -6,22 +6,26 @@ import { useResolvedColorTheme } from "@/utils/use-color-theme";
 import { ErrorDisplay } from "./error-display";
 import css from "./errors.module.css";
 
-export function Error404() {
+export function ErrorStatus({ statusCode }: { statusCode: number }) {
   const theme = useResolvedColorTheme();
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
+
+  const message = i18n.exists(`errors.${statusCode}`)
+    ? t(`errors.${statusCode}`)
+    : t("errors.500");
 
   return (
-    <AppLayout mainClassName={css["main"]} title={t("errors.404")}>
+    <AppLayout mainClassName={css["main"]} title={message}>
       <ErrorDisplay
-        message={t("errors.404")}
+        message={message}
         pre={
           <img
             className={css["image"]}
             src={theme === "dark" ? "/404-dark.png" : "/404-light.png"}
-            alt={t("errors.404")}
+            alt={message}
           />
         }
-        status={404}
+        status={statusCode}
       >
         <Link asChild to="~/">
           <Button as="a" variant="bare">

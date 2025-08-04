@@ -16,7 +16,7 @@ import { selectCardWithRelations } from "@/store/selectors/card-view";
 import { displayAttribute, isStaticInvestigator } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { useDocumentTitle } from "@/utils/use-document-title";
-import { Error404 } from "../errors/404";
+import { ErrorStatus } from "../errors/404";
 import css from "./card-view.module.css";
 import { Faq } from "./faq";
 import { UsableBy } from "./usable-by";
@@ -36,7 +36,7 @@ function CardView() {
   );
 
   if (!cardWithRelations) {
-    return <Error404 />;
+    return <ErrorStatus statusCode={404} />;
   }
 
   const isInvestigator = cardWithRelations.card.type_code === "investigator";

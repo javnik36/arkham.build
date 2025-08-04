@@ -44,7 +44,7 @@ import {
   ResolvedDeckProvider,
   useResolvedDeckChecked,
 } from "@/utils/use-resolved-deck";
-import { Error404 } from "../errors/404";
+import { ErrorStatus } from "../errors/404";
 import { CardAccessToggles } from "./card-access-toggles";
 import { CardExtras } from "./card-extras";
 import css from "./deck-edit.module.css";
@@ -71,7 +71,7 @@ function DeckEdit() {
   }, [setActiveList, resetFilters]);
 
   if (id && !deck) {
-    return <Error404 />;
+    return <ErrorStatus statusCode={404} />;
   }
 
   if (!deck || !activeListId?.startsWith("editor")) return null;

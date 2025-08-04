@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { forwardRef, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ErrorDisplay } from "@/pages/errors/error-display";
@@ -11,10 +12,10 @@ import type {
 import { type ListState, selectListCards } from "@/store/selectors/lists";
 import { selectMetadata } from "@/store/selectors/shared";
 import { getRecommendations } from "@/store/services/queries";
+import { ApiError } from "@/store/services/requests/shared";
 import { deckTickToString } from "@/store/slices/recommender";
 import { cx } from "@/utils/cx";
 import { useResolvedColorTheme } from "@/utils/use-color-theme";
-import { useQuery } from "@/utils/use-query";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { CardList } from "../card-list/card-list";
 import { CardSearch } from "../card-list/card-search";
@@ -85,7 +86,17 @@ export const CardRecommender = forwardRef(function CardRecommender(
     coreCards,
   ]);
 
-  const { data, state } = useQuery(recommendationQuery);
+  const { data, error, isPending } = useQuery({
+    queryFn: recommendationQuery,
+    queryKey: [
+      "recommendations",
+      resolvedDeck?.id,
+      includeSideDeck,
+      isRelative,
+      coreCards[resolvedDeck?.id ?? ""],
+      dateRange.map(deckTickToString),
+    ],
+  });
 
   const onKeyboardNavigate = useCallback((evt: React.KeyboardEvent) => {
     if (
@@ -129,15 +140,15 @@ export const CardRecommender = forwardRef(function CardRecommender(
             <RecommenderRelativityToggle investigator={investigator} />
           </div>
         </div>
-        {(state === "loading" || state === "initial") && (
+        {isPending && (
           <div className={css["loader-container"]}>
             <Loader show message={t("deck_edit.recommendations.loading")} />
           </div>
         )}
-        {state === "error" && (
+        {error && (
           <ErrorDisplay
             message={t("deck_edit.recommendations.error")}
-            status={500}
+            status={error instanceof ApiError ? error.status : 500}
           />
         )}
         {data && (

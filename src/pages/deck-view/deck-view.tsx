@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useParams } from "wouter";
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
@@ -23,11 +23,11 @@ import {
   selectMetadata,
 } from "@/store/selectors/shared";
 import { queryDeck } from "@/store/services/queries";
+import { ApiError } from "@/store/services/requests/shared";
 import type { Id } from "@/store/slices/data.types";
 import { isNumeric } from "@/utils/is-numeric";
-import { useQuery } from "@/utils/use-query";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
-import { Error404 } from "../errors/404";
+import { ErrorStatus } from "../errors/404";
 import { ShareInner } from "../share/share";
 
 function DeckView() {
@@ -54,21 +54,16 @@ function ArkhamDbDeckView({ id, type }: { id: string; type: DeckDisplayType }) {
 
   const cacheFanMadeContent = useStore((state) => state.cacheFanMadeContent);
 
-  const query = useMemo(() => {
-    if (!Number.isFinite(idInt)) {
-      return undefined;
-    }
+  async function queryFn() {
+    const decks = await queryDeck(clientId, type, idInt);
+    cacheFanMadeContent(decks);
+    return decks;
+  }
 
-    async function query() {
-      const decks = await queryDeck(clientId, type, idInt);
-      cacheFanMadeContent(decks);
-      return decks;
-    }
-
-    return query;
-  }, [clientId, idInt, type, cacheFanMadeContent]);
-
-  const { data, state } = useQuery(query);
+  const { data, isPending, error } = useQuery({
+    queryKey: ["deck", type, idInt],
+    queryFn,
+  });
 
   const metadata = useStore(selectMetadata);
   const lookupTables = useStore(selectLookupTables);
@@ -76,15 +71,18 @@ function ArkhamDbDeckView({ id, type }: { id: string; type: DeckDisplayType }) {
   const collator = useStore(selectLocaleSortingCollator);
 
   if (Number.isNaN(idInt)) {
-    return <Error404 />;
+    return <ErrorStatus statusCode={404} />;
   }
 
-  if (state === "loading" || state === "initial") {
+  if (isPending) {
     return <Loader show message={t("deck_view.loading")} />;
   }
 
-  if (state === "error") {
-    return <Error404 />;
+  if (error) {
+    // ArkhamDB loves to return 500 or otherwise borked errors, default to a 404 unless rate-limited.
+    const statusCode =
+      error instanceof ApiError ? (error.status === 429 ? 429 : 404) : 500;
+    return <ErrorStatus statusCode={statusCode} />;
   }
 
   const decks = data.map((deck) =>

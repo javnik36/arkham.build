@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import DOMPurify from "dompurify";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -8,7 +9,6 @@ import { selectClientId } from "@/store/selectors/shared";
 import { queryFaq } from "@/store/services/queries";
 import { redirectArkhamDBLinks } from "@/utils/arkhamdb";
 import { isEmpty } from "@/utils/is-empty";
-import { useQuery } from "@/utils/use-query";
 
 type Props = {
   card: ResolvedCard["card"];
@@ -26,7 +26,11 @@ export function Faq(props: Props) {
     [card.code, open, clientId],
   );
 
-  const response = useQuery(query);
+  const response = useQuery({
+    queryKey: ["faq", card.code],
+    queryFn: query,
+    enabled: !!query,
+  });
 
   return (
     <Details
@@ -37,8 +41,7 @@ export function Faq(props: Props) {
     >
       {/* biome-ignore lint/a11y: not relevant. */}
       <div onClick={redirectArkhamDBLinks}>
-        {(response.state === "initial" || response.state === "loading") &&
-          t("card_view.faq.loading")}
+        {response.isPending && t("card_view.faq.loading")}
 
         {!!response.error && t("card_view.faq.error")}
 

@@ -8,7 +8,7 @@ import { Loader } from "./components/ui/loader";
 import { ToastProvider } from "./components/ui/toast";
 import { useToast } from "./components/ui/toast.hooks";
 import { Connect } from "./pages/connect/connect";
-import { Error404 } from "./pages/errors/404";
+import { ErrorStatus } from "./pages/errors/404";
 import { CardDataSync } from "./pages/settings/card-data-sync";
 import { useStore } from "./store";
 import { shouldAutoSync, useSync } from "./store/hooks/use-sync";
@@ -54,6 +54,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
+      retry: 1,
     },
   },
 });
@@ -104,7 +105,9 @@ function AppInner() {
               <Route component={Share} path="/share/:id" />
               <Route component={CollectionStats} path="/collection-stats" />
               <Route component={Connect} path="/connect" />
-              <Route component={Error404} path="*" />
+              <Route path="*">
+                <ErrorStatus statusCode={404} />
+              </Route>
             </Switch>
             <RouteReset />
             <AppTasks />
