@@ -43,7 +43,7 @@
 .listcard-wrapper.card-text {
   background-color: var(--palette-point-five);
   padding: 0.5em;
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded);
   border: 1px solid var(--palette-1);
   margin: var(--card-spacing-y) 0;
   display: grid;

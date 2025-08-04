@@ -51,15 +51,18 @@ import { DeckHistory } from "./deck-history/deck-history";
 import { Sidebar } from "./sidebar";
 import type { DeckOrigin } from "./types";
 
+export type DeckDisplayType = "deck" | "decklist";
+
 export type DeckDisplayProps = {
   deck: ResolvedDeck;
   origin: DeckOrigin;
   history?: History;
+  type?: DeckDisplayType;
   validation: DeckValidationResult;
 };
 
 export function DeckDisplay(props: DeckDisplayProps) {
-  const { origin, deck, history, validation } = props;
+  const { origin, deck, history, type = "deck", validation } = props;
 
   const [viewMode, setViewMode] = useTabUrlState("list", "view_mode");
   const [currentTab, setCurrentTab] = useTabUrlState("deck");
@@ -81,6 +84,8 @@ export function DeckDisplay(props: DeckDisplayProps) {
       {deck.name} <small>{deck.version}</small>
     </h1>
   );
+
+  console.log(deck, origin);
 
   return (
     <AppLayout title={deck ? deck.name : ""}>
@@ -112,8 +117,11 @@ export function DeckDisplay(props: DeckDisplayProps) {
             <DeckTags
               tags={
                 origin === "local"
-                  ? extendedDeckTags(deck, false)
-                  : deckTags(deck)
+                  ? extendedDeckTags(deck, {
+                      includeCardPool: false,
+                      delimiter: type === "deck" ? " " : ", ",
+                    })
+                  : deckTags(deck, type === "deck" ? " " : ", ")
               }
             />
             <LimitedCardPoolTag />

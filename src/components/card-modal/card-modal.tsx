@@ -27,6 +27,7 @@ import { Customizations } from "../customizations/customizations";
 import { CustomizationsEditor } from "../customizations/customizations-editor";
 import { AttachableCards } from "../deck-tools/attachable-cards";
 import { CardPoolExtension } from "../limited-card-pool/card-pool-extension";
+import { PopularDecks } from "../popular-decks/popular-decks";
 import { Button } from "../ui/button";
 import { useDialogContextChecked } from "../ui/dialog.hooks";
 import { Modal, ModalActions, ModalBackdrop, ModalInner } from "../ui/modal";
@@ -185,6 +186,11 @@ export function CardModal(props: Props) {
       {isSpecialist(cardWithRelations.card) && (
         <div className={css["related"]}>
           <SpecialistInvestigators card={cardWithRelations.card} />
+        </div>
+      )}
+      {!ctx.resolvedDeck && (
+        <div className={css["related"]}>
+          <PopularDecks scope={cardWithRelations.card} />
         </div>
       )}
     </>

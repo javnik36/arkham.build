@@ -1,21 +1,15 @@
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useParams } from "wouter";
-import {
-  CardModalProvider,
-  useCardModalContextChecked,
-} from "@/components/card-modal/card-modal-context";
-import { PortaledCardTooltip } from "@/components/card-tooltip/card-tooltip-portaled";
-import { useRestingTooltip } from "@/components/ui/tooltip.hooks";
+import { CardLink } from "@/components/card-link";
+import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { ListLayoutContextProvider } from "@/layouts/list-layout-context-provider";
 import { ListLayoutNoSidebar } from "@/layouts/list-layout-no-sidebar";
 import { useStore } from "@/store";
 import type { Card } from "@/store/schemas/card.schema";
 import { selectMetadata } from "@/store/selectors/shared";
 import { displayAttribute } from "@/utils/card-utils";
-import { useAccentColor } from "@/utils/use-accent-color";
 import { Error404 } from "../errors/404";
-import css from "./usable-cards.module.css";
 
 type Props = {
   code: string;
@@ -87,49 +81,6 @@ function UsableCardsList(props: { card: Card }) {
     <ListLayoutContextProvider>
       <ListLayoutNoSidebar titleString={titleString} title={title} />
     </ListLayoutContextProvider>
-  );
-}
-
-function CardLink({
-  children,
-  card,
-}: {
-  children?: React.ReactNode;
-  card: Card;
-}) {
-  const accentColor = useAccentColor(card);
-
-  const cardModalContext = useCardModalContextChecked();
-
-  const { refs, referenceProps, isMounted, floatingStyles, transitionStyles } =
-    useRestingTooltip();
-
-  const onClick = useCallback(() => {
-    cardModalContext.setOpen({ code: card.code });
-  }, [cardModalContext, card.code]);
-
-  return (
-    <>
-      <button
-        {...referenceProps}
-        className={css["card-link"]}
-        onClick={onClick}
-        type="button"
-        ref={refs.setReference}
-        style={accentColor}
-      >
-        {card.parallel && <i className="icon-parallel" />}
-        {children}
-      </button>
-      {isMounted && (
-        <PortaledCardTooltip
-          card={card}
-          ref={refs.setFloating}
-          floatingStyles={floatingStyles}
-          transitionStyles={transitionStyles}
-        />
-      )}
-    </>
   );
 }
 

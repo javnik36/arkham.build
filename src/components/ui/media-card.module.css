@@ -1,6 +1,6 @@
 .card {
   border: 1px solid var(--palette-1);
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded);
   overflow: hidden;
   padding-bottom: 0.5rem;
   background-color: var(--palette-point-five);

@@ -5,6 +5,7 @@ import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import {
   DeckDisplay,
   type DeckDisplayProps,
+  type DeckDisplayType,
 } from "@/components/deck-display/deck-display";
 import { Loader } from "@/components/ui/loader";
 import { useStore } from "@/store";
@@ -30,7 +31,7 @@ import { Error404 } from "../errors/404";
 import { ShareInner } from "../share/share";
 
 function DeckView() {
-  const { id, type } = useParams<{ id: string; type: string }>();
+  const { id, type } = useParams<{ id: string; type: DeckDisplayType }>();
 
   const hasDeck = useStore((state) => !!state.data.decks[id]);
 
@@ -45,7 +46,7 @@ function DeckView() {
   return <ShareInner id={id} />;
 }
 
-function ArkhamDbDeckView({ id, type }: { id: string; type: string }) {
+function ArkhamDbDeckView({ id, type }: { id: string; type: DeckDisplayType }) {
   const clientId = useStore(selectClientId);
   const { t } = useTranslation();
 
@@ -107,6 +108,7 @@ function ArkhamDbDeckView({ id, type }: { id: string; type: string }) {
           ? getDeckHistory(decks.toReversed(), metadata, collator)
           : []
       }
+      type={type}
     />
   );
 }
@@ -126,6 +128,7 @@ function DeckViewInner({
   origin,
   deck,
   history,
+  type,
 }: Omit<DeckDisplayProps, "validation">) {
   const validation = useStore((state) => selectDeckValid(state, deck));
 
@@ -138,6 +141,7 @@ function DeckViewInner({
           deck={deck}
           history={history}
           validation={validation}
+          type={type}
         />
       </CardModalProvider>
     </ResolvedDeckProvider>

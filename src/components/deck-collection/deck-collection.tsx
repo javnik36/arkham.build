@@ -3,11 +3,14 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
 import { Link, useLocation } from "wouter";
-import { DeckSummary } from "@/components/deck-collection/deck-summary";
 import {
   useDeleteDeck,
   useDuplicateDeck,
 } from "@/components/deck-display/hooks";
+import {
+  DeckSummary,
+  DeckSummaryQuickActions,
+} from "@/components/deck-summary/deck-summary";
 import { Button } from "@/components/ui/button";
 import {
   DropdownButton,
@@ -178,12 +181,17 @@ export function DeckCollection() {
               >
                 <DeckSummary
                   deck={deck}
+                  extendedTags
                   interactive
-                  onDeleteDeck={deleteDeck}
-                  onDuplicateDeck={duplicateDeck}
                   showThumbnail
                   validation={deck.problem}
-                />
+                >
+                  <DeckSummaryQuickActions
+                    deck={deck}
+                    onDeleteDeck={deleteDeck}
+                    onDuplicateDeck={duplicateDeck}
+                  />
+                </DeckSummary>
               </div>
             )}
           />

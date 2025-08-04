@@ -51,7 +51,7 @@
 .exile {
   background: var(--palette-point-five);
   box-shadow: var(--shadow-md);
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded);
   width: min(22rem, 95dvh);
   padding: 1rem;
 }

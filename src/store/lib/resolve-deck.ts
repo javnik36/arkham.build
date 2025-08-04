@@ -220,24 +220,29 @@ export function getDeckLimitOverride(
   return undefined;
 }
 
-export function deckTags(deck: ResolvedDeck) {
+export function deckTags(deck: ResolvedDeck, delimiter = " ") {
   return (
     deck.tags
       ?.trim()
-      .split(" ")
+      .split(delimiter)
       .filter((x) => x) ?? []
   );
 }
 
-export function extendedDeckTags(deck: ResolvedDeck, includeCardPool = false) {
+export function extendedDeckTags(
+  deck: ResolvedDeck,
+  { includeCardPool = false, includeSource = true, delimiter = " " },
+) {
   const tags = [];
 
-  if (deck.source === "arkhamdb") {
-    tags.push("arkhamdb");
-  } else if (deck.shared) {
-    tags.push("shared");
-  } else {
-    tags.push("private");
+  if (includeSource) {
+    if (deck.source === "arkhamdb") {
+      tags.push("arkhamdb");
+    } else if (deck.shared) {
+      tags.push("shared");
+    } else {
+      tags.push("private");
+    }
   }
 
   if (includeCardPool) {
@@ -250,6 +255,6 @@ export function extendedDeckTags(deck: ResolvedDeck, includeCardPool = false) {
     }
   }
 
-  tags.push(...deckTags(deck));
+  tags.push(...deckTags(deck, delimiter));
   return tags;
 }

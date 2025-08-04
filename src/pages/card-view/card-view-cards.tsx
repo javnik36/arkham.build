@@ -1,8 +1,14 @@
 import { Redirect } from "wouter";
 import { Card } from "@/components/card/card";
+import {
+  SpecialistAccess,
+  SpecialistInvestigators,
+} from "@/components/card-modal/specialist";
 import { CustomizationsEditor } from "@/components/customizations/customizations-editor";
+import { PopularDecks } from "@/components/popular-decks/popular-decks";
 import { getRelatedCards } from "@/store/lib/resolve-card";
-import type { CardWithRelations, ResolvedCard } from "@/store/lib/types";
+import type { CardWithRelations } from "@/store/lib/types";
+import { isSpecialist } from "@/utils/card-utils";
 import { formatRelationTitle } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import css from "./card-view.module.css";
@@ -33,15 +39,9 @@ export function CardViewCards({
     cardWithRelations.card.duplicate_of_code ??
     cardWithRelations.card.alternate_of_code;
 
-  if (canonicalCode) {
+  if (canonicalCode && !cardWithRelations.card.parallel) {
     const href = `/card/${canonicalCode}`;
-
-    return (
-      <Redirect
-        replace
-        to={cardWithRelations.card.parallel ? `${href}#parallel` : href}
-      />
-    );
+    return <Redirect replace to={href} />;
   }
 
   const related = getRelatedCards(cardWithRelations);
@@ -56,14 +56,16 @@ export function CardViewCards({
         </Card>
       </div>
 
+      <PopularDecks scope={cardWithRelations.card} />
+
       {!isEmpty(related) &&
         related.map(([key, value]) => (
           <CardViewSection key={key} id={key} title={formatRelationTitle(key)}>
-            {key === "parallel" && (
-              <Card resolvedCard={value as CardWithRelations} />
+            {typeof value === "object" && !Array.isArray(value) && (
+              <Card resolvedCard={value} titleLinks="card" size="compact" />
             )}
-            {key !== "parallel" &&
-              (value as ResolvedCard[]).map((c) => (
+            {Array.isArray(value) &&
+              value.map((c) => (
                 <Card
                   canToggleBackside
                   key={c.card.code}
@@ -74,6 +76,19 @@ export function CardViewCards({
               ))}
           </CardViewSection>
         ))}
+
+      {cardWithRelations.card.type_code === "investigator" && (
+        <CardViewSection title={formatRelationTitle("specialist")}>
+          <SpecialistAccess card={cardWithRelations.card} />
+        </CardViewSection>
+      )}
+      {isSpecialist(cardWithRelations.card) && (
+        <CardViewSection
+          title={formatRelationTitle("specialist_investigators")}
+        >
+          <SpecialistInvestigators card={cardWithRelations.card} />
+        </CardViewSection>
+      )}
     </>
   );
 }

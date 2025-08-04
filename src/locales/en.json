@@ -1278,6 +1278,12 @@
       },
       "sort_by": "Sort by"
     },
+    "popular_decks": {
+      "error": "Popular decks could not be loaded: {{error}}",
+      "no_results": "No decks found",
+      "title_investigator": "Popular <tooltip>{{name}}</tooltip> decks",
+      "title_card": "Popular decks containing <tooltip>{{name}}</tooltip>"
+    },
     "preview_banner": {
       "actions": {
         "dismiss": "Dismiss",

@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { lazy, Suspense, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Route, Router, Switch, useLocation, useSearch } from "wouter";
@@ -49,13 +50,23 @@ function App() {
   );
 }
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
 function Providers(props: { children: React.ReactNode }) {
   return (
-    <ErrorBoundary>
-      <Suspense>
-        <ToastProvider>{props.children}</ToastProvider>
-      </Suspense>
-    </ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <ErrorBoundary>
+        <Suspense>
+          <ToastProvider>{props.children}</ToastProvider>
+        </Suspense>
+      </ErrorBoundary>
+    </QueryClientProvider>
   );
 }
 

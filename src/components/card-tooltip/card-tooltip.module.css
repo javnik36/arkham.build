@@ -12,20 +12,20 @@
 
 .tooltip > * {
   box-shadow: var(--shadow-lg);
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded);
 }
 
 .tooltip > div > *:only-child {
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded);
 }
 
 .tooltip > div > *:not(:only-child):first-child {
-  border-radius: var(--rounded-md) var(--rounded-md) 0 0;
+  border-radius: var(--rounded) var(--rounded) 0 0;
   border-bottom: none;
 }
 
 .tooltip > div > *:not(:only-child):last-child {
-  border-radius: 0 0 var(--rounded-md) var(--rounded-md);
+  border-radius: 0 0 var(--rounded) var(--rounded);
 }
 
 .tooltip > div > *:not(:only-child):last-child header {

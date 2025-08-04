@@ -23,7 +23,7 @@ export function Loader(props: Props) {
   if (!visible) return null;
 
   return (
-    <div className={cx(css["loader"], show && css["show"])}>
+    <output className={cx(css["loader"], show && css["show"])}>
       <div className={css["loader-inner"]}>
         <div className={css["loader-icon"]}>
           <i className="icon-auto_fail" />
@@ -33,6 +33,6 @@ export function Loader(props: Props) {
           {message && <p>{message}</p>}
         </div>
       </div>
-    </div>
+    </output>
   );
 }

@@ -81,6 +81,7 @@ function CardView() {
                 </Link>
               )}
             </SidebarSection>
+
             {cardWithRelations.card.official && (
               <SidebarSection title={t("card_view.section_faq")}>
                 <Faq card={cardWithRelations.card} />

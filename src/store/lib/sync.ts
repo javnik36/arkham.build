@@ -4,7 +4,7 @@ import {
   selectLookupTables,
   selectMetadata,
 } from "../selectors/shared";
-import { ApiError } from "../services/queries";
+import { ApiError } from "../services/requests/shared";
 import type { StoreState } from "../slices";
 import type { Provider } from "../slices/connections.types";
 import type { Deck } from "../slices/data.types";

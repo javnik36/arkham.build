@@ -91,7 +91,7 @@
   gap: 0.5rem;
 
   padding: 0.25rem;
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded);
 }
 
 .pack-label {
@@ -126,6 +126,6 @@
   text-align: center;
   background: var(--palette-1);
   padding: 0.25rem;
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded);
   min-width: 6ch;
 }

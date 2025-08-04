@@ -82,7 +82,7 @@
   gap: 1rem;
   background: var(--palette-point-five);
   box-shadow: var(--shadow-md);
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded);
   width: 20rem;
   padding: 1rem;
 }

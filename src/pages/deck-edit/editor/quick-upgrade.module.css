@@ -24,7 +24,7 @@
   background: var(--palette-0);
   color: var(--text);
   padding: 0.25rem;
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded);
   text-shadow: none;
   opacity: 0.85;
 

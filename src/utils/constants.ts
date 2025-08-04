@@ -225,7 +225,6 @@ export const ORIENTATION_CHANGED_CARDS = ["85037", "85038"];
 
 export const CARD_SET_ORDER = [
   "base",
-  "parallel",
   "otherVersions",
   "requiredCards",
   "advanced",
@@ -234,6 +233,7 @@ export const CARD_SET_ORDER = [
   "bound",
   "bonded",
   "level",
+  "parallel",
 ];
 
 export const MQ_FLOATING_SIDEBAR = "(max-width: 52rem)";

@@ -10,7 +10,8 @@ import {
   selectLookupTables,
   selectMetadata,
 } from "../selectors/shared";
-import { ApiError, getDecks, newDeck, updateDeck } from "../services/queries";
+import { getDecks, newDeck, updateDeck } from "../services/queries";
+import { ApiError } from "../services/requests/shared";
 import type { StoreState } from ".";
 import type {
   Connection,

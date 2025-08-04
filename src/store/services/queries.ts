@@ -18,6 +18,7 @@ import type { Deck, Id } from "../slices/data.types";
 import { isDeck } from "../slices/data.types";
 import type { Locale } from "../slices/settings.types";
 import reprintPacks from "./data/reprint_packs.json";
+import { ApiError, apiV2Request } from "./requests/shared";
 
 export type MetadataApiResponse = {
   data: Omit<MetadataResponse, "faction" | "reprint_pack" | "type" | "subtype">;
@@ -54,15 +55,6 @@ type FaqResponse = {
     date: string;
   };
 }[];
-
-export class ApiError extends Error {
-  status: number;
-
-  constructor(message: string, status: number) {
-    super(message);
-    this.status = status;
-  }
-}
 
 async function request(
   path: string,
@@ -336,23 +328,6 @@ export async function upgradeDeck(
   return await res.json();
 }
 
-async function apiV2Request(
-  path: string,
-  options: RequestInit = {},
-): Promise<Response> {
-  const res = await fetch(
-    `${import.meta.env.VITE_RECOMMENDATION_API_URL}${path}`,
-    options,
-  );
-
-  if (res.status >= 400) {
-    const err = await res.json();
-    throw new ApiError(err.message, res.status);
-  }
-
-  return res;
-}
-
 type RecommendationApiResponse = {
   data: {
     recommendations: Recommendations;
@@ -368,13 +343,11 @@ export async function getRecommendations(
 ) {
   const search = new URLSearchParams([
     ["algo", relativeAnalysis ? "percentile_rank" : "absolute_rank"],
-    ["analyze_side_decks", analyzeSideDecks ? "true" : "false"],
-    ["date_range_start", dateRange[0]],
-    ["date_range_end", dateRange[1]],
-    ...requiredCards.map((card) => ["card", card]),
+    ["side_decks", analyzeSideDecks ? "true" : "false"],
+    ["date_start", dateRange[0]],
+    ["date_end", dateRange[1]],
+    ...requiredCards.map((card) => ["with", card]),
   ]);
-
-  console.log(search.toString());
 
   const res = await apiV2Request(
     `/v2/public/recommendations/${canonicalInvestigatorCode}?${search.toString()}`,

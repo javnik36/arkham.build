@@ -23,34 +23,31 @@ import { CopyToClipboard } from "../ui/copy-to-clipboard";
 import { DefaultTooltip } from "../ui/tooltip";
 import css from "./deck-summary.module.css";
 
-type Props = {
+type DeckSummaryProps = {
+  children?: React.ReactNode;
   deck: ResolvedDeck;
-  onDeleteDeck?: (id: Id) => Promise<void>;
-  onDuplicateDeck?: (id: Id) => void;
+  extendedTags?: boolean;
   interactive?: boolean;
   showThumbnail?: boolean;
+  type?: "deck" | "decklist";
   validation?: DeckValidationResult | string | null;
 };
 
-export function DeckSummary(props: Props) {
+export function DeckSummary(props: DeckSummaryProps) {
   const {
+    children,
     deck,
+    extendedTags,
     interactive,
-    onDeleteDeck,
-    onDuplicateDeck,
     showThumbnail,
+    type = "deck",
     validation,
   } = props;
 
   const { t } = useTranslation();
-  const [, navigate] = useLocation();
 
   const backgroundCls = getCardColor(deck.investigatorBack.card, "background");
   const borderCls = getCardColor(deck.investigatorBack.card, "border");
-
-  const connectionLock = useStore((state) =>
-    selectConnectionLockForDeck(state, deck),
-  );
 
   const card = {
     ...deck.investigatorFront.card,
@@ -59,39 +56,15 @@ export function DeckSummary(props: Props) {
       deck.investigatorBack.card.parallel,
   };
 
-  const onDuplicate = useCallback(
-    (evt: React.MouseEvent) => {
-      cancelEvent(evt);
-      onDuplicateDeck?.(deck.id);
-    },
-    [deck.id, onDuplicateDeck],
+  const tags = useMemo(
+    () =>
+      extendedDeckTags(deck, {
+        includeCardPool: true,
+        includeSource: extendedTags,
+        delimiter: type === "decklist" ? ", " : " ",
+      }),
+    [deck, extendedTags, type],
   );
-
-  const onDelete = useCallback(
-    (evt: React.MouseEvent) => {
-      cancelEvent(evt);
-      onDeleteDeck?.(deck.id);
-    },
-    [deck.id, onDeleteDeck],
-  );
-
-  const onEdit = useCallback(
-    (evt: React.MouseEvent) => {
-      cancelEvent(evt);
-      navigate(`/deck/edit/${deck.id}`);
-    },
-    [deck.id, navigate],
-  );
-
-  const onUpgrade = useCallback(
-    (evt: React.MouseEvent) => {
-      cancelEvent(evt);
-      navigate(`/deck/view/${deck.id}?upgrade`);
-    },
-    [deck.id, navigate],
-  );
-
-  const tags = useMemo(() => extendedDeckTags(deck, true), [deck]);
 
   return (
     <article
@@ -101,7 +74,7 @@ export function DeckSummary(props: Props) {
         interactive && css["interactive"],
       )}
     >
-      <Link href={`/deck/view/${deck.id}`}>
+      <Link href={`/${type}/view/${deck.id}`}>
         <header className={cx(css["header"], backgroundCls)}>
           {showThumbnail && (
             <div className={css["thumbnail"]}>
@@ -141,48 +114,101 @@ export function DeckSummary(props: Props) {
       </Link>
       <div className={css["meta"]}>
         <DeckTags tags={tags} />
-        <nav className={css["quick-actions"]}>
-          <Button
-            className={css["quick-action"]}
-            iconOnly
-            tooltip={t("deck.actions.edit")}
-            onClick={onEdit}
-          >
-            <PencilIcon />
-          </Button>
-          <Button
-            className={css["quick-action"]}
-            iconOnly
-            tooltip={t("deck.actions.upgrade")}
-            onClick={onUpgrade}
-          >
-            <i className="icon-xp-bold" />
-          </Button>
-          <Button
-            className={css["quick-action"]}
-            iconOnly
-            tooltip={t("deck.actions.duplicate")}
-            onClick={onDuplicate}
-          >
-            <CopyIcon />
-          </Button>
-          <CopyToClipboard
-            className={css["quick-action"]}
-            text={deck.id.toString()}
-            tooltip={t("deck.actions.copy_id")}
-          />
-          <Button
-            className={css["quick-action"]}
-            iconOnly
-            disabled={!!connectionLock}
-            onClick={onDelete}
-            tooltip={connectionLock ? connectionLock : t("deck.actions.delete")}
-          >
-            <Trash2Icon />
-          </Button>
-        </nav>
+        {children}
       </div>
     </article>
+  );
+}
+
+type DeckSummaryQuickActionsProps = {
+  deck: ResolvedDeck;
+  onDeleteDeck?: (id: Id) => Promise<void>;
+  onDuplicateDeck?: (id: Id) => void;
+};
+
+export function DeckSummaryQuickActions(props: DeckSummaryQuickActionsProps) {
+  const { deck, onDeleteDeck, onDuplicateDeck } = props;
+
+  const { t } = useTranslation();
+  const [, navigate] = useLocation();
+
+  const connectionLock = useStore((state) =>
+    selectConnectionLockForDeck(state, deck),
+  );
+
+  const onDuplicate = useCallback(
+    (evt: React.MouseEvent) => {
+      cancelEvent(evt);
+      onDuplicateDeck?.(deck.id);
+    },
+    [deck.id, onDuplicateDeck],
+  );
+
+  const onDelete = useCallback(
+    (evt: React.MouseEvent) => {
+      cancelEvent(evt);
+      onDeleteDeck?.(deck.id);
+    },
+    [deck.id, onDeleteDeck],
+  );
+
+  const onEdit = useCallback(
+    (evt: React.MouseEvent) => {
+      cancelEvent(evt);
+      navigate(`/deck/edit/${deck.id}`);
+    },
+    [deck.id, navigate],
+  );
+
+  const onUpgrade = useCallback(
+    (evt: React.MouseEvent) => {
+      cancelEvent(evt);
+      navigate(`/deck/view/${deck.id}?upgrade`);
+    },
+    [deck.id, navigate],
+  );
+
+  return (
+    <nav className={css["quick-actions"]}>
+      <Button
+        className={css["quick-action"]}
+        iconOnly
+        tooltip={t("deck.actions.edit")}
+        onClick={onEdit}
+      >
+        <PencilIcon />
+      </Button>
+      <Button
+        className={css["quick-action"]}
+        iconOnly
+        tooltip={t("deck.actions.upgrade")}
+        onClick={onUpgrade}
+      >
+        <i className="icon-xp-bold" />
+      </Button>
+      <Button
+        className={css["quick-action"]}
+        iconOnly
+        tooltip={t("deck.actions.duplicate")}
+        onClick={onDuplicate}
+      >
+        <CopyIcon />
+      </Button>
+      <CopyToClipboard
+        className={css["quick-action"]}
+        text={deck.id.toString()}
+        tooltip={t("deck.actions.copy_id")}
+      />
+      <Button
+        className={css["quick-action"]}
+        iconOnly
+        disabled={!!connectionLock}
+        onClick={onDelete}
+        tooltip={connectionLock ? connectionLock : t("deck.actions.delete")}
+      >
+        <Trash2Icon />
+      </Button>
+    </nav>
   );
 }
 

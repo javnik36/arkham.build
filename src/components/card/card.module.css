@@ -24,7 +24,7 @@
   width: 100%;
   background: var(--palette-point-five);
   border: 1px solid var(--palette-1);
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded);
   padding-bottom: var(--card-spacing);
   text-align: left;
 
@@ -39,8 +39,6 @@
 }
 
 .container.full .card {
-  border-width: 2px;
-
   @container (min-width: 33.5rem) {
     grid-template-columns: 10fr 6fr;
     grid-template-rows: auto auto 1fr;
@@ -191,7 +189,7 @@
   gap: var(--card-spacing);
   padding: calc(var(--card-spacing) / 2) var(--card-spacing);
   color: var(--nord-6);
-  border-radius: calc(var(--rounded-md) - 2px) calc(var(--rounded-md) - 2px) 0 0;
+  border-radius: calc(var(--rounded) - 1px) calc(var(--rounded) - 1px) 0 0;
 }
 
 .header > * {

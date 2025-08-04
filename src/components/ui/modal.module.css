@@ -53,7 +53,7 @@
 .content {
   background: var(--palette-0);
   padding: 1rem;
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded);
   box-shadow: var(--shadow-md);
   border: 1px solid var(--palette-1);
 }

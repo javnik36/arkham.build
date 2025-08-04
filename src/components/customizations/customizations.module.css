@@ -1,13 +1,13 @@
 .customizations {
   border: 1px solid var(--palette-1);
   background: var(--palette-point-five);
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded);
   margin-top: var(--card-spacing);
   text-align: left;
 }
 
 .header {
-  border-radius: calc(var(--rounded-md) - 2px) calc(var(--rounded-md) - 2px) 0 0;
+  border-radius: calc(var(--rounded) - 2px) calc(var(--rounded) - 2px) 0 0;
   padding: 0.5rem 1rem;
 }
 

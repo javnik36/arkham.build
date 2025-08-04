@@ -1,7 +1,7 @@
 .cardset {
   background: var(--palette-point-five);
   border: 1px solid var(--palette-1);
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded);
   padding: 0.5rem;
 
   &.selected {
