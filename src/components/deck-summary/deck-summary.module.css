@@ -19,7 +19,7 @@
 }
 
 .thumbnail {
-  width: 2.75rem;
+  width: 2.5rem;
   position: relative;
   flex: 0 0 auto;
 }
@@ -154,15 +154,7 @@
 
 @media (pointer: fine) {
   .summary.interactive {
-    .thumbnail img {
-      filter: grayscale(0.5);
-    }
-
     &:hover {
-      & .thumbnail img {
-        filter: none;
-      }
-
       & .quick-actions {
         opacity: 1;
         pointer-events: all;

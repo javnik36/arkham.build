@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { forwardRef, useCallback, useMemo } from "react";
+import { forwardRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { ErrorDisplay } from "@/pages/errors/error-display";
 import { useStore } from "@/store";
@@ -51,40 +51,34 @@ export const CardRecommender = forwardRef(function CardRecommender(
     coreCards,
   } = recommender;
 
-  const recommendationQuery = useMemo(() => {
+  const recommendationQuery = () => {
     if (!resolvedDeck?.id) {
-      return () => Promise.resolve({ recommendations: [], decks_analyzed: 0 });
+      return Promise.resolve({ recommendations: [], decks_analyzed: 0 });
     }
+
     const dateRangeStrings = dateRange.map(deckTickToString) as [
       string,
       string,
     ];
+
     const canonicalFrontCode =
       resolvedDeck?.metaParsed.alternate_front ??
       resolvedDeck?.investigator_code;
+
     const canonicalBackCode =
       resolvedDeck?.metaParsed.alternate_back ??
       resolvedDeck?.investigator_code;
+
     const canonicalizedInvestigatorCode = `${canonicalFrontCode}-${canonicalBackCode}`;
 
-    return () =>
-      getRecommendations(
-        canonicalizedInvestigatorCode,
-        includeSideDeck,
-        isRelative,
-        coreCards[resolvedDeck.id] || [],
-        dateRangeStrings,
-      );
-  }, [
-    resolvedDeck?.id,
-    resolvedDeck?.investigator_code,
-    resolvedDeck?.metaParsed.alternate_back,
-    resolvedDeck?.metaParsed.alternate_front,
-    includeSideDeck,
-    isRelative,
-    dateRange,
-    coreCards,
-  ]);
+    return getRecommendations(
+      canonicalizedInvestigatorCode,
+      includeSideDeck,
+      isRelative,
+      coreCards[resolvedDeck.id] || [],
+      dateRangeStrings,
+    );
+  };
 
   const { data, error, isPending } = useQuery({
     queryFn: recommendationQuery,
@@ -95,6 +89,8 @@ export const CardRecommender = forwardRef(function CardRecommender(
       isRelative,
       coreCards[resolvedDeck?.id ?? ""],
       dateRange.map(deckTickToString),
+      resolvedDeck?.metaParsed.alternate_back,
+      resolvedDeck?.metaParsed.alternate_front,
     ],
   });
 
