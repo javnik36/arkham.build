@@ -160,4 +160,6 @@ export async function importPackFromFile(page: Page, packPath: string) {
   await fileChooser.setFiles([
     path.join(process.cwd(), "src/test/fixtures/stubs", packPath),
   ]);
+
+  await page.waitForTimeout(300);
 }
