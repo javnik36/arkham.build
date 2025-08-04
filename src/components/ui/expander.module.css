@@ -51,7 +51,7 @@
 }
 
 .expander-label {
-  font-size: 1rem;
+  font-size: var(--text-base);
   font-weight: 700;
 }
 

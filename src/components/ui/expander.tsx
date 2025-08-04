@@ -49,6 +49,7 @@ export function Expander({
         onClick={() => {
           setIsExpanded((prev) => !prev);
         }}
+        size="sm"
         variant="primary"
       >
         <UnfoldVertical />
