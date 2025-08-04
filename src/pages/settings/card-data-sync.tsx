@@ -70,49 +70,47 @@ export function CardDataSync(props: Props) {
   const loading = isPending || initMutation.isPending;
 
   return (
-    <>
-      <Field
-        bordered={showDetails}
-        className={cx(css["sync"], upToDate && css["uptodate"])}
-      >
-        <div className={css["status"]}>
-          {loading && <p>{t("settings.card_data.loading")}</p>}
-          {(!!error || !!initMutation.error) && (
-            <p>{t("settings.card_data.error")}</p>
-          )}
-          {!loading &&
-            data &&
-            (upToDate ? (
-              <p>
-                <CheckIcon className={css["status-icon"]} />{" "}
-                {t("settings.card_data.up_to_date")}
-              </p>
-            ) : (
-              <p>
-                <FileDownIcon className={css["status-icon"]} />{" "}
-                {t("settings.card_data.update_available")}
-              </p>
-            ))}
-        </div>
-        <Button
-          disabled={loading || !!error}
-          onClick={onSync}
-          type="button"
-          size="sm"
-        >
-          {t("settings.card_data.sync")}
-        </Button>
-        {showDetails && dataVersion && (
-          <dl className={css["info"]}>
-            <dt>{t("settings.card_data.data_version")}:</dt>
-            <dd>{dataVersion.cards_updated_at.split(".")[0]}</dd>
-            <dt>{t("settings.card_data.card_count")}:</dt>
-            <dd>{dataVersion.card_count}</dd>
-            <dt>{t("settings.card_data.locale")}:</dt>
-            <dd>{dataVersion.locale}</dd>
-          </dl>
+    <Field
+      bordered={showDetails}
+      className={cx(css["sync"], upToDate && css["uptodate"])}
+    >
+      <div className={css["status"]}>
+        {loading && <p>{t("settings.card_data.loading")}</p>}
+        {(!!error || !!initMutation.error) && (
+          <p>{t("settings.card_data.error")}</p>
         )}
-      </Field>
-    </>
+        {!loading &&
+          data &&
+          (upToDate ? (
+            <p>
+              <CheckIcon className={css["status-icon"]} />{" "}
+              {t("settings.card_data.up_to_date")}
+            </p>
+          ) : (
+            <p>
+              <FileDownIcon className={css["status-icon"]} />{" "}
+              {t("settings.card_data.update_available")}
+            </p>
+          ))}
+      </div>
+      <Button
+        disabled={loading || !!error}
+        onClick={onSync}
+        type="button"
+        size="sm"
+      >
+        {t("settings.card_data.sync")}
+      </Button>
+      {showDetails && dataVersion && (
+        <dl className={css["info"]}>
+          <dt>{t("settings.card_data.data_version")}:</dt>
+          <dd>{dataVersion.cards_updated_at.split(".")[0]}</dd>
+          <dt>{t("settings.card_data.card_count")}:</dt>
+          <dd>{dataVersion.card_count}</dd>
+          <dt>{t("settings.card_data.locale")}:</dt>
+          <dd>{dataVersion.locale}</dd>
+        </dl>
+      )}
+    </Field>
   );
 }

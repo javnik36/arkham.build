@@ -1,3 +1,4 @@
+import { loadEnvFile } from "node:process";
 import {
   defineConfig,
   devices,
@@ -8,10 +9,9 @@ import {
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-import dotenv from "dotenv";
 
-dotenv.config();
-dotenv.config({ path: ".env.e2e" });
+loadEnvFile();
+loadEnvFile(".env.e2e");
 
 /**
  * See https://playwright.dev/docs/test-configuration.

@@ -218,10 +218,7 @@ export async function deleteShare(clientId: string, id: string) {
  * Authenticated API
  */
 
-function authenticatedRequest(
-  path: string,
-  options?: RequestInit,
-): Promise<Response> {
+function authenticatedRequest(path: string, options?: RequestInit) {
   return navigator.locks.request("arkhamdb", async () => {
     const res = await request(path, {
       ...options,

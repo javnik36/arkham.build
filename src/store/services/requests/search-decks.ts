@@ -1,13 +1,13 @@
 import type { Deck } from "@/store/slices/data.types";
 import { apiV2Request } from "./shared";
 
-export type DeckSearchRequestParams = {
+type DeckSearchRequestParams = {
   canonicalInvestigatorCode?: string;
   limit?: number;
   requiredCards?: string[];
 };
 
-export type DeckSearchResponse = {
+type DeckSearchResponse = {
   meta: {
     offset: number;
     limit: number;

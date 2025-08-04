@@ -261,7 +261,8 @@ export const TAG_REGEX_FALLBACKS: Record<string, RegExp> = {
   se: /[Ss]eal(?! of the)/,
 };
 
-export const DOWNLOAD_SOURCES = [
+// biome-ignore lint/correctness/noUnusedVariables: tracking only for now.
+const DOWNLOAD_SOURCES = [
   {
     locale: "en",
     url: "https://www.fantasyflightgames.com/en/products/arkham-horror-the-card-game/#support-section",
