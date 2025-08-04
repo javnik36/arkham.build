@@ -5,13 +5,10 @@ import {
   type PlaywrightTestConfig,
 } from "@playwright/test";
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-
-loadEnvFile();
-loadEnvFile(".env.e2e");
+try {
+  loadEnvFile();
+  loadEnvFile(".env.e2e");
+} catch {}
 
 /**
  * See https://playwright.dev/docs/test-configuration.
