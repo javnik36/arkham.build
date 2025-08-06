@@ -14,6 +14,7 @@ type DeckSearchResponse = {
     total: number;
   };
   data: (Deck & {
+    description_word_count: number;
     user_name: string;
     user_reputation: string;
     like_count: number;
@@ -39,6 +40,8 @@ export async function searchDecks(params: DeckSearchRequestParams) {
     }
   }
 
-  const res = await apiV2Request(`/v2/public/decklists-search?${search}`);
+  const res = await apiV2Request(
+    `/v2/public/arkhamdb-decklists/search?${search}`,
+  );
   return res.json() as Promise<DeckSearchResponse>;
 }

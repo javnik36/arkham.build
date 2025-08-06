@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { AlertCircleIcon, HeartIcon } from "lucide-react";
+import { AlertCircleIcon } from "lucide-react";
 import { useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useStore } from "@/store";
@@ -11,16 +11,14 @@ import {
   selectMetadata,
 } from "@/store/selectors/shared";
 import { searchDecks } from "@/store/services/requests/search-decks";
-import { localizeArkhamDBBaseUrl } from "@/utils/arkhamdb";
 import { displayAttribute } from "@/utils/card-utils";
-import { formatDate } from "@/utils/formatting";
 import { getAccentColorsForFaction } from "@/utils/use-accent-color";
 import { CardLink } from "../card-link";
+import { ArkhamdbDecklistMeta } from "../deck-summary/arkhamdb-decklist-meta";
 import { DeckSummary } from "../deck-summary/deck-summary";
 import { Expander } from "../ui/expander";
 import { Loader } from "../ui/loader";
 import { Plane } from "../ui/plane";
-import { Tag } from "../ui/tag";
 import css from "./popular-decks.module.css";
 
 type Props = {
@@ -64,6 +62,7 @@ export function PopularDecks(props: Props) {
         ...deck,
         source: "arkhamdb",
       }),
+      description_word_count: deck.description_word_count,
       user_name: deck.user_name,
       user_reputation: deck.user_reputation,
       like_count: deck.like_count,
@@ -142,26 +141,13 @@ export function PopularDecks(props: Props) {
                   showThumbnail
                   type="decklist"
                 >
-                  <div className={css["deck-meta"]}>
-                    <div className={css["deck-meta-row"]}>
-                      <Tag className={css["likes"]} size="xs">
-                        <HeartIcon />
-                        {meta.like_count}
-                      </Tag>
-                      <a
-                        className={css["author-link"]}
-                        href={`${localizeArkhamDBBaseUrl()}/user/profile/${deck.user_id}/${meta.user_name}`}
-                        rel="noreferrer"
-                        target="_blank"
-                      >
-                        {meta.user_name}{" "}
-                        <span>&middot; {meta.user_reputation}</span>
-                      </a>
-                    </div>
-                    <time dateTime={deck.date_creation}>
-                      {formatDate(deck.date_creation)}
-                    </time>
-                  </div>
+                  <ArkhamdbDecklistMeta
+                    date_creation={deck.date_creation}
+                    like_count={meta.like_count}
+                    user_id={deck.user_id as number}
+                    user_name={meta.user_name}
+                    user_reputation={meta.user_reputation}
+                  />
                 </DeckSummary>
               </li>
             ))}

@@ -27,6 +27,7 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
     set((state) => ({ ui: { ...state.ui, showLimitedAccess } }));
   },
   cacheFanMadeContent(decks) {
+    // FIXME: dont update if the cache is already up to date
     set((state) => ({
       ui: {
         ...state.ui,

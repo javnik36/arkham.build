@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useParams } from "wouter";
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
@@ -7,6 +7,7 @@ import {
   type DeckDisplayProps,
   type DeckDisplayType,
 } from "@/components/deck-display/deck-display";
+import { ArkhamdbDecklistMeta } from "@/components/deck-summary/arkhamdb-decklist-meta";
 import { Loader } from "@/components/ui/loader";
 import { useStore } from "@/store";
 import { resolveDeck } from "@/store/lib/resolve-deck";
@@ -23,6 +24,7 @@ import {
   selectMetadata,
 } from "@/store/selectors/shared";
 import { queryDeck } from "@/store/services/queries";
+import { fetchArkhamDbDecklistMeta } from "@/store/services/requests/decklist-meta";
 import { ApiError } from "@/store/services/requests/shared";
 import type { Id } from "@/store/slices/data.types";
 import { isNumeric } from "@/utils/is-numeric";
@@ -60,10 +62,20 @@ function ArkhamDbDeckView({ id, type }: { id: string; type: DeckDisplayType }) {
     return decks;
   }
 
-  const { data, isPending, error } = useQuery({
-    queryKey: ["deck", type, idInt],
-    queryFn,
-  });
+  const [{ data, isPending, error }, { data: meta, isPending: metaPending }] =
+    useQueries({
+      queries: [
+        {
+          queryKey: ["deck", type, idInt],
+          queryFn,
+        },
+        {
+          queryKey: ["deck_meta", idInt],
+          queryFn: () => fetchArkhamDbDecklistMeta(idInt),
+          enabled: type === "decklist",
+        },
+      ],
+    });
 
   const metadata = useStore(selectMetadata);
   const lookupTables = useStore(selectLookupTables);
@@ -74,7 +86,7 @@ function ArkhamDbDeckView({ id, type }: { id: string; type: DeckDisplayType }) {
     return <ErrorStatus statusCode={404} />;
   }
 
-  if (isPending) {
+  if (isPending || metaPending) {
     return <Loader show message={t("deck_view.loading")} />;
   }
 
@@ -101,6 +113,7 @@ function ArkhamDbDeckView({ id, type }: { id: string; type: DeckDisplayType }) {
     <DeckViewInner
       origin="arkhamdb"
       deck={decks[0]}
+      headerSlot={meta ? <ArkhamdbDecklistMeta {...meta} /> : undefined}
       history={
         decks.length > 1
           ? getDeckHistory(decks.toReversed(), metadata, collator)
@@ -125,6 +138,7 @@ function LocalDeckView({ id }: { id: Id }) {
 function DeckViewInner({
   origin,
   deck,
+  headerSlot,
   history,
   type,
 }: Omit<DeckDisplayProps, "validation">) {
@@ -137,6 +151,7 @@ function DeckViewInner({
           key={deck.id}
           origin={origin}
           deck={deck}
+          headerSlot={headerSlot}
           history={history}
           validation={validation}
           type={type}
