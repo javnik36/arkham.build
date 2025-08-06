@@ -62,20 +62,22 @@ function ArkhamDbDeckView({ id, type }: { id: string; type: DeckDisplayType }) {
     return decks;
   }
 
-  const [{ data, isPending, error }, { data: meta, isPending: metaPending }] =
-    useQueries({
-      queries: [
-        {
-          queryKey: ["deck", type, idInt],
-          queryFn,
-        },
-        {
-          queryKey: ["deck_meta", idInt],
-          queryFn: () => fetchArkhamDbDecklistMeta(idInt),
-          enabled: type === "decklist",
-        },
-      ],
-    });
+  const [
+    { data, isPending, error },
+    { data: meta, isPending: metaPending, isEnabled: metaEnabled },
+  ] = useQueries({
+    queries: [
+      {
+        queryKey: ["deck", type, idInt],
+        queryFn,
+      },
+      {
+        queryKey: ["deck_meta", idInt],
+        queryFn: () => fetchArkhamDbDecklistMeta(idInt),
+        enabled: type === "decklist",
+      },
+    ],
+  });
 
   const metadata = useStore(selectMetadata);
   const lookupTables = useStore(selectLookupTables);
@@ -86,7 +88,7 @@ function ArkhamDbDeckView({ id, type }: { id: string; type: DeckDisplayType }) {
     return <ErrorStatus statusCode={404} />;
   }
 
-  if (isPending || metaPending) {
+  if (isPending || (metaEnabled && metaPending)) {
     return <Loader show message={t("deck_view.loading")} />;
   }
 
