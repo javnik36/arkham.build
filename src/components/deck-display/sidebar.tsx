@@ -57,6 +57,7 @@ import type { DeckOrigin } from "./types";
 
 type Props = {
   className?: string;
+  innerClassName?: string;
   origin: DeckOrigin;
   deck: ResolvedDeck;
 };
@@ -66,7 +67,7 @@ import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { SuziStandaloneSetupDialog } from "../suzi-standalone-setup/suzi-standalone-setup";
 
 export function Sidebar(props: Props) {
-  const { className, origin, deck } = props;
+  const { className, innerClassName, origin, deck } = props;
 
   const connectionsData = useStore(selectConnectionsData);
 
@@ -86,26 +87,28 @@ export function Sidebar(props: Props) {
   const onArkhamDBUpload = canUploadToArkhamDb ? onUpload : undefined;
 
   return (
-    <div className={cx(css["container"], className)}>
-      <DeckInvestigator deck={deck} size="tooltip" titleLinks="dialog" />
-      <DialogContent>
-        <DeckInvestigatorModal deck={deck} readonly />
-      </DialogContent>
+    <div className={className}>
+      <div className={cx(css["container"], innerClassName)}>
+        <DeckInvestigator deck={deck} size="tooltip" titleLinks="dialog" />
+        <DialogContent>
+          <DeckInvestigatorModal deck={deck} readonly />
+        </DialogContent>
 
-      <SidebarActions
-        onArkhamDBUpload={onArkhamDBUpload}
-        deck={deck}
-        origin={origin}
-      />
-      <SidebarDetails deck={deck} />
-      {origin === "local" && <SidebarUpgrade deck={deck} />}
+        <SidebarActions
+          onArkhamDBUpload={onArkhamDBUpload}
+          deck={deck}
+          origin={origin}
+        />
+        <SidebarDetails deck={deck} />
+        {origin === "local" && <SidebarUpgrade deck={deck} />}
 
-      {origin === "arkhamdb" ||
-        (deck.source === "arkhamdb" && <ArkhamDbDetails deck={deck} />)}
+        {origin === "arkhamdb" ||
+          (deck.source === "arkhamdb" && <ArkhamDbDetails deck={deck} />)}
 
-      {origin === "local" && deck.source !== "arkhamdb" && (
-        <Sharing onArkhamDBUpload={onArkhamDBUpload} deck={deck} />
-      )}
+        {origin === "local" && deck.source !== "arkhamdb" && (
+          <Sharing onArkhamDBUpload={onArkhamDBUpload} deck={deck} />
+        )}
+      </div>
     </div>
   );
 }

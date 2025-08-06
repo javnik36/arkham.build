@@ -4,6 +4,7 @@ import {
   FileClockIcon,
   SquarePenIcon,
 } from "lucide-react";
+import type React from "react";
 import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDialogContextChecked } from "@/components/ui/dialog.hooks";
@@ -15,6 +16,7 @@ import { deckTags, extendedDeckTags } from "@/store/lib/resolve-deck";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { History } from "@/store/selectors/decks";
 import { selectConnectionLockForDeck } from "@/store/selectors/shared";
+import { cx } from "@/utils/cx";
 import { isEmpty } from "@/utils/is-empty";
 import { useAccentColor } from "@/utils/use-accent-color";
 import DeckDescription from "../deck-description";
@@ -56,13 +58,21 @@ export type DeckDisplayType = "deck" | "decklist";
 export type DeckDisplayProps = {
   deck: ResolvedDeck;
   origin: DeckOrigin;
+  headerSlot?: React.ReactNode;
   history?: History;
   type?: DeckDisplayType;
   validation: DeckValidationResult;
 };
 
 export function DeckDisplay(props: DeckDisplayProps) {
-  const { origin, deck, history, type = "deck", validation } = props;
+  const {
+    origin,
+    deck,
+    headerSlot,
+    history,
+    type = "deck",
+    validation,
+  } = props;
 
   const [viewMode, setViewMode] = useTabUrlState("list", "view_mode");
   const [currentTab, setCurrentTab] = useTabUrlState("deck");
@@ -85,11 +95,9 @@ export function DeckDisplay(props: DeckDisplayProps) {
     </h1>
   );
 
-  console.log(deck, origin);
-
   return (
     <AppLayout title={deck ? deck.name : ""}>
-      <main className={css["main"]} style={cssVariables}>
+      <main className={cx(css["main"], css[origin])} style={cssVariables}>
         <header className={css["header"]}>
           {origin === "local" ? (
             <Dialog>
@@ -112,7 +120,6 @@ export function DeckDisplay(props: DeckDisplayProps) {
           ) : (
             titleNode
           )}
-
           <div className={css["tags"]} data-testid="view-tags">
             <DeckTags
               tags={
@@ -127,6 +134,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
             <LimitedCardPoolTag />
             <SealedDeckTag />
           </div>
+          {headerSlot && <div>{headerSlot}</div>}
           {deck.metaParsed?.banner_url && (
             <div className={css["banner"]}>
               <img alt="Deck banner" src={deck.metaParsed.banner_url} />
@@ -140,7 +148,12 @@ export function DeckDisplay(props: DeckDisplayProps) {
         </header>
 
         <Dialog>
-          <Sidebar className={css["sidebar"]} deck={deck} origin={origin} />
+          <Sidebar
+            className={css["sidebar"]}
+            deck={deck}
+            innerClassName={css["sidebar-inner"]}
+            origin={origin}
+          />
         </Dialog>
 
         <div className={css["content"]}>
