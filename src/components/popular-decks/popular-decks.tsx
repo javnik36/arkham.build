@@ -29,9 +29,7 @@ export function PopularDecks(props: Props) {
   const { scope } = props;
   const { t } = useTranslation();
 
-  const enabled =
-    (scope.type_code === "investigator" || scope.xp != null) &&
-    !scope.encounter_code;
+  const enabled = !scope.encounter_code;
 
   const { data, error, isPending } = useQuery({
     queryKey: ["popular-decks", scope.code],
