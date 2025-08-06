@@ -1278,6 +1278,12 @@
       },
       "sort_by": "Sortierung"
     },
+    "popular_decks": {
+      "error": "Beliebte Decks konnten nicht geladen werden: {{error}}",
+      "no_results": "Keine Ergebnisse",
+      "title_card": "Beliebte Decks mit <tooltip>{{name}}</tooltip>",
+      "title_investigator": "Beliebte <tooltip>{{name}}</tooltip> Decks"
+    },
     "preview_banner": {
       "actions": {
         "dismiss": "Schließen",
