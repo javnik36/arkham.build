@@ -92,6 +92,7 @@ export const CardRecommender = forwardRef(function CardRecommender(
       resolvedDeck?.metaParsed.alternate_back,
       resolvedDeck?.metaParsed.alternate_front,
     ],
+    retry: false,
   });
 
   const onKeyboardNavigate = useCallback((evt: React.KeyboardEvent) => {
