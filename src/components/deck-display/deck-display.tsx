@@ -77,6 +77,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
   const [viewMode, setViewMode] = useTabUrlState("list", "view_mode");
   const [currentTab, setCurrentTab] = useTabUrlState("deck");
   const contentRef = useRef<HTMLDivElement>(null);
+  const scrollState = useRef<Record<string, number>>({});
 
   const { t } = useTranslation();
   const cssVariables = useAccentColor(deck.investigatorBack.card);
@@ -84,9 +85,21 @@ export function DeckDisplay(props: DeckDisplayProps) {
 
   const onTabChange = useCallback(
     (val: string) => {
+      if (contentRef.current) {
+        scrollState.current[currentTab] = window.scrollY;
+      }
+
       setCurrentTab(val);
+
+      setTimeout(() => {
+        if (contentRef.current && scrollState.current[val]) {
+          window.scrollTo(0, scrollState.current[val]);
+        } else {
+          window.scrollTo(0, 0);
+        }
+      });
     },
-    [setCurrentTab],
+    [setCurrentTab, currentTab],
   );
 
   const titleNode = (
