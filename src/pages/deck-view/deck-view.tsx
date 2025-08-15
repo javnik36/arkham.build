@@ -1,13 +1,13 @@
 import { useQueries } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useParams } from "wouter";
+import { ArkhamdbDecklistMeta } from "@/components/arkhamdb-decklists/arkhamdb-decklist-meta";
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import {
   DeckDisplay,
   type DeckDisplayProps,
   type DeckDisplayType,
 } from "@/components/deck-display/deck-display";
-import { ArkhamdbDecklistMeta } from "@/components/deck-summary/arkhamdb-decklist-meta";
 import { Loader } from "@/components/ui/loader";
 import { useStore } from "@/store";
 import { resolveDeck } from "@/store/lib/resolve-deck";
@@ -24,7 +24,7 @@ import {
   selectMetadata,
 } from "@/store/selectors/shared";
 import { queryDeck } from "@/store/services/queries";
-import { fetchArkhamDbDecklistMeta } from "@/store/services/requests/decklist-meta";
+import { fetchArkhamDBDecklistMeta } from "@/store/services/requests/decklist-meta";
 import { ApiError } from "@/store/services/requests/shared";
 import type { Id } from "@/store/slices/data.types";
 import { isNumeric } from "@/utils/is-numeric";
@@ -42,13 +42,13 @@ function DeckView() {
   }
 
   if (isNumeric(id)) {
-    return <ArkhamDbDeckView id={id} type={type} />;
+    return <ArkhamDBDeckView id={id} type={type} />;
   }
 
   return <ShareInner id={id} />;
 }
 
-function ArkhamDbDeckView({ id, type }: { id: string; type: DeckDisplayType }) {
+function ArkhamDBDeckView({ id, type }: { id: string; type: DeckDisplayType }) {
   const clientId = useStore(selectClientId);
   const { t } = useTranslation();
 
@@ -73,7 +73,7 @@ function ArkhamDbDeckView({ id, type }: { id: string; type: DeckDisplayType }) {
       },
       {
         queryKey: ["deck_meta", idInt],
-        queryFn: () => fetchArkhamDbDecklistMeta(idInt),
+        queryFn: () => fetchArkhamDBDecklistMeta(idInt),
         enabled: type === "decklist",
       },
     ],

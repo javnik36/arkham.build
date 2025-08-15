@@ -245,6 +245,8 @@
         "none": "No Slot",
         "tarot": "Tarot"
       },
+      "sort_asc": "Sort ascending",
+      "sort_desc": "Sort descending",
       "specialist": "Specialist",
       "subtype": {
         "basicweakness": "Basic Weakness",
@@ -1036,6 +1038,35 @@
         "xp_gained": "XP gained"
       }
     },
+    "decklists": {
+      "browse": {
+        "loading": "Loading deck guides...",
+        "no_results": "No results",
+        "results_count": "{{count}} results",
+        "title": "Deck guides"
+      },
+      "filters": {
+        "author": "Author",
+        "author_placeholder": "Enter author name (e.g. Valentin1331)...",
+        "description_length": "Minimum deck guide length",
+        "description_length_long": "Long",
+        "description_length_medium": "Medium",
+        "description_length_short": "Short",
+        "excluded_cards": "Excluded cards",
+        "investigator_factions": "Investigator classes",
+        "name": "Deck guide name",
+        "name_placeholder": "Enter name...",
+        "required_cards": "Required cards",
+        "submit": "Apply",
+        "title": "Filter criteria"
+      },
+      "sorting": {
+        "date": "Most recent",
+        "likes": "Most likes",
+        "popularity": "Most popular",
+        "user_reputation": "Highest user reputation"
+      }
+    },
     "draw_simulator": {
       "draw_tooltip": "Draw {{count}} {{cards}}.",
       "redraw": "Redraw selection",
@@ -1279,10 +1310,11 @@
       "sort_by": "Sort by"
     },
     "popular_decks": {
-      "error": "Popular decks could not be loaded: {{error}}",
-      "no_results": "No decks found",
-      "title_card": "Popular decks containing <tooltip>{{name}}</tooltip>",
-      "title_investigator": "Popular <tooltip>{{name}}</tooltip> decks"
+      "decklists_link": "Browse all deck guides",
+      "error": "Popular deck guides could not be loaded: {{error}}",
+      "no_results": "No deck guides found",
+      "title_card": "Popular deck guides containing <tooltip>{{name}}</tooltip>",
+      "title_investigator": "Popular <tooltip>{{name}}</tooltip> deck guides"
     },
     "preview_banner": {
       "actions": {
@@ -1430,7 +1462,11 @@
         "toggle": "Toggle section"
       },
       "copy_to_clipboard": "Copy to clipboard",
-      "copy_to_clipboard_success": "Copied."
+      "copy_to_clipboard_success": "Copied.",
+      "pagination": {
+        "next": "Next",
+        "previous": "Previous"
+      }
     }
   }
 }

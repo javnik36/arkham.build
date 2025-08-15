@@ -79,13 +79,13 @@ export function Sidebar(props: Props) {
 
   const isReadOnly = !!deck.next_deck;
 
-  const canUploadToArkhamDb =
+  const canUploadToArkhamDB =
     origin === "local" &&
     !isReadOnly &&
     deck.source !== "arkhamdb" &&
     !isEmpty(connectionsData);
 
-  const onArkhamDBUpload = canUploadToArkhamDb ? onUpload : undefined;
+  const onArkhamDBUpload = canUploadToArkhamDB ? onUpload : undefined;
 
   return (
     <div className={className}>
@@ -105,7 +105,7 @@ export function Sidebar(props: Props) {
         {origin === "local" && <SidebarUpgrade deck={deck} />}
 
         {origin === "arkhamdb" ||
-          (deck.source === "arkhamdb" && <ArkhamDbDetails deck={deck} />)}
+          (deck.source === "arkhamdb" && <ArkhamDBDetails deck={deck} />)}
 
         {origin === "local" && deck.source !== "arkhamdb" && (
           <Sharing onArkhamDBUpload={onArkhamDBUpload} deck={deck} />
@@ -338,7 +338,7 @@ function SidebarActions(props: {
   useHotkey("cmd+shift+t", onExportText);
 
   const nextDeck = isReadOnly
-    ? `${origin !== "share" ? "/deck/view/" : "/share/"}${deck.next_deck}`
+    ? `${origin !== "share" ? `/${type}/view/` : "/share/"}${deck.next_deck}`
     : undefined;
 
   return (
@@ -673,7 +673,7 @@ function ShareInfo(props: { id: Id; path: string }) {
   );
 }
 
-function ArkhamDbDetails(props: { deck: ResolvedDeck }) {
+function ArkhamDBDetails(props: { deck: ResolvedDeck }) {
   const { deck } = props;
   const { t } = useTranslation();
 

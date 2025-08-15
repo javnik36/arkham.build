@@ -1,24 +1,26 @@
 import { useTranslation } from "react-i18next";
-import type { Faction } from "@/store/schemas/metadata.schema";
+import type { Coded } from "@/store/lib/types";
 import type { MultiselectFilter } from "@/store/slices/lists.types";
 import css from "./faction-toggle.module.css";
 import { FactionIconFancy } from "./icons/faction-icon-fancy";
 import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
 
 type Props = {
-  options: Faction[];
+  disabled?: boolean;
+  options: Coded[];
   value: MultiselectFilter;
   onValueChange: (value: string[]) => void;
 };
 
 export function FactionToggle(props: Props) {
-  const { options, value, onValueChange } = props;
+  const { disabled, options, value, onValueChange } = props;
   const { t } = useTranslation();
 
   return (
     <ToggleGroup
       className={css["toggle"]}
       data-testid="filters-faction"
+      disabled={disabled}
       full
       icons
       onValueChange={onValueChange}
