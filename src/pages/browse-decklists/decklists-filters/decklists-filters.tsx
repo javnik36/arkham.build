@@ -38,20 +38,20 @@ export function DecklistsFilters({
   };
 
   return (
-    <Plane className={css["search-container"]}>
+    <Plane>
       <Collapsible
         open={open}
         onOpenChange={setOpen}
         omitPadding
         title={
-          <span className={css["search-title"]}>
+          <span className={css["filters-title"]}>
             {t("decklists.filters.title")}
           </span>
         }
       >
         <CollapsibleContent>
-          <form className={css["search"]} onSubmit={handleSubmit}>
-            <div className={css["search-col"]}>
+          <form className={css["filters"]} onSubmit={handleSubmit}>
+            <div className={css["filters-col"]}>
               <CanonicalInvestigator
                 disabled={!!formState.investigatorFactions.length}
                 formState={formState}
@@ -76,7 +76,7 @@ export function DecklistsFilters({
                 setFormState={setFormState}
               />
             </div>
-            <div className={css["search-col"]}>
+            <div className={css["filters-col"]}>
               <PublishDate formState={formState} setFormState={setFormState} />
               <Author formState={formState} setFormState={setFormState} />
               <DeckName formState={formState} setFormState={setFormState} />
@@ -85,7 +85,7 @@ export function DecklistsFilters({
                 setFormState={setFormState}
               />
             </div>
-            <footer className={css["search-footer"]}>
+            <footer className={css["filters-footer"]}>
               <Button type="submit" variant="primary">
                 {t("decklists.filters.submit")}
               </Button>
