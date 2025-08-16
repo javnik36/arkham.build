@@ -111,12 +111,6 @@ export function DeckCollection() {
       <header className={css["header"]}>
         <h2 className={css["title"]}>{t("deck_collection.title")}</h2>
         <div className={css["actions"]}>
-          <Link to="/decklists" asChild>
-            <Button as="a" data-testid="collection-deck-guides" size="sm">
-              <BookTextIcon />
-              {t("decklists.browse.title")}
-            </Button>
-          </Link>
           {!hasConnections && (
             <Popover>
               <DeckCollectionImport />
@@ -128,6 +122,12 @@ export function DeckCollection() {
                 <PlusIcon />
               </Button>
             </HotkeyTooltip>
+          </Link>
+          <Link to="/decklists" asChild>
+            <Button as="a" data-testid="collection-deck-guides" size="sm">
+              <BookTextIcon />
+              {t("decklists.browse.title")}
+            </Button>
           </Link>
           <Popover onOpenChange={setPopoverOpen} open={popoverOpen}>
             <PopoverTrigger asChild>
