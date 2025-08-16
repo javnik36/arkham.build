@@ -1324,6 +1324,9 @@
       "description": "Wenn du die Kartenvorschau aktivierst, kannst du unveröffentlichte Karten in deinen Decks verwenden.",
       "title": "Kartenvorschau"
     },
+    "rules": {
+      "title": "Spielregeln"
+    },
     "settings": {
       "backup": {
         "confirm": "Bist du sicher, dass du diese Sicherung wiederherstellen möchtest? Alle aktuellen Daten werden überschrieben.",

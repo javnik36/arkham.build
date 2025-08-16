@@ -1,7 +1,8 @@
 import {
   BarChart3Icon,
-  BookOpenIcon,
+  BookOpenTextIcon,
   CircleHelpIcon,
+  InfoIcon,
   KeyboardIcon,
   ScrollTextIcon,
 } from "lucide-react";
@@ -254,7 +255,7 @@ export function HelpMenu() {
                 className={css["about"]}
                 data-testid="masthead-about"
               >
-                <BookOpenIcon /> {t("help.about")}
+                <InfoIcon /> {t("help.about")}
               </DropdownButton>
             </Link>
             <DropdownButton
@@ -277,6 +278,11 @@ export function HelpMenu() {
             >
               <KeyboardIcon /> {t("help.shortcuts.title")}
             </DropdownButton>
+            <Link asChild href="~/rules">
+              <DropdownButton as="a" data-testid="masthead-rules">
+                <BookOpenTextIcon /> {t("rules.title")}
+              </DropdownButton>
+            </Link>
             <Socials className={css["socials"]} />
           </DropdownMenu>
         </PopoverContent>

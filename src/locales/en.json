@@ -1324,6 +1324,9 @@
       "description": "Enabling previews will show cards from upcoming sets in the card browser. You can change this setting at any time in the collection settings.",
       "title": "Preview season is here!"
     },
+    "rules": {
+      "title": "Rules reference"
+    },
     "settings": {
       "backup": {
         "confirm": "Are you sure you want to restore this backup? Any existing data will be overwritten.",

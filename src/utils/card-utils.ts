@@ -141,6 +141,7 @@ export function parseCardTextHtml(
   cardText: string,
   opts?: {
     bullets?: boolean;
+    newLines?: "replace" | "skip";
   },
 ) {
   let parsed = cardText;
@@ -150,9 +151,12 @@ export function parseCardTextHtml(
   }
 
   parsed = parsed
-    .replaceAll("\n", "<hr class='break'>")
     .replaceAll(/\[\[(.*?)\]\]/g, "<b><em>$1</em></b>")
     .replaceAll(/\[((?:\w|_)+?)\]/g, `<i class="icon-$1"></i>`);
+
+  if (opts?.newLines !== "skip") {
+    parsed = parsed.replaceAll("\n", "<hr class='break'>");
+  }
 
   return parsed;
 }
