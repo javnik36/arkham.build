@@ -325,7 +325,7 @@ function RulesReference() {
 
 <h2 id="Intro">A Note from ArkhamDB</h2>
 
-<p>This page contains a replica of the Rules Reference found in any copy of the Core Set of Arkham Horror: The Card Game. It also includes updates to the Rules Reference: rules added in deluxe expansions <span style="color:var(--red">(marked in red)</span> and rules added in the official FAQ for the game <span style="color:var(--blue">(marked in blue)</span>.</p>
+<p>This page contains a replica of the Rules Reference found in any copy of the Core Set of Arkham Horror: The Card Game. It also includes updates to the Rules Reference: rules added in deluxe expansions <span style="color:var(--red);">(marked in red)</span> and rules added in the official FAQ for the game <span style="color:var(--blue);">(marked in blue)</span>.</p>
 
 <h1 id="The_Thing_That_Should_Not_Be">The Thing That Should Not Be...</h1>
 
@@ -356,7 +356,7 @@ function RulesReference() {
 
 <p>The Grim Rule only comes into effect if players are unable to find the answer to a rules or timing conflict, and are thus unable to continue playing the game. It is designed to keep the game moving when looking up the correct answer would be too time-consuming or inconvenient for the players. The Grim Rule is not an exhaustive answer to rules/timing conflicts.</p>
 
-<h2 id="The_Silver_Rule" style="color:var(--blue">"The Silver Rule" (added in FAQ, section 'Card Ability Interpretation', point 2.20)</h2>
+<h2 id="The_Silver_Rule" style="color:var(--blue);">"The Silver Rule" (added in FAQ, section 'Card Ability Interpretation', point 2.20)</h2>
 
 <p>If the text of two cards directly contradict one another in a way that is impossible to reconcile, the encounter card takes precedence over the player card. If both cards are encounter cards or both are player cards, the lead investigator may decide which takes precedence.</p>
 
@@ -446,7 +446,7 @@ function RulesReference() {
 
 </ul>
 
-<p><span style="color:var(--blue">(Added in FAQ, section 'Game Play', point 1.2)</span> An investigator is permitted to use triggered abilities ([fast], [reaction], and [action] abilities) from the following sources:</p>
+<p><span style="color:var(--blue);">(Added in FAQ, section 'Game Play', point 1.2)</span> An investigator is permitted to use triggered abilities ([fast], [reaction], and [action] abilities) from the following sources:</p>
 
 <ul>
 
@@ -474,7 +474,7 @@ function RulesReference() {
 
 <p>Some abilities have bold action designators (such as <strong>Fight</strong>, <strong>Evade</strong>, <strong>Investigate</strong>, or <strong>Move</strong>). Activating such an ability performs the designated action as described in the rules, but modified in the manner described by the ability.</p>
 
-<h2 id="Switch_And_Swap_Abilities" style="color:var(--blue">"Switch" and "Swap" Abilities (added in FAQ, section 'Card Ability Interpretation', point 2.26)</h2>
+<h2 id="Switch_And_Swap_Abilities" style="color:var(--blue);">"Switch" and "Swap" Abilities (added in FAQ, section 'Card Ability Interpretation', point 2.26)</h2>
 
 <p>Some effects instruct players to "switch" or "swap" two cards in play or a card in play with another card in an out-of-play area. Effects that switch or swap are functionally the same. When swapping cards, each card maintains its status (ready/exhausted) and retains any tokens (damage, horror, uses, etc.) on it unless otherwise indicated. If it is an attachment, it is detached from its target game element during the swap and then re-attached to the new game element.</p>
 
@@ -530,7 +530,7 @@ function RulesReference() {
 
 </ul>
 
-<p><span style="color:var(--blue">(Added in FAQ, section 'Game Play', point 1.10)</span> Some card abilities grant investigators "additional actions." If an investigator has one or more additional actions during his or her turn, the first action he or she takes that is able to qualify as that additional action automatically uses that additional action.</p>
+<p><span style="color:var(--blue);">(Added in FAQ, section 'Game Play', point 1.10)</span> Some card abilities grant investigators "additional actions." If an investigator has one or more additional actions during his or her turn, the first action he or she takes that is able to qualify as that additional action automatically uses that additional action.</p>
 
 <p><i>For example: Daisy Walker reads: "You may take an additional action during your turn, which can only be used on Tome [action] abilities." The first time Daisy performs a Tome [action] ability each turn, it automatically uses up that additional action, and not one of Daisy’s three standard actions.</i></p>
 
@@ -542,17 +542,17 @@ function RulesReference() {
 
 <p>For a complete list of the available actions, see "<a href="#Investigation_Phase">2.2.1 Investigator takes an action, if able</a>" on page 24.</p>
 
-<h3 id="Only_As_Your_First_Action" style="color:var(--blue">"...only as your first action" (added in FAQ, section 'Card Ability Interpretation', point 2.18)</h3>
+<h3 id="Only_As_Your_First_Action" style="color:var(--blue);">"...only as your first action" (added in FAQ, section 'Card Ability Interpretation', point 2.18)</h3>
 
 <p>If a card can only be played or its ability only triggered as your "first action," it must spend one of your actions, and that action must be the first one you have taken during your turn. If it is fast, a free triggered ability, ignores its action cost, or takes place outside of your turn, it cannot be played or triggered.</p>
 
-<h3 id="Take_An_Action_Vs_Perform_An_Action" style="color:var(--blue">"Take an action" vs "Perform/resolve an action" (added in FAQ, section 'Card Ability Interpretation', point 2.19)</h3>
+<h3 id="Take_An_Action_Vs_Perform_An_Action" style="color:var(--blue);">"Take an action" vs "Perform/resolve an action" (added in FAQ, section 'Card Ability Interpretation', point 2.19)</h3>
 
 <p>Some effects allow an investigator to "take" an action, usually of a certain type - for example, the ability on Ursula Downs or Haste. If an effect allows an investigator to take an action, they effectively gain an action and then immediately spend it in order to take the action in question, meaning it follows all of the rules taking an action might normally follow: it may provoke attacks of opportunity, it counts as an action for the purposes of cards that count how many actions you have taken, etc.</p>
 
 <p>Some other effects, such as Quickdraw Holster, allow an investigator to "perform" or "resolve" an action. Such effects typically specify that they ignore that action’s [action] cost. In this case, no action has been gained or spent, and the action is resolved as specified.</p>
 
-<h3 id="Basic_Action_Types" style="color:var(--blue">Basic Action Types (added in FAQ, section 'Game Play', point 1.30)</h3>
+<h3 id="Basic_Action_Types" style="color:var(--blue);">Basic Action Types (added in FAQ, section 'Game Play', point 1.30)</h3>
 
 <p>A basic action is an action a player may take and resolve in full without any other modifiers or abilities, including bold action designators. The following are basic actions: <b>Draw</b>, <b>Resource</b>, <b>Move</b>, <b>Investigate</b>, <b>Fight</b>, <b>Engage</b>, and <b>Evade</b>.</p>
 
@@ -560,7 +560,7 @@ function RulesReference() {
 
 <p><i>For example: an investigator may use Close the Circle’s ability to take a basic <b>Fight</b> action but cannot use it to <b>Play</b> an event with a <b>Fight</b> action designator, as playing an event is not considered a basic action.</i></p>
 
-<h3 id="Gaining_Spending_And_Forfeiting_Actions" style="color:var(--blue">Gaining, Spending, and Forfeiting Actions (added in FAQ, section 'Game Play', point 1.31)</h3>
+<h3 id="Gaining_Spending_And_Forfeiting_Actions" style="color:var(--blue);">Gaining, Spending, and Forfeiting Actions (added in FAQ, section 'Game Play', point 1.31)</h3>
 
 <p>Investigators gain actions during step 4.2 of the upkeep phase. Any unused actions are forfeited when an investigator chooses to end their turn (during step 2.2.2 of the investigation phase). An investigator may lose actions via card effects outside of their turn, but may not voluntarily spend actions outside of their turn unless explicitly granted via a card effect.</p>
 
@@ -596,7 +596,7 @@ function RulesReference() {
 
 <p>See also: "<a href="#Ability">Ability</a>" on page 2, "<a href="#Priority_of_Simultaneous_Resolution">Priority of Simultaneous Resolution</a>" on page 17.</p>
 
-<h2 id="Additional_Costs" style="color:var(--blue">Additional Costs (added in FAQ, section 'Game Play', point 1.6)</h2>
+<h2 id="Additional_Costs" style="color:var(--blue);">Additional Costs (added in FAQ, section 'Game Play', point 1.6)</h2>
 
 <p>Some cards add additional costs that must be paid in order to perform certain effects or actions, in the form of "As an additional cost to (specified effect/action) you must (additional cost)" or "You must (additional cost) to (specified effect/action)."</p>
 
@@ -610,7 +610,7 @@ function RulesReference() {
 
 <p>See "<a href="#Act_Deck_and_Agenda_Deck">Act Deck and Agenda Deck</a>" on page 3.</p>
 
-<h2 id="Alert" style="color:var(--red">Alert (added in <em>The Forgotten Age</em>)</h2>
+<h2 id="Alert" style="color:var(--red);">Alert (added in <em>The Forgotten Age</em>)</h2>
 
 <p>Each time an investigator fails a skill test while attempting to evade an enemy with the "alert" keyword, after applying all results for that skill test, that enemy performs an attack against the evading investigator. An enemy does not exhaust after performing an alert attack. This attack occurs whether the enemy is engaged with the evading investigator or not.</p>
 
@@ -628,7 +628,7 @@ function RulesReference() {
 
 </ul>
 
-<h2 id="As_If" style="color:var(--blue">"As if..." (added in FAQ, section 'Card Ability Interpretation', point 2.10, amended October 2020)</h2>
+<h2 id="As_If" style="color:var(--blue);">"As if..." (added in FAQ, section 'Card Ability Interpretation', point 2.10, amended October 2020)</h2>
 
 <p>Some card effects allow an investigator to resolve an ability or perform an action as if a certain aspect of the game state were altered, using the text "as if..." to indicate the difference. The indicated ability or action is resolved with the altered game state in mind, but the actual game state remains unchanged.</p>
 
@@ -660,7 +660,7 @@ function RulesReference() {
 
 </ul>
 
-<h2 id="At" style="color:var(--blue">At (added in FAQ, section 'Card Ability Interpretation', point 2.2)</h2>
+<h2 id="At" style="color:var(--blue);">At (added in FAQ, section 'Card Ability Interpretation', point 2.2)</h2>
 
 <p>Some abilities have triggering conditions that use the words "at" or "if" instead of specifying "when" or "after," such as "at the end of the round," or "if the Ghoul Priest is defeated." These abilities trigger in between any "when..." abilities and any "after..." abilities with the same triggering condition.</p>
 
@@ -680,7 +680,7 @@ function RulesReference() {
 
 </ul>
 
-<h3 id="Control_of_Attachments" style="color:var(--blue">Control of Attachments (added in FAQ, section 'Game Play', point 1.14)</h3>
+<h3 id="Control_of_Attachments" style="color:var(--blue);">Control of Attachments (added in FAQ, section 'Game Play', point 1.14)</h3>
 
 <p>An attachment may change control depending on the card it is attached to.</p>
 
@@ -698,11 +698,11 @@ function RulesReference() {
 
 </ul>
 
-<h3 id="Moving_Attachments" style="color:var(--blue">Moving Attachments (added in FAQ, section 'Game Play', point 1.25)</h3>
+<h3 id="Moving_Attachments" style="color:var(--blue);">Moving Attachments (added in FAQ, section 'Game Play', point 1.25)</h3>
 
 <p>If an attachment "moves" from one game element to another, or attaches to a game element while already attached to a game element, it detaches from its original game element and attaches to the new one.</p>
 
-<h3 id="Controlling_and_Attaching_Permanent_Cards" style="color:var(--blue">Controlling and Attaching Permanent Cards (added in FAQ, section 'Game Play', point 1.29)</h3>
+<h3 id="Controlling_and_Attaching_Permanent_Cards" style="color:var(--blue);">Controlling and Attaching Permanent Cards (added in FAQ, section 'Game Play', point 1.29)</h3>
 
 <p>A card with the permanent keyword cannot leave its controller’s play area unless directed by scenario card effects. Cards with the permanent keyword cannot be attached to other cards in an investigator’s play area. Investigators cannot take control of another investigator’s permanent cards.</p>
 
@@ -730,9 +730,9 @@ function RulesReference() {
 
 </ul>
 
-<p><span style="color:var(--blue">(Added in FAQ, section 'Game Play', point 1.1)</span> Attacks of Opportunity are only triggered when 1 or more of an investigator’s actions are being spent or used to trigger an ability or action. [free] abilities with a bold action designator do not provoke attacks of opportunity.</p>
+<p><span style="color:var(--blue);">(Added in FAQ, section 'Game Play', point 1.1)</span> Attacks of Opportunity are only triggered when 1 or more of an investigator’s actions are being spent or used to trigger an ability or action. [free] abilities with a bold action designator do not provoke attacks of opportunity.</p>
 
-<h2 id="Automatic_Failure_Success" style="color:var(--blue">Automatic Failure/Success (expanded in FAQ, section 'Card Ability Interpretation', point 2.9)</h2>
+<h2 id="Automatic_Failure_Success" style="color:var(--blue);">Automatic Failure/Success (expanded in FAQ, section 'Card Ability Interpretation', point 2.9)</h2>
 
 <p>Some card or token abilities may cause a skill test to automatically fail or to automatically succeed. If a skill test automatically fails or automatically succeeds, it does so during step "ST.6" of the "<a href="#Skill_Test_Timing">Skill Test Timing</a>" process outlined on page 26.</p>
 
@@ -778,7 +778,7 @@ function RulesReference() {
 
 </ul>
 
-<h2 id="Bonded" style="color:var(--red">Bonded (added in <em>The Dream-Eaters</em>)</h2>
+<h2 id="Bonded" style="color:var(--red);">Bonded (added in <em>The Dream-Eaters</em>)</h2>
 
 <p>Cards with the bonded keyword are linked to another player card. They have no level and therefore are not available as deckbuilding options. Instead, the card to which they are bonded (which is listed in parentheses next to this keyword) brings the bonded card into the game.</p>
 
@@ -788,7 +788,7 @@ function RulesReference() {
 
 <p><i>For example: Hope, Zeal, and Augur all have the "bonded (Miss Doyle)" keyword. This means each of those cards is bonded to the card Miss Doyle. Hope, Zeal, and Augur each have no level and are therefore not available as options to include when building your deck. However, Miss Doyle summons each of these cards when she is played. Therefore, a player with Miss Doyle in their deck should set aside Hope, Zeal, and Augur at the start of each game. These cards are not part of that investigator's deck and do not count towards their deck size.</i></p>
 
-<p><span style="color:var(--blue">(Added in FAQ, section 'Game Play', point 1.19)</span> If an investigator’s deck contains a card that summons one or more bonded cards, those bonded cards are set aside at the start of each game. The number of copies of each different bonded card that are set aside in this way is equal to the number of copies of that were included in the product in which that bonded card was introduced. The number of cards in your deck that summon the bonded card in question does not factor into this limit.</p>
+<p><span style="color:var(--blue);">(Added in FAQ, section 'Game Play', point 1.19)</span> If an investigator’s deck contains a card that summons one or more bonded cards, those bonded cards are set aside at the start of each game. The number of copies of each different bonded card that are set aside in this way is equal to the number of copies of that were included in the product in which that bonded card was introduced. The number of cards in your deck that summon the bonded card in question does not factor into this limit.</p>
 
 <p><i>For example: An investigator may only have 3 copies of Soothing Melody set aside at the start of the game. Similarly, an investigator may only have 1 Essence of the Dream set aside at the start of the game, regardless of how many copies of Dream Diary they include in their deck.</i></p>
 
@@ -814,7 +814,7 @@ function RulesReference() {
 
 <li>  Each card costs experience equal to the card's level, <em>to a minimum of 1</em> (purchasing a level zero card still costs 1 experience). The number of pips beneath a card's cost indicates the card's level.</li>
 
-<li>  <span style="color:var(--blue">(Added in FAQ, section 'Game Play', point 1.8)</span> When purchasing a new card during campaign play, an investigator must pay a minimum of 1 experience. As a result, level 0 cards cost 1 experience to purchase. This minimum only applies when purchasing new cards. It does not permanently alter a card’s level or experience cost, and does not apply when upgrading a card to a higher level version.</li>
+<li>  <span style="color:var(--blue);">(Added in FAQ, section 'Game Play', point 1.8)</span> When purchasing a new card during campaign play, an investigator must pay a minimum of 1 experience. As a result, level 0 cards cost 1 experience to purchase. This minimum only applies when purchasing new cards. It does not permanently alter a card’s level or experience cost, and does not apply when upgrading a card to a higher level version.</li>
 
 <li>  When purchasing a higher level version of a card with the same title, the investigator may choose to "upgrade" that card by paying only the difference in experience (to a minimum of 1) between the two cards and removing the lower level version of the card from his or her deck.</li>
 
@@ -860,7 +860,7 @@ function RulesReference() {
 
 <p>If a new player joins the campaign, he or she must choose an investigator not previously used during this campaign. That player begins as if it were his or her first scenario in the campaign, with no experience and no trauma.</p>
 
-<h3 id="Transferring_Investigators_to_a_New_Campaign" style="color:var(--blue">Transferring Investigators to a New Campaign (added in FAQ, section 'Game Play', point 1.11)</h3>
+<h3 id="Transferring_Investigators_to_a_New_Campaign" style="color:var(--blue);">Transferring Investigators to a New Campaign (added in FAQ, section 'Game Play', point 1.11)</h3>
 
 <p>This section expands on the ability for investigators to transfer from a completed campaign to another campaign, as originally described in the section "The End...or Is It?" in the Night of the Zealot campaign guide.</p>
 
@@ -928,7 +928,7 @@ function RulesReference() {
 
 <p>See "<a href="#Skill_Test_Timing">ST.3 Reveal chaos token</a>" on page 26.</p>
 
-<h3 id="Bless_and_Curse_Tokens" style="color:var(--red">Bless and Curse Tokens (added in <em>The Innsmouth Conspiracy</em>)</h3>
+<h3 id="Bless_and_Curse_Tokens" style="color:var(--red);">Bless and Curse Tokens (added in <em>The Innsmouth Conspiracy</em>)</h3>
 
 <p>This expansion introduces two new kinds of chaos tokens: bless ([bless]) tokens and curse ([curse]) tokens. By default, the chaos bag does not contain any [bless] or [curse] tokens. However, certain card effects can add these tokens or remove them from the chaos bag.</p>
 
@@ -946,7 +946,7 @@ function RulesReference() {
 
 </ul>
 
-<p><span style="color:var(--blue">(Added in FAQ, section 'Frequently Asked Questions')</span> <b>Frequently asked Bless and Curse questions:</b></p>
+<p><span style="color:var(--blue);">(Added in FAQ, section 'Frequently Asked Questions')</span> <b>Frequently asked Bless and Curse questions:</b></p>
 
 <ol>
 
@@ -962,7 +962,7 @@ function RulesReference() {
 
 </ol>
 
-<h3 id="Frost_Tokens" style="color:var(--red">Frost Tokens (added in <em>Edge of the Earth</em>)</h3>
+<h3 id="Frost_Tokens" style="color:var(--red);">Frost Tokens (added in <em>Edge of the Earth</em>)</h3>
 
 <p>This expansion introduces a new type of chaos token: the frost ([frost]) token. At the start of the <i>Edge of the Earth</i> campaign, the chaos bag contains only a few relatively harmless [frost] tokens, if any. As the expedition continues, depending on the decisions the investigators make and the events that unfold, more [frost] tokens may be added to (or removed from) the chaos bag, altering the difficulty of every test the investigators perform. The more frost tokens added to the chaos bag, the more crippling their effects become.</p>
 
@@ -980,7 +980,7 @@ function RulesReference() {
 
 </ul>
 
-<h3 id="Resolving_Multiple_Revealed_Chaos_Tokens" style="color:var(--blue">Resolving Multiple Revealed Chaos Tokens (added in FAQ, section 'Card Ability Interpretation', point 2.5)</h3>
+<h3 id="Resolving_Multiple_Revealed_Chaos_Tokens" style="color:var(--blue);">Resolving Multiple Revealed Chaos Tokens (added in FAQ, section 'Card Ability Interpretation', point 2.5)</h3>
 
 <p>If an investigator is instructed to "resolve" multiple revealed chaos tokens, any game or card effects which refer to "the revealed chaos token" in the singular should be construed to apply to each of the revealed chaos tokens. For example, when applying chaos symbol effects during Step 4 of a skill test or applying modifiers to an investigator’s skill value during Step 5 of a skill test, the effects and modifiers of all of the resolved chaos tokens should be applied, even though the rules state "the revealed chaos token." Similarly, any card effects that refer to "the revealed chaos token" refer to all of the resolved tokens.</p>
 
@@ -990,13 +990,13 @@ function RulesReference() {
 
 <p>Note that this entry only applies when multiple chaos tokens are "resolved." If multiple chaos tokens are revealed and all but 1 of them are canceled or ignored, this entry does not apply.</p>
 
-<h2 id="Checkpoints" style="color:var(--red">Checkpoints (added in <em>Edge of the Earth</em>)</h2>
+<h2 id="Checkpoints" style="color:var(--red);">Checkpoints (added in <em>Edge of the Earth</em>)</h2>
 
 <p>Some of the scenarios in the <i>Edge of the Earth</i> campaign are split into multiple parts. Players may choose to play these parts one at a time (with breaks between each part), or they may play multiple parts one after another as part of a longer session. Each part is its own game with its own setup and resolution.</p>
 
 <p>After completing one part of a scenario, the campaign guide directs the investigators to a Checkpoint that instructs them how to proceed. If the investigators wish to proceed directly to the next part of the scenario, the Checkpoint will instruct them how to clean up the game to prepare for the next part of the scenario. If the investigators wish to take a break and resume playing during their next game session, the Checkpoint will instruct them to record information in the Campaign Log that makes setup for the next session quick and easy.</p>
 
-<h2 id="Choices_and_the_Grim_Rule" style="color:var(--blue">Choices, and the Grim Rule (added in FAQ, section 'Game Play', point 1.5)</h2>
+<h2 id="Choices_and_the_Grim_Rule" style="color:var(--blue);">Choices, and the Grim Rule (added in FAQ, section 'Game Play', point 1.5)</h2>
 
 <p>When investigators are forced to make a choice and there are multiple valid options, the lead investigator decides between those options. The Grim Rule does not play a part in these choices.</p>
 
@@ -1022,7 +1022,7 @@ function RulesReference() {
 
 <p>See also: "<a href="#Act_Deck_and_Agenda_Deck">Act Deck and Agenda Deck</a>" on page 3, "<a href="#Tokens">Tokens, Running out of</a>" on page 20.</p>
 
-<h3 id="Clues_on_Player_Cards" style="color:var(--blue">Clues on Player Cards (added in FAQ, section 'Game Play', point 1.28)</h3>
+<h3 id="Clues_on_Player_Cards" style="color:var(--blue);">Clues on Player Cards (added in FAQ, section 'Game Play', point 1.28)</h3>
 
 <p>Some card effects such as Kate Winthrop’s ability may place clues on a card controlled by an investigator. Clues that have been placed on a player card are still controlled by that player and may be spent as normal. If a game effect would cause a card with clues on it to leave play or leave an investigator’s control, place each clue on that card on its location.</p>
 
@@ -1032,7 +1032,7 @@ function RulesReference() {
 
 <p><em>Example: Sean and Etienne are each using a deck built from Sean's collection. If Etienne is instructed to "search the collection," he searches Sean's collection.</em></p>
 
-<h2 id="Concealed_X" style="color:var(--red">Concealed X (added in <em>The Scarlet Keys</em>)</h2>
+<h2 id="Concealed_X" style="color:var(--red);">Concealed X (added in <em>The Scarlet Keys</em>)</h2>
 
 <p>Concealed X is a keyword that appears on some enemy cards in <i>The Scarlet Keys</i> campaign. Concealed enemies represent hidden enemies whose true location is a mystery until the investigators work to expose where - and in some cases, who - they truly are.</p>
 
@@ -1054,7 +1054,7 @@ function RulesReference() {
 
 </ul>
 
-<h2 id="Concealed_Mini_Cards" style="color:var(--red">Concealed Mini-Cards (added in <em>The Scarlet Keys</em>)</h2>
+<h2 id="Concealed_Mini_Cards" style="color:var(--red);">Concealed Mini-Cards (added in <em>The Scarlet Keys</em>)</h2>
 
 <p>While in play, concealed mini-cards represent the possible location of an enemy in the shadows. In order to deal with such an enemy, its true location must first be discovered by exposing its mini-card. This can be done via one of three methods: fighting, evading, or investigating.</p>
 
@@ -1086,7 +1086,7 @@ function RulesReference() {
 
 <p><i>For example: There is a Coterie Agent and a Coterie Assassin in the shadows. There is a concealed mini-card at Kymani’s location and another concealed mini-card at a connecting location. (1) First, Kymani plays an event that discovers a clue at their location, but instead of discovering a clue, they choose to expose the concealed mini-card at their location, flipping it over. That mini-card is a decoy, and is set aside without effect. (2) Next, they move to the connecting location with the other concealed mini-card and attempt to expose it using an evade action. They succeed and flip the mini-card over... revealing the Coterie Assassin’s mini-card! (3) The Coterie Assassin’s mini-card is set aside, and the Coterie Assassin in the shadows is moved to Kymani’s location, engaging them. Because there is another enemy in the shadows, they do not remove any of the other concealed mini-cards from play.</i></p>
 
-<p><span style="color:var(--blue">(Added in FAQ, section 'Frequently Asked Questions')</span> <b>Frequently asked Concealed Mini-Card questions:</b></p>
+<p><span style="color:var(--blue);">(Added in FAQ, section 'Frequently Asked Questions')</span> <b>Frequently asked Concealed Mini-Card questions:</b></p>
 
 <ol>
 
@@ -1134,13 +1134,13 @@ function RulesReference() {
 
 </ul>
 
-<h3 id="Ignoring_All_Costs" style="color:var(--blue">"Ignoring all costs" (added in FAQ, section 'Card Ability Interpretation', point 2.24)</h3>
+<h3 id="Ignoring_All_Costs" style="color:var(--blue);">"Ignoring all costs" (added in FAQ, section 'Card Ability Interpretation', point 2.24)</h3>
 
 <p>Some cards like Knowledge is Power or Word of Woe allow an investigator to play a card or activate an ability on an asset, "ignoring all costs." These effects only ignore the costs of initiating an ability, such as [action] costs, resource costs, spending uses, etc. They do not ignore additional costs that must be paid when resolving that ability — in other words, anything "before the colon" is ignored, but any additional costs "after the colon" must be paid as normal. Abilities that exile a card and/or remove a card from the game as a cost cannot be ignored.</p>
 
 <p><i>For example, if an investigator uses Knowledge is Power to activate the [action] ability on Old Book of Lore, Knowledge is Power allows you to ignore the action cost and exhausting of Old Book of Lore to activate its ability and search your deck for a card, but does not waive the additional cost to spend a secret to play that card. Likewise, playing Word of Woe waives the action cost to activate the ability on Earthly Serenity, but does not waive the cost to spend charges to heal an investigator at your location. Additionally, Pushed to the Limit does not allow an investigator to waive the cost of exiling Fire Extinguisher when resolving its second ability.</i></p>
 
-<h2 id="Customizable" style="color:var(--red">Customizable (added in <em>The Scarlet Keys</em>)</h2>
+<h2 id="Customizable" style="color:var(--red);">Customizable (added in <em>The Scarlet Keys</em>)</h2>
 
 <p>Customizable is a keyword that appears on some player cards. Customizable cards might seem unremarkable at first, but have tremendous potential for improvement over the course of a campaign. By spending experience points, each one can be custom‑tailored to become a powerful tool in an investigator’s deck.<p>
 
@@ -1172,7 +1172,7 @@ function RulesReference() {
 
 </ul>
 
-<h2 id="Day_and_Night" style="color:var(--red">Day and Night (added in <em>The Feast of Hemlock Vale</em>)</h2>
+<h2 id="Day_and_Night" style="color:var(--red);">Day and Night (added in <em>The Feast of Hemlock Vale</em>)</h2>
 
 <p>During setup during The Feast of Hemlock Vale campaign, players may be instructed to put the Time Marker card into play. To do so, find the Time Marker card in the <i>The First Day</i>, <i>The Second Day</i>, or <i>The Third Day</i> encounter sets that corresponds to the current day and place it next to the agenda deck. This is the current day and time.</p>
 
@@ -1252,7 +1252,7 @@ function RulesReference() {
 
 </ul>
 
-<p><span style="color:var(--blue">(Added in FAQ, section 'Game Play', point 1.18)</span> If 1 or more cards are forcibly removed from an investigator’s deck and returned to the collection (such as when a card is exiled, or when a campaign effect forces an investigator to remove cards from their deck), that investigator must purchase cards so that a legal deck size is maintained. When purchasing cards in this manner, that investigator may purchase level 0 cards at 0 experience cost until a legal deck size is reached.</p>
+<p><span style="color:var(--blue);">(Added in FAQ, section 'Game Play', point 1.18)</span> If 1 or more cards are forcibly removed from an investigator’s deck and returned to the collection (such as when a card is exiled, or when a campaign effect forces an investigator to remove cards from their deck), that investigator must purchase cards so that a legal deck size is maintained. When purchasing cards in this manner, that investigator may purchase level 0 cards at 0 experience cost until a legal deck size is reached.</p>
 
 <ul>
 
@@ -1278,7 +1278,7 @@ function RulesReference() {
 
 <p>Some investigators have access to cards from other classes. Refer to the "Deckbuilding Options" on the back of an investigator card to view which cards an investigator has access to.</p>
 
-<h3 id="Deckbuilding_Options" style="color:var(--blue">Deckbuilding Options (added in FAQ, section 'Game Play', point 1.15)</h3>
+<h3 id="Deckbuilding_Options" style="color:var(--blue);">Deckbuilding Options (added in FAQ, section 'Game Play', point 1.15)</h3>
 
 <p>The following section clarifies how certain investigators’ deckbuilding options function.</p>
 
@@ -1318,7 +1318,7 @@ function RulesReference() {
 
 </ul>
 
-<h2 id="Different" style="color:var(--blue">"Different" (added in FAQ, section 'Card Ability Interpretation', point 2.17)</h2>
+<h2 id="Different" style="color:var(--blue);">"Different" (added in FAQ, section 'Card Ability Interpretation', point 2.17)</h2>
 
 <p>Some card abilities refer to "different" cards. Different cards are cards with different titles (excluding subtitles). <i>(e.g. two copies of Ward of Protection are not considered to be "different," even if they have different levels.)</i></p>
 
@@ -1380,7 +1380,7 @@ function RulesReference() {
 
 <li>  Any ability that would shuffle a discard pile of zero cards back into a deck does not shuffle the deck.</li>
 
-<li>  <span style="color:var(--blue">(Added in FAQ, section 'Game Play', point 1.13)</span> A single card cannot be shuffled into an empty player deck or encounter deck via card effect. If this shuffling would occur during the playing or revelation of a card that is typically discarded after it is resolved, such as an event or treachery card, it is discarded. Otherwise, the card remains in its current game area.</li>
+<li>  <span style="color:var(--blue);">(Added in FAQ, section 'Game Play', point 1.13)</span> A single card cannot be shuffled into an empty player deck or encounter deck via card effect. If this shuffling would occur during the playing or revelation of a card that is typically discarded after it is resolved, such as an event or treachery card, it is discarded. Otherwise, the card remains in its current game area.</li>
 
 </ul>
 
@@ -1400,7 +1400,7 @@ function RulesReference() {
 
 <p>See also: "<a href="#Act_Deck_and_Agenda_Deck">Act Deck and Agenda Deck</a>" on page 3, "<a href="#Tokens">Tokens, Running out of</a>" on page 20.</p>
 
-<h2 id="Doubt_and_Conviction" style="color:var(--red">Doubt and Conviction (added in <em>The Path to Carcosa</em>)</h2>
+<h2 id="Doubt_and_Conviction" style="color:var(--red);">Doubt and Conviction (added in <em>The Path to Carcosa</em>)</h2>
 
 <p>Some story resolutions and interludes in <i>The Path to Carcosa</i> campaign instruct the players to "Mark one <b>Doubt</b>" or "Mark one <b>Conviction</b>" in their Campaign Log. This is done by filling in one of the boxes next to "<b>Doubt</b>" or "<b>Conviction</b> at the bottom of the Campaign Log.</p>
 
@@ -1426,7 +1426,7 @@ function RulesReference() {
 
 <li>  If an investigator with an empty investigator deck needs to draw a card, that investigator shuffles his or her discard pile back into his or her deck, then draws the card, and upon completion of the entire draw takes one horror.</li>
 
-<li>  <span style="color:var(--blue">(Added in FAQ, section 'Card Ability Interpretation', point 2.14, "Draw" vs "Add to hand")</span> If a card explicitly adds a card to an investigator’s hand without using the word "draw," it does not count as "drawing" a card for the purposes of other card effects. <i>(Note that some abilities such as relevation abilities on weaknesses and <b>Dilemma</b> cards trigger regardless of whether the card is "drawn" or "added" to your hand.)</i></li>
+<li>  <span style="color:var(--blue);">(Added in FAQ, section 'Card Ability Interpretation', point 2.14, "Draw" vs "Add to hand")</span> If a card explicitly adds a card to an investigator’s hand without using the word "draw," it does not count as "drawing" a card for the purposes of other card effects. <i>(Note that some abilities such as relevation abilities on weaknesses and <b>Dilemma</b> cards trigger regardless of whether the card is "drawn" or "added" to your hand.)</i></li>
 
 </ul>
 
@@ -1478,7 +1478,7 @@ function RulesReference() {
 
 
 
-<h2 id="Elusive" style="color:var(--red">Elusive (added in <em>The Feast of Hemlock Vale</em>)</h2>
+<h2 id="Elusive" style="color:var(--red);">Elusive (added in <em>The Feast of Hemlock Vale</em>)</h2>
 
 <p>Elusive is a keyword ability that appears on some enemies in this expansion. Elusive enemies represent enemies who want to avoid the investigators for their own survival or to accomplish their own goals.</p>
 
@@ -1494,7 +1494,7 @@ function RulesReference() {
 
 <p>An empty location is a location with no enemies or investigators at it.</p>
 
-<h2 id="Encounter_Cards_Vs_Scenario_Cards" style="color:var(--blue">"Encounter Cards" vs "Scenario Cards" (added in FAQ, section 'Card Ability Interpretation', point 2.15)</h2>
+<h2 id="Encounter_Cards_Vs_Scenario_Cards" style="color:var(--blue);">"Encounter Cards" vs "Scenario Cards" (added in FAQ, section 'Card Ability Interpretation', point 2.15)</h2>
 
 <p>These two terms are used interchangeably to mean any non-player card used in a scenario, such as the contents of the encounter deck, locations, acts, agendas, the scenario reference card, etc.</p>
 
@@ -1578,7 +1578,7 @@ function RulesReference() {
 
 </ul>
 
-<p><span style="color:var(--blue">(Added in FAQ, section 'Card Ability Interpretation', point 2.3)</span> When an investigator engages an enemy, that enemy has also engaged that investigator, and vice-versa. There is no difference between engaging an enemy and being engaged by an enemy. Effects that trigger "after an enemy engages you" will trigger at the same time as effects that trigger "after you engage an enemy."</p>
+<p><span style="color:var(--blue);">(Added in FAQ, section 'Card Ability Interpretation', point 2.3)</span> When an investigator engages an enemy, that enemy has also engaged that investigator, and vice-versa. There is no difference between engaging an enemy and being engaged by an enemy. Effects that trigger "after an enemy engages you" will trigger at the same time as effects that trigger "after you engage an enemy."</p>
 
 <h2 id="Enters_Play">Enters Play</h2>
 
@@ -1652,7 +1652,7 @@ function RulesReference() {
 
 </li></ul>
 
-<h2 id="Exile" style="color:var(--red">Exile (added in <em>The Dunwich Legacy</em>)</h2>
+<h2 id="Exile" style="color:var(--red);">Exile (added in <em>The Dunwich Legacy</em>)</h2>
 
 <p>Some player cards in <em>The Dunwich Legacy</em> cycle must be exiled when they are used. When a card is exiled, it is removed from the game and returned to your collection. During campaign play, a card that has been exiled must be purchased again with experience points (between scenarios) if you wish to re-include it in your deck. If exiling 1 or more cards would reduce your deck below your investigator's deck size, when purchasing cards between scenarios, you must purchase cards so that a legal deck size is maintained (when purchasing cards in this manner, you may purchase level 0 cards for 0 experience cost until a legal deck size is reached).</p>
 
@@ -1660,7 +1660,7 @@ function RulesReference() {
 
 <p>See "<a href="#Experience">Campaign Play</a>" on page 5.</p>
 
-<h2 id="Explore" style="color:var(--red">Explore (added in <em>The Forgotten Age</em>)</h2>
+<h2 id="Explore" style="color:var(--red);">Explore (added in <em>The Forgotten Age</em>)</h2>
 
 <p>Some abilities in this campaign (and others) are identified with an "Explore" action designator. Such abilities are generally used to find new locations to put into play, and are initiated using the "activate" action.</p>
 
@@ -1680,7 +1680,7 @@ function RulesReference() {
 
 <p><i>Example: Agenda 1a — “Expedition into the Wild” has the following ability: “[action]: <b>Explore.</b> Draw the top card of the exploration deck. If it is a connecting location, put it into play and move to it.” Ursula Downs is at the Expedition Camp and wishes to find a new location to travel to. She spends her first action to explore, drawing the top card of the exploration deck. The card she draws is Circuitous Trail. Because Circuitous Trail is a location that is not connected to the Expedition Camp, it is placed next to the exploration deck, and Ursula draws the next card in the exploration deck. This time, she draws the Low on Supplies treachery card, which she resolves as normal and places in the encounter discard pile. Her exploration is unsuccessful, and she must shuffle the Circuitous Trail that she drew previously back into the exploration deck. Ursula decides to explore one more time, spending a second action. This time, she draws Path of Thorns, which is connected to the Expedition Camp. Her exploration is successful. Path of Thorns is put into play with clues on it equal to its clue value, and Ursula immediately moves from the Expedition Camp to the Path of Thorns.</i></p>
 
-<h2 id="Farthest_From_All_Investigators" style="color:var(--blue">"Farthest from all investigators" (added in FAQ, section 'Card Ability Interpretation', point 2.16)</h2>
+<h2 id="Farthest_From_All_Investigators" style="color:var(--blue);">"Farthest from all investigators" (added in FAQ, section 'Card Ability Interpretation', point 2.16)</h2>
 
 <p>Some card effects instruct investigators to put a card into play at the location farthest from all investigators. This is determined by finding the location with the highest combined distance from each investigator (with no investigators at it, if able). In the event of a tie, as usual, the lead investigator decides.</p>
 
@@ -1720,7 +1720,7 @@ function RulesReference() {
 
 <p>Flavor text is additional text that provides thematic context to a card and/or its abilities. Flavor text does not interact with the game in any manner.</p>
 
-<h2 id="Flood_Tokens" style="color:var(--red">Flood Tokens (added in <em>The Innsmouth Conspiracy</em>)</h2>
+<h2 id="Flood_Tokens" style="color:var(--red);">Flood Tokens (added in <em>The Innsmouth Conspiracy</em>)</h2>
 
 <p>Throughout this campaign, scenario card effects can flood locations. Each location has one of three different flood levels: it is either unflooded, partially flooded, or fully flooded. A location's flood level can be tracked using the double‑sided flood tokens included in this deluxe box. <b>A location's flood level has no inherent game effect.</b> However, some card effects may change or become stronger while you are at a flooded location, particularly if that location is fully flooded.</p>
 
@@ -1740,7 +1740,7 @@ function RulesReference() {
 
 </ul>
 
-<p><span style="color:var(--blue">(Added in FAQ, section 'Frequently Asked Questions')</span> <b>Frequently asked Flood questions:</b></p>
+<p><span style="color:var(--blue);">(Added in FAQ, section 'Frequently Asked Questions')</span> <b>Frequently asked Flood questions:</b></p>
 
 <ol>
 
@@ -1748,7 +1748,7 @@ function RulesReference() {
 
 </ol>
 
-<h2 id="For_Each_Or_For_Every" style="color:var(--blue">"For each" or "for every" (added in FAQ, section 'Card Ability Interpretation', point 2.23)</h2>
+<h2 id="For_Each_Or_For_Every" style="color:var(--blue);">"For each" or "for every" (added in FAQ, section 'Card Ability Interpretation', point 2.23)</h2>
 
 <p>Some card effects instruct an investigator to perform an effect multiple times for each instance of a particular condition (e.g. "for each horror on you," or "for each card in your hand"). If such an effect can be calculated and resolved simultaneously, it should be resolved (and may be canceled, ignored, or prevented) as a single cumulative effect. If it cannot be resolved simultaneously (for example, if it has multiple steps or other dependencies), each instance should be resolved as a separate effect (and must be canceled, ignored, or prevented independently of each other effect).</p>
 
@@ -1794,7 +1794,7 @@ function RulesReference() {
 
 </li></ul>
 
-<h2 id="Haunted" style="color:var(--red">Haunted (added in <em>The Circle Undone</em>)</h2>
+<h2 id="Haunted" style="color:var(--red);">Haunted (added in <em>The Circle Undone</em>)</h2>
 
 <p>Haunted is a new ability that appears on some locations. Each time an investigator fails a skill test while investigating a location, after applying all results for that skill test, that investigator must resolve all "<b>Haunted</b> –" abilities on that location.</p>
 
@@ -1824,7 +1824,7 @@ function RulesReference() {
 
 <p>See also: "<a href="#Direct_Damage_Direct_Horror">Direct Damage, Direct Horror</a>" on page 9.</p>
 
-<h2 id="Hidden" style="color:var(--red">Hidden (added in <em>The Path to Carcosa</em>, updated in <em>The Dream-Eaters</em>)</h2>
+<h2 id="Hidden" style="color:var(--red);">Hidden (added in <em>The Path to Carcosa</em>, updated in <em>The Dream-Eaters</em>)</h2>
 
 <p>An encounter card or weakness with the hidden keyword has a revelation ability that secretly adds that card to your hand. This should be done without revealing that card or its text to the other investigators.</p>
 
@@ -1840,7 +1840,7 @@ function RulesReference() {
 
 <p>For the best experience, players are encouraged to stay "in character" and not share information about hidden cards in their hand.</p>
 
-<h3 id="Hidden_Cards_in_Hand_When_Eliminated" style="color:var(--blue">Hidden Cards in Hand When Eliminated (added in FAQ, section 'Game Play', point 1.22)</h3>
+<h3 id="Hidden_Cards_in_Hand_When_Eliminated" style="color:var(--blue);">Hidden Cards in Hand When Eliminated (added in FAQ, section 'Game Play', point 1.22)</h3>
 
 <p>When an investigator is eliminated, each encounter card in their hand with the hidden keyword should be placed in the encounter discard pile, in the same way as encounter cards in their threat area.</p>
 
@@ -1860,7 +1860,7 @@ function RulesReference() {
 
 <p>See also: "<a href="#Prey">Prey</a>" on page 17.</p>
 
-<h2 id="If" style="color:var(--blue">If (added in FAQ, section 'Card Ability Interpretation', point 2.2)</h2>
+<h2 id="If" style="color:var(--blue);">If (added in FAQ, section 'Card Ability Interpretation', point 2.2)</h2>
 
 <p>Some abilities have triggering conditions that use the words "at" or "if" instead of specifying "when" or "after," such as "at the end of the round," or "if the Ghoul Priest is defeated." These abilities trigger in between any "when..." abilities and any "after..." abilities with the same triggering condition.</p>
 
@@ -1934,11 +1934,11 @@ function RulesReference() {
 
 <p>A player's "investigator deck" is the deck that contains that player's asset, event, skill, and weakness cards. A reference to "your deck" refers to the investigator deck under your control.</p>
 
-<h2 id="Joes_Hunch_Deck" style="color:var(--red">Joe's "Hunch Deck" (added in <em>The Circle Undone</em>)</h2>
+<h2 id="Joes_Hunch_Deck" style="color:var(--red);">Joe's "Hunch Deck" (added in <em>The Circle Undone</em>)</h2>
 
 <p>As a private eye, Joe Diamond has learned to follow his instincts, and therefore he has a separate hunch deck, which is constructed during step 4 of the setup of each scenario. The cards in this hunch deck are chosen from Joe's 40-card deck and therefore count toward his total deck size. With the exception of these setup instructions, all references to Joe's "deck" refer to Joe's standard investigator deck and not his hunch deck. Joe's hunch deck has no discard pile; cards from your hunch deck are discarded to your standard discard pile when played.</p>
 
-<h2 id="Keys" style="color:var(--red">Keys (token) (added in <em>The Innsmouth Conspiracy</em>)</h2>
+<h2 id="Keys" style="color:var(--red);">Keys (token) (added in <em>The Innsmouth Conspiracy</em>)</h2>
 
 <p> This expansion introduces key tokens that represent important objects or pieces of information that can be claimed and used during scenarios.</p>
 
@@ -1960,7 +1960,7 @@ function RulesReference() {
 
 <p><b>Keys have no inherent game effect.</b> However, some card effects may change depending on which keys an investigator controls. Additionally, keys may sometimes be required in order to progress during a scenario.</p>
 
-<h2 id="Keys2" style="color:var(--red">Keys (cardtype) (added in <em>The Scarlet Keys</em>)</h2>
+<h2 id="Keys2" style="color:var(--red);">Keys (cardtype) (added in <em>The Scarlet Keys</em>)</h2>
 
 <p><i>The Scarlet Keys</i> campaign features a new cardtype: keys. Keys are powerful artifacts that may be "shifted" to either aid or hinder investigators, depending on whom they are attached to and whether their <b><i>Stable</i></b> or <b><i>Unstable</i></b> side is faceup.</p>
 
@@ -2082,7 +2082,7 @@ function RulesReference() {
 
 </ul>
 
-<h2 id="Limbo" style="color:var(--blue">Limbo (added in FAQ, section 'Game Play', point 1.23)</h2>
+<h2 id="Limbo" style="color:var(--blue);">Limbo (added in FAQ, section 'Game Play', point 1.23)</h2>
 
 <p>While the effects of an event or treachery card are being resolved, or while a skill is committed to a skill test, it is neither in play, in the discard pile, nor is it in an investigator’s hand. For the purposes of rules clarification, this liminal state is called "limbo."</p>
 
@@ -2106,7 +2106,7 @@ function RulesReference() {
 
 <p>If the effects of a card or ability with a limit or maximum are canceled, it is still counted against the limit/maximum, because the ability has been initiated.</p>
 
-<h3 id="Limits_Pertaining_to_Play_Areas" style="color:var(--blue">Limits Pertaining to Play Areas (added in FAQ, section 'Card Ability Interpretation', point 2.3)</h3>
+<h3 id="Limits_Pertaining_to_Play_Areas" style="color:var(--blue);">Limits Pertaining to Play Areas (added in FAQ, section 'Card Ability Interpretation', point 2.3)</h3>
 
 <p>Some limits may pertain to a particular play area, such as "Limit 1 per deck," "Limit 1 in the victory display," or "Limit 1 in play." This limit restricts the number of copies of that card (by title) that can exist in the specified play area. Another copy of that card cannot enter the specified play area if this limit has already been reached. Remember that limits are player specific unless otherwise noted. For example, a card with "Limit 1 per deck" can exist in two different investigator decks.</p>
 
@@ -2130,11 +2130,11 @@ function RulesReference() {
 
 </ul>
 
-<h3 id="Being_at_No_Location" style="color:var(--blue">Being at No Location (added in FAQ, section 'Game Play', point 1.21)</h3>
+<h3 id="Being_at_No_Location" style="color:var(--blue);">Being at No Location (added in FAQ, section 'Game Play', point 1.21)</h3>
 
 <p>Unless explicitly specified by game text, enemies and investigators must always be at a location during gameplay. If an effect (such as a "cannot move" effect) would cause an investigator or enemy to not be at a location, ignore that effect.</p>
 
-<h2 id="Lola_and_Roles" style="color:var(--red">Lola and "Roles" (added in <em>The Path to Carcosa</em>)</h2>
+<h2 id="Lola_and_Roles" style="color:var(--red);">Lola and "Roles" (added in <em>The Path to Carcosa</em>)</h2>
 
 <p>As a renowned actress, Lola Hayes can play many different roles. At the beginning of each scenario, after investigators draw opening hands, Lola Hayes must choose a role (Neutral, Guardian, Seeker, Rogue, Mystic, or Survivor). Lola can only play cards, commit cards to skill tests, or trigger [action], [fast], or [reaction] abilities on Neutral cards or cards whose class matches her role. This restriction only applies to player cards, not to encounter cards or weaknesses. Note that Constant and <b>Forced</b> abilities remain active on cards whose class does not match Lola's role.</p>
 
@@ -2216,7 +2216,7 @@ function RulesReference() {
 
 </ul>
 
-<h2 id="Multiclass_Cards" style="color:var(--blue">Multi-class Cards (added in FAQ, section 'Game Play', point 1.16, updated in FAQ v.1.9, June 2019)</h2>
+<h2 id="Multiclass_Cards" style="color:var(--blue);">Multi-class Cards (added in FAQ, section 'Game Play', point 1.16, updated in FAQ v.1.9, June 2019)</h2>
 
 <p>A multi-class card is a card which bears multiple class icons instead of one, and is a card of each of those classes. For example, a card with both a Rogue ([rogue]) and a Guardian ([guardian]) icon is both a Rogue card and a Guardian card for all purposes. Generally, a multi-class card can be included in an investigator’s deck if that investigator has access to <i>either</i> of that card’s classes.</p>
 
@@ -2246,11 +2246,11 @@ function RulesReference() {
 
 </ul>
 
-<h2 id="Myriad" style="color:var(--red">Myriad (added in <em>The Dream-Eaters</em>)</h2>
+<h2 id="Myriad" style="color:var(--red);">Myriad (added in <em>The Dream-Eaters</em>)</h2>
 
 <p>An investigator may include up to three copies of a player card with the myriad keyword in their deck (by title), instead of the normal limit of two copies. Additionally, when you purchase a myriad card for your deck, you may purchase up to two additional copies of that card (at the same level) at no experience cost.</p>
 
-<p><span style="color:var(--blue">(Added in FAQ, section 'Game Play', point 1.20)</span> When counting the total amount of experience in your deck, each copy of a Myriad card after the first copy does not count towards your experience total.</p>
+<p><span style="color:var(--blue);">(Added in FAQ, section 'Game Play', point 1.20)</span> When counting the total amount of experience in your deck, each copy of a Myriad card after the first copy does not count towards your experience total.</p>
 
 <h2>Mythos Phase</h2>
 
@@ -2260,7 +2260,7 @@ function RulesReference() {
 
 <p>Some card abilities reference the "nearest" entity. Nearest refers to the entity of the specified kind at a location that can be reached in the fewest number of connections, even if one or more of those connections are blocked by another card ability. The path to the nearest entity is the "shortest" path to that entity.</p>
 
-<h2 id="Nested_Sequences" style="color:var(--blue">Nested Sequences (added in FAQ, section 'Game Play', point 1.4)</h2>
+<h2 id="Nested_Sequences" style="color:var(--blue);">Nested Sequences (added in FAQ, section 'Game Play', point 1.4)</h2>
 
 <p>Each time a triggering condition occurs, the following sequence is followed: 1) execute “when...” effects that interrupt that triggering condition, (2)&nbsp;resolve the triggering condition, and then, (3) execute “after...” effects in response to that triggering condition.</p>
 
@@ -2270,7 +2270,7 @@ function RulesReference() {
 
 <p><i>For example: Roland and Agnes are embroiled in a fierce battle. Roland has a Guard Dog in his play area, and is engaged with a Goat Spawn with 2 damage on it. Agnes is engaged with a Ghoul Minion. Roland wishes to play a .45 Automatic, which provokes an attack of opportunity from the Goat Spawn, dealing 1 damage to Roland. Roland assigns this damage to his Guard Dog, which has a [reaction] ability: “When an enemy attack deals damage to Guard Dog: Deal 1 damage to the attacking enemy.” Before resolving the playing of Roland’s .45 Automatic, Guard Dog’s ability resolves, and 1 damage is dealt to the Goat Spawn, which would defeat it. Goat Spawn has the following <b>Forced</b> ability: “When Goat Spawn is defeated: Each investigator at this location takes 1 horror.” Before resolving the damage dealt to the Guard Dog, 1 horror is dealt to each investigator at the location, including Agnes, who has a [reaction] ability: “After 1 or more horror is placed on Agnes Baker: Deal 1 damage to an enemy at your location.” Before resolving the Goat Spawn’s defeat, Agnes deals 1 damage to the Ghoul Minion engaged with her. Now that there are no further [reaction] or <b>Forced</b> abilities to trigger, the players return to the previous triggering condition and resolve the Goat Spawn’s defeat, and resolve any “After...” effects that might occur when it is defeated. Then, the players resolve the damage dealt to the Guard Dog, and resolve any “After...” effects that might occur from that damage. Finally, the players return to the original triggering condition, and Roland is able to put his .45 Automatic into play.</i></p>
 
-<h2 id="Nested_Skill_Tests" style="color:var(--blue">Nested Skill Tests (added in FAQ, section 'Game Play', point 1.17)</h2>
+<h2 id="Nested_Skill_Tests" style="color:var(--blue);">Nested Skill Tests (added in FAQ, section 'Game Play', point 1.17)</h2>
 
 <p>A skill test cannot initiate during another skill test. If during the resolution of a skill test another skill test would initiate, instead the second skill test does not initiate until the first skill test has finished resolving. If the first skill test was part of an action, the second skill test does not initiate until that action has finished resolving.</p>
 
@@ -2296,7 +2296,7 @@ function RulesReference() {
 
 <p>Some abilities are identified with a <strong>Parley</strong> action designator. Such abilities are initiated using the "Activate" action (see "<a href="#Activate_Action">Activate Action</a>" on page 4).</p>
 
-<h2 id="Partner" style="color:var(--red">Partner (added in <em>Edge of the Earth</em>)</h2>
+<h2 id="Partner" style="color:var(--red);">Partner (added in <em>Edge of the Earth</em>)</h2>
 
 <p>Partner is a keyword ability that appears on the nine story assets in the <i>Expedition Team</i> encounter set. Each of these assets represents a powerful ally whom investigators can bring along during scenarios in this campaign to improve their chances of success. However, bringing an asset with the partner keyword endangers that asset, with the risk of losing them permanently.</p>
 
@@ -2314,7 +2314,7 @@ function RulesReference() {
 
 </ul>
 
-<h2 id="Patrol" style="color:var(--red">Patrol (added in <em>Murder at the Excelsior Hotel</em>)</h2>
+<h2 id="Patrol" style="color:var(--red);">Patrol (added in <em>Murder at the Excelsior Hotel</em>)</h2>
 
 <p>Some enemies have the patrol keyword. During the enemy phase (in framework step 3.2), each ready, unengaged enemy with the patrol keyword moves to a connecting location along the shortest path toward the designated location (as described in parentheses next to the word patrol).
 
@@ -2434,7 +2434,7 @@ function RulesReference() {
 
 </ul>
 
-<h2 id="Prologue_Investigators" style="color:var(--red">Prologue Investigators (added in <em>The Circle Undone</em>)</h2>
+<h2 id="Prologue_Investigators" style="color:var(--red);">Prologue Investigators (added in <em>The Circle Undone</em>)</h2>
 
 <p>The four investigator cards depicted here (Gavriella Mizrah, Jerome Davids, Penny White, and Valentino Rivas) are marked with the <i>Disappearance at the Twilight Estate</i> encounter set icon and can only be used in the prologue for <i>The Circle Undone</i>. They cannot be used in other scenarios. Keep them with the rest of the scenario cards for <i>Disappearance at the Twilight Estate</i>, and do not integrate them into your collection of player cards.</p>
 
@@ -2456,7 +2456,7 @@ function RulesReference() {
 
 <p>If card text includes a qualifier followed by multiple terms, the qualifier applies to each term in the list. <em>(For example, in the phrase "each unique ally and item," the word "unique" is a qualifier that applies both to "ally" and to "item.")</em></p>
 
-<h2 id="Reaction_Opportunities" style="color:var(--blue">Reaction Opportunities (added in FAQ, section 'Game Play', point 1.3)</h2>
+<h2 id="Reaction_Opportunities" style="color:var(--blue);">Reaction Opportunities (added in FAQ, section 'Game Play', point 1.3)</h2>
 
 <p>When a triggering condition resolves, investigators are granted the opportunity to resolve [reaction] abilities in response to that triggering condition. It is only after all investigators have passed their reaction opportunity that the game moves forward.</p>
 
@@ -2494,7 +2494,7 @@ function RulesReference() {
 
 <p>If there is no specified duration, a card that has been removed from the game is considered removed until the end of the game.</p>
 
-<h2 id="Replacing_an_Opening_Hand" style="color:var(--blue">Replacing an Opening Hand (added in FAQ, section 'Card Ability Interpretation', point 2.6)</h2>
+<h2 id="Replacing_an_Opening_Hand" style="color:var(--blue);">Replacing an Opening Hand (added in FAQ, section 'Card Ability Interpretation', point 2.6)</h2>
 
 <p>If an ability replaces an investigator’s opening hand with a different set of cards, that set of cards is considered to be their new opening hand for the purposes of effects which would alter the number of cards in their opening hand.</p>
 
@@ -2502,7 +2502,7 @@ function RulesReference() {
 
 <p><i>For example, the ability on Sefina Rousseau reads: "When you would draw your opening hand: Draw 13 cards,instead. Choose up to 5 events to place beneath this card and keep 8 cards as your opening hand. Discard the rest." If a card effect or game effect alters the number of cards in Sefina’s opening hand, it would alter both the number of cards drawn from her ability and the number of cards she keeps as her opening hand.</i></p>
 
-<h2 id="Researched" style="color:var(--red">Researched (added in <em>Edge of the Earth</em>)</h2>
+<h2 id="Researched" style="color:var(--red);">Researched (added in <em>Edge of the Earth</em>)</h2>
 
 <p>Researched is a keyword ability that appears on some higher-level cards (most prominently on Seeker cards.)</p>
 
@@ -2550,7 +2550,7 @@ function RulesReference() {
 
 </ul>
 
-<p><span style="color:var(--blue">(Added in FAQ, section 'Card Ability Interpretation', point 2.8)</span> If an ability refers to the number of "resources you have," "your resources," or any variation on the above, it is only referring to the number of resources in that investigator’s resource pool. Resources on other cards that investigator controls do not count toward this total unless explicitly stated.</p>
+<p><span style="color:var(--blue);">(Added in FAQ, section 'Card Ability Interpretation', point 2.8)</span> If an ability refers to the number of "resources you have," "your resources," or any variation on the above, it is only referring to the number of resources in that investigator’s resource pool. Resources on other cards that investigator controls do not count toward this total unless explicitly stated.</p>
 
 <p>See also: "<a href="#Tokens">Tokens, Running out of</a>" on page 20.</p>
 
@@ -2578,7 +2578,7 @@ function RulesReference() {
 
 </ul>
 
-<h3 id="Dilemmas_and_Revelation_Abilities" style="color:var(--red">Dilemmas and Revelation Abilities (added in <em>The Scarlet Keys</em>)</h3>
+<h3 id="Dilemmas_and_Revelation_Abilities" style="color:var(--red);">Dilemmas and Revelation Abilities (added in <em>The Scarlet Keys</em>)</h3>
 
 <p>Some player cards (namely those with the <b><i>Dilemma</i></b> trait) possess revelation abilities. As with revelation abilities on other cardtypes, these abilities resolve when the card is drawn or otherwise enters your hand, not when the card is played.</p>
 
@@ -2592,7 +2592,7 @@ function RulesReference() {
 
 </li></ul>
 
-<h3 id="Revelation_Ability_Priority" style="color:var(--blue">Revelation Ability Priority (added in FAQ, section 'Card Ability Interpretation', point 2.25)</h3>
+<h3 id="Revelation_Ability_Priority" style="color:var(--blue);">Revelation Ability Priority (added in FAQ, section 'Card Ability Interpretation', point 2.25)</h3>
 
 <p>If an investigator has both a <b><i>Dilemma</i></b> card and a weakness and/or encounter card in their hand, the weakness and/or encounter card must be resolved first. If a <b><i>Dilemma</i></b> card is drawn while resolving a skill test, resolve the skill test in full before resolving the <b><i>Dilemma</i></b>’s <b>Revelation</b> effect.</p>
 
@@ -2618,7 +2618,7 @@ function RulesReference() {
 
 <p>See also: "<a href="#Direct_Damage_Direct_Horror">Direct Damage, Direct Horror</a>" on page 9.</p>
 
-<h2 id="Seal" style="color:var(--red">Seal (added in <em>The Forgotten Age</em>)</h2>
+<h2 id="Seal" style="color:var(--red);">Seal (added in <em>The Forgotten Age</em>)</h2>
 
 <p>As an additional cost for a card with the seal keyword to enter play, its controller must search the chaos bag for the specified chaos token and place it on top of the card, thereby sealing it. If there is a choice of which token to seal, the card's controller chooses. If the specified token is not in the chaos bag, the card cannot enter play. A sealed chaos token is not considered to be in the chaos bag, and therefore cannot be revealed from the chaos bag as part of a skill test or ability.</p>
 
@@ -2640,11 +2640,11 @@ function RulesReference() {
 
 </ul>
 
-<h3 id="Looking_At_Searching_And_Finding" style="color:var(--blue">"Looking at," "Searching," and "Finding" (added in FAQ, section 'Card Ability Interpretation', point 2.13)</h3>
+<h3 id="Looking_At_Searching_And_Finding" style="color:var(--blue);">"Looking at," "Searching," and "Finding" (added in FAQ, section 'Card Ability Interpretation', point 2.13)</h3>
 
 <p>These three terms all involve sifting through out-of-play cards (typically an investigator’s deck or the encounter deck), but do not count as one another for the purposes of other card effects. <i>For example, if an investigator "looks at" the top 3 cards of their deck, this is not a search effect. Additionally, while "finding" a card does typically involve searching through out-of-play areas, this is also not considered to be a search effect.</i></p>
 
-<h3 id="Searching_During_Setup" style="color:var(--blue">Searching During Setup (added in FAQ, section 'Game Play', point 1.26)</h3>
+<h3 id="Searching_During_Setup" style="color:var(--blue);">Searching During Setup (added in FAQ, section 'Game Play', point 1.26)</h3>
 
 <p>If an investigator is instructed to search a deck for 1 or more cards during setup, abilities that trigger when a deck is searched (such as Mandy Thompson’s [reaction] ability or abilities on <b><i>Research</i></b> cards) cannot be resolved, as the game has not yet begun.</p>
 
@@ -2658,7 +2658,7 @@ function RulesReference() {
 
 <p>Some scenarios instruct the players to set aside specific cards. Set-aside cards have no interaction with the game until they are referenced by instructions within the scenario or by a card ability.</p>
 
-<p><span style="color:var(--blue">(Added in FAQ, section 'Card Ability Interpretation', point 2.7)</span> If an effect instructs an investigator to take control of a card that is currently set-aside, that effect puts that card into play in that investigator’s play area.</p>
+<p><span style="color:var(--blue);">(Added in FAQ, section 'Card Ability Interpretation', point 2.7)</span> If an effect instructs an investigator to take control of a card that is currently set-aside, that effect puts that card into play in that investigator’s play area.</p>
 
 <h2 id="Signature_Cards">Signature Cards</h2>
 
@@ -2672,7 +2672,7 @@ function RulesReference() {
 
 <i>For example: Under "Deckbuilding Requirements" for Roland Banks, the following cards are listed: "Roland's .38 Special, Cover Up, 1 random basic weakness.” Roland Banks must include exactly 1 copy of his signature cards—Roland’s .38 Special and Cover Up. He is not permitted to include more than 1 copy of either of these cards.</i></li>
 
-<li>An investigator cannot play or commit another investigator’s signature cards, control another investigator’s signature cards while they are in play, or possess another investigator’s signature cards in their hand <span style="color:var(--blue">(amended in FAQ, section 'Definitions and Terms', v.2.0)</span>. If a game effect would force a player to take control of a card with another investigator's signature card attached to it, that signature card is discarded <span style="color:var(--blue">(amended in FAQ, section 'Definitions and Terms', v.2.1)</span>.<br>
+<li>An investigator cannot play or commit another investigator’s signature cards, control another investigator’s signature cards while they are in play, or possess another investigator’s signature cards in their hand <span style="color:var(--blue);">(amended in FAQ, section 'Definitions and Terms', v.2.0)</span>. If a game effect would force a player to take control of a card with another investigator's signature card attached to it, that signature card is discarded <span style="color:var(--blue);">(amended in FAQ, section 'Definitions and Terms', v.2.1)</span>.<br>
 
 <i>For example: Roland has the Roland's .38 Special card in play. He has the card "Teamwork" which can allow investigators at the same location to trade or give assets among one another. However, because Roland’s .38 Special is one of Roland’s signature cards, he cannot give it to another investigator.</i></li>
 
@@ -2690,7 +2690,7 @@ function RulesReference() {
 
 <p>See "<a href="#Skill_Test_Timing">Skill Test Timing</a>" on page 26.</p>
 
-<h2 id="Skill_Test_Results_and_Advanced_Timing" style="color:var(--blue">Skill Test Results and Advanced Timing (added in FAQ, section 'Game Play', point 1.7)</h2>
+<h2 id="Skill_Test_Results_and_Advanced_Timing" style="color:var(--blue);">Skill Test Results and Advanced Timing (added in FAQ, section 'Game Play', point 1.7)</h2>
 
 <p>During Step 7 of Skill Test Timing ("Apply skill test results"), all of the effects of the successful skill test are determined and resolved, one at a time. This includes the effects of the test itself (such as the clue discovered while investigating, or the damage dealt during an attack), as well as any "If this test is successful..." effects from card abilities or skill cards committed to the test.</p>
 
@@ -2746,7 +2746,7 @@ function RulesReference() {
 
 <p>If playing or gaining control of an asset would put an investigator above his or her slot limit for that type of asset, the investigator must choose and discard other assets under his or her control simultaneously with the new asset entering the slot.</p>
 
-<h3 id="Shifting_Slots" style="color:var(--blue">Shifting Slots (added in FAQ, section 'Game Play', point 1.24)</h3>
+<h3 id="Shifting_Slots" style="color:var(--blue);">Shifting Slots (added in FAQ, section 'Game Play', point 1.24)</h3>
 
 <p>Some card effects allow an investigator to put assets of one slot type into one of their other slots, allow one of an investigator’s slot types to carry assets of a different slot type, or cause assets to no longer take up slots. In such an event, the investigator must decide which slot is holding which asset at the moment it is played. This cannot be adjusted later unless the contents or quantity of the investigator’s slots changes, at which point the investigator may switch which slots are holding any of their assets.</p>
 
@@ -2770,7 +2770,7 @@ function RulesReference() {
 
 </ul>
 
-<h3 id="Spawning_an_Enemy" style="color:var(--blue">Spawning an Enemy (added in FAQ, section 'Quick Reference')</h3>
+<h3 id="Spawning_an_Enemy" style="color:var(--blue);">Spawning an Enemy (added in FAQ, section 'Quick Reference')</h3>
 
 <p>1. If an enemy is being spawned without an investigator drawing it, the effect spawning the enemy will typically indicate where that enemy should spawn. After spawning the enemy at that location, it will automatically engage investigators at its location using the rules for "<a href="#Enemy_Engagement">Enemy Engagement</a>", unless it is aloof.</p>
 
@@ -2814,11 +2814,11 @@ A player cannot include 50 or more experience worth of cards in a standalone dec
 
 </ul>
 
-<h2 id="Story_Cards" style="color:var(--red">Story Cards (added in <em>The Path to Carcosa</em>)</h2>
+<h2 id="Story_Cards" style="color:var(--red);">Story Cards (added in <em>The Path to Carcosa</em>)</h2>
 
 <p>Story cards serve as an avenue for additional narrative and typically appear as the reverse side of another scenario card. When you are instructed to resolve a story card, simply read its story text and resolve its game text, if any.</p>
 
-<h2 id="Supplies" style="color:var(--red">Supplies (added in <em>The Forgotten Age</em>)</h2>
+<h2 id="Supplies" style="color:var(--red);">Supplies (added in <em>The Forgotten Age</em>)</h2>
 
 <p>At certain points throughout <em>The Forgotten Age</em> campaign, investigators are given the opportunity to choose supplies to bring on their expeditions into the wilds. These supplies are recorded in the Campaign Log, under each investigator's "Supplies" section.</p>
 
@@ -2838,7 +2838,7 @@ A player cannot include 50 or more experience worth of cards in a standalone dec
 
 </li></ul>
 
-<h2 id="Swarming X" style="color:var(--red">Swarming X (added in <em>The Dream-Eaters</em>)</h2>
+<h2 id="Swarming X" style="color:var(--red);">Swarming X (added in <em>The Dream-Eaters</em>)</h2>
 
 <p>An enemy with the swarming X keyword is actually a pack of enemies operating in unison. After you put any enemy with the swarming X keyword into play, place the top X cards of your deck facedown underneath the enemy as swarm cards, without looking at them. The enemy they are underneath is called the "host enemy." Some scenario card effects may also instruct a player to add swarm cards to an enemy. This is done using the same process.</p>
 
@@ -2880,7 +2880,7 @@ A player cannot include 50 or more experience worth of cards in a standalone dec
 
 </ul>
 
-<h2 id="Tarot Slot" style="color:var(--red">Tarot Slot (added in <em>The Circle Undone</em>)</h2>
+<h2 id="Tarot Slot" style="color:var(--red);">Tarot Slot (added in <em>The Circle Undone</em>)</h2>
 
 <p>Tarot slots are a new type of asset slot introduced in this expansion. The following symbol indicates that an asset fills a tarot slot: </p>
 
@@ -2890,7 +2890,7 @@ A player cannot include 50 or more experience worth of cards in a standalone dec
 
 <p>All other rules governing slots apply to tarot slots, as usual.</p>
 
-<h2 id="Tekelili" style="color:var(--red">Tekeli-li! (added in <em>Edge of the Earth</em>)</h2>
+<h2 id="Tekelili" style="color:var(--red);">Tekeli-li! (added in <em>Edge of the Earth</em>)</h2>
 
 <p>This campaign includes an encounter set of 16 weaknesses, each with the title "Tekeli-li!" These cards are shuffled together to form a special Tekeli-li deck during the setup of each scenario of this campaign.</p>
 
@@ -2948,7 +2948,7 @@ A player cannot include 50 or more experience worth of cards in a standalone dec
 
 <p>See "<a href="#Mythos_Phase">1.4 Each investigator draws 1 encounter card</a>" on page 24.</p>
 
-<h3 id="Treachery_Subtitles" style="color:var(--blue">Treachery Subtitles (added in FAQ, section 'Card Ability Interpretation', point 2.21)</h3>
+<h3 id="Treachery_Subtitles" style="color:var(--blue);">Treachery Subtitles (added in FAQ, section 'Card Ability Interpretation', point 2.21)</h3>
 
 <p>Treachery cards do not have a header for their subtitle. If the title of a treachery card contains 1 or more words in parentheses, that is considered to be its subtitle. Other cards with the same title and a different subtitle are still considered to be copies of one another. <i>e.g. Restless Journey (Fallacy) and Restless Journey (Hardship) are both copies of Restless Journey.</i></p>
 
@@ -3008,7 +3008,7 @@ A player cannot include 50 or more experience worth of cards in a standalone dec
 
 </ul>
 
-<h2 id="unless_all_clues_have_been_discovered" style="color:var(--blue">"...Unless all of (location's) clues have been discovered." (added in FAQ, section 'Card Ability Interpretation', point 2.11)</h2>
+<h2 id="unless_all_clues_have_been_discovered" style="color:var(--blue);">"...Unless all of (location's) clues have been discovered." (added in FAQ, section 'Card Ability Interpretation', point 2.11)</h2>
 
 <p>Some locations have abilities that prevent you from entering or using a particular ability unless all of the clues have been discovered from a particular location; for example, the Engine Car. When interpreting such an ability, if the location is unrevealed (and therefore has no clues on it), this does not satisfy the ability; it must have been revealed at some point.</p>
 
@@ -3034,7 +3034,7 @@ A player cannot include 50 or more experience worth of cards in a standalone dec
 
 </ul>
 
-<h2 id="Vengeance_X" style="color:var(--red">Vengeance X (added in <em>The Forgotten Age</em>)</h2>
+<h2 id="Vengeance_X" style="color:var(--red);">Vengeance X (added in <em>The Forgotten Age</em>)</h2>
 
 <p>Some encounter cards are worth vengeance points. The text <strong>Vengeance X</strong> indicates that a card is worth X vengeance points.</p>
 
@@ -3078,7 +3078,7 @@ A player cannot include 50 or more experience worth of cards in a standalone dec
 
 <li>  When an investigator draws a weakness with an encounter cardtype <em>(for example, an enemy or a treachery weakness)</em>, resolve that card as if it were just drawn from the encounter deck.</li>
 
-<li>  <span style="color:var(--blue">(Added in FAQ, section 'Game Play', point 1.12)</span> Weaknesses with an encounter cardtype (such as enemies or treacheries) are considered to be player cards while they are in their bearer’s deck, and are considered to be encounter cards while they are being resolved, and once they have entered play. Before a weakness with an encounter cardtype is resolved, it is still considered to be a player card.</li>
+<li>  <span style="color:var(--blue);">(Added in FAQ, section 'Game Play', point 1.12)</span> Weaknesses with an encounter cardtype (such as enemies or treacheries) are considered to be player cards while they are in their bearer’s deck, and are considered to be encounter cards while they are being resolved, and once they have entered play. Before a weakness with an encounter cardtype is resolved, it is still considered to be a player card.</li>
 
 <li>  When an investigator draws a weakness with a player cardtype <em>(for example, an asset, an event, or a skill weakness)</em>, resolve any Revelation effects on the card, and add it to that investigator's hand. The card may then be used as any other player card of its type.</li>
 
@@ -3096,7 +3096,7 @@ A player cannot include 50 or more experience worth of cards in a standalone dec
 
 </ul>
 
-<h3 id="Weakness_Events_And_Changing_The_Game_State" style="color:var(--blue">Weakness Events and "changing the game state" (added in FAQ, section 'Game Play', point 1.27)</h3>
+<h3 id="Weakness_Events_And_Changing_The_Game_State" style="color:var(--blue);">Weakness Events and "changing the game state" (added in FAQ, section 'Game Play', point 1.27)</h3>
 
 <p>Some weakness events such as Quantum Paradox do not change the game state in the traditional sense when played, but nevertheless provide negative effects if they are in your hand. These weakness events may still be played to avoid their negative effects.</p>
 
@@ -3106,7 +3106,7 @@ A player cannot include 50 or more experience worth of cards in a standalone dec
 
 <p>See also: "<a href="#Ability">Ability</a>" on page 2, "<a href="#Priority_of_Simultaneous_Resolution">Priority of Simultaneous Resolution</a>" on page 17.</p>
 
-<h2 id="Wild_Skill_Icons" style="color:var(--blue">Wild Skill Icons (added in FAQ, section 'Game Play', point 1.9)</h2>
+<h2 id="Wild_Skill_Icons" style="color:var(--blue);">Wild Skill Icons (added in FAQ, section 'Game Play', point 1.9)</h2>
 
 </p>A Wild ([wild]) skill icon on a player card may be used to match any other skill icon for the purposes of both card abilities and counting how many matching icons are committed to a skill test. When using Wild icons for the purpose of resolving a card ability, a player must state which icon the Wild is matching at the time the card is used.</p>
 
@@ -3144,7 +3144,7 @@ A player cannot include 50 or more experience worth of cards in a standalone dec
 
 <h2 id="You_Your">You/Your</h2>
 
-<p><span style="color:var(--blue">(Expanded in FAQ, section 'Card Ability Interpretation', point 2.1)</span>  The following guidelines are used to interpret which investigator is referenced by the words "you" and "your."</p>
+<p><span style="color:var(--blue);">(Expanded in FAQ, section 'Card Ability Interpretation', point 2.1)</span>  The following guidelines are used to interpret which investigator is referenced by the words "you" and "your."</p>
 
 <ul>
 
@@ -3168,7 +3168,7 @@ A player cannot include 50 or more experience worth of cards in a standalone dec
 
 <p>These three abilities reference "you/your" in different ways. For the <b>Revelation</b> ability, "your" refers to the investigator who drew Dreams of R’lyeh and is resolving its <b>Revelation</b>. For its constant ability, "you" refers to the investigator who has Dreams of R’lyeh in his or her threat area. For its [action] ability, "you" refers to the investigator who is performing the [action] ability.</p>
 
-<h3 id="Interpreting_You_When_Taking_or_Being_Dealt_Damage" style="color:var(--blue">Interpreting "You" When Taking or Being Dealt Damage (added in FAQ, section 'Card Ability Interpretation', point 2.12)</h3>
+<h3 id="Interpreting_You_When_Taking_or_Being_Dealt_Damage" style="color:var(--blue);">Interpreting "You" When Taking or Being Dealt Damage (added in FAQ, section 'Card Ability Interpretation', point 2.12)</h3>
 
 <p>When an ability refers to "you" in response to taking damage or being dealt damage, it also includes any assets you control.</p>
 
