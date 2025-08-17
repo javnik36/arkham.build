@@ -162,6 +162,91 @@ test.describe("limited card pool", () => {
   });
 });
 
+test.describe("environments", () => {
+  test("applies the current environment", async ({ page }) => {
+    await page.goto("deck/create/01001");
+    await page.getByTestId("limited-card-pool-environments").click();
+    await page.getByTestId("limited-card-pool-environment-current").click();
+    await page
+      .getByTestId("limited-card-pool-environment-current-apply")
+      .click();
+    await expect(
+      page.getByTestId("limited-card-pool-field"),
+    ).toHaveScreenshot();
+  });
+
+  test("applies the legacy environment", async ({ page }) => {
+    await page.goto("deck/create/01001");
+    await page.getByTestId("combobox-input").click();
+    await page.getByTestId("combobox-input").fill("core");
+    await page.getByTestId("combobox-menu-item-rcore").click();
+    await page.getByTestId("combobox-input").press("Escape");
+    await page.getByTestId("limited-card-pool-environments").click();
+    await page.getByTestId("limited-card-pool-environment-legacy").click();
+    await page
+      .getByTestId("limited-card-pool-environment-legacy-apply")
+      .click();
+
+    await expect(
+      page.getByTestId("limited-card-pool-field"),
+    ).toHaveScreenshot();
+  });
+
+  test("applies a limited environment", async ({ page }) => {
+    await page.goto("deck/create/01001");
+    await page.getByTestId("limited-card-pool-environments").click();
+    await page.getByTestId("limited-card-pool-environment-limited").click();
+    await page
+      .getByTestId("cycle-select-combobox")
+      .getByTestId("combobox-input")
+      .click();
+    await page
+      .getByTestId("cycle-select-combobox")
+      .getByTestId("combobox-input")
+      .fill("dunwich");
+    await page.getByTestId("combobox-menu-item-dwl").click();
+    await page
+      .getByTestId("cycle-select-combobox")
+      .getByTestId("combobox-input")
+      .fill("carcosa");
+    await page.getByTestId("combobox-menu-item-ptc").click();
+    await page
+      .getByTestId("cycle-select-combobox")
+      .getByTestId("combobox-input")
+      .fill("edge of the earth");
+    await page.getByTestId("combobox-menu-item-eoe").click();
+    await page
+      .getByTestId("limited-card-pool-environment-limited-apply")
+      .click();
+    await expect(
+      page.getByTestId("limited-card-pool-field"),
+    ).toHaveScreenshot();
+  });
+
+  test("applies a campaign play-along environment", async ({ page }) => {
+    await page.goto("deck/create/01001");
+    await page.getByTestId("limited-card-pool-environments").click();
+    await page
+      .getByTestId("limited-card-pool-environment-campaign_playalong")
+      .click();
+    await page
+      .getByTestId("cycle-select-combobox")
+      .getByTestId("combobox-input")
+      .click();
+    await page
+      .getByTestId("cycle-select-combobox")
+      .getByTestId("combobox-input")
+      .fill("dunwich");
+    await page.getByTestId("combobox-menu-item-dwl").click();
+    await page
+      .getByTestId("limited-card-pool-environment-campaign_playalong-apply")
+      .click();
+    await expect(
+      page.getByTestId("limited-card-pool-field"),
+    ).toHaveScreenshot();
+  });
+});
+
 test.describe("sealed deck", () => {
   test("can create sealed deck", async ({ page }) => {
     await page.goto("/deck/create/01001");

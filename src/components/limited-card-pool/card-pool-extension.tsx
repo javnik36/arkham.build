@@ -9,7 +9,7 @@ import { displayAttribute } from "@/utils/card-utils";
 import { isEmpty } from "@/utils/is-empty";
 import { CardsCombobox } from "../cards-combobox";
 import { Field, FieldLabel } from "../ui/field";
-import css from "./card-pool-extension.module.css";
+import css from "./limited-card-pool.module.css";
 
 type Props = {
   canEdit?: boolean;

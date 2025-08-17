@@ -847,16 +847,23 @@
       "changes_restored": "Ungespeicherte Änderungen wurden wiederhergestellt.",
       "config": {
         "card_pool": {
-          "campaign": "Kampagne",
-          "choose_campaign": "Kampagne auswählen",
-          "choose_campaign_placeholder": "Kampagne auswählen...",
-          "cpa_help": "\"Campaign Play-Along\" ist ein regelmäßiges Event, das auf dem Mythos Busters Discord-Server stattfindet. Während des jeweiligen Events wird eine Kampagne zusammen, mit einem eingeschränkten Kartenpool, gespielt.",
+          "apply": "{{environment}} Umgebung anwenden",
+          "campaign_playalong": "Campaign Play-Along",
+          "campaign_playalong_help": "\"Campaign Play-Along\" ist ein regelmäßiges Event, das auf dem Mythos Busters Discord-Server stattfindet. Während des jeweiligen Events wird eine Kampagne zusammen, mit einem eingeschränkten Kartenpool, gespielt.",
+          "choose_cycle_placeholder": "Zyklus auswählen...",
+          "configure_environment": "Umgebung auswählen",
+          "current": "Current",
+          "current_help": "In der \"Current\" Umgebung dürfen Decks Karten aus dem Basisspiel, den Starter-Decks und den drei neuesten Ermittlererweiterungen verwenden.",
+          "cycle": "Zyklen",
           "help": "Auswahl gilt nicht für Ermittler, Signaturkarten und Schwächen.",
+          "legacy": "Legacy",
+          "legacy_help": "In der \"Legacy\" Umgebung dürfen Decks alle erschienenen Karten ohne Einschränkungen verwenden.",
+          "limited": "Limited",
+          "limited_help": "In der \"Limited\" Umgebung dürfen Decks Karten aus dem Basisspiel, den Starter-Decks und bis zu drei weiteren Ermittlererweiterungen verwenden.",
           "placeholder": "Packs auswählen...",
           "section_title": "Kartenpooleinstellungen",
           "selected_cards": "Ausgewählte Karten",
-          "title": "Eingeschränkter Kartenpool",
-          "use_preset": "\"Campaign Play-Along\" Voreinstellung"
+          "title": "Eingeschränkter Kartenpool"
         },
         "name": "Name",
         "sealed": {

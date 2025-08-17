@@ -8,10 +8,8 @@ import type { ListState } from "@/store/selectors/lists";
 import type { ViewMode } from "@/store/slices/lists.types";
 import type { Metadata } from "@/store/slices/metadata.types";
 import { useHotkey } from "@/utils/use-hotkey";
-import {
-  LimitedCardPoolTag,
-  SealedDeckTag,
-} from "../limited-card-pool/limited-card-pool";
+import { LimitedCardPoolTag } from "../limited-card-pool/limited-card-pool-tag";
+import { SealedDeckTag } from "../limited-card-pool/sealed-deck-tag";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,

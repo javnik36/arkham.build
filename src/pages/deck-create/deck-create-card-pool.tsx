@@ -1,9 +1,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  LimitedCardPoolField,
-  SealedDeckField,
-} from "@/components/limited-card-pool/limited-card-pool";
+import { LimitedCardPoolField } from "@/components/limited-card-pool/limited-card-pool-field";
+import { SealedDeckField } from "@/components/limited-card-pool/sealed-deck-field";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { useStore } from "@/store";
 

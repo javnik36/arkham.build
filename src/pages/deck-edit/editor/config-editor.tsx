@@ -3,10 +3,8 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createSelector } from "reselect";
 import { CardPoolExtensionFields } from "@/components/limited-card-pool/card-pool-extension";
-import {
-  LimitedCardPoolField,
-  SealedDeckField,
-} from "@/components/limited-card-pool/limited-card-pool";
+import { LimitedCardPoolField } from "@/components/limited-card-pool/limited-card-pool-field";
+import { SealedDeckField } from "@/components/limited-card-pool/sealed-deck-field";
 import { TabooSelect } from "@/components/taboo-select";
 import { Field, FieldLabel } from "@/components/ui/field";
 import type { SelectOption } from "@/components/ui/select";

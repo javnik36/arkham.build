@@ -25,10 +25,8 @@ import { DeckTools } from "../deck-tools/deck-tools";
 import { Decklist } from "../decklist/decklist";
 import type { ViewMode } from "../decklist/decklist.types";
 import { DecklistValidation } from "../decklist/decklist-validation";
-import {
-  LimitedCardPoolTag,
-  SealedDeckTag,
-} from "../limited-card-pool/limited-card-pool";
+import { LimitedCardPoolTag } from "../limited-card-pool/limited-card-pool-tag";
+import { SealedDeckTag } from "../limited-card-pool/sealed-deck-tag";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import {
