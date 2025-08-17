@@ -746,6 +746,7 @@ function makeInvestigatorCardsList(
     "faction",
     "investigator_skills",
     "fan_made_content",
+    "pack",
     "investigator_card_access",
     "trait",
     "health",

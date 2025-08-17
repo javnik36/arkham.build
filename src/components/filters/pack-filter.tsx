@@ -75,13 +75,6 @@ export function PackFilter({ id, resolvedDeck }: FilterProps) {
   return (
     <MultiselectFilter
       changes={changes}
-      collapsibleContent={
-        <Button size="sm" onClick={onApplyCurrentEnvironment}>
-          {t("deck_edit.config.card_pool.apply_environment", {
-            environment: t("deck_edit.config.card_pool.current"),
-          })}
-        </Button>
-      }
       id={id}
       itemToString={itemToString}
       nameRenderer={nameRenderer}
@@ -90,6 +83,18 @@ export function PackFilter({ id, resolvedDeck }: FilterProps) {
       placeholder={t("filters.pack.placeholder")}
       title={t("filters.pack.title")}
       value={filter.value}
-    />
+    >
+      {!changes && (
+        <Button
+          size="sm"
+          onClick={onApplyCurrentEnvironment}
+          variant="secondary"
+        >
+          {t("deck_edit.config.card_pool.apply_environment", {
+            environment: t("deck_edit.config.card_pool.current"),
+          })}
+        </Button>
+      )}
+    </MultiselectFilter>
   );
 }

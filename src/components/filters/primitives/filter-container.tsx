@@ -77,8 +77,8 @@ export function FilterContainer(props: Props) {
       }
       variant={active ? "active" : undefined}
     >
-      {nonCollapsibleContent}
       <CollapsibleContent>{children}</CollapsibleContent>
+      {nonCollapsibleContent}
     </Collapsible>
   );
 }
