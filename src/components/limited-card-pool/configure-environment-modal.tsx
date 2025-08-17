@@ -11,7 +11,7 @@ import {
   currentEnvironmentPacks,
   limitedEnvironmentPacks,
 } from "@/utils/environments";
-import { displayPackName } from "@/utils/formatting";
+import { capitalize, displayPackName } from "@/utils/formatting";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { PackName } from "../pack-name";
@@ -165,7 +165,7 @@ function LimitedTab(props: TabProps) {
           itemToString={packToString}
           onValueChange={setSelectedItems}
           items={cycles}
-          label={t("deck_edit.config.card_pool.cycle")}
+          label={capitalize(t("common.cycle", { count: 3 }))}
           showLabel
           selectedItems={selectedItems}
         />
@@ -223,7 +223,7 @@ function CampaignPlayalongTab(props: TabProps) {
           itemToString={packToString}
           onValueChange={setSelectedItems}
           items={cycles}
-          label={t("deck_edit.config.card_pool.cycle")}
+          label={capitalize(t("common.cycle", { count: 1 }))}
           showLabel
           selectedItems={selectedItems}
         />

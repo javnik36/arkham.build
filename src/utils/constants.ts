@@ -260,3 +260,5 @@ export const TAG_REGEX_FALLBACKS: Record<string, RegExp> = {
   pa: /[Pp]arley/,
   se: /[Ss]eal(?! of the)/,
 };
+
+export const CURRENT_CYCLE_POSITION = 11;

@@ -1,5 +1,5 @@
 import type { Cycle } from "@/store/schemas/cycle.schema";
-import { RETURN_TO_CYCLES } from "./constants";
+import { CURRENT_CYCLE_POSITION, RETURN_TO_CYCLES } from "./constants";
 
 export const CAMPAIGN_PLAYALONG_PROJECT_ID =
   "5b6a1f95-73d1-4059-8af2-b9a645efd625";
@@ -29,12 +29,9 @@ export function campaignPlayalongPacks(cycle: string) {
 }
 
 export function currentEnvironmentPacks(cycles: Cycle[]) {
-  const currentCycle = cycles.sort((a, b) => b.position - a.position).at(0);
-  if (!currentCycle) return [];
-
   const packs = [...CORE_PACKS];
 
-  for (let i = currentCycle.position; i >= currentCycle.position - 2; i--) {
+  for (let i = CURRENT_CYCLE_POSITION; i >= CURRENT_CYCLE_POSITION - 2; i--) {
     const cycle = cycles.find((c) => c.position === i);
     if (!cycle) continue;
 

@@ -32,6 +32,7 @@ export type SettingsState = {
   cardSize: "sm" | "standard";
   cardSkillIconsDisplay: "simple" | "as_printed";
   collection: Record<string, number>; // track as "quantity" owned to accomodate the core set.
+  defaultEnvironment: "current" | "legacy";
   defaultStorageProvider: DeckStorageProvider;
   flags?: Record<string, boolean>;
   fontSize: number;

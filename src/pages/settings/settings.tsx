@@ -28,6 +28,7 @@ import { BackupRestore } from "./backup-restore";
 import { CardDataSync } from "./card-data-sync";
 import { CardDisplaySettings } from "./card-display";
 import { Connections } from "./connections";
+import { DefaultEnvironmentSetting } from "./default-environment";
 import { FontSizeSetting } from "./font-size";
 import { HideWeaknessSetting } from "./hide-weakness";
 import { ListSettings } from "./list-settings";
@@ -159,6 +160,10 @@ function SettingsInner({
             </TabsList>
             <TabsContent value="general" forceMount>
               <Section title={t("settings.general.title")}>
+                <DefaultEnvironmentSetting
+                  settings={settings}
+                  setSettings={setSettings}
+                />
                 <TabooSetSetting
                   settings={settings}
                   setSettings={setSettings}

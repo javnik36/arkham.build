@@ -58,6 +58,7 @@ export function getInitialSettings(): SettingsState {
     cardLevelDisplay: "icon-only",
     cardListsDefaultContentType: "all",
     cardSkillIconsDisplay: "simple",
+    defaultEnvironment: "legacy",
     defaultStorageProvider: "local",
     cardShowIcon: true,
     cardShowDetails: true,
