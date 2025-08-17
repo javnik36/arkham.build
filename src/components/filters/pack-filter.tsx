@@ -5,14 +5,18 @@ import type { Pack } from "@/store/schemas/pack.schema";
 import {
   selectActiveList,
   selectActiveListFilter,
+  selectCampaignCycles,
   selectFilterChanges,
   selectPackOptions,
 } from "@/store/selectors/lists";
 import { isPackFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
+import { currentEnvironmentPacks } from "@/utils/environments";
 import { shortenPackName } from "@/utils/formatting";
 import { PackName } from "../pack-name";
+import { Button } from "../ui/button";
 import type { FilterProps } from "./filters.types";
+import { useFilterCallbacks } from "./primitives/filter-hooks";
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 
 export function PackFilter({ id, resolvedDeck }: FilterProps) {
@@ -60,9 +64,24 @@ export function PackFilter({ id, resolvedDeck }: FilterProps) {
     [],
   );
 
+  const { onChange } = useFilterCallbacks<string[]>(id);
+
+  const cycles = useStore(selectCampaignCycles);
+
+  const onApplyCurrentEnvironment = useCallback(() => {
+    onChange(currentEnvironmentPacks(cycles));
+  }, [cycles, onChange]);
+
   return (
     <MultiselectFilter
       changes={changes}
+      collapsibleContent={
+        <Button size="sm" onClick={onApplyCurrentEnvironment}>
+          {t("deck_edit.config.card_pool.apply_environment", {
+            environment: t("deck_edit.config.card_pool.current"),
+          })}
+        </Button>
+      }
       id={id}
       itemToString={itemToString}
       nameRenderer={nameRenderer}

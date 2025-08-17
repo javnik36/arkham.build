@@ -847,7 +847,7 @@
       "changes_restored": "Unsaved changes were restored.",
       "config": {
         "card_pool": {
-          "apply": "Apply {{environment}} environment",
+          "apply_environment": "Apply {{environment}} environment",
           "campaign_playalong": "Campaign Play-Along",
           "campaign_playalong_help": "The Campaign Play-Along is an ongoing event hosted on the Mythos Busters discord server. It is designed to play Arkham campaigns together, share stories and generally create a sense of community.",
           "choose_cycle_placeholder": "Select cycles...",

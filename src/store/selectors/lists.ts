@@ -2,6 +2,7 @@ import { createSelector } from "reselect";
 import { displayAttribute, splitMultiValue } from "@/utils/card-utils";
 import {
   ASSET_SLOT_ORDER,
+  CYCLES_WITH_STANDALONE_PACKS,
   FACTION_ORDER,
   type FactionName,
   NO_SLOT_STRING,
@@ -1072,6 +1073,16 @@ export const selectCyclesAndPacks = createSelector(
 
     return cycles;
   },
+);
+
+export const selectCampaignCycles = createSelector(
+  selectCyclesAndPacks,
+  (cycles) =>
+    cycles.filter(
+      (cycle) =>
+        cycle.official !== false &&
+        !CYCLES_WITH_STANDALONE_PACKS.includes(cycle.code),
+    ),
 );
 
 const filterNewFormat = (packs: Pack[], cardType?: string) => {

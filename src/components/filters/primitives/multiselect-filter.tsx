@@ -7,6 +7,7 @@ import { useFilterCallbacks } from "./filter-hooks";
 type Props<T extends Coded> = {
   changes?: string;
   children?: React.ReactNode;
+  collapsibleContent?: React.ReactNode;
   id: number;
   itemToString?: (val: T) => string;
   nameRenderer?: (val: T) => React.ReactNode;
@@ -21,6 +22,7 @@ export function MultiselectFilter<T extends Coded>(props: Props<T>) {
   const {
     changes,
     children,
+    collapsibleContent,
     id,
     itemToString,
     nameRenderer,
@@ -57,6 +59,7 @@ export function MultiselectFilter<T extends Coded>(props: Props<T>) {
         renderResult={nameRenderer}
         selectedItems={value}
       />
+      {collapsibleContent}
     </FilterContainer>
   );
 }

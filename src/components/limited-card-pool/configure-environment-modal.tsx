@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { createSelector } from "reselect";
 import { useStore } from "@/store";
 import type { Cycle } from "@/store/schemas/cycle.schema";
-import { selectCyclesAndPacks } from "@/store/selectors/lists";
-import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
+import { selectCampaignCycles } from "@/store/selectors/lists";
 import {
   CAMPAIGN_PLAYALONG_PROJECT_ID,
   campaignPlayalongPacks,
@@ -37,14 +35,6 @@ type TabProps = Props & {
   locale: string;
   dialogCtx: ReturnType<typeof useDialogContextChecked>;
 };
-
-const selectCampaignCycles = createSelector(selectCyclesAndPacks, (cycles) =>
-  cycles.filter(
-    (cycle) =>
-      cycle.official !== false &&
-      !CYCLES_WITH_STANDALONE_PACKS.includes(cycle.code),
-  ),
-);
 
 const packRenderer = (cycle: Cycle) => (
   <PackName pack={cycle} shortenNewFormat />
@@ -119,6 +109,7 @@ function LegacyTab({ dialogCtx, onValueChange }: TabProps) {
 
 function CurrentTab({ dialogCtx, onValueChange }: TabProps) {
   const cycles = useStore(selectCampaignCycles);
+
   return (
     <EnvironmentsTabConfirm
       onClick={() => {
@@ -288,7 +279,7 @@ function EnvironmentsTabConfirm({
       onClick={onClick}
       variant="primary"
     >
-      {t("deck_edit.config.card_pool.apply", {
+      {t("deck_edit.config.card_pool.apply_environment", {
         environment: t(`deck_edit.config.card_pool.${environment}`),
       })}
     </Button>
