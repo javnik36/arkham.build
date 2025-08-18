@@ -2,10 +2,9 @@ import { execSync } from "node:child_process";
 import { promises as fs } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { applyLocalData } from "../src/store/lib/local-data";
-import type { Card } from "../src/store/schemas/card.schema";
-import { cardUses } from "../src/utils/card-utils";
-import { capitalize } from "../src/utils/formatting";
+import { applyLocalData } from "../src/store/lib/local-data.ts";
+import type { Card } from "../src/store/schemas/card.schema.ts";
+import { cardUses } from "../src/utils/card-utils.ts";
 
 type JsonObject = { [key: string]: JsonValue };
 type JsonValue = null | boolean | number | string | JsonValue[] | JsonObject;
@@ -194,4 +193,11 @@ async function readLocale(language: string) {
 async function writeLocale(language: string, data: Record<string, unknown>) {
   const filePath = path.join(process.cwd(), `./src/locales/${language}.json`);
   await fs.writeFile(filePath, JSON.stringify(data, null, 2));
+}
+
+function capitalize(s: string | number) {
+  const str = s.toString();
+  if (!str.length) return str;
+
+  return `${str[0].toUpperCase()}${str.slice(1)}`;
 }
