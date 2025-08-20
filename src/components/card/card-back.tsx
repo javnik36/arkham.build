@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { ResolvedCard } from "@/store/lib/types";
 import type { Card as CardType } from "@/store/schemas/card.schema";
 import { displayAttribute, sideways } from "@/utils/card-utils";
@@ -6,6 +7,7 @@ import { cx } from "@/utils/cx";
 import { CardScan } from "../card-scan";
 import { CardThumbnail } from "../card-thumbnail";
 import css from "./card.module.css";
+import { CardDetails } from "./card-details";
 import { CardHeader } from "./card-header";
 import { CardMetaBack } from "./card-meta";
 import { CardText } from "./card-text";
@@ -19,19 +21,35 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 export function CardBack(props: Props) {
   const { className, card, size, ...rest } = props;
 
-  const backCard: CardType = useMemo(
-    () => ({
-      ...card,
-      real_name:
-        displayAttribute(card, "back_name") ||
-        `${displayAttribute(card, "name")} - Back`,
+  const { t } = useTranslation();
+
+  // simple backsides only contain a subset of fields.
+  const backCard: CardType = useMemo(() => {
+    const { clues: _, doom: __, shroud: ___, ...attributes } = card;
+
+    const nameFallback = t("common.card_back", {
+      name: displayAttribute(card, "name"),
+    });
+
+    return {
+      ...attributes,
+      name: displayAttribute(card, "back_name") || nameFallback,
+      real_name: card.real_back_name || nameFallback,
+      // XXX: there are cards that have a different name on the back,
+      //      but the metadata does not currently surface that.
+      subname: undefined,
       real_subname: undefined,
-      real_flavor: displayAttribute(card, "back_flavor"),
+      flavor: displayAttribute(card, "back_flavor"),
+      real_flavor: card.real_back_flavor,
       illustrator: card.back_illustrator,
-      real_text: displayAttribute(card, "back_text"),
-    }),
-    [card],
-  );
+      text: displayAttribute(card, "back_text"),
+      real_text: card.real_back_text,
+      traits:
+        displayAttribute(card, "back_traits") ||
+        displayAttribute(card, "traits"),
+      real_traits: card.real_back_traits || card.real_traits,
+    };
+  }, [card, t]);
 
   const [isSideways, setSideways] = useState(sideways(card));
   const hasHeader = card.parallel || card.type_code !== "investigator";
@@ -64,6 +82,12 @@ export function CardBack(props: Props) {
       {...rest}
     >
       {hasHeader && <CardHeader card={backCard} />}
+
+      {card.type_code !== "investigator" && (
+        <div className={css["pre"]}>
+          <CardDetails card={backCard} />
+        </div>
+      )}
 
       <div className={css["content"]}>
         <CardText
