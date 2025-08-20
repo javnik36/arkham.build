@@ -7,6 +7,7 @@
         "card_design": "Za dostosowany do aplikacji projekt kart.",
         "code": "Za znaczący wkład w kod aplikacji.",
         "customization_api": "Za dostęp do API z arkuszami usprawnień.",
+        "qa": "Za testowanie.",
         "testing": "Za cierpliwy feedback i testowanie podczas opracowywania wstępnej wersji oraz koncepcje projektowe.",
         "title": "Galeria Sław",
         "translation": {
@@ -213,6 +214,7 @@
       "permanent": "Trwała",
       "player_cards": "Karty badacza",
       "player_cards_short": "Badacz",
+      "proceed": "Kontynuuj",
       "relations": {
         "advanced": "Karty osobiste (wersje Zaawansowane)",
         "base": "Podstawowy badacz",
@@ -253,6 +255,8 @@
         "none": "Bez strefy",
         "tarot": "Tarot"
       },
+      "sort_asc": "Sortuj rosnąco",
+      "sort_desc": "Sortuj malejąco",
       "specialist": "Specialist",
       "subtype": {
         "basicweakness": "Podstawowe osłabienie",
@@ -308,6 +312,7 @@
         "Altered": "Zmieniony",
         "Ancient": "Pradawny",
         "Ancient One": "Przedwieczny",
+        "Apiary": "Apiary",
         "Arkham": "Arkham",
         "Arkham Asylum": "Przytułek Arkham",
         "Armor": "Pancerz",
@@ -364,6 +369,7 @@
         "Crew": "Ekipa",
         "Crime Scene": "Miejsce zbrodni",
         "Criminal": "Przestępca",
+        "Cthulhu": "Cthulhu",
         "Cultist": "Kultysta",
         "Curse": "Klątwa",
         "Cursed": "Przeklęty",
@@ -389,7 +395,9 @@
         "Eldritch": "Eldritch",
         "Elite": "Elitarny",
         "Emissary": "Wysłannik",
+        "Enclave": "Enclave",
         "Endtimes": "Kres",
+        "Enraged": "Enraged",
         "Entrepreneur": "Przedsiębiorca",
         "Evidence": "Dowód",
         "Exhibit": "Wystawa",
@@ -412,6 +420,7 @@
         "Forest": "Forest",
         "Forgotten": "Zapomniany",
         "Fortune": "Los",
+        "Front": "Front",
         "Future": "Przyszłość",
         "Gambit": "Gambit",
         "Game": "Gra",
@@ -455,6 +464,7 @@
         "Job": "Praca",
         "Jungle": "Dżungla",
         "Kadath": "Kadath",
+        "Keeper": "Keeper",
         "Key": "Klucz",
         "Kingsport": "Kingsport",
         "Kuala Lumpur": "Kuala Lumpur",
@@ -463,6 +473,7 @@
         "Lead": "Trop",
         "Leader": "Leader",
         "Leng": "Leng",
+        "Lift": "Lift",
         "Lit": "Lit",
         "Locus Site": "Miejsce pieczęci",
         "Lodge": "Loża",
@@ -489,6 +500,7 @@
         "Mountains": "Góry",
         "Mutated": "Zmutowana",
         "Mystery": "Tajemnica",
+        "Nest": "Nest",
         "New Orleans": "Nowy Orlean",
         "New York City": "Nowy Jork",
         "Nightgaunt": "Dziecię nocy",
@@ -543,8 +555,10 @@
         "Riverside": "Riverside",
         "Road": "Droga",
         "Role": "Rola",
+        "Rooftop": "Rooftop",
         "Room": "Room",
         "Rot": "Zgnilizna",
+        "Ruined": "Ruined",
         "Ruins": "Ruiny",
         "Salem": "Salem",
         "Sanctum": "Sanktuarium",
@@ -554,6 +568,7 @@
         "Scientist": "Naukowiec",
         "Scion": "Scion",
         "Script": "Rękopis",
+        "Seafloor": "Seafloor",
         "Second Floor": "Drugie piętro",
         "Sentinel Hill": "Sentinel Hill",
         "Serpent": "Wąż",
@@ -579,6 +594,7 @@
         "Station": "Station",
         "Steps": "Stopnie",
         "Stowaway": "Gapowicz",
+        "Summit": "Summit",
         "Summon": "Przyzwanie",
         "Sunken": "Sunken",
         "Supply": "Zapasy",
@@ -611,10 +627,12 @@
         "Unstable": "Niestabilny",
         "Upgrade": "Usprawnienie",
         "Vale": "Dolina",
+        "Vault": "Vault",
         "Vehicle": "Pojazd",
         "Venice": "Wenecja",
         "Veteran": "Weteran",
         "Void": "Pustka",
+        "Walkway": "Walkway",
         "Warden": "Stróż",
         "Wastes": "Pustkowie",
         "Wayfarer": "Podróżnik",
@@ -762,11 +780,13 @@
         "cards": "Karty",
         "count": "Liczba",
         "factions": "Klasy",
+        "factions_tooltip": "{{faction}} - {{count}} {{cards}}",
         "loading": "Wczytywanie narzędzia talii...",
         "resource_cost": "Koszt zasobów",
         "resource_cost_tooltip": "{{count}} {{cards}} o koszcie {{cost}}",
         "resource_costs": "Koszty zasobów",
         "skill_icons": "Ikony umiejętności",
+        "skill_icons_tooltip": "{{skill}} - {{count}} {{icons}}",
         "title": "Narzędzia talii"
       },
       "validation": {
@@ -839,6 +859,8 @@
         "cycle_decks": "Przełączaj między listami talii",
         "decrement_quantity": "Zmniejsz ilość w talii",
         "decrement_side_quantity": "Zmniejsz ilość w talii pobocznej",
+        "draft_random_basic_weakness": "Draft podstawowego osłabienia",
+        "draft_random_basic_weakness_success": "Karta <strong>{{name}}</strong> została dodana do twojej talii.",
         "draw_random_basic_weakness": "Wylosuj podstawowe osłabienie",
         "draw_random_basic_weakness_success": "<strong>{{name}}</strong> jest twoim podstawowym osłabieniem.",
         "edit_annotation": "Edytuj adnotacje",
@@ -855,15 +877,22 @@
       "changes_restored": "Przywrócono niezapisane zmiany.",
       "config": {
         "card_pool": {
-          "campaign": "Kampania",
-          "choose_campaign": "Wybierz kampanie",
-          "choose_campaign_placeholder": "Wybierz kampanie...",
-          "cpa_help": "„Campaign Play-Along” jest powracającym wydarzeniem organizowanym na serwerze Discord Mythos Busters. Jest ono przeznaczone do wspólnego grania w kampanie Arkham, dzielenia się historiami i ogólnie tworzenia poczucia wspólnoty.",
+          "apply_environment": "Zastosuj środowisko {{environment}}",
+          "campaign_playalong": "Campaign Play-Along",
+          "campaign_playalong_help": "„Campaign Play-Along” jest powracającym wydarzeniem organizowanym na serwerze Discord Mythos Busters. Jest ono zaprojektowane do wspólnego grania w kampanie Arkham, dzielenia się historiami i ogólnie tworzenia poczucia wspólnoty.",
+          "choose_cycle_placeholder": "Wybierz cykle...",
+          "configure_environment": "Skonfiguruj środowisko gry",
+          "current": "Aktualne",
+          "current_help": "Podczas budowania talii w środowisku Aktualnym gracze mogą budować talię wyłącznie przy użyciu kart z zestawu podstawowego, pięciu talii początkowych badaczy i trzech najnowszych rozszerzeń badacza.",
           "help": "Ten wybór nie ma wpływu na badaczy, ich wymagane karty i atuty fabularne.",
           "placeholder": "Wybierz zestawy...",
+          "legacy": "Legacy",
+          "legacy_help": "Podczas budowania talii w środowisku Legacy gracze mogą budować swoje talie i korzystać z badaczy, kart badacza i osłabień z dowolnego produktu Horroru w Arkham: Gry karcianej™. Bez żadnych ograniczeń.",
+          "limited": "Ograniczone",
+          "limited_help": "Podczas budowania talii w środowisku Ograniczonym gracze mogą budować swoje talie wyłącznie przy użyciu kart z zestawu podstawowego, pięciu talii początkowych badaczy i trzech wybranych przez siebie rozszerzeń badacza.",
           "section_title": "Ustawienia puli kart",
-          "title": "Ograniczona pula kart",
-          "use_preset": "Użyj presetu „Campaign Play-Along”"
+          "selected_cards": "Wybrane karty",
+          "title": "Ograniczona pula kart"
         },
         "name": "Nazwa talii",
         "sealed": {
@@ -887,6 +916,7 @@
         "taboo": "Lista tabu",
         "tags": "Tagi",
         "tags_help": "Wprowadź tagi, oddzielone spacjami",
+        "title_and_tags": "Edytuj tytuł i tagi",
         "version": {
           "switch": "Zmień",
           "title": "Inne wersje"
@@ -903,6 +933,15 @@
       },
       "discard": "Odrzuć zmiany",
       "discard_confirm": "Czy jesteś pewien, że chcesz odrzucić wprowadzone zmiany?",
+      "draft_weakness_modal": {
+        "cancel_button": "Anuluj",
+        "choice_title": "Wybierz osłabienie do odrzucenia",
+        "confirm_button": "Akceptuj",
+        "explanation_body": "Powszechną regułą jest danie graczowi większej kontroli nad wyborem podstawowego osłabienia zamiast całkowitej losowości. Zostaną wylosowane trzy losowe podstawowe osłabienia - gracz ma możliwość odrzucenia jednego z nich, a następnie losowe osłabienie z dwóch pozostałych zostanie dodane do talii.",
+        "explanation_title": "Wyjaśnienie",
+        "title": "Draft podstawowego osłabienia",
+        "too_few_rbw": "Za mało podstawowych osłabień w puli kart, aby przeprowadzić draft."
+      },
       "notes": {
         "banner_url": "URL banera",
         "banner_url_help": "Plik graficzny banera dla tej talii. Będzie wyświetlany w widoku talii i podglądach mediów społecznościowych. Proporcje obrazu to 4:1, optymalna szerokość to 1440px.",
@@ -944,7 +983,7 @@
       "read_only": "This deck has an upgrade and is read-only.",
       "recommendations": {
         "absolute": "Absolutnie",
-        "absolute_help": "Policz, w ilu taliach badacza {{name}} użyto każdej karty",
+        "absolute_help": "Pokazuje najczęściej używane karty w talii {{name}}, posortowane według procentu talii, które je zawierają.",
         "analyze_side_decks": "Analizuj talie poboczne",
         "core": "Istotna",
         "core_help": "Oznaczenie karty jako \"Istotna\" spowoduje wzięcie pod uwagę przez silnik rekomendujący tylko talii ją zawierających.",
@@ -953,7 +992,9 @@
         "no_results": "Brak rekomendacji dla tej konfiguracji.",
         "publication_date": "Data publikacji talii",
         "relative": "Względnie",
-        "relative_help": "Policz, w ilu taliach badacza {{name}} użyto każdej karty w porównaniu do innych badaczy, którzy mogą jej użyć"
+        "relative_help": "Pokazuje które karty {{name}} są częściej używane w porównaniu do innych badaczy, posortowane według percentyla.",
+        "tooltip_absolute": "Karta {{name}} jest używana w {{decksPercentage}}% talii {{investigator}}. ({{decksMatched}}/{{decksAnalyzed}})",
+        "tooltip_relative": "{{investigator}} używa karty {{name}} częsciej niż {{percentile}}% wszystkich badaczy."
       },
       "save": "Zapisz talię",
       "save_error": "Nie udało się zapisać talii: {{error}}",
@@ -1035,6 +1076,38 @@
         "xp_gained": "Zyskane XP"
       }
     },
+    "decklists": {
+      "browse": {
+        "loading": "Ładowanie przewodników talii...",
+        "no_results": "Brak wyników",
+        "results_count_few": "{{count}} wyniki",
+        "results_count_many": "{{count}} wyników",
+        "results_count_one": "{{count}} wynik",
+        "results_count_other": "{{count}} wyników",
+        "title": "Przewodniki talii"
+      },
+      "filters": {
+        "author": "Autor",
+        "author_placeholder": "Wprowadź nazwę autora (np. Valentin1331)...",
+        "description_length": "Minimalna długość przewodnika talii",
+        "description_length_long": "Długi",
+        "description_length_medium": "Średni",
+        "description_length_short": "Krótki",
+        "excluded_cards": "Wykluczone karty",
+        "investigator_factions": "Klasy badacza",
+        "name": "Nazwa przewodnika talii",
+        "name_placeholder": "Wprowadź nazwę...",
+        "required_cards": "Wymagane karty",
+        "submit": "Zastosuj",
+        "title": "Kryteria filtrowania"
+      },
+      "sorting": {
+        "date": "Najnowsze",
+        "likes": "Najwięcej polubień",
+        "popularity": "Najpopularniejsze",
+        "user_reputation": "Najwyższa reputacja użytkownika"
+      }
+    },
     "draw_simulator": {
       "draw_tooltip": "Wylosuj {{count}} {{cards}}.",
       "redraw": "Wylosuj wybrane ponownie",
@@ -1064,6 +1137,7 @@
         "view_external": "Dowiedz się więcej"
       },
       "available_content": "Dostępna zawartość",
+      "banner_credit": "Ilus. {{credit}}",
       "content_types": "Rodzaj dodatku",
       "content_version": "Wersja dodatku",
       "empty": "Brak zainstalowanej zawartości",
@@ -1093,6 +1167,7 @@
         "final": "Finalna"
       },
       "status_installed": "Zainstalowany",
+      "status_update_available": "Aktualizuj zawartość",
       "tags": "Tagi",
       "title": "Zawartość fanowska",
       "types": {
@@ -1276,6 +1351,13 @@
       },
       "sort_by": "Sortuj według"
     },
+    "popular_decks": {
+      "decklists_link": "Przeglądaj wszystkie przewodniki talii",
+      "error": "Popularne przewodniki talli nie mogły zostać załadowane: {{error}}",
+      "no_results": "Nie znaleziono przewodników talii",
+      "title_card": "Popularne przewodniki talii zawierające <tooltip>{{name}}</tooltip>",
+      "title_investigator": "Popularne przewodniki talii badacza <tooltip>{{name}}</tooltip>"
+    },
     "preview_banner": {
       "actions": {
         "dismiss": "Odrzuć",
@@ -1283,6 +1365,9 @@
       },
       "description": "Włączenie wyświetlania nieopublikowanych kart spowoduje wyświetlenie kart z nadchodzących rozszerzeń w przeglądarce kart. Możesz zmienić to ustawienie w dowolnym momencie w ustawieniach kolekcji.",
       "title": "Sezon zapowiedzi trwa!"
+    },
+    "rules": {
+      "title": "Zasady gry"
     },
     "settings": {
       "backup": {
@@ -1353,6 +1438,12 @@
         "card_level_as_text": "Ikona karty + tekst",
         "card_level_icon_only": "Tylko jako ikona karty",
         "card_show_collection_number": "Pokazuj numer karty",
+        "card_show_details": "Pokazuj szczegóły karty",
+        "card_show_icon": "Pokazuj ikonę karty",
+        "card_show_thumbnail": "Pokazuj miniaturkę karty",
+        "card_size": "Rozmiar",
+        "card_size_sm": "Skondensowany",
+        "card_size_standard": "Standardowy",
         "card_skill_icons": "Wyświetlanie ikon umiejętności",
         "card_skill_icons_as_printed": "Jak na karcie",
         "card_skill_icons_simple": "Uproszczone",
@@ -1372,7 +1463,9 @@
       },
       "error": "Nie udało się zapisać ustawień: {{error}}",
       "general": {
+        "default_environment": "Domyślne środowisko gry",
         "default_taboo": "Domyślna lista tabu",
+        "latest_taboo": "Najnowsza",
         "title": "Ogólne",
         "weakness_limited_card_pool": "Użyj ograniczonej puli kart do losowego dobierania podstawowych osłabień",
         "weakness_limited_card_pool_help": "Po zaznaczeniu tej opcji losowe dobieranie podstawowych osłabień będzie uwzględniać ograniczoną pulę kart talii, jeśli taka została zdefiniowana."
@@ -1392,6 +1485,18 @@
       "success": "Ustawienia zostały pomyślnie zapisane.",
       "title": "Ustawienia"
     },
+    "suzi_standalone_setup": {
+      "description": "FAQ 2.4 określa w jaki sposób można zbudować talię Suzi dla trybu samodzielnej rozgrywki. Losowa ilość kart o poziomie 1-5 z twojej kolekcji jest dobierana do czasu osiągnięcia docelowej liczby XP. Następnie należy usunąć z talii identyczną liczbę kart.",
+      "draw_cards": "Dobierz karty",
+      "limit_collection": "Użyj karty tylko z mojej kolekcji",
+      "limit_exile": "Użyj „Ultimatum Wygnania” (nie zezwalaj na wygnane karty)",
+      "limit_fan_made": "Użyj fanowskiej zawartości",
+      "results": "Wyniki",
+      "reveal_all": "Odkryj wszystkie",
+      "title": "Konfiguracja trybu samodzielnej rozgrywki Subject 5U-21 / \"Suzi\"",
+      "title_short": "Konfiguracja trybu samodzielnej rozgrywki",
+      "xp": "Docelowa liczba XP"
+    },
     "ui": {
       "cards_combobox": {
         "placeholder_few": "Wybierz karty...",
@@ -1405,7 +1510,11 @@
         "toggle": "Przełącz sekcję"
       },
       "copy_to_clipboard": "Kopiuj do schowka",
-      "copy_to_clipboard_success": "Skopiowano."
+      "copy_to_clipboard_success": "Skopiowano.",
+      "pagination": {
+        "next": "Następna",
+        "previous": "Poprzednia"
+      }
     }
   }
 }
