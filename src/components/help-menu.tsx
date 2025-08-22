@@ -157,6 +157,14 @@ export function HelpMenu() {
               description: t("deck_edit.actions.decrement_quantity"),
             },
             {
+              keybind: "arrowup",
+              description: t("lists.actions.previous_card"),
+            },
+            {
+              keybind: "arrowdown",
+              description: t("lists.actions.next_card"),
+            },
+            {
               keybind: "shift+arrowright",
               description: t("deck_edit.actions.increment_side_quantity"),
             },

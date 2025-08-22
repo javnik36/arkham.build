@@ -1,6 +1,6 @@
 /** biome-ignore-all lint/a11y/useKeyWithClickEvents: not relevant. */
 /** biome-ignore-all lint/a11y/noStaticElementInteractions: backdrop needs to be clickable. */
-import { CheckCircleIcon } from "lucide-react";
+import { ArrowDownIcon, ArrowUpIcon, CheckCircleIcon } from "lucide-react";
 import { useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "wouter";
@@ -10,6 +10,7 @@ import {
   getRelatedCards,
 } from "@/store/lib/resolve-card";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
+import { selectListCards } from "@/store/selectors/lists";
 import {
   getCanonicalCardCode,
   isSpecialist,
@@ -18,6 +19,7 @@ import {
 import { cx } from "@/utils/cx";
 import { formatRelationTitle } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
+import { useHotkey } from "@/utils/use-hotkey";
 import { useMedia } from "@/utils/use-media";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { Annotation } from "../annotations/annotation";
@@ -30,6 +32,7 @@ import { AttachableCards } from "../deck-tools/attachable-cards";
 import { CardPoolExtension } from "../limited-card-pool/card-pool-extension";
 import { Button } from "../ui/button";
 import { useDialogContextChecked } from "../ui/dialog.hooks";
+import { HotkeyTooltip } from "../ui/hotkey";
 import { Modal, ModalActions, ModalBackdrop, ModalInner } from "../ui/modal";
 import { CardReviewsLink } from "./card-arkhamdb-links";
 import css from "./card-modal.module.css";
@@ -47,6 +50,7 @@ type Props = {
 export function CardModal(props: Props) {
   const { t } = useTranslation();
   const ctx = useResolvedDeck();
+
   const canEdit = ctx.canEdit;
 
   const modalContext = useDialogContextChecked();
@@ -85,15 +89,38 @@ export function CardModal(props: Props) {
     cardModalCtx.setOpen,
   ]);
 
-  const showQuantities =
-    !!ctx.resolvedDeck && cardWithRelations?.card.type_code !== "investigator";
+  const activeListCards = useStore((state) =>
+    selectListCards(state, ctx.resolvedDeck, "slots"),
+  );
 
-  const showExtraQuantities = ctx.resolvedDeck?.hasExtraDeck;
+  const cardPosition =
+    activeListCards?.cards.findIndex((card) => card.code === props.code) ?? -1;
+
+  const nextCard = activeListCards?.cards[cardPosition + 1];
+  const previousCard = activeListCards?.cards[cardPosition - 1];
+
+  const onNextCard = useCallback(() => {
+    if (nextCard) {
+      cardModalCtx.setOpen({ code: nextCard.code });
+    }
+  }, [cardModalCtx, nextCard]);
+
+  const onPreviousCard = useCallback(() => {
+    if (previousCard) {
+      cardModalCtx.setOpen({ code: previousCard.code });
+    }
+  }, [cardModalCtx, previousCard]);
+
+  useHotkey("arrowdown", onNextCard, { disabled: !nextCard });
+  useHotkey("arrowup", onPreviousCard, { disabled: !previousCard });
 
   const canRenderFull = useMedia("(min-width: 45rem)");
 
   if (!cardWithRelations) return null;
 
+  const showQuantities =
+    !!ctx.resolvedDeck && cardWithRelations?.card.type_code !== "investigator";
+  const showExtraQuantities = ctx.resolvedDeck?.hasExtraDeck;
   const related = getRelatedCards(cardWithRelations);
 
   const attachableDefinition = ctx.resolvedDeck?.availableAttachments.find(
@@ -234,7 +261,7 @@ export function CardModal(props: Props) {
               </Button>
             )}
         </ModalActions>
-        {showQuantities ? (
+        {showQuantities || activeListCards ? (
           <div className={css["container"]}>
             <div className={css["card"]}>{cardNode}</div>
             <div
@@ -256,6 +283,36 @@ export function CardModal(props: Props) {
                   card={cardWithRelations.card}
                   resolvedDeck={ctx.resolvedDeck}
                 />
+              )}
+              {activeListCards && (
+                <nav className={css["neighbour-nav"]}>
+                  <HotkeyTooltip
+                    keybind="arrowup"
+                    description={t("lists.actions.previous_card")}
+                  >
+                    <Button
+                      onClick={onPreviousCard}
+                      disabled={!previousCard}
+                      iconOnly
+                      size="lg"
+                    >
+                      <ArrowUpIcon />
+                    </Button>
+                  </HotkeyTooltip>
+                  <HotkeyTooltip
+                    keybind="arrowdown"
+                    description={t("lists.actions.next_card")}
+                  >
+                    <Button
+                      onClick={onNextCard}
+                      disabled={!nextCard}
+                      iconOnly
+                      size="lg"
+                    >
+                      <ArrowDownIcon />
+                    </Button>
+                  </HotkeyTooltip>
+                </nav>
               )}
             </div>
           </div>
