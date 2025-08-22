@@ -1,4 +1,5 @@
 import { useQueries } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "wouter";
 import { ArkhamdbDecklistMeta } from "@/components/arkhamdb-decklists/arkhamdb-decklist-meta";
@@ -35,7 +36,14 @@ import { ShareInner } from "../share/share";
 function DeckView() {
   const { id, type } = useParams<{ id: string; type: DeckDisplayType }>();
 
+  const setActiveList = useStore((state) => state.setActiveList);
   const hasDeck = useStore((state) => !!state.data.decks[id]);
+
+  useEffect(() => {
+    // TECH DEBT: This should be handled by the views that mount a list.
+    //            Requires persisting list state to the URL.
+    setActiveList(undefined);
+  });
 
   if (hasDeck && type === "deck") {
     return <LocalDeckView id={id} />;
