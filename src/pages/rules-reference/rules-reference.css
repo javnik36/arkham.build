@@ -59,6 +59,7 @@ html[data-theme="light"] .rules {
   padding: 0.1875rem 0.375rem;
   border-radius: var(--rounded);
   border: 1px solid var(--palette-2);
+  font-size: var(--text-base);
   text-decoration: none;
 }
 
