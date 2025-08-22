@@ -20,7 +20,7 @@ export function Masthead(props: Props) {
   const [location] = useLocation();
 
   return (
-    <header className={cx(props.className, css["masthead"])}>
+    <header className={cx(props.className, css["masthead"])} id="masthead">
       <div className={css["left"]}>
         <Link className={css["logo"]} href="~/" data-testid="masthead-logo">
           <Logo />
