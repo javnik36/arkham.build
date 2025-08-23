@@ -264,7 +264,7 @@ export function DeckCreateEditor() {
         </Field>
       )}
 
-      <DeckCreateCardPool />
+      <DeckCreateCardPool investigator={investigator.card} />
 
       <nav className={css["editor-nav"]}>
         <Button

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useStore } from "@/store";
+import type { Card } from "@/store/schemas/card.schema";
 import type { Cycle } from "@/store/schemas/cycle.schema";
 import { selectCampaignCycles } from "@/store/selectors/lists";
 import {
@@ -11,7 +12,6 @@ import {
 } from "@/utils/environments";
 import { capitalize, displayPackName } from "@/utils/formatting";
 import { useAccentColor } from "@/utils/use-accent-color";
-import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { PackName } from "../pack-name";
 import { Button } from "../ui/button";
 import { Combobox } from "../ui/combobox/combobox";
@@ -28,10 +28,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import css from "./limited-card-pool.module.css";
 
 type Props = {
+  investigator: Card;
   onValueChange: (items: string[]) => void;
 };
 
-type TabProps = Props & {
+type TabProps = Omit<Props, "investigator"> & {
   locale: string;
   dialogCtx: ReturnType<typeof useDialogContextChecked>;
 };
@@ -43,12 +44,11 @@ const packRenderer = (cycle: Cycle) => (
 const packToString = (pack: Cycle) => displayPackName(pack).toLowerCase();
 
 export function ConfigureEnvironmentModal(props: Props) {
-  const { onValueChange } = props;
+  const { investigator, onValueChange } = props;
 
   const { t } = useTranslation();
 
-  const { resolvedDeck } = useResolvedDeck();
-  const accentColor = useAccentColor(resolvedDeck?.cards.investigator.card);
+  const accentColor = useAccentColor(investigator);
 
   const dialogCtx = useDialogContextChecked();
   const [tab, setTab] = useState("legacy");
@@ -56,9 +56,9 @@ export function ConfigureEnvironmentModal(props: Props) {
   const locale = useStore((state) => state.settings.locale);
 
   const tabProps = {
+    dialogCtx,
     locale,
     onValueChange,
-    dialogCtx,
   };
 
   return (

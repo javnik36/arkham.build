@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useStore } from "@/store";
+import type { Card } from "@/store/schemas/card.schema";
 import type { Pack } from "@/store/schemas/pack.schema";
 import { selectLimitedPoolPackOptions } from "@/store/selectors/lists";
 import { displayPackName } from "@/utils/formatting";
@@ -13,11 +14,14 @@ import { Field } from "../ui/field";
 import { ConfigureEnvironmentModal } from "./configure-environment-modal";
 import css from "./limited-card-pool.module.css";
 
-export function LimitedCardPoolField(props: {
+type Props = {
+  investigator: Card;
   onValueChange: (value: string[]) => void;
   selectedItems: string[];
-}) {
-  const { onValueChange, selectedItems } = props;
+};
+
+export function LimitedCardPoolField(props: Props) {
+  const { investigator, onValueChange, selectedItems } = props;
   const { t } = useTranslation();
 
   const packs = useStore(selectLimitedPoolPackOptions);
@@ -81,7 +85,10 @@ export function LimitedCardPoolField(props: {
         />
       </Field>
       <DialogContent>
-        <ConfigureEnvironmentModal onValueChange={onValueChange} />
+        <ConfigureEnvironmentModal
+          investigator={investigator}
+          onValueChange={onValueChange}
+        />
       </DialogContent>
     </Dialog>
   );

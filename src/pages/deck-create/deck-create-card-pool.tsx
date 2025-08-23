@@ -4,8 +4,13 @@ import { LimitedCardPoolField } from "@/components/limited-card-pool/limited-car
 import { SealedDeckField } from "@/components/limited-card-pool/sealed-deck-field";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { useStore } from "@/store";
+import type { Card } from "@/store/schemas/card.schema";
 
-export function DeckCreateCardPool() {
+type Props = {
+  investigator: Card;
+};
+
+export function DeckCreateCardPool({ investigator }: Props) {
   const { t } = useTranslation();
 
   const setCardPool = useStore((state) => state.deckCreateSetCardPool);
@@ -30,6 +35,7 @@ export function DeckCreateCardPool() {
     <Field full padded bordered>
       <FieldLabel>{t("deck_edit.config.card_pool.section_title")}</FieldLabel>
       <LimitedCardPoolField
+        investigator={investigator}
         onValueChange={setCardPool}
         selectedItems={selectedItems}
       />

@@ -232,8 +232,9 @@ export function MetaEditor(props: Props) {
           {t("deck_edit.config.card_pool.section_title")}
         </FieldLabel>
         <LimitedCardPoolField
-          selectedItems={selectedPacks}
+          investigator={deck.cards.investigator.card}
           onValueChange={onCardPoolChange}
+          selectedItems={selectedPacks}
         />
         <CardPoolExtensionFields deck={deck} />
         <SealedDeckField
