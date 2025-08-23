@@ -1099,12 +1099,16 @@ function makePlayerCardsFilter(
     ors.push(
       filterRequired(investigator),
       (card: Card) => card.subtype_code === "basicweakness",
-      (card: Card) =>
-        !!card.encounter_code &&
-        !!card.deck_limit &&
-        !card.back_link_id &&
-        !card.double_sided &&
-        card.faction_code !== "mythos",
+      (card: Card) => {
+        return (
+          !!card.encounter_code &&
+          !!card.deck_limit &&
+          !card.double_sided &&
+          // some fan-made permanents have non-player backs
+          (!card.back_link_id || !!card.permanent) &&
+          card.faction_code !== "mythos"
+        );
+      },
     );
   }
 
