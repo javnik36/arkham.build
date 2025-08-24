@@ -31,6 +31,7 @@ export function validateFanMadeProject(project: FanMadeProject): void {
 
   const cards: Record<string, FanMadeCard> = {};
   const backLinks = new Set<string>();
+  const signatureCodes: string[] = [];
 
   for (const card of project.data.cards) {
     // Check that the card references a pack from the project.
@@ -49,8 +50,26 @@ export function validateFanMadeProject(project: FanMadeProject): void {
       }
     }
 
+    card.deck_requirements
+      ?.split(", ")
+      .filter((str) => str.startsWith("card"))
+      .forEach((str) => {
+        const codes = str.split(":").slice(1);
+        signatureCodes.push(...codes);
+      });
+
     cards[card.code] = card;
     if (card.back_link) backLinks.add(card.back_link);
+  }
+
+  // Check that signature's level is set to `null`.
+  for (const code of signatureCodes) {
+    const signature = cards[code];
+    if (signature?.subtype_code == null && signature?.xp != null) {
+      errors.push(
+        `${signature.name} is a signature, but has a non-null level. Make sure that its \"Level\" is set to \"None\" and export the project again.`,
+      );
+    }
   }
 
   // Check that backs exists and are hidden.
@@ -69,7 +88,7 @@ export function validateFanMadeProject(project: FanMadeProject): void {
   }
 
   if (errors.length) {
-    const message = `Custom content project ${project.meta.code} failed validation:\n${errors.join("\n")}`;
+    const message = `${project.meta.name} failed validation.\n${errors.join("\n")}`;
     throw new Error(message);
   }
 }
