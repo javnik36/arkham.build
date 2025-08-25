@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useSearchParams } from "wouter";
 import { ArkhamDBDecklistResult } from "@/components/arkhamdb-decklists/arkhamdb-decklist-result";
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
+import { Head } from "@/components/ui/head";
 import { Loader } from "@/components/ui/loader";
 import { Pagination } from "@/components/ui/pagination";
 import { Select } from "@/components/ui/select";
@@ -81,6 +82,11 @@ function BrowseDecklists() {
         title={t("decklists.browse.title")}
       >
         <h1>{t("decklists.browse.title")}</h1>
+        {searchParams.size > 0 && (
+          <Head>
+            <meta name="robots" content="noindex" />
+          </Head>
+        )}
         <DecklistsFilters
           filters={state.filters}
           key={JSON.stringify(state.filters)}
