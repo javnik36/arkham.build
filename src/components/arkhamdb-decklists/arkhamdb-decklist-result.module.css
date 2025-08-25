@@ -29,3 +29,7 @@
 .decklist {
   padding: 0.5rem;
 }
+
+.decklist-meta-standalone {
+  margin-bottom: 0.5rem;
+}

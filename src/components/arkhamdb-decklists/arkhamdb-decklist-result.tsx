@@ -46,6 +46,7 @@ export function ArkhamDBDecklistResult({ result, showDetails }: Props) {
       elevation="elevated"
     >
       <ArkhamdbDecklistMeta
+        className={!showDetails ? css["decklist-meta-standalone"] : undefined}
         date_creation={result.date_creation}
         like_count={result.like_count}
         user_id={result.user_id as number}

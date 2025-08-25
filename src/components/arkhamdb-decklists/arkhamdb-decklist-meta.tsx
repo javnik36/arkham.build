@@ -1,10 +1,12 @@
 import { HeartIcon } from "lucide-react";
 import { localizeArkhamDBBaseUrl } from "@/utils/arkhamdb";
+import { cx } from "@/utils/cx";
 import { formatDate } from "@/utils/formatting";
 import { Tag } from "../ui/tag";
 import css from "./arkhamdb-decklist-meta.module.css";
 
 type Props = {
+  className?: string;
   date_creation: string;
   like_count: number;
   user_id: number;
@@ -13,11 +15,17 @@ type Props = {
 };
 
 export function ArkhamdbDecklistMeta(props: Props) {
-  const { date_creation, like_count, user_id, user_name, user_reputation } =
-    props;
+  const {
+    className,
+    date_creation,
+    like_count,
+    user_id,
+    user_name,
+    user_reputation,
+  } = props;
 
   return (
-    <div className={css["deck-meta"]}>
+    <div className={cx(css["deck-meta"], className)}>
       <div className={css["deck-meta-row"]}>
         <Tag className={css["likes"]} size="xs">
           <HeartIcon />
