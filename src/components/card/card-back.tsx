@@ -35,10 +35,8 @@ export function CardBack(props: Props) {
       ...attributes,
       name: displayAttribute(card, "back_name") || nameFallback,
       real_name: card.real_back_name || nameFallback,
-      // XXX: there are cards that have a different name on the back,
-      //      but the metadata does not currently surface that.
-      subname: undefined,
-      real_subname: undefined,
+      subname: displayAttribute(card, "back_subname"),
+      real_subname: card.real_back_subname,
       flavor: displayAttribute(card, "back_flavor"),
       real_flavor: card.real_back_flavor,
       illustrator: card.back_illustrator,

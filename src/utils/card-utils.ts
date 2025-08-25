@@ -247,6 +247,7 @@ export function displayAttribute(
     | "back_name"
     | "back_traits"
     | "back_flavor"
+    | "back_subname"
     | "back_text"
     | "taboo_text_change"
     | "customization_text"
