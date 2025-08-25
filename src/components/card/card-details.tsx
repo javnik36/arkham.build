@@ -54,7 +54,7 @@ export function CardDetails(props: Props) {
                 </>
               )}
             </span>
-            {" , "}
+            {", "}
             <span data-testid="clues">
               {t("common.clue", { count: 2 })}: {card.clues}
               {!!card.clues && !card.clues_fixed && (
