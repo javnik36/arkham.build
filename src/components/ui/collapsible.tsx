@@ -19,6 +19,7 @@ interface Props extends Omit<CollapsibleProps, "title"> {
   onOpenChange?: (x: boolean) => void;
   sub?: React.ReactNode;
   title: React.ReactNode;
+  triggerClassName?: string;
   header?: React.ReactNode;
   variant?: "active";
 }
@@ -34,6 +35,7 @@ export function Collapsible(props: Props) {
     onOpenChange,
     sub,
     title,
+    triggerClassName,
     triggerReversed,
     header,
     variant,
@@ -57,7 +59,11 @@ export function Collapsible(props: Props) {
     >
       <Trigger asChild>
         <div
-          className={cx(css["trigger"], triggerReversed && css["reversed"])}
+          className={cx(
+            css["trigger"],
+            triggerReversed && css["reversed"],
+            triggerClassName,
+          )}
           data-testid="collapsible-trigger"
         >
           {header || (

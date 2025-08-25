@@ -1,4 +1,5 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useStore } from "@/store";
 import { resolveDeck } from "@/store/lib/resolve-deck";
 import {
@@ -7,18 +8,26 @@ import {
   selectMetadata,
 } from "@/store/selectors/shared";
 import type { DeckSearchResult } from "@/store/services/requests/decklist-search";
+import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
+import { DeckDetails } from "../deck-details";
 import { DeckSummary } from "../deck-summary/deck-summary";
+import { Decklist } from "../decklist/decklist";
+import { Collapsible, CollapsibleContent } from "../ui/collapsible";
 import { ArkhamdbDecklistMeta } from "./arkhamdb-decklist-meta";
+import css from "./arkhamdb-decklist-result.module.css";
 
-export function ArkhamDBDecklistResult({
-  result,
-}: {
+type Props = {
   result: DeckSearchResult;
-}) {
+  showDetails?: boolean;
+};
+
+export function ArkhamDBDecklistResult({ result, showDetails }: Props) {
+  const { t } = useTranslation();
   const metadata = useStore(selectMetadata);
   const lookupTables = useStore(selectLookupTables);
   const sharing = useStore((state) => state.sharing);
   const collator = useStore(selectLocaleSortingCollator);
+  const [viewMode, setViewMode] = useState<"list" | "scans">("list");
 
   const resolved = useMemo(() => {
     const deps = { lookupTables, metadata, sharing };
@@ -29,7 +38,13 @@ export function ArkhamDBDecklistResult({
   }, [result, lookupTables, metadata, sharing, collator]);
 
   return (
-    <DeckSummary deck={resolved} interactive showThumbnail type="decklist">
+    <DeckSummary
+      deck={resolved}
+      interactive
+      showThumbnail
+      type="decklist"
+      elevation="elevated"
+    >
       <ArkhamdbDecklistMeta
         date_creation={result.date_creation}
         like_count={result.like_count}
@@ -37,6 +52,40 @@ export function ArkhamDBDecklistResult({
         user_name={result.user_name}
         user_reputation={result.user_reputation}
       />
+      {showDetails && (
+        <>
+          <DeckDetails
+            className={css["decklist-details"]}
+            deck={resolved}
+            omitXpRequired
+            omitDeckSize
+            size="sm"
+          />
+          <Collapsible
+            className={css["decklist-container"]}
+            triggerClassName={css["decklist-container-trigger"]}
+            title={
+              <span className={css["decklist-container-title"]}>
+                <i className="icon-deck" />
+                {t("deck.cards")}
+              </span>
+            }
+            omitPadding
+            omitBorder
+          >
+            <CollapsibleContent>
+              <ResolvedDeckProvider resolvedDeck={resolved}>
+                <Decklist
+                  className={css["decklist"]}
+                  deck={resolved}
+                  viewMode={viewMode}
+                  setViewMode={setViewMode}
+                />
+              </ResolvedDeckProvider>
+            </CollapsibleContent>
+          </Collapsible>
+        </>
+      )}
     </DeckSummary>
   );
 }

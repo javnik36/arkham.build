@@ -7,6 +7,7 @@ import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/schemas/card.schema";
 import { selectDeckGroups } from "@/store/selectors/decks";
 import { countExperience } from "@/utils/card-utils";
+import { cx } from "@/utils/cx";
 import { isEmpty } from "@/utils/is-empty";
 import { useHotkey } from "@/utils/use-hotkey";
 import { AnnotationIndicator } from "../annotation-indicator";
@@ -22,13 +23,14 @@ import { DecklistGroup } from "./decklist-groups";
 import { DecklistSection } from "./decklist-section";
 
 type Props = {
+  className?: string;
   deck: ResolvedDeck;
   setViewMode: (mode: ViewMode) => void;
   viewMode: ViewMode;
 };
 
 export function Decklist(props: Props) {
-  const { deck, setViewMode, viewMode } = props;
+  const { className, deck, setViewMode, viewMode } = props;
   const { t } = useTranslation();
 
   const groups = useStore((state) => selectDeckGroups(state, deck, viewMode));
@@ -83,7 +85,7 @@ export function Decklist(props: Props) {
   useHotkey("alt+l", () => onSetViewMode("list"));
 
   return (
-    <article className={css["decklist-container"]}>
+    <article className={cx(css["decklist-container"], className)}>
       <nav className={css["decklist-nav"]}>
         <ToggleGroup
           type="single"

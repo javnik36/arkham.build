@@ -26,10 +26,13 @@ import css from "./deck-summary.module.css";
 type DeckSummaryProps = {
   children?: React.ReactNode;
   deck: ResolvedDeck;
+  elevation?: "normal" | "elevated";
   extendedTags?: boolean;
   interactive?: boolean;
   showThumbnail?: boolean;
   showShadow?: boolean;
+  size?: "sm";
+  variant?: "base" | "interactive" | "interactive-bright";
   type?: "deck" | "decklist";
   validation?: DeckValidationResult | string | null;
 };
@@ -38,10 +41,12 @@ export function DeckSummary(props: DeckSummaryProps) {
   const {
     children,
     deck,
+    elevation,
     extendedTags,
     interactive,
     showShadow,
     showThumbnail,
+    size,
     type = "deck",
     validation,
   } = props;
@@ -75,6 +80,8 @@ export function DeckSummary(props: DeckSummaryProps) {
         borderCls,
         interactive && css["interactive"],
         showShadow && css["shadow"],
+        size && css[size],
+        elevation === "elevated" && css["elevated"],
       )}
     >
       <Link href={`/${type}/view/${deck.id}`}>
@@ -116,8 +123,8 @@ export function DeckSummary(props: DeckSummaryProps) {
         </header>
       </Link>
       <div className={css["meta"]}>
-        <DeckTags tags={tags} />
         {children}
+        <DeckTags tags={tags} />
       </div>
     </article>
   );

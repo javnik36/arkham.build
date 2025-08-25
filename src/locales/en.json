@@ -695,7 +695,7 @@
     },
     "deck": {
       "actions": {
-        "copy_id": "Copy deck ID",
+        "copy_id": "Copy deck id",
         "create": "Create deck",
         "delete": "Delete deck",
         "delete_upgrade": "Delete upgrade",
@@ -717,8 +717,9 @@
         "Market deck": "Market deck",
         "Stick to the Plan": "Stick to the Plan"
       },
+      "cards": "Deck cards",
       "customization_sheet": "Customization sheet for {{name}}",
-      "id": "Deck ID",
+      "id": "Deck id",
       "latest_upgrade": {
         "add_to_deck": "Add to current deck",
         "no_changes": "No changes.",
@@ -799,7 +800,7 @@
       "delete_all_success": "Local decks deleted successfully.",
       "import": "Import",
       "import_arkhamdb": "Import from ArkhamDB",
-      "import_arkhamdb_help": "Enter a public ArkhamDB deck ID, deck url or deck guide url. Decks will be <strong>copied</strong> over and deck history and upgrade state will not be imported. If you are meaning to sync your ArkhamDB decks with this app, <settings_link>connect your arkhamdb account.</settings_link>",
+      "import_arkhamdb_help": "Enter a public ArkhamDB deck id, deck url or deck guide url. Decks will be <strong>copied</strong> over and deck history and upgrade state will not be imported. If you are meaning to sync your ArkhamDB decks with this app, <settings_link>connect your arkhamdb account.</settings_link>",
       "import_json": "Import from JSON files",
       "more_filters": "More filters",
       "search_placeholder": "Search decks...",

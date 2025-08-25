@@ -695,7 +695,7 @@
     },
     "deck": {
       "actions": {
-        "copy_id": "Deck ID kopieren",
+        "copy_id": "Deck Id kopieren",
         "create": "Deck erstellen",
         "delete": "Deck löschen",
         "delete_upgrade": "Verbesserung löschen",
@@ -718,7 +718,7 @@
         "Stick to the Plan": "Sich an den Plan halten"
       },
       "customization_sheet": "Individualisierungen für {{name}}",
-      "id": "Deck ID",
+      "id": "Deck Id",
       "latest_upgrade": {
         "add_to_deck": "Zum Deck hinzufügen",
         "no_changes": "Keine Änderungen.",

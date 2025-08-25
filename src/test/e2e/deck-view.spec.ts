@@ -43,15 +43,15 @@ test.describe("deck view", () => {
   test("render deck metadata", async ({ page }) => {
     await importStandardDeck(page);
 
-    await expect(page.getByTestId("view-deck-xp")).toContainText(
+    await expect(page.getByTestId("deck-details-xp")).toContainText(
       "XP required31",
     );
-    await expect(page.getByTestId("view-deck-taboo")).toContainText(
+    await expect(page.getByTestId("deck-details-taboo")).toContainText(
       "Taboo list2.1",
     );
     await expect(page.getByTestId("deck-tags")).toBeVisible();
 
-    await expect(page.getByTestId("view-deck-size")).toContainText(
+    await expect(page.getByTestId("deck-details-deck-size")).toContainText(
       "Deck size30 (37 total)",
     );
 
@@ -236,11 +236,15 @@ test.describe("deck view", () => {
     await page.getByTestId("deck-investigator-back-toggle").click();
 
     await expect(
-      page.getByTestId("selection-option_selected-label"),
+      page
+        .getByTestId("deck-details-selection-option_selected")
+        .getByTestId("deck-details-label"),
     ).toHaveText("Trait Choice");
 
     await expect(
-      page.getByTestId("selection-option_selected-value"),
+      page
+        .getByTestId("deck-details-selection-option_selected")
+        .getByTestId("deck-details-value"),
     ).toHaveText("Blessed and Cursed");
   });
 
@@ -329,15 +333,15 @@ test.describe("deck view", () => {
       "Kōhaku, Fifty Shades of Blurse|FHV Intro|Deck Guide",
     );
 
-    await expect(page.getByTestId("view-deck-size")).toContainText(
+    await expect(page.getByTestId("deck-details-deck-size")).toContainText(
       "Deck size30 (37 total)",
     );
 
-    await expect(page.getByTestId("view-deck-xp")).toContainText(
+    await expect(page.getByTestId("deck-details-xp")).toContainText(
       "XP required31",
     );
 
-    await expect(page.getByTestId("view-deck-taboo")).toContainText(
+    await expect(page.getByTestId("deck-details-taboo")).toContainText(
       "Taboo list2.1",
     );
 

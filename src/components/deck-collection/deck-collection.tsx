@@ -196,6 +196,7 @@ export function DeckCollection() {
                   extendedTags
                   interactive
                   showThumbnail
+                  size="sm"
                   validation={deck.problem}
                 >
                   <DeckSummaryQuickActions

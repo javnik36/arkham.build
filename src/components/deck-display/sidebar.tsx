@@ -12,7 +12,6 @@ import { useCallback, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { Link, useLocation, useSearch } from "wouter";
 import { DeckInvestigator } from "@/components/deck-investigator/deck-investigator";
-import { FactionIcon } from "@/components/icons/faction-icon";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { DropdownButton, DropdownMenu } from "@/components/ui/dropdown-menu";
@@ -35,13 +34,10 @@ import type { Id } from "@/store/slices/data.types";
 import { localizeArkhamDBBaseUrl } from "@/utils/arkhamdb";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { cx } from "@/utils/cx";
-import {
-  capitalize,
-  formatDeckOptionString,
-  formatTabooSet,
-} from "@/utils/formatting";
+import { capitalize } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { useHotkey } from "@/utils/use-hotkey";
+import { DeckDetail, DeckDetails } from "../deck-details";
 import { DeckInvestigatorModal } from "../deck-investigator/deck-investigator-modal";
 import { SuziStandaloneSetupDialog } from "../suzi-standalone-setup/suzi-standalone-setup";
 import { CopyToClipboard } from "../ui/copy-to-clipboard";
@@ -101,7 +97,7 @@ export function Sidebar(props: Props) {
           origin={origin}
           type={type}
         />
-        <SidebarDetails deck={deck} />
+        <DeckDetails deck={deck} />
         {origin === "local" && <SidebarUpgrade deck={deck} />}
 
         {origin === "arkhamdb" ||
@@ -115,91 +111,6 @@ export function Sidebar(props: Props) {
   );
 }
 
-function SidebarDetails(props: { deck: ResolvedDeck }) {
-  const { deck } = props;
-  const { t } = useTranslation();
-
-  return (
-    <ul className={css["details"]}>
-      <li className={css["detail"]} data-testid="view-deck-size">
-        <div className={css["detail-label"]}>
-          <i className="icon-card-outline-bold" /> {t("deck.stats.deck_size")}
-        </div>
-        <p className={css["detail-value"]}>
-          {deck.stats.deckSize} ({deck.stats.deckSizeTotal} {t("common.total")})
-        </p>
-      </li>
-
-      <li className={css["detail"]} data-testid="view-deck-xp">
-        <div className={css["detail-label"]}>
-          <i className="icon-xp-bold" /> {t("deck.stats.xp_required")}
-        </div>
-        <p className={css["detail-value"]}>{deck.stats.xpRequired}</p>
-      </li>
-
-      <li className={css["detail"]} data-testid="view-deck-taboo">
-        <div className={css["detail-label"]}>
-          <i className="icon-taboo" /> {t("common.taboo")}
-        </div>
-        <p className={css["detail-value"]}>
-          {deck.tabooSet ? (
-            <span>{formatTabooSet(deck.tabooSet)}</span>
-          ) : (
-            t("common.taboo_none")
-          )}
-        </p>
-      </li>
-
-      {!!deck.selections &&
-        Object.entries(deck.selections).map(([key, selection]) => (
-          <li
-            className={css["detail"]}
-            key={key}
-            data-testid={`selection-${key}`}
-          >
-            <div
-              className={css["detail-label"]}
-              data-testid={`selection-${key}-label`}
-            >
-              {formatDeckOptionString(selection.name)}
-            </div>
-            {selection.type === "deckSize" && (
-              <p
-                className={css["detail-value"]}
-                data-testid={`selection-${key}-value`}
-              >
-                {selection.value}
-              </p>
-            )}
-            {selection.type === "faction" && (
-              <p
-                className={css["detail-value"]}
-                data-testid={`selection-${key}-value`}
-              >
-                {selection.value ? (
-                  <span className={css["detail-faction"]}>
-                    <FactionIcon code={selection.value} />
-                    {t(`common.factions.${selection.value}`)}
-                  </span>
-                ) : (
-                  t("common.none")
-                )}
-              </p>
-            )}
-            {selection.type === "option" && (
-              <p
-                className={css["detail-value"]}
-                data-testid={`selection-${key}-value`}
-              >
-                {formatDeckOptionString(selection.value?.name)}
-              </p>
-            )}
-          </li>
-        ))}
-    </ul>
-  );
-}
-
 function SidebarUpgrade(props: { deck: ResolvedDeck }) {
   const { deck } = props;
   const { t } = useTranslation();
@@ -208,17 +119,13 @@ function SidebarUpgrade(props: { deck: ResolvedDeck }) {
 
   return (
     <section className={css["details"]} data-testid="view-latest-upgrade">
-      <div className={cx(css["detail"], css["full"])}>
-        <header>
-          <h3 className={css["detail-label"]}>
-            <i className="icon-upgrade" />
-            {t("deck.latest_upgrade.title")}
-          </h3>
-        </header>
-        <div className={css["detail-value"]}>
-          <LatestUpgrade deck={deck} readonly />
-        </div>
-      </div>
+      <DeckDetail
+        as="div"
+        icon={<i className="icon-upgrade" />}
+        label={t("deck.latest_upgrade.title")}
+      >
+        <LatestUpgrade deck={deck} readonly />
+      </DeckDetail>
     </section>
   );
 }
@@ -562,73 +469,65 @@ function Sharing(props: { onArkhamDBUpload?: () => void; deck: ResolvedDeck }) {
 
   return (
     <section className={css["details"]} data-testid="share">
-      <div className={cx(css["detail"], css["full"])}>
-        <header>
-          <h3 className={css["detail-label"]}>
-            <ShareIcon />
-            {t("deck_view.sharing.title")}
-          </h3>
-        </header>
-        <div className={css["detail-value"]}>
-          {share ? (
-            <div className={css["share"]}>
-              <ShareInfo id={deck.id} path={`/share/${deck.id}`} />
-              <nav className={css["share-actions"]}>
-                {deck.date_update !== share && (
-                  <Button
-                    disabled={isReadOnly}
-                    onClick={onUpdateShare}
-                    size="sm"
-                  >
-                    {t("deck_view.sharing.update")}
-                  </Button>
-                )}
-                <Button
-                  size="sm"
-                  onClick={onDeleteShare}
-                  data-testid="share-delete"
-                >
-                  {t("deck_view.sharing.delete")}
+      <DeckDetail
+        as="div"
+        icon={<ShareIcon />}
+        label={t("deck_view.sharing.title")}
+      >
+        {share ? (
+          <div className={css["share"]}>
+            <ShareInfo id={deck.id} path={`/share/${deck.id}`} />
+            <nav className={css["share-actions"]}>
+              {deck.date_update !== share && (
+                <Button disabled={isReadOnly} onClick={onUpdateShare} size="sm">
+                  {t("deck_view.sharing.update")}
                 </Button>
-              </nav>
-            </div>
-          ) : (
-            <div className={css["share-empty"]}>
-              <p>{t("deck_view.sharing.description")}</p>
-              <div className={css["share-actions"]}>
+              )}
+              <Button
+                size="sm"
+                onClick={onDeleteShare}
+                data-testid="share-delete"
+              >
+                {t("deck_view.sharing.delete")}
+              </Button>
+            </nav>
+          </div>
+        ) : (
+          <div className={css["share-empty"]}>
+            <p>{t("deck_view.sharing.description")}</p>
+            <div className={css["share-actions"]}>
+              <Button
+                data-testid="share-create"
+                disabled={isReadOnly}
+                onClick={onCreateShare}
+                size="sm"
+                tooltip={
+                  <Trans
+                    t={t}
+                    i18nKey="deck_view.sharing.create_tooltip"
+                    components={{ br: <br />, strong: <strong /> }}
+                  />
+                }
+              >
+                <ShareIcon />
+                {t("deck_view.sharing.create")}
+              </Button>
+              {onArkhamDBUpload && (
                 <Button
-                  data-testid="share-create"
-                  disabled={isReadOnly}
-                  onClick={onCreateShare}
+                  data-testid="view-upload"
+                  disabled={!!connectionLock}
+                  onClick={onArkhamDBUpload}
+                  tooltip={connectionLock}
                   size="sm"
-                  tooltip={
-                    <Trans
-                      t={t}
-                      i18nKey="deck_view.sharing.create_tooltip"
-                      components={{ br: <br />, strong: <strong /> }}
-                    />
-                  }
                 >
-                  <ShareIcon />
-                  {t("deck_view.sharing.create")}
+                  <i className="icon-elder_sign" />{" "}
+                  {t("deck_view.actions.upload", { provider: "ArkhamDB" })}
                 </Button>
-                {onArkhamDBUpload && (
-                  <Button
-                    data-testid="view-upload"
-                    disabled={!!connectionLock}
-                    onClick={onArkhamDBUpload}
-                    tooltip={connectionLock}
-                    size="sm"
-                  >
-                    <i className="icon-elder_sign" />{" "}
-                    {t("deck_view.actions.upload", { provider: "ArkhamDB" })}
-                  </Button>
-                )}
-              </div>
+              )}
             </div>
-          )}
-        </div>
-      </div>
+          </div>
+        )}
+      </DeckDetail>
     </section>
   );
 }
@@ -680,39 +579,33 @@ function ArkhamDBDetails(props: { deck: ResolvedDeck }) {
   return (
     <>
       <section className={css["details"]} data-testid="share">
-        <div className={cx(css["detail"], css["full"])}>
-          <header>
-            <h3 className={css["detail-label"]}>
-              <i className="icon-elder_sign" />
-              ArkhamDB
-            </h3>
-          </header>
-          <div className={css["detail-value"]}>
-            <p>
-              {t("deck_view.connections.description", { provider: "ArkhamDB" })}
-            </p>
-            <Button
-              as="a"
-              href={`${localizeArkhamDBBaseUrl()}/deck/view/${deck.id}`}
-              size="sm"
-              rel="noreferrer"
-              target="_blank"
-            >
-              {t("deck_view.connections.view", { provider: "ArkhamDB" })}
-            </Button>
-          </div>
-        </div>
+        <DeckDetail
+          as="div"
+          icon={<i className="icon-elder_sign" />}
+          label="ArkhamDB"
+        >
+          <p>
+            {t("deck_view.connections.description", { provider: "ArkhamDB" })}
+          </p>
+          <Button
+            as="a"
+            href={`${localizeArkhamDBBaseUrl()}/deck/view/${deck.id}`}
+            size="sm"
+            rel="noreferrer"
+            target="_blank"
+          >
+            {t("deck_view.connections.view", { provider: "ArkhamDB" })}
+          </Button>
+        </DeckDetail>
       </section>
       <section className={css["details"]} data-testid="share">
-        <div className={cx(css["detail"], css["full"])}>
-          <header>
-            <h3 className={css["detail-label"]}>
-              <ShareIcon />
-              {t("deck_view.sharing.title")}
-            </h3>
-          </header>
+        <DeckDetail
+          as="div"
+          icon={<ShareIcon />}
+          label={t("deck_view.sharing.title")}
+        >
           <ShareInfo id={deck.id} path={`/deck/view/${deck.id}`} />
-        </div>
+        </DeckDetail>
       </section>
     </>
   );
