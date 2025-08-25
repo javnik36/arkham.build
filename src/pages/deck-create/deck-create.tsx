@@ -5,7 +5,6 @@ import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
 import { querySealedDeck } from "@/store/services/queries";
-import { useDocumentTitle } from "@/utils/use-document-title";
 import { DeckCreateInner } from "./deck-create-inner";
 
 function DeckCreate() {
@@ -19,8 +18,6 @@ function DeckCreate() {
   const destroy = useStore((state) => state.resetCreate);
   const initialize = useStore((state) => state.initCreate);
   const setSealedDeck = useStore((state) => state.deckCreateSetSealed);
-
-  useDocumentTitle("Create deck");
 
   useEffect(() => {
     let mounted = true;

@@ -23,6 +23,7 @@ import { selectConnectionLock } from "@/store/selectors/shared";
 import type { DeckStorageProvider } from "@/store/slices/settings.types";
 import { formatProviderName } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
+import { useDocumentTitle } from "@/utils/use-document-title";
 import { useGoBack } from "@/utils/use-go-back";
 import { useAccentColor } from "../../utils/use-accent-color";
 import { SelectionEditor } from "../deck-edit/editor/selection-editor";
@@ -34,6 +35,8 @@ export function DeckCreateEditor() {
 
   const deckCreate = useStore(selectDeckCreateChecked);
   const { back, investigator } = useStore(selectDeckCreateInvestigators);
+
+  useDocumentTitle(`Create ${investigator.card.real_name} deck`);
 
   const connections = useStore(selectConnectionsData);
   const connectionLock = useStore(selectConnectionLock);
