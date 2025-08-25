@@ -231,7 +231,7 @@ export function CardModal(props: Props) {
   return (
     <Modal key={cardWithRelations.card.code} data-testid="card-modal">
       <ModalBackdrop />
-      <ModalInner size={showQuantities ? "60rem" : "52rem"}>
+      <ModalInner size="60rem">
         <ModalActions>
           {cardWithRelations.card.type_code === "investigator" &&
             !isStaticInvestigator(cardWithRelations.card) && (
