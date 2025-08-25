@@ -202,6 +202,7 @@ const JsonDataCardSchema = z.object({
   restrictions: z.optional(z.string()),
   sanity: z.optional(z.number()),
   shroud: z.optional(z.nullable(z.number())),
+  shroud_per_investigator: z.optional(z.boolean()),
   side_deck_options: z.optional(z.array(DeckOptionSchema)),
   side_deck_requirements: z.optional(z.string()),
   skill_agility: z.optional(z.number()),

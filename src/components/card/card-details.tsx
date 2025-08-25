@@ -38,17 +38,32 @@ export function CardDetails(props: Props) {
             {t("common.doom")}: {card.doom}
           </p>
         )}
-        {(card.clues || card.clues_fixed || card.shroud) && (
+        {(!!card.clues || !!card.shroud) && (
           <p>
-            {t("common.shroud")}:{" "}
-            {card.shroud != null ? card.shroud : <i className="icon-numNull" />}
-            , {t("common.clue", { count: 2 })}: {card.clues}
-            {!!card.clues && !card.clues_fixed && (
-              <>
-                {" "}
-                <i className="icon-text icon-per_investigator" />
-              </>
-            )}
+            <span data-testid="shroud">
+              {t("common.shroud")}:{" "}
+              {card.shroud != null ? (
+                card.shroud
+              ) : (
+                <i className="icon-numNull" />
+              )}
+              {card.shroud_per_investigator && (
+                <>
+                  {" "}
+                  <i className="icon-text icon-per_investigator" />
+                </>
+              )}
+            </span>
+            {" , "}
+            <span data-testid="clues">
+              {t("common.clue", { count: 2 })}: {card.clues}
+              {!!card.clues && !card.clues_fixed && (
+                <>
+                  {" "}
+                  <i className="icon-text icon-per_investigator" />
+                </>
+              )}
+            </span>
           </p>
         )}
       </div>

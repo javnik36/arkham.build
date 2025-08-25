@@ -209,5 +209,23 @@
     "code": "09077",
     "deck_requirements": "size:10",
     "patch": true
+  },
+  {
+    "code": "87009",
+    "shroud": 1,
+    "shroud_per_investigator": true,
+    "patch": true
+  },
+  {
+    "code": "87018",
+    "shroud": 1,
+    "shroud_per_investigator": true,
+    "patch": true
+  },
+  {
+    "code": "87027",
+    "shroud": 1,
+    "shroud_per_investigator": true,
+    "patch": true
   }
 ]
