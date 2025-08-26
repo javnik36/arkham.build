@@ -36,12 +36,19 @@ export function useTooltip({
   initialOpen = false,
   placement = "top",
   open: controlledOpen,
-  onOpenChange: setControlledOpen,
+  onOpenChange,
 }: TooltipOptions = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(initialOpen);
 
   const open = controlledOpen ?? uncontrolledOpen;
-  const setOpen = setControlledOpen ?? setUncontrolledOpen;
+
+  const setOpen = useCallback(
+    (value: boolean) => {
+      if (controlledOpen == null) setUncontrolledOpen(value);
+      onOpenChange?.(value);
+    },
+    [controlledOpen, onOpenChange],
+  );
 
   const data = useFloating({
     placement,

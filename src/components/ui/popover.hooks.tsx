@@ -10,7 +10,13 @@ import {
   useInteractions,
   useRole,
 } from "@floating-ui/react";
-import { createContext, useContext, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 
 export interface PopoverOptions {
   initialOpen?: boolean;
@@ -25,7 +31,7 @@ export function usePopover({
   placement = "bottom",
   modal,
   open: controlledOpen,
-  onOpenChange: setControlledOpen,
+  onOpenChange,
   ...rest
 }: PopoverOptions = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(initialOpen);
@@ -33,7 +39,14 @@ export function usePopover({
   const [descriptionId, setDescriptionId] = useState<string | undefined>();
 
   const open = controlledOpen ?? uncontrolledOpen;
-  const setOpen = setControlledOpen ?? setUncontrolledOpen;
+
+  const setOpen = useCallback(
+    (value: boolean) => {
+      if (controlledOpen == null) setUncontrolledOpen(value);
+      onOpenChange?.(value);
+    },
+    [controlledOpen, onOpenChange],
+  );
 
   const data = useFloating({
     placement,

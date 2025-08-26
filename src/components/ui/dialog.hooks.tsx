@@ -5,7 +5,13 @@ import {
   useInteractions,
   useRole,
 } from "@floating-ui/react";
-import { createContext, useContext, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 
 export interface DialogOptions {
   initialOpen?: boolean;
@@ -41,14 +47,21 @@ export const useDialogContext = () => {
 export function useDialog({
   initialOpen = false,
   open: controlledOpen,
-  onOpenChange: setControlledOpen,
+  onOpenChange,
 }: DialogOptions = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(initialOpen);
   const [labelId, setLabelId] = useState<string | undefined>();
   const [descriptionId, setDescriptionId] = useState<string | undefined>();
 
   const open = controlledOpen ?? uncontrolledOpen;
-  const setOpen = setControlledOpen ?? setUncontrolledOpen;
+
+  const setOpen = useCallback(
+    (value: boolean) => {
+      if (controlledOpen == null) setUncontrolledOpen(value);
+      onOpenChange?.(value);
+    },
+    [controlledOpen, onOpenChange],
+  );
 
   const data = useFloating({
     open,
