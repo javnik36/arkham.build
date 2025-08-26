@@ -1,10 +1,18 @@
 import { EyeIcon, PilcrowIcon } from "lucide-react";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { createSelector } from "reselect";
 import DeckDescription from "@/components/deck-description";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Hotkey } from "@/components/ui/hotkey";
+import {
+  DefaultModalContent,
+  Modal,
+  ModalActions,
+  ModalBackdrop,
+  ModalInner,
+} from "@/components/ui/modal";
 import {
   Popover,
   PopoverContent,
@@ -29,8 +37,6 @@ export function NotesRichTextEditor({ deck }: { deck: ResolvedDeck }) {
   const { t } = useTranslation();
   const { textareaRef, setPopoverOpen } = useNotesRichTextEditorContext();
   const accentColorStyles = useAccentColor(deck.investigatorFront.card);
-
-  const [previewing, setPreviewing] = useState(false);
 
   const updateDescription = useStore(selectUpdateDescription);
 
@@ -58,45 +64,26 @@ export function NotesRichTextEditor({ deck }: { deck: ResolvedDeck }) {
 
   return (
     <div className={css["rich-text-editor"]} style={accentColorStyles}>
-      <NotesRichTextEditorToolbar
-        deck={deck}
-        setPreviewing={setPreviewing}
-        previewing={previewing}
+      <NotesRichTextEditorToolbar deck={deck} />
+      <textarea
+        className={css["textarea"]}
+        data-testid="editor-description"
+        name="description"
+        defaultValue={deck.description_md ?? ""}
+        onChange={onDescriptionChange}
+        onKeyDown={handleShortcuts}
+        placeholder={t("deck_edit.notes.description_placeholder")}
+        ref={textareaRef}
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
+        spellCheck="false"
       />
-      {previewing ? (
-        <DeckDescription
-          className={css["preview"]}
-          content={deck.description_md ?? ""}
-        />
-      ) : (
-        <textarea
-          className={css["textarea"]}
-          data-testid="editor-description"
-          name="description"
-          defaultValue={deck.description_md ?? ""}
-          onChange={onDescriptionChange}
-          onKeyDown={handleShortcuts}
-          placeholder={t("deck_edit.notes.description_placeholder")}
-          ref={textareaRef}
-          autoComplete="off"
-          autoCorrect="off"
-          autoCapitalize="off"
-          spellCheck="false"
-        />
-      )}
     </div>
   );
 }
 
-function NotesRichTextEditorToolbar({
-  deck,
-  setPreviewing,
-  previewing,
-}: {
-  deck: ResolvedDeck;
-  setPreviewing: React.Dispatch<React.SetStateAction<boolean>>;
-  previewing: boolean;
-}) {
+function NotesRichTextEditorToolbar({ deck }: { deck: ResolvedDeck }) {
   const { t } = useTranslation();
 
   const { popoverOpen, setPopoverOpen, textareaRef } =
@@ -182,14 +169,36 @@ function NotesRichTextEditorToolbar({
         </Popover>
       </div>
       <div>
-        <Button
-          onClick={() => setPreviewing((prev) => !prev)}
-          variant={previewing ? "primary" : undefined}
-          size="sm"
+        <Dialog
+          onOpenChange={(val) => {
+            if (!val) {
+              textareaRef.current?.focus();
+            }
+          }}
         >
-          <EyeIcon />
-          {t("deck_edit.notes.toolbar.preview")}
-        </Button>
+          <DialogTrigger asChild>
+            <Button size="sm">
+              <EyeIcon />
+              {t("deck_edit.notes.toolbar.preview")}
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <Modal>
+              <ModalBackdrop />
+              <ModalInner size="60rem">
+                <ModalActions />
+                <DefaultModalContent
+                  title={t("deck_edit.notes.toolbar.preview")}
+                >
+                  <DeckDescription
+                    className={css["preview"]}
+                    content={deck.description_md ?? ""}
+                  />
+                </DefaultModalContent>
+              </ModalInner>
+            </Modal>
+          </DialogContent>
+        </Dialog>
       </div>
     </nav>
   );
