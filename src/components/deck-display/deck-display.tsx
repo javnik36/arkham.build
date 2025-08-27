@@ -5,7 +5,7 @@ import {
   SquarePenIcon,
 } from "lucide-react";
 import type React from "react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDialogContextChecked } from "@/components/ui/dialog.hooks";
 import { Field, FieldLabel } from "@/components/ui/field";
@@ -88,17 +88,19 @@ export function DeckDisplay(props: DeckDisplayProps) {
       }
 
       setCurrentTab(val);
-
-      setTimeout(() => {
-        if (contentRef.current && scrollState.current[val]) {
-          window.scrollTo(0, scrollState.current[val]);
-        } else {
-          window.scrollTo(0, 0);
-        }
-      });
     },
     [setCurrentTab, currentTab],
   );
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      if (contentRef.current && scrollState.current[currentTab]) {
+        window.scrollTo(0, scrollState.current[currentTab]);
+      } else {
+        window.scrollTo(0, 0);
+      }
+    });
+  }, [currentTab]);
 
   const titleNode = (
     <h1 className={css["title"]} data-testid="view-title">
