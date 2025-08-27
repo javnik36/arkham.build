@@ -36,6 +36,7 @@ export function applyDeckEdits(
   edits: EditState | undefined,
   metadata: Metadata,
   pruneDeletions = false,
+  previousDeck?: Deck,
 ) {
   if (!edits) return structuredClone(originalDeck);
 
@@ -117,6 +118,7 @@ export function applyDeckEdits(
     currentDeckMeta,
     metadata,
     pruneDeletions,
+    previousDeck,
   );
 
   const attachmentEdits = mergeAttachmentEdits(
@@ -253,6 +255,7 @@ function mergeCustomizationEdits(
   deckMeta: DeckMeta,
   metadata: Metadata,
   pruneDeletions = false,
+  previousDeck?: Deck,
 ) {
   const prev = decodeCustomizations(deckMeta, metadata) ?? {};
 
@@ -281,9 +284,24 @@ function mergeCustomizationEdits(
 
   if (pruneDeletions) {
     for (const code of Object.keys(next)) {
+      // customizable card is no longer in deck
       if (!deck.slots[code]) {
-        if (deck.previous_deck) {
-          next[code] = prev[code];
+        // if the user has upgraded this customizable in a previous upgrade,
+        // those customizations are locked in and stay part of the deck
+        if (previousDeck) {
+          const previousDeckMeta = decodeDeckMeta(previousDeck);
+          const previousDeckCustomizations = decodeCustomizations(
+            previousDeckMeta,
+            metadata,
+          )?.[code];
+
+          if (previousDeckCustomizations) {
+            next[code] = previousDeckCustomizations;
+          } else {
+            delete next[code];
+          }
+          // any other customization that was added in the current upgrade is not
+          // locked in yet and can be cleared
         } else {
           delete next[code];
         }

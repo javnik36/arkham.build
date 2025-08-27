@@ -548,7 +548,11 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     const deck = state.data.decks[deckId];
     if (!deck) return deckId;
 
-    let nextDeck = applyDeckEdits(deck, edits, metadata, true);
+    const previousDeck = deck.previous_deck
+      ? state.data.decks[deck.previous_deck]
+      : undefined;
+
+    let nextDeck = applyDeckEdits(deck, edits, metadata, true, previousDeck);
     nextDeck.date_update = new Date().toISOString();
     nextDeck.version = incrementVersion(deck.version);
 

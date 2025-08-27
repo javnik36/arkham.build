@@ -2,6 +2,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 import type { StoreApi } from "zustand";
 import { getMockStore } from "@/test/get-mock-store";
 import type { StoreState } from "../slices";
+import type { Deck } from "../slices/data.types";
 import { applyDeckEdits } from "./deck-edits";
 
 const sampleDeck = {
@@ -343,9 +344,13 @@ describe("deck edits", () => {
         edits as never,
         store.getState().metadata,
         true,
+        {
+          id: "1234",
+          meta: '{"cus_09022":"0|1,1|0"}',
+        } as Deck,
       );
 
-      expect(result.meta).toMatchInlineSnapshot(`"{"cus_09022":"0|1,1|1"}"`);
+      expect(result.meta).toMatchInlineSnapshot(`"{"cus_09022":"0|1,1|0"}"`);
     });
   });
 
