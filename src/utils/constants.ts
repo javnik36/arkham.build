@@ -46,8 +46,6 @@ export const REGEX_BONDED = /Bonded\s\((.*?)\)(\.|\s)/;
 export const REGEX_SUCCEED_BY =
   /succe(ssful|ed(?:s?|ed?))(:? at a skill test)? by(?! 0)/;
 
-export const REGEX_WEAKNESS_FACTION_LOCKED = /^\[(.*?)\] investigator only\./;
-
 const ACTION_TEXT: { [key: string]: string } = {
   fight: "Fight",
   engage: "Engage",

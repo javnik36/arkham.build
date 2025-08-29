@@ -108,7 +108,7 @@ describe("randomBasicWeaknessForDeck", () => {
     expect(weakness).toEqual("08131");
   });
 
-  it("respects investigator faction when drawing", () => {
+  it("does not draw incompatible faction weaknesses", () => {
     store.setState({
       data: {
         decks: {
@@ -153,6 +153,51 @@ describe("randomBasicWeaknessForDeck", () => {
     );
 
     expect(weakness).toBeUndefined();
+  });
+
+  it("does not draw incompatible faction weaknesses", () => {
+    store.setState({
+      data: {
+        decks: {
+          foo: {
+            id: "foo",
+            investigator_code: "02003",
+            slots: {},
+          } as unknown as Deck,
+        },
+        history: {
+          foo: [],
+        },
+      },
+      settings: {
+        collection: {
+          tskp: 1,
+        },
+        showAllCards: false,
+      } as unknown as SettingsState,
+    });
+
+    const state = store.getState();
+
+    const opts = {
+      metadata: state.metadata,
+      settings: state.settings,
+      lookupTables: selectLookupTables(state),
+      sharing: state.sharing,
+    };
+
+    const weakness = randomBasicWeaknessForDeck(
+      opts.metadata,
+      opts.lookupTables,
+      opts.settings,
+      resolveDeck(
+        opts,
+        selectLocaleSortingCollator(state),
+        state.data.decks.foo,
+      ),
+    );
+
+    expect(weakness).toBe("09126");
   });
 
   it("respects limited pool when drawing weakness", () => {

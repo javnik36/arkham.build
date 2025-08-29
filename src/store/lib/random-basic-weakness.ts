@@ -1,8 +1,5 @@
 import { cardLimit } from "@/utils/card-utils";
-import {
-  REGEX_WEAKNESS_FACTION_LOCKED,
-  SPECIAL_CARD_CODES,
-} from "@/utils/constants";
+import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { isEmpty } from "@/utils/is-empty";
 import { randomInt } from "@/utils/random-int";
 import type { Metadata } from "../slices/metadata.types";
@@ -52,11 +49,10 @@ export function randomBasicWeaknessForDeck(
       return acc;
     }
 
-    const factionMatch = REGEX_WEAKNESS_FACTION_LOCKED.exec(
-      card.real_text ?? "",
-    );
-
-    if (factionMatch && factionMatch[1] !== factionCode) {
+    if (
+      card.restrictions?.faction &&
+      !card.restrictions.faction.includes(factionCode)
+    ) {
       return acc;
     }
 

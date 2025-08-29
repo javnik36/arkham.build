@@ -227,5 +227,30 @@
     "shroud": 1,
     "shroud_per_investigator": true,
     "patch": true
+  },
+  {
+    "code": "09124",
+    "restrictions": "faction:guardian",
+    "patch": true
+  },
+  {
+    "code": "09125",
+    "restrictions": "faction:seeker",
+    "patch": true
+  },
+  {
+    "code": "09126",
+    "restrictions": "faction:rogue",
+    "patch": true
+  },
+  {
+    "code": "09127",
+    "restrictions": "faction:mystic",
+    "patch": true
+  },
+  {
+    "code": "09128",
+    "restrictions": "faction:survivor",
+    "patch": true
   }
 ]
