@@ -32,37 +32,6 @@
     "patch": true
   },
   {
-    "code": "06167",
-    "deck_options": [
-      {
-        "name": "Versatile",
-        "level": {
-          "min": 0,
-          "max": 0
-        },
-        "limit": 1,
-        "error": "Too many off-class cards for Versatile."
-      }
-    ],
-    "patch": true
-  },
-  {
-    "code": "53010",
-    "deck_options": [
-      {
-        "not": true,
-        "slot": ["Ally"],
-        "level": {
-          "min": 0,
-          "max": 5
-        },
-        "error": "You cannot have assets that take up an ally slot.",
-        "virtual": true
-      }
-    ],
-    "patch": true
-  },
-  {
     "code": "10015",
     "tags": "hh.hd.",
     "patch": true
@@ -85,12 +54,6 @@
   {
     "code": "90081",
     "tags": "se.",
-    "patch": true
-  },
-  {
-    "code": "11583",
-    "subtype_code": "weakness",
-    "faction_code": "neutral",
     "patch": true
   },
   {
@@ -180,6 +143,17 @@
   {
     "code": "06167",
     "deck_requirements": "size:5",
+    "deck_options": [
+      {
+        "name": "Versatile",
+        "level": {
+          "min": 0,
+          "max": 0
+        },
+        "limit": 1,
+        "error": "Too many off-class cards for Versatile."
+      }
+    ],
     "patch": true
   },
   {
@@ -208,6 +182,22 @@
   {
     "code": "09077",
     "deck_requirements": "size:10",
+    "patch": true
+  },
+  {
+    "code": "53010",
+    "deck_options": [
+      {
+        "not": true,
+        "slot": ["Ally"],
+        "level": {
+          "min": 0,
+          "max": 5
+        },
+        "error": "You cannot have assets that take up an ally slot.",
+        "virtual": true
+      }
+    ],
     "patch": true
   },
   {
