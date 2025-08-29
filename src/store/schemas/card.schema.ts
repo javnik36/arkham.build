@@ -236,6 +236,7 @@ const ApiDeckRequirementsSchema = z.object({
 });
 
 const ApiRestrictionsSchema = z.object({
+  faction: z.optional(z.array(z.string())),
   investigator: z.optional(z.record(z.string(), z.string())),
   trait: z.optional(z.array(z.string())),
 });

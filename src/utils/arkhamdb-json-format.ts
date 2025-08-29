@@ -81,6 +81,11 @@ function decodeRestrictions(str?: string): Restrictions | undefined {
       acc.trait.push(val);
     }
 
+    if (key === "faction") {
+      acc.faction ??= [];
+      acc.faction.push(val);
+    }
+
     return acc;
   }, {} as Restrictions);
 }
