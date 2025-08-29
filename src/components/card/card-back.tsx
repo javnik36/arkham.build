@@ -83,7 +83,7 @@ export function CardBack(props: Props) {
 
       {card.type_code !== "investigator" && (
         <div className={css["pre"]}>
-          <CardDetails card={backCard} />
+          <CardDetails card={backCard} face="simple-back" />
         </div>
       )}
 

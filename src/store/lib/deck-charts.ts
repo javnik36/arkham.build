@@ -23,7 +23,7 @@ export function addCardToDeckCharts(
   accumulator: DeckCharts,
 ) {
   // Cost curve
-  if (typeof card.cost === "number" && card.cost !== -2) {
+  if (typeof card.cost === "number" && card.cost >= 0) {
     // Group very high cost cards together
     const normalizedCost = card.cost >= 7 ? 7 : card.cost;
     const entry = accumulator.costCurve.get(normalizedCost) ?? 0;

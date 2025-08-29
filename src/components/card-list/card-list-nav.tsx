@@ -34,6 +34,10 @@ export function CardListNav(props: Props) {
   const { data, metadata, onSelectGroup, onViewModeChange, viewMode } = props;
   const { t } = useTranslation();
 
+  const hasAssetGroup = data?.groups.some((group) =>
+    group.key.includes("asset"),
+  );
+
   const jumpToOptions = useMemo(
     () =>
       data?.groups.map((group, i) => {
@@ -45,7 +49,7 @@ export function CardListNav(props: Props) {
 
         const groupLabel = keys
           .map((key, i) => {
-            if (!isAsset && key === NONE) return null;
+            if (hasAssetGroup && !isAsset && key === NONE) return null;
             const label = getGroupingKeyLabel(types[i], key, metadata);
             return label;
           })
@@ -57,7 +61,7 @@ export function CardListNav(props: Props) {
           value: group.key,
         };
       }),
-    [data, metadata],
+    [data, metadata, hasAssetGroup],
   );
 
   // TECH DEBT: option names and display names have diverted, reconcile.

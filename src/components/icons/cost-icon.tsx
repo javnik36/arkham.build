@@ -1,24 +1,23 @@
+import { numericalIcon } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 
 type Props = {
   className?: string;
   cost?: string | number | null;
   style?: React.CSSProperties;
-};
+} & React.ComponentPropsWithoutRef<"span">;
 
 export function CostIcon(props: Props) {
-  const { className, cost, style } = props;
-
-  const costStr = cost == null ? "numNull" : cost === -2 ? "x" : `num${cost}`;
+  const { className, cost, ...rest } = props;
 
   if (cost && typeof cost === "number" && cost >= 10) {
     return (
-      <span className={className}>
+      <span {...rest} className={className}>
         <CostIcon cost={cost.toString().split("")[0]} />
         <CostIcon cost={cost.toString().split("")[1]} />
       </span>
     );
   }
 
-  return <span className={cx(className, `icon-${costStr}`)} style={style} />;
+  return <span {...rest} className={cx(className, numericalIcon(cost))} />;
 }

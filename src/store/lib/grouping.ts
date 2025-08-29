@@ -506,7 +506,11 @@ export function getGroupingKeyLabel(
 
     case "cost": {
       if (segment === NONE) return i18n.t("common.cost.none");
-      if (segment === "-2") return i18n.t("common.cost.x");
+
+      const cost = Number.parseInt(segment, 10);
+      if (!Number.isFinite(cost)) return i18n.t("common.cost.none");
+
+      if (cost <= -2) return i18n.t("common.cost.x");
       return i18n.t("common.cost.value", { cost: segment });
     }
 

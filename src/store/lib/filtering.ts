@@ -117,7 +117,7 @@ export function filterHealthProp(
   key: "health" | "sanity",
 ) {
   return (card: Card) => {
-    if (card.health === -2) return healthX;
+    if ((card.health ?? 0) <= -2) return healthX;
     const health = card[key] ?? 0;
     return health >= minMax[0] && health <= minMax[1];
   };
@@ -243,7 +243,7 @@ function filterOddCost(card: Card) {
 }
 
 function filterXCost(card: Card) {
-  return card.cost === -2;
+  return (card.cost ?? 0) <= -2;
 }
 
 function filterCardCost(value: [number, number]) {

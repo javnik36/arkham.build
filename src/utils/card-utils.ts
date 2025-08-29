@@ -268,3 +268,19 @@ export function cycleOrPack(cycle: Cycle, pack: Pack) {
 
   return cycle;
 }
+
+export function numericalIcon(num: string | number | null | undefined) {
+  if (num == null) return "icon-numNull";
+  if (num === -2) return "icon-x";
+  if (num === -3) return "icon-star";
+  if (num === -4) return "x-icon-question-mark";
+  return `icon-num${num}`;
+}
+
+export function numericalStr(num: string | number | null | undefined) {
+  if (num == null) return "-";
+  if (num === -2) return "X";
+  if (num === -3) return "*";
+  if (num === -4) return "?";
+  return `${num}`;
+}
