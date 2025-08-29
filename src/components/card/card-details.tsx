@@ -17,11 +17,11 @@ export function CardDetails(props: Props) {
 
   const showType = card.type_code !== "investigator";
 
-  // "Simple" double-sided locations don't have clues on back.
+  // simple double-sided locations don't have clues on back.
   const showClues =
-    face !== "simple-back" && (!!card.clues || card.type_code === "act");
+    face !== "simple-back" && (card.clues != null || card.type_code === "act");
 
-  // "Simple" double-sided locations don't have shroud on back.
+  // simple double-sided locations don't have shroud on back.
   const showShroud =
     face !== "simple-back" &&
     (card.type_code === "enemy_location" || card.type_code === "location");
@@ -58,30 +58,30 @@ export function CardDetails(props: Props) {
         {(showClues || showShroud) && (
           <p>
             {showShroud && (
-              <>
-                <span data-testid="shroud">
-                  {t("common.shroud")}: {numericalStr(card.shroud)}
-                  {card.shroud_per_investigator && (
-                    <>
-                      {" "}
-                      <i className="icon-text icon-per_investigator" />
-                    </>
-                  )}
-                </span>
-                {", "}
-              </>
-            )}
-
-            {showClues && (
-              <span data-testid="clues">
-                {t("common.clue", { count: 2 })}: {numericalStr(card.clues)}
-                {!!card.clues && card.clues > 0 && !card.clues_fixed && (
+              <span data-testid="shroud">
+                {t("common.shroud")}: {numericalStr(card.shroud)}
+                {card.shroud_per_investigator && (
                   <>
                     {" "}
                     <i className="icon-text icon-per_investigator" />
                   </>
                 )}
               </span>
+            )}
+
+            {showClues && (
+              <>
+                {showShroud && ", "}
+                <span data-testid="clues">
+                  {t("common.clue", { count: 2 })}: {numericalStr(card.clues)}
+                  {!!card.clues && card.clues > 0 && !card.clues_fixed && (
+                    <>
+                      {" "}
+                      <i className="icon-text icon-per_investigator" />
+                    </>
+                  )}
+                </span>
+              </>
             )}
           </p>
         )}
