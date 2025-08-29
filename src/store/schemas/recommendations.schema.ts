@@ -1,8 +1,8 @@
-import * as z from "zod/v4-mini";
+import * as z from "zod";
 
 const RecommendationSchema = z.object({
   card_code: z.string(),
-  decks_matched: z.optional(z.number()),
+  decks_matched: z.number().nullish(),
   recommendation: z.number(),
 });
 

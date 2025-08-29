@@ -205,7 +205,7 @@ function createRelations(metadata: Metadata, tables: LookupTables) {
 
   const upgrades: Record<
     string,
-    { code: string; subname?: string; xp: number }[]
+    { code: string; subname: string | null | undefined; xp: number }[]
   > = {};
 
   const backs: Record<string, string> = {};

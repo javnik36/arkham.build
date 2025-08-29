@@ -1,4 +1,4 @@
-import type { Deck } from "@/store/slices/data.types";
+import type { Deck } from "@/store/schemas/deck.schema";
 import { apiV2Request } from "./shared";
 
 export type SortType = "user_reputation" | "date" | "likes" | "popularity";

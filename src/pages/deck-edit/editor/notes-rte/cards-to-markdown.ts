@@ -203,7 +203,7 @@ function wrapParentheses(str: string): string {
   return `(${str})`;
 }
 
-function factionIcon(faction: string | undefined): string {
+function factionIcon(faction: string | undefined | null): string {
   switch (faction) {
     case "seeker":
     case "guardian":
@@ -338,7 +338,7 @@ function renderSubname(
 
   if (config.display === "disambiguate") {
     let needsDisambiguation = false;
-    const seenLevels = new Set<number | undefined>();
+    const seenLevels = new Set<number | undefined | null>();
 
     const versions = Object.keys(lookupTables.relations.level[card.code] ?? {});
     for (const code of versions) {

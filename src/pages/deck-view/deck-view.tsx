@@ -12,6 +12,7 @@ import {
 import { Loader } from "@/components/ui/loader";
 import { useStore } from "@/store";
 import { resolveDeck } from "@/store/lib/resolve-deck";
+import type { Id } from "@/store/schemas/deck.schema";
 import {
   getDeckHistory,
   selectDeckHistoryCached,
@@ -27,7 +28,6 @@ import {
 import { queryDeck } from "@/store/services/queries";
 import { fetchArkhamDBDecklistMeta } from "@/store/services/requests/decklist-meta";
 import { ApiError } from "@/store/services/requests/shared";
-import type { Id } from "@/store/slices/data.types";
 import { isNumeric } from "@/utils/is-numeric";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
 import { ErrorStatus } from "../errors/404";

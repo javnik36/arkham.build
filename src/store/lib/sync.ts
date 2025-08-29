@@ -1,4 +1,5 @@
 import type { StoreApi } from "zustand";
+import type { Deck } from "@/store/schemas/deck.schema";
 import {
   selectLocaleSortingCollator,
   selectLookupTables,
@@ -7,7 +8,6 @@ import {
 import { ApiError } from "../services/requests/shared";
 import type { StoreState } from "../slices";
 import type { Provider } from "../slices/connections.types";
-import type { Deck } from "../slices/data.types";
 import { mapValidationToProblem } from "./deck-io";
 import { validateDeck } from "./deck-validation";
 import { resolveDeck } from "./resolve-deck";

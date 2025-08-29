@@ -25,7 +25,7 @@ function attachmentLimit(card: Card, quantityInDeck: number) {
 export function attachmentDefinitionLimit(
   card: Card,
   quantityInDeck: number,
-  attachmentDefinitionLimit: number | undefined,
+  attachmentDefinitionLimit: number | undefined | null,
 ) {
   return Math.min(
     attachmentLimit(card, quantityInDeck),

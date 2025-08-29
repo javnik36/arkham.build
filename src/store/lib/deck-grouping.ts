@@ -1,7 +1,7 @@
+import type { Slots } from "@/store/schemas/deck.schema";
 import { countExperience } from "@/utils/card-utils";
 import { isEmpty } from "@/utils/is-empty";
 import type { Card } from "../schemas/card.schema";
-import type { Slots } from "../slices/data.types";
 import type { Metadata } from "../slices/metadata.types";
 import type { DecklistConfig } from "../slices/settings.types";
 import {

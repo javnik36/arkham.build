@@ -1,9 +1,9 @@
 import { afterEach } from "node:test";
 import { beforeAll, describe, expect, it } from "vitest";
 import type { StoreApi } from "zustand";
+import type { Deck } from "@/store/schemas/deck.schema";
 import { getMockStore } from "@/test/get-mock-store";
 import type { StoreState } from ".";
-import type { Deck } from "./data.types";
 
 describe("data slice", () => {
   let store: StoreApi<StoreState>;

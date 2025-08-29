@@ -3,6 +3,7 @@ import type { StoreApi } from "zustand";
 import deckAttachments from "@/test/fixtures/decks/deck_attachments.json";
 import deckExtraSlots from "@/test/fixtures/decks/extra_slots.json";
 import { getMockStore } from "@/test/get-mock-store";
+import { DeckSchema } from "../schemas/deck.schema";
 import { selectResolvedDeckById } from "../selectors/decks";
 import type { StoreState } from ".";
 
@@ -19,7 +20,7 @@ describe("deck-view slice", () => {
         deckEdits: {},
         data: {
           decks: {
-            "deck-id": deckExtraSlots,
+            "deck-id": DeckSchema.parse(deckExtraSlots),
           },
           history: {
             "deck-id": [],

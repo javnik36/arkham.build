@@ -14,6 +14,7 @@ import deckMultiFactionSelected from "@/test/fixtures/decks/multi_faction_select
 import deckMyriadDifferentNames from "@/test/fixtures/decks/upgrades/dtrh_penalty_myriad_2.json";
 import deckXpRequired from "@/test/fixtures/decks/xp_required.json";
 import { getMockStore } from "@/test/get-mock-store";
+import { DeckSchema } from "../schemas/deck.schema";
 import {
   selectLocaleSortingCollator,
   selectLookupTables,
@@ -40,7 +41,7 @@ describe("resolveDeck", () => {
           sharing: state.sharing,
         },
         selectLocaleSortingCollator(state),
-        deck,
+        DeckSchema.parse(deck),
       );
       expect(resolved.investigatorFront.card.code).toEqual(
         deck.investigator_code,
@@ -60,7 +61,7 @@ describe("resolveDeck", () => {
           sharing: state.sharing,
         },
         selectLocaleSortingCollator(state),
-        deck,
+        DeckSchema.parse(deck),
       );
       expect(resolved.investigatorFront.card.code).toEqual(
         resolved.metaParsed.alternate_front,
@@ -80,7 +81,7 @@ describe("resolveDeck", () => {
           sharing: state.sharing,
         },
         selectLocaleSortingCollator(state),
-        deck,
+        DeckSchema.parse(deck),
       );
       expect(resolved.investigatorFront.card.code).toEqual(
         deck.investigator_code,
@@ -100,7 +101,7 @@ describe("resolveDeck", () => {
           sharing: state.sharing,
         },
         selectLocaleSortingCollator(state),
-        deck,
+        DeckSchema.parse(deck),
       );
 
       expect(resolved.investigatorFront.card.code).toEqual(
@@ -122,7 +123,7 @@ describe("resolveDeck", () => {
           sharing: state.sharing,
         },
         selectLocaleSortingCollator(state),
-        deck,
+        DeckSchema.parse(deck),
       );
 
       expect(resolved.investigatorFront.card.code).toEqual(
@@ -144,7 +145,7 @@ describe("resolveDeck", () => {
           sharing: state.sharing,
         },
         selectLocaleSortingCollator(state),
-        deck,
+        DeckSchema.parse(deck),
       );
       expect(deck.investigator_code).toEqual("98010");
       expect(resolved.investigatorFront.card.code).toEqual("05001");
@@ -162,7 +163,7 @@ describe("resolveDeck", () => {
           sharing: state.sharing,
         },
         selectLocaleSortingCollator(state),
-        deck,
+        DeckSchema.parse(deck),
       );
       expect(resolved.selections).toMatchInlineSnapshot(`
         {
@@ -237,7 +238,7 @@ describe("resolveDeck", () => {
           sharing: state.sharing,
         },
         selectLocaleSortingCollator(state),
-        deck,
+        DeckSchema.parse(deck),
       );
 
       expect(resolved.selections).toMatchInlineSnapshot(`
@@ -385,7 +386,7 @@ describe("resolveDeck", () => {
           sharing: state.sharing,
         },
         selectLocaleSortingCollator(state),
-        deck,
+        DeckSchema.parse(deck),
       );
       expect(resolved.extraSlots).toMatchInlineSnapshot(`
         {
@@ -413,7 +414,7 @@ describe("resolveDeck", () => {
           sharing: state.sharing,
         },
         selectLocaleSortingCollator(state),
-        deck,
+        DeckSchema.parse(deck),
       );
       expect(resolved.stats.deckSizeTotal).toEqual(45);
     });
@@ -430,7 +431,7 @@ describe("resolveDeck", () => {
           sharing: state.sharing,
         },
         selectLocaleSortingCollator(state),
-        deck,
+        DeckSchema.parse(deck),
       );
       expect(resolved.customizations).toMatchInlineSnapshot(`
         {
@@ -651,7 +652,7 @@ describe("resolveDeck", () => {
             sharing: state.sharing,
           },
           selectLocaleSortingCollator(state),
-          deck,
+          DeckSchema.parse(deck),
         );
         expect(resolved.stats).toMatchObject({
           xpRequired: 25,
@@ -668,7 +669,7 @@ describe("resolveDeck", () => {
             sharing: state.sharing,
           },
           selectLocaleSortingCollator(state),
-          deck,
+          DeckSchema.parse(deck),
         );
         expect(resolved.stats).toMatchObject({
           xpRequired: 47,

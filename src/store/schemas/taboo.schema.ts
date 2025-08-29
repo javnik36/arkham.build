@@ -1,7 +1,7 @@
-import * as z from "zod/v4-mini";
+import type z from "zod";
 import { ApiCardSchema } from "./card.schema";
 
-const TabooSchema = z.pick(ApiCardSchema, {
+const TabooSchema = ApiCardSchema.pick({
   back_text: true,
   code: true,
   customization_change: true,

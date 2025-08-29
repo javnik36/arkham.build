@@ -25,12 +25,12 @@ import { useToast } from "@/components/ui/toast.hooks";
 import { UpgradeModal } from "@/pages/deck-view/upgrade-modal";
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
+import type { Id } from "@/store/schemas/deck.schema";
 import { selectConnectionsData } from "@/store/selectors/connections";
 import {
   selectConnectionLock,
   selectConnectionLockForDeck,
 } from "@/store/selectors/shared";
-import type { Id } from "@/store/slices/data.types";
 import { localizeArkhamDBBaseUrl } from "@/utils/arkhamdb";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { cx } from "@/utils/cx";

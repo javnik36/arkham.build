@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import * as z from "zod/v4-mini";
+import * as z from "zod";
 import type { SettingProps } from "@/pages/settings/types";
 import { useStore } from "@/store";
 import {

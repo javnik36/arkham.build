@@ -4,10 +4,11 @@ import { applyDeckEdits } from "../lib/deck-edits";
 import { cloneDeck } from "../lib/deck-factory";
 import { formatDeckImport } from "../lib/deck-io";
 import { dehydrate } from "../persist";
+import { type Deck, type Id, isDeck } from "../schemas/deck.schema";
 import { selectClientId, selectMetadata } from "../selectors/shared";
 import { importDeck } from "../services/queries";
 import type { StoreState } from ".";
-import { type DataSlice, type Deck, type Id, isDeck } from "./data.types";
+import type { DataSlice } from "./data.types";
 
 function getInitialDataState() {
   return {

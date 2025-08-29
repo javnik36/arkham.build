@@ -15,8 +15,8 @@ import type { LookupTables } from "../lib/lookup-tables.types";
 import { makeSortFunction, sortAlphabeticalLatin } from "../lib/sorting";
 import type { Customization, ResolvedDeck } from "../lib/types";
 import type { Card } from "../schemas/card.schema";
+import type { Deck, Id } from "../schemas/deck.schema";
 import type { StoreState } from "../slices";
-import type { Deck, Id } from "../slices/data.types";
 import {
   selectLocaleSortingCollator,
   selectLookupTables,

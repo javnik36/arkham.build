@@ -7,6 +7,7 @@ import { DeckDisplay } from "@/components/deck-display/deck-display";
 import { Loader } from "@/components/ui/loader";
 import { useStore } from "@/store";
 import { resolveDeck } from "@/store/lib/resolve-deck";
+import type { Deck } from "@/store/schemas/deck.schema";
 import { selectDeckValid } from "@/store/selectors/decks";
 import {
   selectLocaleSortingCollator,
@@ -16,7 +17,6 @@ import {
 import { getShare } from "@/store/services/queries";
 import { ApiError } from "@/store/services/requests/shared";
 import type { StoreState } from "@/store/slices";
-import type { Deck } from "@/store/slices/data.types";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
 import { ErrorStatus } from "../errors/404";
 

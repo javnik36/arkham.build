@@ -1,4 +1,4 @@
-import type { Deck, Slots } from "@/store/slices/data.types";
+import type { Deck, Slots } from "@/store/schemas/deck.schema";
 import {
   countExperience,
   decodeExileSlots,

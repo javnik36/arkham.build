@@ -6,6 +6,7 @@ import deckCustomizable from "@/test/fixtures/decks/customizable.json";
 import deckSpirits from "@/test/fixtures/decks/extra_slots.json";
 import deckMultiFaction from "@/test/fixtures/decks/multi_faction_select.json";
 import { getMockStore } from "@/test/get-mock-store";
+import { DeckSchema } from "../schemas/deck.schema";
 import { formatDeckAsText } from "./deck-io";
 import type { ResolvedDeck } from "./types";
 
@@ -20,8 +21,8 @@ describe("formatDeckAsText()", () => {
       data: {
         ...state.data,
         decks: {
-          customizable: deckCustomizable,
-          spirits: deckSpirits,
+          customizable: DeckSchema.parse(deckCustomizable),
+          spirits: DeckSchema.parse(deckSpirits),
           multiFaction: deckMultiFaction,
         },
         history: {

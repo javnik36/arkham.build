@@ -3,7 +3,7 @@ import css from "./media-card.module.css";
 
 type Props = {
   bannerAlt?: string;
-  bannerUrl?: string;
+  bannerUrl?: string | null;
   children: React.ReactNode;
   headerSlot?: React.ReactNode;
   footerSlot?: React.ReactNode;

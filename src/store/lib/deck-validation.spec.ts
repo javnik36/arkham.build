@@ -1,5 +1,6 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import type { StoreApi } from "zustand";
+import type { Deck } from "@/store/schemas/deck.schema";
 import { getMockStore } from "@/test/get-mock-store";
 import {
   selectLocaleSortingCollator,
@@ -7,7 +8,6 @@ import {
   selectMetadata,
 } from "../selectors/shared";
 import type { StoreState } from "../slices";
-import type { Deck } from "../slices/data.types";
 import { validateDeck } from "./deck-validation";
 import { resolveDeck } from "./resolve-deck";
 

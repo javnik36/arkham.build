@@ -1,4 +1,4 @@
-import * as z from "zod/v4-mini";
+import * as z from "zod";
 
 const JsonDataCycleSchema = z.object({
   code: z.string(),
@@ -8,10 +8,10 @@ const JsonDataCycleSchema = z.object({
 
 export type JsonDataCycle = z.infer<typeof JsonDataCycleSchema>;
 
-const CycleSchema = z.extend(JsonDataCycleSchema, {
-  image_url: z.optional(z.string()),
-  name: z.optional(z.string()),
-  official: z.optional(z.boolean()),
+const CycleSchema = JsonDataCycleSchema.extend({
+  image_url: z.string().nullish(),
+  name: z.string().nullish(),
+  official: z.boolean().nullish(),
   real_name: z.string(),
 });
 

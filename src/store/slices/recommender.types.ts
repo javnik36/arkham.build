@@ -1,4 +1,4 @@
-import type { Id } from "./data.types";
+import type { Id } from "../schemas/deck.schema";
 
 export type RecommenderState = {
   recommender: {

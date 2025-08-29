@@ -1,7 +1,7 @@
+import type { Deck, Id, Slots } from "@/store/schemas/deck.schema";
 import { decodeExileSlots } from "@/utils/card-utils";
 import { isEmpty } from "@/utils/is-empty";
 import { omit } from "@/utils/omit";
-import type { Deck, Id, Slots } from "../slices/data.types";
 import type { EditState, Slot } from "../slices/deck-edits.types";
 import type { Metadata } from "../slices/metadata.types";
 import { getAttachableCards } from "./attachments";

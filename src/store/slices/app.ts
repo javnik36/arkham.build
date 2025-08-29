@@ -1,6 +1,7 @@
 import type { StateCreator } from "zustand";
 import { applyDeckEdits, getChangeRecord } from "@/store/lib/deck-edits";
 import { createDeck } from "@/store/lib/deck-factory";
+import type { Deck } from "@/store/schemas/deck.schema";
 import factions from "@/store/services/data/factions.json";
 import subTypes from "@/store/services/data/subtypes.json";
 import types from "@/store/services/data/types.json";
@@ -51,7 +52,6 @@ import {
 } from "../services/queries";
 import type { StoreState } from ".";
 import type { AppSlice } from "./app.types";
-import type { Deck } from "./data.types";
 import { makeLists } from "./lists";
 import { getInitialMetadata } from "./metadata";
 import type { Metadata } from "./metadata.types";

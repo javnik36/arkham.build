@@ -1,26 +1,26 @@
-import * as z from "zod/v4-mini";
+import * as z from "zod";
 
 const JsonDataPackSchema = z.object({
   code: z.string(),
   cycle_code: z.string(),
-  date_release: z.optional(z.string()),
+  date_release: z.string().nullish(),
   name: z.string(),
   position: z.number(),
-  size: z.optional(z.number()),
+  size: z.number().nullish(),
 });
 
 export type JsonDataPack = z.infer<typeof JsonDataPackSchema>;
 
-const PackSchema = z.extend(JsonDataPackSchema, {
-  icon_url: z.optional(z.string()),
-  name: z.optional(z.string()),
-  official: z.optional(z.boolean()),
+const PackSchema = JsonDataPackSchema.extend({
+  icon_url: z.string().nullish(),
+  name: z.string().nullish(),
+  official: z.boolean().nullish(),
   real_name: z.string(),
-  reprint: z.optional(
-    z.object({
+  reprint: z
+    .object({
       type: z.enum(["player", "encounter", "rcore"]),
-    }),
-  ),
+    })
+    .nullish(),
 });
 
 export type Pack = z.infer<typeof PackSchema>;

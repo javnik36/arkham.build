@@ -4,6 +4,7 @@ import { assert } from "@/utils/assert";
 import { resolveDeck } from "../lib/resolve-deck";
 import { disconnectProviderIfUnauthorized, syncAdapters } from "../lib/sync";
 import { dehydrate } from "../persist";
+import type { Id } from "../schemas/deck.schema";
 import {
   selectIsInitialized,
   selectLocaleSortingCollator,
@@ -19,7 +20,6 @@ import type {
   SyncInit,
   SyncSuccessState,
 } from "./connections.types";
-import type { Id } from "./data.types";
 
 function getInitialConnectionsState() {
   return {

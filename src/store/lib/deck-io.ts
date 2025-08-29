@@ -7,8 +7,8 @@ import type {
   CustomizationOption,
   OptionSelect,
 } from "@/store/schemas/card.schema";
+import type { Deck, DeckProblem, Id } from "@/store/schemas/deck.schema";
 import type { StoreState } from "@/store/slices";
-import type { Deck, DeckProblem, Id } from "@/store/slices/data.types";
 import { displayAttribute, splitMultiValue } from "@/utils/card-utils";
 import { randomId } from "@/utils/crypto";
 import { formatDeckOptionString, formatTabooSet } from "@/utils/formatting";

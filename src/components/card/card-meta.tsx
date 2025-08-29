@@ -12,7 +12,7 @@ type Props = {
   size: "tooltip" | "compact" | "full";
 };
 
-export function CardMetaBack(props: { illustrator?: string }) {
+export function CardMetaBack(props: { illustrator?: string | null }) {
   if (!props.illustrator) return null;
 
   return (

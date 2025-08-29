@@ -1,8 +1,8 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import type { StoreApi } from "zustand";
+import { type Deck, DeckSchema } from "@/store/schemas/deck.schema";
 import { getMockStore } from "@/test/get-mock-store";
 import type { StoreState } from "../slices";
-import type { Deck } from "../slices/data.types";
 import { applyDeckEdits } from "./deck-edits";
 
 const sampleDeck = {
@@ -252,7 +252,7 @@ describe("deck edits", () => {
       };
 
       const result = applyDeckEdits(
-        deck,
+        DeckSchema.parse(deck),
         edits as never,
         store.getState().metadata,
       );

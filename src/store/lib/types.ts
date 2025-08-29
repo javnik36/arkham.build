@@ -1,11 +1,11 @@
 import type { FactionName, SkillIcon } from "@/utils/constants";
 import type { Attachments, Card, OptionSelect } from "../schemas/card.schema";
 import type { Cycle } from "../schemas/cycle.schema";
+import type { Deck } from "../schemas/deck.schema";
 import type { EncounterSet } from "../schemas/encounter-set.schema";
 import type { SubType, Type } from "../schemas/metadata.schema";
 import type { Pack } from "../schemas/pack.schema";
 import type { TabooSet } from "../schemas/taboo-set.schema";
-import type { Deck } from "../slices/data.types";
 import type { AttachmentQuantities } from "../slices/deck-edits.types";
 
 export type Coded = {

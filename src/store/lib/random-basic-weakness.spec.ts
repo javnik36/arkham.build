@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import type { StoreApi } from "zustand";
+import type { Deck } from "@/store/schemas/deck.schema";
 import { getMockStore } from "@/test/get-mock-store";
 import {
   selectLocaleSortingCollator,
   selectLookupTables,
 } from "../selectors/shared";
 import type { StoreState } from "../slices";
-import type { Deck } from "../slices/data.types";
 import type { SettingsState } from "../slices/settings.types";
 import { randomBasicWeaknessForDeck } from "./random-basic-weakness";
 import { resolveDeck } from "./resolve-deck";

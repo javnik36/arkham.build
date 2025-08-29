@@ -3,7 +3,7 @@ import { selectMetadata } from "@/store/selectors/shared";
 import { cx } from "@/utils/cx";
 
 type Props = {
-  code?: string;
+  code?: string | null;
   className?: string;
   invert?: boolean;
 };
@@ -32,7 +32,7 @@ function EncounterIcon(props: Props) {
   ) : null;
 }
 
-function getEncounterIcon(code?: string) {
+function getEncounterIcon(code?: string | null) {
   switch (code) {
     case "torch":
       return "the_gathering";

@@ -5,7 +5,7 @@ import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
 import { formatDeckAsText, formatDeckShare } from "@/store/lib/deck-io";
 import type { ResolvedDeck } from "@/store/lib/types";
-import type { Deck, Id } from "@/store/slices/data.types";
+import type { Deck, Id } from "@/store/schemas/deck.schema";
 import { download } from "@/utils/download";
 import { formatProviderName } from "@/utils/formatting";
 

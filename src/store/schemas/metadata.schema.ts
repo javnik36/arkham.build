@@ -1,4 +1,4 @@
-import * as z from "zod/v4-mini";
+import * as z from "zod";
 
 const FactionSchema = z.object({
   code: z.string(),
@@ -9,7 +9,7 @@ const FactionSchema = z.object({
 const SubTypeSchema = z.object({
   code: z.string(),
   name: z.string(),
-  position: z.optional(z.number()),
+  position: z.number().nullish(),
 });
 
 const TypeSchema = z.object({

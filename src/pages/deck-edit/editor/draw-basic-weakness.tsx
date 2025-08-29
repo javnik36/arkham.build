@@ -3,7 +3,7 @@ import { Trans, useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
-import type { Id } from "@/store/slices/data.types";
+import type { Id } from "@/store/schemas/deck.schema";
 import { displayAttribute } from "@/utils/card-utils";
 
 type Props = {

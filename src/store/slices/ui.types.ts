@@ -1,5 +1,5 @@
+import type { Deck } from "@/store/schemas/deck.schema";
 import type { DeckFanMadeContent } from "../lib/types";
-import type { Deck } from "./data.types";
 
 export type UIState = {
   ui: {

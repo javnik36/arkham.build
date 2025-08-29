@@ -1,4 +1,4 @@
-import type { Deck } from "@/store/slices/data.types";
+import type { Deck } from "@/store/schemas/deck.schema";
 import { randomId } from "@/utils/crypto";
 import i18n from "@/utils/i18n";
 

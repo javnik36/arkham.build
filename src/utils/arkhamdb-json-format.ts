@@ -63,7 +63,9 @@ export function cardToApiFormat(
 
 type Restrictions = ApiRestrictions;
 
-function decodeRestrictions(str?: string): Restrictions | undefined {
+function decodeRestrictions(
+  str: string | null | undefined,
+): Restrictions | undefined {
   return str?.split(", ").reduce((acc: Restrictions, curr: string) => {
     const key = curr.substring(0, curr.indexOf(":"));
     const val = curr.substring(curr.indexOf(":") + 1);

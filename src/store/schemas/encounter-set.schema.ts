@@ -1,17 +1,17 @@
-import * as z from "zod/v4-mini";
+import * as z from "zod";
 
 const JsonDataEncounterSetSchema = z.object({
   code: z.string(),
   name: z.string(),
-  official: z.optional(z.boolean()),
+  official: z.boolean().nullish(),
 });
 
 export type JsonDataEncounterSet = z.infer<typeof JsonDataEncounterSetSchema>;
 
-const EncounterSetSchema = z.extend(JsonDataEncounterSetSchema, {
-  icon_url: z.optional(z.string()),
+const EncounterSetSchema = JsonDataEncounterSetSchema.extend({
+  icon_url: z.string().nullish(),
   pack_code: z.string(),
-  position: z.optional(z.number()),
+  position: z.number().nullish(),
 });
 
 export type EncounterSet = z.infer<typeof EncounterSetSchema>;

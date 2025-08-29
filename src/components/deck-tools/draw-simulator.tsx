@@ -3,7 +3,7 @@ import { useCallback, useReducer } from "react";
 import { useTranslation } from "react-i18next";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/schemas/card.schema";
-import type { Id } from "@/store/slices/data.types";
+import type { Id } from "@/store/schemas/deck.schema";
 import { cx } from "@/utils/cx";
 import { isEmpty } from "@/utils/is-empty";
 import { range } from "@/utils/range";

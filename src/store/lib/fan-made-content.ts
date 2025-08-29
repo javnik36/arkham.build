@@ -1,4 +1,5 @@
-import * as z from "zod/v4-mini";
+import * as z from "zod";
+import type { Deck } from "@/store/schemas/deck.schema";
 import {
   cardToApiFormat,
   cycleToApiFormat,
@@ -11,7 +12,6 @@ import {
   FanMadeProjectSchema,
 } from "../schemas/fan-made-project.schema";
 import type { StoreState } from "../slices";
-import type { Deck } from "../slices/data.types";
 import type { Metadata } from "../slices/metadata.types";
 import { decodeDeckMeta } from "./deck-meta";
 import type { DeckFanMadeContent } from "./types";

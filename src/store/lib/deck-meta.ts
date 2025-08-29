@@ -1,4 +1,4 @@
-import type { Deck, Slots } from "@/store/slices/data.types";
+import type { Deck, Slots } from "@/store/schemas/deck.schema";
 import type { AttachmentQuantities } from "@/store/slices/deck-edits.types";
 import type { Metadata } from "@/store/slices/metadata.types";
 import { range } from "@/utils/range";

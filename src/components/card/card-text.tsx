@@ -7,7 +7,7 @@ type Props = {
   size: "full" | "compact" | "tooltip";
   text?: string;
   typeCode: string;
-  victory?: number;
+  victory?: number | null;
 };
 
 export function CardText(props: Props) {

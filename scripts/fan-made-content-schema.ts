@@ -1,4 +1,4 @@
-import * as z from "zod/v4-mini";
+import * as z from "zod";
 import { FanMadeProjectSchema } from "../src/store/schemas/fan-made-project.schema";
 
 console.log(

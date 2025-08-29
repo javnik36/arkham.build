@@ -2,7 +2,7 @@ import { cx } from "@/utils/cx";
 
 type Props = {
   className?: string;
-  level?: number;
+  level?: number | null;
   inverted?: boolean;
 };
 

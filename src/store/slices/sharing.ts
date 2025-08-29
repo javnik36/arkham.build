@@ -2,6 +2,7 @@ import type { StateCreator } from "zustand";
 import { assert } from "@/utils/assert";
 import { formatDeckImport, formatDeckShare } from "../lib/deck-io";
 import { dehydrate } from "../persist";
+import { type Deck, isDeck } from "../schemas/deck.schema";
 import { selectDeckHistory } from "../selectors/decks";
 import {
   selectClientId,
@@ -11,7 +12,6 @@ import {
 } from "../selectors/shared";
 import { createShare, deleteShare, updateShare } from "../services/queries";
 import type { StoreState } from ".";
-import { type Deck, isDeck } from "./data.types";
 import type { SharingSlice } from "./sharing.types";
 
 function getInitialSharingState() {

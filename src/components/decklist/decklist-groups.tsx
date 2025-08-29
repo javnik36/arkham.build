@@ -12,6 +12,7 @@ import type { GroupingResult } from "@/store/lib/grouping";
 import { getDeckLimitOverride } from "@/store/lib/resolve-deck";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/schemas/card.schema";
+import type { Slots } from "@/store/schemas/deck.schema";
 import { selectForbiddenCards } from "@/store/selectors/decks";
 import {
   selectCanCheckOwnership,
@@ -19,7 +20,6 @@ import {
   selectLookupTables,
   selectMetadata,
 } from "@/store/selectors/shared";
-import type { Slots } from "@/store/slices/data.types";
 import { cx } from "@/utils/cx";
 import { range } from "@/utils/range";
 import { CardGridItem } from "../card-list/card-grid";

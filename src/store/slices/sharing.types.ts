@@ -1,6 +1,6 @@
 import type { DeckDisplayType } from "@/components/deck-display/deck-display";
+import type { Deck, Id } from "@/store/schemas/deck.schema";
 import type { ResolvedDeck } from "../lib/types";
-import type { Deck, Id } from "./data.types";
 
 type SharingState = {
   decks: Record<string, string>; // <id, date_update>
