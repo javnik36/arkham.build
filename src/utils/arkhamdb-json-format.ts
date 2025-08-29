@@ -4,7 +4,7 @@ import type {
   ApiRestrictions,
   JsonDataCard,
 } from "@/store/schemas/card.schema";
-import type { JSONDataCycle } from "@/store/schemas/cycle.schema";
+import type { JsonDataCycle } from "@/store/schemas/cycle.schema";
 import type { JsonDataPack } from "@/store/schemas/pack.schema";
 
 export function packToApiFormat(pack: JsonDataPack & { official?: boolean }) {
@@ -15,7 +15,7 @@ export function packToApiFormat(pack: JsonDataPack & { official?: boolean }) {
 }
 
 export function cycleToApiFormat(
-  cycle: JSONDataCycle & { official?: boolean },
+  cycle: JsonDataCycle & { official?: boolean },
 ) {
   return {
     ...cycle,

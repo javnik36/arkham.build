@@ -8,6 +8,9 @@ import {
   packToApiFormat,
 } from "@/utils/arkhamdb-json-format";
 import type { JsonDataCard } from "../schemas/card.schema";
+import type { JsonDataCycle } from "../schemas/cycle.schema";
+import type { EncounterSet } from "../schemas/encounter-set.schema";
+import type { JsonDataPack } from "../schemas/pack.schema";
 import type { Metadata } from "../slices/metadata.types";
 
 export function applyLocalData(_metadata: Metadata) {
@@ -42,15 +45,15 @@ export function applyLocalData(_metadata: Metadata) {
     }
   }
 
-  for (const pack of localPacks) {
+  for (const pack of localPacks as JsonDataPack[]) {
     metadata.packs[pack.code] = packToApiFormat(pack);
   }
 
-  for (const cycle of localCycles) {
+  for (const cycle of localCycles as JsonDataCycle[]) {
     metadata.cycles[cycle.code] = cycleToApiFormat(cycle);
   }
 
-  for (const encounter of localEncounters) {
+  for (const encounter of localEncounters as EncounterSet[]) {
     metadata.encounterSets[encounter.code] = encounter;
   }
 
