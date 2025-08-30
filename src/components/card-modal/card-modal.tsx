@@ -9,6 +9,7 @@ import {
   getRelatedCardQuantity,
   getRelatedCards,
 } from "@/store/lib/resolve-card";
+import type { Card as ICard } from "@/store/schemas/card.schema";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
 import { selectListCards } from "@/store/selectors/lists";
 import {
@@ -90,29 +91,9 @@ export function CardModal(props: Props) {
   ]);
 
   const activeListCards = useStore((state) =>
+    // FIXME: this does not work for spirit deck
     selectListCards(state, ctx.resolvedDeck, "slots"),
   );
-
-  const cardPosition =
-    activeListCards?.cards.findIndex((card) => card.code === props.code) ?? -1;
-
-  const nextCard = activeListCards?.cards[cardPosition + 1];
-  const previousCard = activeListCards?.cards[cardPosition - 1];
-
-  const onNextCard = useCallback(() => {
-    if (nextCard) {
-      cardModalCtx.setOpen({ code: nextCard.code });
-    }
-  }, [cardModalCtx, nextCard]);
-
-  const onPreviousCard = useCallback(() => {
-    if (previousCard) {
-      cardModalCtx.setOpen({ code: previousCard.code });
-    }
-  }, [cardModalCtx, previousCard]);
-
-  useHotkey("arrowdown", onNextCard, { disabled: !nextCard });
-  useHotkey("arrowup", onPreviousCard, { disabled: !previousCard });
 
   const canRenderFull = useMedia("(min-width: 45rem)");
 
@@ -285,34 +266,10 @@ export function CardModal(props: Props) {
                 />
               )}
               {activeListCards && (
-                <nav className={css["neighbour-nav"]}>
-                  <HotkeyTooltip
-                    keybind="arrowup"
-                    description={t("lists.actions.previous_card")}
-                  >
-                    <Button
-                      onClick={onPreviousCard}
-                      disabled={!previousCard}
-                      iconOnly
-                      size="lg"
-                    >
-                      <ArrowUpIcon />
-                    </Button>
-                  </HotkeyTooltip>
-                  <HotkeyTooltip
-                    keybind="arrowdown"
-                    description={t("lists.actions.next_card")}
-                  >
-                    <Button
-                      onClick={onNextCard}
-                      disabled={!nextCard}
-                      iconOnly
-                      size="lg"
-                    >
-                      <ArrowDownIcon />
-                    </Button>
-                  </HotkeyTooltip>
-                </nav>
+                <CardModalArrowNavigation
+                  activeListCards={activeListCards}
+                  code={props.code}
+                />
               )}
             </div>
           </div>
@@ -321,5 +278,62 @@ export function CardModal(props: Props) {
         )}
       </ModalInner>
     </Modal>
+  );
+}
+
+function CardModalArrowNavigation(props: {
+  activeListCards?: { cards: ICard[] };
+  code: string;
+}) {
+  const activeListCards = props.activeListCards;
+
+  const { t } = useTranslation();
+  const cardModalCtx = useCardModalContextChecked();
+
+  const cardPosition =
+    activeListCards?.cards.findIndex((card) => card.code === props.code) ?? -1;
+
+  const nextCard = activeListCards?.cards[cardPosition + 1];
+  const previousCard = activeListCards?.cards[cardPosition - 1];
+
+  const onNextCard = useCallback(() => {
+    if (nextCard) {
+      cardModalCtx.setOpen({ code: nextCard.code });
+    }
+  }, [cardModalCtx, nextCard]);
+
+  const onPreviousCard = useCallback(() => {
+    if (previousCard) {
+      cardModalCtx.setOpen({ code: previousCard.code });
+    }
+  }, [cardModalCtx, previousCard]);
+
+  useHotkey("arrowdown", onNextCard, { disabled: !nextCard });
+  useHotkey("arrowup", onPreviousCard, { disabled: !previousCard });
+
+  return (
+    <nav className={css["neighbour-nav"]}>
+      <HotkeyTooltip
+        keybind="arrowup"
+        description={t("lists.actions.previous_card")}
+      >
+        <Button
+          onClick={onPreviousCard}
+          disabled={!previousCard}
+          iconOnly
+          size="lg"
+        >
+          <ArrowUpIcon />
+        </Button>
+      </HotkeyTooltip>
+      <HotkeyTooltip
+        keybind="arrowdown"
+        description={t("lists.actions.next_card")}
+      >
+        <Button onClick={onNextCard} disabled={!nextCard} iconOnly size="lg">
+          <ArrowDownIcon />
+        </Button>
+      </HotkeyTooltip>
+    </nav>
   );
 }
