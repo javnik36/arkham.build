@@ -71,7 +71,7 @@ a.button {
 
 .button.xs {
   font-size: var(--text-xs);
-  padding: 0.125rem;
+  padding: 0.125rem 0.25rem;
 }
 
 .button.sm {

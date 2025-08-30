@@ -1,3 +1,4 @@
+import { Settings2Icon } from "lucide-react";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useShallow } from "zustand/react/shallow";
@@ -112,9 +113,9 @@ export function CardsPopover(props: Props) {
           data-testid="notes-rte-update-defaults"
           disabled={!settingsChanged}
           onClick={onUpdateDefaults}
-          size="none"
-          variant="bare"
+          size="xs"
         >
+          <Settings2Icon />
           {t("common.update_default_settings")}
         </Button>
       </div>

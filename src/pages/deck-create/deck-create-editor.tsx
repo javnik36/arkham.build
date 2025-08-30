@@ -1,5 +1,5 @@
 import type { TFunction } from "i18next";
-import { ArrowRightLeftIcon } from "lucide-react";
+import { ArrowRightLeftIcon, Settings2Icon } from "lucide-react";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "wouter";
@@ -129,7 +129,13 @@ export function DeckCreateEditor() {
     state.setSettings({
       defaultStorageProvider: deckCreate.provider as DeckStorageProvider,
     });
-  }, [deckCreate.provider]);
+
+    toast.show({
+      variant: "success",
+      children: t("settings.success"),
+      duration: 3000,
+    });
+  }, [deckCreate.provider, toast, t]);
 
   const investigatorActionRenderer = useCallback(
     (card: Card) => (
@@ -186,9 +192,10 @@ export function DeckCreateEditor() {
             className={css["provider-default"]}
             data-testid="create-provider-set-default"
             onClick={onStorageDefaultChange}
-            variant="link"
             size="xs"
+            variant="primary"
           >
+            <Settings2Icon />
             {t("common.set_as_default")}
           </Button>
         )}
