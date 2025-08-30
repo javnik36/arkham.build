@@ -9,9 +9,8 @@ import {
   getRelatedCardQuantity,
   getRelatedCards,
 } from "@/store/lib/resolve-card";
-import type { Card as ICard } from "@/store/schemas/card.schema";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
-import { selectListCards } from "@/store/selectors/lists";
+import type { CardModalConfig } from "@/store/slices/ui.types";
 import {
   getCanonicalCardCode,
   isSpecialist,
@@ -39,13 +38,13 @@ import { CardReviewsLink } from "./card-arkhamdb-links";
 import css from "./card-modal.module.css";
 import { AnnotationEdit } from "./card-modal-annotation-edit";
 import { CardModalAttachmentQuantities } from "./card-modal-attachment-quantities";
-import { useCardModalContextChecked } from "./card-modal-context";
 import { CardModalQuantities } from "./card-modal-quantities";
 import { CardPageLink } from "./card-page-link";
 import { SpecialistAccess, SpecialistInvestigators } from "./specialist";
 
 type Props = {
   code: string;
+  config: CardModalConfig | undefined;
 };
 
 export function CardModal(props: Props) {
@@ -75,25 +74,17 @@ export function CardModal(props: Props) {
     selectCardWithRelations(state, props.code, true, ctx.resolvedDeck),
   );
 
-  const cardModalCtx = useCardModalContextChecked();
+  const openCardModal = useStore((state) => state.openCardModal);
+  const listOrder = useStore((state) => state.ui.cardModal.config?.listOrder);
+
   const completeTask = useStore((state) => state.completeTask);
 
   const onCompleteTask = useCallback(() => {
     if (!ctx.resolvedDeck || !cardWithRelations?.card) return;
 
     const nextCode = completeTask(ctx.resolvedDeck.id, cardWithRelations.card);
-    cardModalCtx.setOpen({ code: nextCode });
-  }, [
-    completeTask,
-    ctx.resolvedDeck,
-    cardWithRelations?.card,
-    cardModalCtx.setOpen,
-  ]);
-
-  const activeListCards = useStore((state) =>
-    // FIXME: this does not work for spirit deck
-    selectListCards(state, ctx.resolvedDeck, "slots"),
-  );
+    openCardModal(nextCode);
+  }, [completeTask, ctx.resolvedDeck, cardWithRelations?.card, openCardModal]);
 
   const canRenderFull = useMedia("(min-width: 45rem)");
 
@@ -242,7 +233,7 @@ export function CardModal(props: Props) {
               </Button>
             )}
         </ModalActions>
-        {showQuantities || activeListCards ? (
+        {showQuantities || listOrder ? (
           <div className={css["container"]}>
             <div className={css["card"]}>{cardNode}</div>
             <div
@@ -250,6 +241,12 @@ export function CardModal(props: Props) {
               onClick={onClickBackdrop}
               ref={quantitiesRef}
             >
+              {listOrder && (
+                <CardModalArrowNavigation
+                  code={props.code}
+                  listOrder={listOrder}
+                />
+              )}
               {showQuantities && (
                 <CardModalQuantities
                   canEdit={canEdit}
@@ -265,12 +262,6 @@ export function CardModal(props: Props) {
                   resolvedDeck={ctx.resolvedDeck}
                 />
               )}
-              {activeListCards && (
-                <CardModalArrowNavigation
-                  activeListCards={activeListCards}
-                  code={props.code}
-                />
-              )}
             </div>
           </div>
         ) : (
@@ -282,34 +273,32 @@ export function CardModal(props: Props) {
 }
 
 function CardModalArrowNavigation(props: {
-  activeListCards?: { cards: ICard[] };
   code: string;
+  listOrder?: string[];
 }) {
-  const activeListCards = props.activeListCards;
-
+  const { code, listOrder } = props;
   const { t } = useTranslation();
-  const cardModalCtx = useCardModalContextChecked();
+  const openCardModal = useStore((state) => state.openCardModal);
 
-  const cardPosition =
-    activeListCards?.cards.findIndex((card) => card.code === props.code) ?? -1;
+  const cardPosition = listOrder?.findIndex((c) => c === code) ?? -1;
 
-  const nextCard = activeListCards?.cards[cardPosition + 1];
-  const previousCard = activeListCards?.cards[cardPosition - 1];
+  const nextCardCode = listOrder?.[cardPosition + 1];
+  const previousCardCode = listOrder?.[cardPosition - 1];
 
   const onNextCard = useCallback(() => {
-    if (nextCard) {
-      cardModalCtx.setOpen({ code: nextCard.code });
+    if (nextCardCode) {
+      openCardModal(nextCardCode);
     }
-  }, [cardModalCtx, nextCard]);
+  }, [openCardModal, nextCardCode]);
 
   const onPreviousCard = useCallback(() => {
-    if (previousCard) {
-      cardModalCtx.setOpen({ code: previousCard.code });
+    if (previousCardCode) {
+      openCardModal(previousCardCode);
     }
-  }, [cardModalCtx, previousCard]);
+  }, [openCardModal, previousCardCode]);
 
-  useHotkey("arrowdown", onNextCard, { disabled: !nextCard });
-  useHotkey("arrowup", onPreviousCard, { disabled: !previousCard });
+  useHotkey("arrowdown", onNextCard, { disabled: !nextCardCode });
+  useHotkey("arrowup", onPreviousCard, { disabled: !previousCardCode });
 
   return (
     <nav className={css["neighbour-nav"]}>
@@ -319,7 +308,7 @@ function CardModalArrowNavigation(props: {
       >
         <Button
           onClick={onPreviousCard}
-          disabled={!previousCard}
+          disabled={!previousCardCode}
           iconOnly
           size="lg"
         >
@@ -330,7 +319,12 @@ function CardModalArrowNavigation(props: {
         keybind="arrowdown"
         description={t("lists.actions.next_card")}
       >
-        <Button onClick={onNextCard} disabled={!nextCard} iconOnly size="lg">
+        <Button
+          onClick={onNextCard}
+          disabled={!nextCardCode}
+          iconOnly
+          size="lg"
+        >
           <ArrowDownIcon />
         </Button>
       </HotkeyTooltip>

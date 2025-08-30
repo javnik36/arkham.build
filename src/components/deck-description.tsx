@@ -10,11 +10,11 @@ import {
   useTransitionStyles,
 } from "@floating-ui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useStore } from "@/store";
 import { redirectArkhamDBLinks } from "@/utils/arkhamdb";
 import { FLOATING_PORTAL_ID } from "@/utils/constants";
 import { cx } from "@/utils/cx";
 import { parseMarkdown } from "@/utils/markdown";
-import { useCardModalContext } from "./card-modal/card-modal-context";
 import { CardTooltip } from "./card-tooltip/card-tooltip";
 import css from "./deck-description.module.css";
 
@@ -27,7 +27,8 @@ type Props = {
 function DeckDescription(props: Props) {
   const { centered, className, content } = props;
 
-  const cardModalContext = useCardModalContext();
+  const openCardModal = useStore((state) => state.openCardModal);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const [cardTooltip, setCardTooltip] = useState<string>("");
 
@@ -107,16 +108,12 @@ function DeckDescription(props: Props) {
         const anchor = evt.target.closest("a") as HTMLAnchorElement;
         const href = anchor.getAttribute("href");
 
-        if (
-          cardModalContext &&
-          href?.includes("/card/") &&
-          !href.includes("#")
-        ) {
+        if (href?.includes("/card/") && !href.includes("#")) {
           evt.preventDefault();
           const code = anchor.href.split("/card/").at(-1);
 
           if (code) {
-            cardModalContext.setOpen({ code });
+            openCardModal(code);
           } else {
             redirectArkhamDBLinks(evt);
           }
@@ -130,7 +127,7 @@ function DeckDescription(props: Props) {
         }
       }
     },
-    [cardModalContext],
+    [openCardModal],
   );
 
   return (

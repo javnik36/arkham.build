@@ -1,5 +1,5 @@
 import { LayoutGridIcon, LayoutListIcon } from "lucide-react";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useStore } from "@/store";
 import { countGroupRows, type DeckGrouping } from "@/store/lib/deck-grouping";
@@ -34,6 +34,20 @@ export function Decklist(props: Props) {
   const { t } = useTranslation();
 
   const groups = useStore((state) => selectDeckGroups(state, deck, viewMode));
+
+  const setCardModalConfig = useStore((state) => state.setCardModalConfig);
+
+  useEffect(() => {
+    const listOrder = Object.values(groups).flatMap((g) =>
+      g.data.flatMap((group) => group.cards.map((c) => c.code)),
+    );
+
+    setCardModalConfig({ listOrder });
+
+    return () => {
+      setCardModalConfig({ listOrder: undefined });
+    };
+  }, [groups, setCardModalConfig]);
 
   const renderCardExtra = useCallback(
     (card: Card) => {

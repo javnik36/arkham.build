@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { createSelector } from "reselect";
 import { useParams } from "wouter";
-import { CardModalProvider } from "@/components/card-modal/card-modal-context";
+import { CardModalProvider } from "@/components/card-modal/card-modal-provider";
 import { DeckDisplay } from "@/components/deck-display/deck-display";
 import { Loader } from "@/components/ui/loader";
 import { useStore } from "@/store";

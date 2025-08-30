@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams, useSearch } from "wouter";
-import { CardModalProvider } from "@/components/card-modal/card-modal-context";
+import { CardModalProvider } from "@/components/card-modal/card-modal-provider";
 import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
 import { querySealedDeck } from "@/store/services/queries";

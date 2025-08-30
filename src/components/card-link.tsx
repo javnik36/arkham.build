@@ -2,11 +2,11 @@ import { useCallback } from "react";
 import { Link } from "wouter";
 import { PortaledCardTooltip } from "@/components/card-tooltip/card-tooltip-portaled";
 import { useRestingTooltip } from "@/components/ui/tooltip.hooks";
+import { useStore } from "@/store";
 import type { Card } from "@/store/schemas/card.schema";
 import { preventLeftClick } from "@/utils/prevent-links";
 import { useAccentColor } from "@/utils/use-accent-color";
 import css from "./card-link.module.css";
-import { useCardModalContextChecked } from "./card-modal/card-modal-context";
 
 export function CardLink({
   children,
@@ -17,7 +17,7 @@ export function CardLink({
 }) {
   const accentColor = useAccentColor(card);
 
-  const cardModalContext = useCardModalContextChecked();
+  const openCardModal = useStore((state) => state.openCardModal);
 
   const { refs, referenceProps, isMounted, floatingStyles, transitionStyles } =
     useRestingTooltip();
@@ -26,10 +26,10 @@ export function CardLink({
     (evt: React.MouseEvent) => {
       const linkPrevented = preventLeftClick(evt);
       if (linkPrevented) {
-        cardModalContext.setOpen({ code: card.code });
+        openCardModal(card.code);
       }
     },
-    [cardModalContext, card.code],
+    [openCardModal, card.code],
   );
 
   return (

@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "wouter";
 import { ListLayout } from "@//layouts/list-layout";
 import { CardListContainer } from "@/components/card-list/card-list-container";
-import { CardModalProvider } from "@/components/card-modal/card-modal-context";
+import { CardModalProvider } from "@/components/card-modal/card-modal-provider";
 import { CardRecommender } from "@/components/card-recommender/card-recommender";
 import { CoreCardCheckbox } from "@/components/card-recommender/core-card-checkbox";
 import { DeckTools } from "@/components/deck-tools/deck-tools";

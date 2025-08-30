@@ -10,7 +10,6 @@ import {
   selectLookupTables,
 } from "@/store/selectors/shared";
 import { range } from "@/utils/range";
-import { useCardModalContextChecked } from "../card-modal/card-modal-context";
 import { Scroller } from "../ui/scroller";
 import css from "./card-list.module.css";
 import { CardListItemCompact, CardListItemFull } from "./card-list-items";
@@ -29,7 +28,7 @@ export function CardList(props: CardListImplementationProps) {
     viewMode,
   } = props;
 
-  const modalContext = useCardModalContextChecked();
+  const openCardModal = useStore((state) => state.openCardModal);
 
   const showAltHead = viewMode === "card-text";
 
@@ -96,16 +95,14 @@ export function CardList(props: CardListImplementationProps) {
       }
 
       if (key === "Enter" && currentTop > -1) {
-        modalContext.setOpen({
-          code: data.cards[currentTop].code,
-        });
+        openCardModal(data.cards[currentTop].code);
       }
 
       if (key === "Escape") {
         setCurrentTop(-1);
       }
     },
-    [currentTop, data, modalContext.setOpen],
+    [currentTop, data, openCardModal],
   );
 
   useEffect(() => {

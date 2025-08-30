@@ -12,6 +12,10 @@ function getInitialUIState(): UIState {
       showLimitedAccess: true,
       fanMadeContentCache: {},
       navigationHistory: [],
+      cardModal: {
+        code: undefined,
+        config: undefined,
+      },
     },
   };
 }
@@ -57,6 +61,39 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
       ui: {
         ...state.ui,
         navigationHistory: state.ui.navigationHistory.slice(0, index),
+      },
+    }));
+  },
+  openCardModal(code) {
+    set((state) => ({
+      ui: {
+        ...state.ui,
+        cardModal: {
+          ...state.ui.cardModal,
+          code,
+        },
+      },
+    }));
+  },
+  closeCardModal() {
+    set((state) => ({
+      ui: {
+        ...state.ui,
+        cardModal: {
+          ...state.ui.cardModal,
+          code: undefined,
+        },
+      },
+    }));
+  },
+  setCardModalConfig(config) {
+    set((state) => ({
+      ui: {
+        ...state.ui,
+        cardModal: {
+          ...state.ui.cardModal,
+          config,
+        },
       },
     }));
   },

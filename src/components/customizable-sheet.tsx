@@ -7,7 +7,6 @@ import { selectMetadata } from "@/store/selectors/shared";
 import type { Metadata } from "@/store/slices/metadata.types";
 import { displayAttribute } from "@/utils/card-utils";
 import { isEmpty } from "@/utils/is-empty";
-import { useCardModalContextChecked } from "./card-modal/card-modal-context";
 import { CardScanInner } from "./card-scan";
 
 type Props = { card: Card; deck: ResolvedDeck };
@@ -16,13 +15,13 @@ export function CustomizableSheet(props: Props) {
   const { card, deck } = props;
 
   const metadata = useStore(selectMetadata);
+  const openCardModal = useStore((state) => state.openCardModal);
 
   const { t } = useTranslation();
-  const modalContext = useCardModalContextChecked();
 
   const openModal = useCallback(() => {
-    modalContext.setOpen({ code: card.code });
-  }, [modalContext, card.code]);
+    openCardModal(card.code);
+  }, [openCardModal, card.code]);
 
   return (
     <div>

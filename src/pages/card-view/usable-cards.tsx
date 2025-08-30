@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useParams } from "wouter";
 import { CardLink } from "@/components/card-link";
-import { CardModalProvider } from "@/components/card-modal/card-modal-context";
+import { CardModalProvider } from "@/components/card-modal/card-modal-provider";
 import { ListLayoutContextProvider } from "@/layouts/list-layout-context-provider";
 import { ListLayoutNoSidebar } from "@/layouts/list-layout-no-sidebar";
 import { useStore } from "@/store";

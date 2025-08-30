@@ -5,7 +5,6 @@ import type { Card } from "@/store/schemas/card.schema";
 import { displayAttribute, parseCardTitle } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { preventLeftClick } from "@/utils/prevent-links";
-import { useCardModalContextChecked } from "../card-modal/card-modal-context";
 import { CardName } from "../card-name";
 import { UniqueIcon } from "../icons/unique-icon";
 import { useDialogContext } from "../ui/dialog.hooks";
@@ -19,7 +18,8 @@ type Props = {
 export function CardNames(props: Props) {
   const { card, titleLinks } = props;
 
-  const cardModalContext = useCardModalContextChecked();
+  const openCardModal = useStore((state) => state.openCardModal);
+
   const dialogContext = useDialogContext();
   const settings = useStore((state) => state.settings);
 
@@ -45,21 +45,20 @@ export function CardNames(props: Props) {
   );
 
   const hasModal =
-    (titleLinks === "card-modal" && cardModalContext) ||
-    (titleLinks === "dialog" && dialogContext);
+    titleLinks === "card-modal" || (titleLinks === "dialog" && dialogContext);
 
   const onCardTitleClick = useCallback(
     (evt: React.MouseEvent<HTMLAnchorElement>) => {
       const linkPrevented = preventLeftClick(evt);
       if (linkPrevented) {
         if (titleLinks === "card-modal") {
-          cardModalContext.setOpen({ code: card.code });
+          openCardModal(card.code);
         } else if (dialogContext) {
           dialogContext.setOpen(true);
         }
       }
     },
-    [card.code, cardModalContext, dialogContext, titleLinks],
+    [card.code, openCardModal, dialogContext, titleLinks],
   );
 
   return (

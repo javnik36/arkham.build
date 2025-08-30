@@ -2,7 +2,7 @@ import { PlusIcon } from "lucide-react";
 import { useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "wouter";
-import { CardModalProvider } from "@/components/card-modal/card-modal-context";
+import { CardModalProvider } from "@/components/card-modal/card-modal-provider";
 import { Button } from "@/components/ui/button";
 import { ListLayoutContextProvider } from "@/layouts/list-layout-context-provider";
 import { ListLayoutNoSidebar } from "@/layouts/list-layout-no-sidebar";

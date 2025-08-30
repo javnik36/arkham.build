@@ -1,6 +1,7 @@
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useStore } from "@/store";
 import {
   getRelatedCardQuantity,
   getRelatedCards,
@@ -11,7 +12,6 @@ import { formatRelationTitle } from "@/utils/formatting";
 import { CardBack } from "../card/card-back";
 import { CardContainer } from "../card/card-container";
 import { CardFace } from "../card/card-face";
-import { useCardModalContext } from "../card-modal/card-modal-context";
 import { SpecialistAccess } from "../card-modal/specialist";
 import { CardSet } from "../cardset";
 import { AttachableCards } from "../deck-tools/attachable-cards";
@@ -32,9 +32,9 @@ type Props = {
 
 export function DeckInvestigator(props: Props) {
   // TECH DEBT: If a card modal is open, close this dialog.
-  const cardModalContext = useCardModalContext();
+  const cardModalOpen = useStore((state) => !!state.ui.cardModal.code);
   const dialogContext = useDialogContextChecked();
-  if (cardModalContext?.isOpen) dialogContext?.setOpen(false);
+  if (cardModalOpen) dialogContext?.setOpen(false);
 
   const {
     canToggleBack = true,

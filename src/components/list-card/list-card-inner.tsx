@@ -3,6 +3,7 @@ import { FileWarningIcon, StarIcon } from "lucide-react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "wouter";
+import { useStore } from "@/store";
 import type { Card } from "@/store/schemas/card.schema";
 import type { SettingsState } from "@/store/slices/settings.types";
 import {
@@ -23,7 +24,6 @@ import { CardIcons } from "../card/card-icons";
 import { CardText } from "../card/card-text";
 import { CardHealth } from "../card-health";
 import { CardIcon } from "../card-icon";
-import { useCardModalContextChecked } from "../card-modal/card-modal-context";
 import { CardName } from "../card-name";
 import { CardThumbnail } from "../card-thumbnail";
 import { MulticlassIcons } from "../icons/multiclass-icons";
@@ -112,8 +112,9 @@ export function ListCardInner(props: Props) {
   } = props;
 
   const { t } = useTranslation();
-  const modalContext = useCardModalContextChecked();
   const dialogContext = useDialogContext();
+
+  const openCardModal = useStore((state) => state.openCardModal);
 
   const ignoredCount = isIgnored ?? 0;
 
@@ -134,11 +135,11 @@ export function ListCardInner(props: Props) {
         if (titleOpens === "dialog" && dialogContext) {
           dialogContext.setOpen(true);
         } else {
-          modalContext.setOpen({ code: card.code });
+          openCardModal(card.code);
         }
       }
     },
-    [modalContext, card.code, titleOpens, dialogContext],
+    [openCardModal, card.code, titleOpens, dialogContext],
   );
 
   const limit = cardLimit(card, limitOverride);

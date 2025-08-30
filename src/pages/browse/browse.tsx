@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { CardListContainer } from "@/components/card-list/card-list-container";
-import { CardModalProvider } from "@/components/card-modal/card-modal-context";
+import { CardModalProvider } from "@/components/card-modal/card-modal-provider";
 import { DeckCollection } from "@/components/deck-collection/deck-collection";
 import { Filters } from "@/components/filters/filters";
 import { ListLayout } from "@/layouts/list-layout";

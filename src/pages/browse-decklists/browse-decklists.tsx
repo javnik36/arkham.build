@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "wouter";
 import { ArkhamDBDecklistResult } from "@/components/arkhamdb-decklists/arkhamdb-decklist-result";
-import { CardModalProvider } from "@/components/card-modal/card-modal-context";
+import { CardModalProvider } from "@/components/card-modal/card-modal-provider";
 import { Head } from "@/components/ui/head";
 import { Loader } from "@/components/ui/loader";
 import { Pagination } from "@/components/ui/pagination";

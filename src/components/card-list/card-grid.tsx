@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { type ListRange, Virtuoso, type VirtuosoHandle } from "react-virtuoso";
 import { Link } from "wouter";
+import { useStore } from "@/store";
 import type { Card } from "@/store/schemas/card.schema";
 import type {
   CardGroup as CardGroupType,
@@ -8,7 +9,6 @@ import type {
 } from "@/store/selectors/lists";
 import type { Metadata } from "@/store/slices/metadata.types";
 import { preventLeftClick } from "@/utils/prevent-links";
-import { useCardModalContextChecked } from "../card-modal/card-modal-context";
 import { CardScan } from "../card-scan";
 import { Scroller } from "../ui/scroller";
 import { CardActions } from "./card-actions";
@@ -19,7 +19,7 @@ import type { CardListImplementationProps } from "./types";
 export function CardGrid(props: CardListImplementationProps) {
   const { data, metadata, search, ...rest } = props;
 
-  const modalContext = useCardModalContextChecked();
+  const openCardModal = useStore((state) => state.openCardModal);
 
   const virtuosoRef = useRef<VirtuosoHandle>(null);
   const activeGroup = useRef<string | undefined>(undefined);
@@ -59,9 +59,7 @@ export function CardGrid(props: CardListImplementationProps) {
       if (!data?.cards.length) return;
 
       if (key === "Enter" && currentTop > -1) {
-        modalContext.setOpen({
-          code: data.cards[currentTop].code,
-        });
+        openCardModal(data.cards[currentTop].code);
       }
 
       if (key === "Escape") {
@@ -76,7 +74,7 @@ export function CardGrid(props: CardListImplementationProps) {
       window.removeEventListener("list-select-group", onSelectGroup);
       window.removeEventListener("list-keyboard-navigate", onKeyboardNavigate);
     };
-  }, [data, modalContext.setOpen, currentTop]);
+  }, [data, openCardModal, currentTop]);
 
   const rangeChanged = useCallback(
     (range: ListRange) => {
@@ -182,11 +180,11 @@ export function CardGridItem(
 ) {
   const { card, getListCardProps, quantities } = props;
 
-  const modalContext = useCardModalContextChecked();
+  const openCardModal = useStore((state) => state.openCardModal);
 
   const openModal = useCallback(() => {
-    modalContext.setOpen({ code: card.code });
-  }, [modalContext, card.code]);
+    openCardModal(card.code);
+  }, [openCardModal, card.code]);
 
   const onClick = useCallback(
     (evt: React.MouseEvent) => {

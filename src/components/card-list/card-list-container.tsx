@@ -1,4 +1,4 @@
-import { forwardRef, useCallback } from "react";
+import { forwardRef, useCallback, useEffect } from "react";
 import { CenterLayout } from "@/layouts/center-layout";
 import { useStore } from "@/store";
 import {
@@ -35,6 +35,16 @@ export const CardListContainer = forwardRef(function CardListContainer(
   const data = useStore((state) =>
     selectListCards(state, ctx.resolvedDeck, targetDeck),
   );
+
+  const setCardModalConfig = useStore((state) => state.setCardModalConfig);
+
+  useEffect(() => {
+    setCardModalConfig({ listOrder: data?.cards.map((c) => c.code) });
+
+    return () => {
+      setCardModalConfig({ listOrder: undefined });
+    };
+  }, [data?.cards, setCardModalConfig]);
 
   const list = useStore(selectActiveList);
   const viewMode = list?.display?.viewMode ?? "compact";

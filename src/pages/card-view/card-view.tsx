@@ -5,7 +5,7 @@ import {
   CardArkhamDBLink,
   CardReviewsLink,
 } from "@/components/card-modal/card-arkhamdb-links";
-import { CardModalProvider } from "@/components/card-modal/card-modal-context";
+import { CardModalProvider } from "@/components/card-modal/card-modal-provider";
 import { Footer } from "@/components/footer";
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";

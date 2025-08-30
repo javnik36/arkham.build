@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "wouter";
 import { ArkhamdbDecklistMeta } from "@/components/arkhamdb-decklists/arkhamdb-decklist-meta";
-import { CardModalProvider } from "@/components/card-modal/card-modal-context";
+import { CardModalProvider } from "@/components/card-modal/card-modal-provider";
 import {
   DeckDisplay,
   type DeckDisplayProps,

@@ -374,7 +374,7 @@ export function selectCanonicalTabooSetId(
 const deckAccessEqualSelector = createCustomEqualSelector((a, b) => {
   if (isResolvedDeck(a) && isResolvedDeck(b)) {
     return (
-      a.id === b.id && // (1)
+      a.id === b.id && // 1
       a.taboo_id === b.taboo_id && // 2
       a.investigatorFront.card.code === b.investigatorFront.card.code && // 3
       a.investigatorBack.card.code === b.investigatorBack.card.code && // 3
@@ -416,15 +416,24 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
     __?: ResolvedDeck,
     targetDeck?: "slots" | "extraSlots" | "both",
   ) => targetDeck ?? "slots",
-  (state: StoreState) => state.ui,
+  (state: StoreState) => state.ui.showUnusableCards,
+  (state: StoreState) => state.ui.showLimitedAccess,
   (state: StoreState) => selectActiveList(state)?.duplicateFilter,
-  (metadata, lookupTables, resolvedDeck, targetDeck, ui, duplicateFilter) => {
+  (
+    metadata,
+    lookupTables,
+    resolvedDeck,
+    targetDeck,
+    showUnusableCards,
+    showLimitedAccess,
+    duplicateFilter,
+  ) => {
     if (!resolvedDeck) return undefined;
 
     const investigatorBack = resolvedDeck.investigatorBack.card;
     if (!investigatorBack) return undefined;
 
-    if (ui.showUnusableCards) {
+    if (showUnusableCards) {
       return and([
         not(filterType(["investigator", "story", "location"])),
         filterMythosCards,
@@ -447,7 +456,7 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
       investigatorFront: resolvedDeck.investigatorFront.card,
       selections: resolvedDeck.selections,
       targetDeck,
-      showLimitedAccess: ui.showLimitedAccess,
+      showLimitedAccess: showLimitedAccess,
     });
 
     const weaknessFilter = filterInvestigatorWeaknessAccess(investigatorBack, {
