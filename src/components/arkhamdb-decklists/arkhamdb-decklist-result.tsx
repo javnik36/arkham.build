@@ -7,7 +7,7 @@ import {
   selectLookupTables,
   selectMetadata,
 } from "@/store/selectors/shared";
-import type { DeckSearchResult } from "@/store/services/requests/decklist-search";
+import type { DeckSearchResult } from "@/store/services/requests/decklists-search";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
 import { DeckDetails } from "../deck-details";
 import { DeckSummary } from "../deck-summary/deck-summary";

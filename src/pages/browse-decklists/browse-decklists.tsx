@@ -16,7 +16,7 @@ import {
   parseDeckSearchQuery,
   type SortType,
   searchDecklists,
-} from "@/store/services/requests/decklist-search";
+} from "@/store/services/requests/decklists-search";
 import { ApiError } from "@/store/services/requests/shared";
 import {
   ErrorDisplay,

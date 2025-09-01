@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 import { Plane } from "@/components/ui/plane";
-import type { DecklistsFiltersState } from "@/store/services/requests/decklist-search";
+import type { DecklistsFiltersState } from "@/store/services/requests/decklists-search";
 import css from "../browser-decklists.module.css";
 import { AnalyzeSideDecks } from "./analyze-side-decks";
 import { Author } from "./author";

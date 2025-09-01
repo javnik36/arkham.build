@@ -10,7 +10,7 @@ import {
   selectLookupTables,
   selectMetadata,
 } from "@/store/selectors/shared";
-import type { DecklistsFiltersState } from "@/store/services/requests/decklist-search";
+import type { DecklistsFiltersState } from "@/store/services/requests/decklists-search";
 import { and, not } from "@/utils/fp";
 
 export type DecklistFilterProps = {

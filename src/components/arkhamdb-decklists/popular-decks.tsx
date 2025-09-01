@@ -6,7 +6,7 @@ import type { Card } from "@/store/schemas/card.schema";
 import {
   deckSearchQuery,
   searchDecklists,
-} from "@/store/services/requests/decklist-search";
+} from "@/store/services/requests/decklists-search";
 import { displayAttribute } from "@/utils/card-utils";
 import { getAccentColorsForFaction } from "@/utils/use-accent-color";
 import { CardLink } from "../card-link";
