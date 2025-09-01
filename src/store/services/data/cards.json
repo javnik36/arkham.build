@@ -219,6 +219,12 @@
     "patch": true
   },
   {
+    "code": "72028",
+    "shroud_per_investigator": true,
+    "shroud": 4,
+    "patch": true
+  },
+  {
     "code": "09124",
     "restrictions": "faction:guardian",
     "patch": true
