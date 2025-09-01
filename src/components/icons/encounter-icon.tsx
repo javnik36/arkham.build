@@ -189,6 +189,9 @@ function getEncounterIcon(code?: string | null) {
     case "the_midwinter_gala":
       return "gala";
 
+    case "film_fatale":
+      return "film_fatale_encounter";
+
     default:
       return code;
   }

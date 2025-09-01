@@ -282,6 +282,8 @@ function getPackIcon(code?: string) {
       return "gala";
     case "blbe":
       return "blbe";
+    case "film_fatale":
+      return "film_fatale";
 
     default:
       return null;
