@@ -307,6 +307,7 @@ function CardModalArrowNavigation(props: {
         description={t("lists.actions.previous_card")}
       >
         <Button
+          data-testid="card-modal-prev-card"
           onClick={onPreviousCard}
           disabled={!previousCardCode}
           iconOnly
@@ -320,6 +321,7 @@ function CardModalArrowNavigation(props: {
         description={t("lists.actions.next_card")}
       >
         <Button
+          data-testid="card-modal-next-card"
           onClick={onNextCard}
           disabled={!nextCardCode}
           iconOnly

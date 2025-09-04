@@ -59,7 +59,12 @@ export function ModalActions(props: ModalActionProps) {
       ref={actionRef}
     >
       <nav className={css["actions-row"]}>{children}</nav>
-      <Button className={css["close"]} iconOnly onClick={closeModal}>
+      <Button
+        className={css["close"]}
+        iconOnly
+        onClick={closeModal}
+        data-testid="modal-close"
+      >
         <XIcon />
       </Button>
     </div>

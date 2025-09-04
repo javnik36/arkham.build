@@ -875,4 +875,23 @@ test.describe("deck edit", () => {
     await expect(page.getByTestId("notes-rte-format")).toHaveValue("header");
     await expect(page.getByTestId("notes-rte-origin")).toHaveValue("deck");
   });
+
+  test("navigate between list cards", async ({ page }) => {
+    await importDeckFromFile(page, "validation/base_case.json", {
+      navigate: "edit",
+    });
+
+    await fillSearch(page, "Fire");
+
+    await page
+      .getByTestId("listcard-02032")
+      .getByTestId("listcard-title")
+      .click();
+
+    await page.getByTestId("card-modal-next-card").click();
+    await page.getByTestId("card-modal-next-card").click();
+    await expect(
+      page.getByTestId("card-name").getByText("Fire Extinguisher"),
+    ).toBeVisible();
+  });
 });

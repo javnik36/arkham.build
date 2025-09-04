@@ -536,4 +536,39 @@ test.describe("quick edit title and tags", () => {
         .getByTestId("quantity-value"),
     ).toContainText("0");
   });
+
+  test("navigate between card modals", async ({ page }) => {
+    await importStandardDeck(page);
+
+    await page
+      .getByTestId("listcard-10013")
+      .getByTestId("listcard-title")
+      .click();
+
+    await page.getByTestId("card-modal-next-card").click();
+
+    await expect(
+      page
+        .getByTestId("card-modal")
+        .getByTestId("card-face")
+        .getByTestId("card-name-inner")
+        .getByText("The Key of Solomon"),
+    ).toBeVisible();
+
+    await page.getByTestId("modal-close").click();
+
+    await page
+      .getByTestId("listcard-01000")
+      .getByTestId("listcard-title")
+      .click();
+
+    await page.getByTestId("card-modal-next-card").click();
+
+    await expect(
+      page
+        .getByTestId("card-modal")
+        .getByTestId("card-face")
+        .getByTestId("card-name-inner"),
+    ).toContainText("Eye of the Djinn");
+  });
 });
