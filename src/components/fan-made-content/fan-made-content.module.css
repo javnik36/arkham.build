@@ -168,3 +168,18 @@
   opacity: 1;
   transition: opacity 0.125s ease-in-out;
 }
+
+.quick-install {
+  max-width: 35rem;
+  margin: 0 auto;
+}
+
+.quick-install > * + * {
+  margin-top: 0.75rem;
+}
+
+.quick-install-actions {
+  display: flex;
+  gap: 0.375rem;
+  flex-flow: row wrap;
+}

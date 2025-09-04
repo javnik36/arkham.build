@@ -48,6 +48,10 @@ const BrowseDecklists = lazy(
 
 const Rules = lazy(() => import("./pages/rules-reference/rules-reference"));
 
+const InstallFanMadeContent = lazy(
+  () => import("./pages/install-fan-made-content/install-fan-made-content"),
+);
+
 function App() {
   return (
     <Providers>
@@ -113,6 +117,10 @@ function AppInner() {
               <Route component={BrowseDecklists} path="/decklists" />
               <Route component={Connect} path="/connect" />
               <Route component={Rules} path="/rules" />
+              <Route
+                component={InstallFanMadeContent}
+                path="/install-fan-made-content"
+              />
               <Route path="*">
                 <ErrorStatus statusCode={404} />
               </Route>

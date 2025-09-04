@@ -9,8 +9,9 @@ import {
   LinkIcon,
   Trash2Icon,
 } from "lucide-react";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "wouter";
 import * as z from "zod";
 import type { SettingProps } from "@/pages/settings/types";
 import { useStore } from "@/store";
@@ -21,7 +22,10 @@ import {
 import { getGroupedCards } from "@/store/lib/grouping";
 import { makeSortFunction } from "@/store/lib/sorting";
 import type { Card } from "@/store/schemas/card.schema";
-import type { FanMadeProject } from "@/store/schemas/fan-made-project.schema";
+import {
+  type FanMadeProject,
+  FanMadeProjectSchema,
+} from "@/store/schemas/fan-made-project.schema";
 import { selectOwnedFanMadeProjects } from "@/store/selectors/fan-made-content";
 import {
   selectLocaleSortingCollator,
@@ -40,6 +44,7 @@ import { capitalize, formatDate } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { parseMarkdown } from "@/utils/markdown";
 import { CardGrid } from "../card-list/card-grid";
+import { ErrorDisplay, ErrorImage } from "../error-display/error-display";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { Field, FieldLabel } from "../ui/field";
@@ -63,6 +68,7 @@ import css from "./fan-made-content.module.css";
 export function FanMadeContent(props: SettingProps) {
   const { t } = useTranslation();
   const toast = useToast();
+  const [searchParams] = useSearchParams();
 
   const addFanMadeProject = useStore((state) => state.addFanMadeProject);
 
@@ -102,11 +108,21 @@ export function FanMadeContent(props: SettingProps) {
     [addFanMadeProject, toast, t],
   );
 
+  const installId = searchParams.get("install_id");
+  const installUrl = searchParams.get("install_url");
+
   return (
     <div className={css["container"]}>
       <DisplaySettings {...props} />
       <Collection onAddProject={onAddProject} listingsQuery={listingsQuery} />
       <Registry onAddProject={onAddProject} listingsQuery={listingsQuery} />
+      {!!(installId || installUrl) && (
+        <QuickInstallDialog
+          onAddProject={onAddProject}
+          id={installId || undefined}
+          url={installUrl || undefined}
+        />
+      )}
     </div>
   );
 }
@@ -552,6 +568,98 @@ function PreviewModal({ project }: { project: FanMadeProject }) {
         </DefaultModalContent>
       </ModalInner>
     </Modal>
+  );
+}
+
+function QuickInstallDialog({
+  onAddProject,
+  id,
+  url,
+}: {
+  id?: string;
+  url?: string;
+  onAddProject: (payload: unknown) => Promise<void>;
+}) {
+  const { t } = useTranslation();
+  const [open, setOpen] = useState(true);
+
+  const queryFn = id
+    ? () => queryFanMadeProjectData(`fan_made_content/${id}/project.json`)
+    : async () => {
+        const res = await fetch(url as string);
+        assert(res.ok, `Bad status code: ${res.status}`);
+        return res.json();
+      };
+
+  const { data, error, isLoading } = useQuery({
+    queryFn,
+    queryKey: ["quick-install", id || url],
+    enabled: open && (id != null || url != null),
+  });
+
+  const onInstall = useCallback(async () => {
+    if (!data) return;
+    await onAddProject(data);
+    setOpen(false);
+  }, [data, onAddProject]);
+
+  const validation = data ? FanMadeProjectSchema.safeParse(data) : undefined;
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent>
+        <Modal>
+          <ModalBackdrop />
+          <ModalInner size="60rem">
+            <ModalActions />
+            <DefaultModalContent title={t("fan_made_content.actions.install")}>
+              {isLoading && (
+                <div className={css["loader"]}>
+                  <Loader
+                    message={t("fan_made_content.messages.content_loading")}
+                    show
+                  />
+                </div>
+              )}
+              {(error || validation?.error) && (
+                <ErrorDisplay
+                  pre={<ErrorImage />}
+                  message={
+                    error
+                      ? t("fan_made_content.messages.fetch_failed", {
+                          error: (error as Error).message,
+                        })
+                      : t("fan_made_content.messages.parse_failed", {
+                          error: z.prettifyError(
+                            validation?.error as z.ZodError,
+                          ),
+                        })
+                  }
+                  status={400}
+                />
+              )}
+              {data && validation?.success && (
+                <div className={css["quick-install"]}>
+                  <ProjectCard project={data} />
+                  <nav className={css["quick-install-actions"]}>
+                    <Button variant="primary" size="lg" onClick={onInstall}>
+                      {t("fan_made_content.actions.install")}
+                    </Button>
+                    <Button
+                      variant="bare"
+                      onClick={() => setOpen(false)}
+                      size="lg"
+                    >
+                      {t("common.cancel")}
+                    </Button>
+                  </nav>
+                </div>
+              )}
+            </DefaultModalContent>
+          </ModalInner>
+        </Modal>
+      </DialogContent>
+    </Dialog>
   );
 }
 
