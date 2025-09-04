@@ -642,7 +642,12 @@ function QuickInstallDialog({
                 <div className={css["quick-install"]}>
                   <ProjectCard project={data} />
                   <nav className={css["quick-install-actions"]}>
-                    <Button variant="primary" size="lg" onClick={onInstall}>
+                    <Button
+                      variant="primary"
+                      size="lg"
+                      onClick={onInstall}
+                      data-testid="quick-install"
+                    >
                       {t("fan_made_content.actions.install")}
                     </Button>
                     <Button

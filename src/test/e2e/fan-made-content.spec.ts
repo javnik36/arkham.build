@@ -159,6 +159,22 @@ test.describe("fan-made content", () => {
     await ctxPage.close();
     await unshareDeck(page);
   });
+
+  test("fan-made packs can be quick-installed via their id", async ({
+    page,
+  }) => {
+    await page.goto(
+      "/install-fan-made-content?id=84b08ede-8129-4914-b0e3-f48ec649af9f",
+    );
+    await page.getByTestId("quick-install").click();
+
+    const collectionItems = page
+      .getByTestId("collection")
+      .getByTestId("collection-project-title");
+
+    expect(await collectionItems.all()).toHaveLength(1);
+    expect(collectionItems).toHaveText("Dark Matter");
+  });
 });
 
 async function createDeckWithFanMadeCard(page: Page) {

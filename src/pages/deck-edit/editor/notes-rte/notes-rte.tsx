@@ -185,7 +185,7 @@ function NotesRichTextEditorToolbar({ deck }: { deck: ResolvedDeck }) {
           <DialogContent>
             <Modal>
               <ModalBackdrop />
-              <ModalInner size="60rem">
+              <ModalInner size="48rem">
                 <ModalActions />
                 <DefaultModalContent
                   title={t("deck_edit.notes.toolbar.preview")}

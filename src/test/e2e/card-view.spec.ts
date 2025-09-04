@@ -177,6 +177,13 @@ test.describe("card view: display", () => {
     });
   });
 
+  test("renders locations with shroud per investigator", async ({ page }) => {
+    await page.goto("/card/87018");
+    await expect(page.getByTestId("main")).toHaveScreenshot({
+      mask: defaultScreenshotMask(page),
+    });
+  });
+
   test("renders player locations", async ({ page }) => {
     await page.goto("/card/06015a");
     await expect(page.getByTestId("main")).toHaveScreenshot({
