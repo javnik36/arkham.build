@@ -9,7 +9,8 @@ export function ownedCardCount(
   collection: Record<string, number | boolean>,
   showAllCards: boolean | undefined,
 ) {
-  if (showAllCards) return card.quantity;
+  // Treat fan-made content as owned.
+  if (showAllCards || !card.official) return card.quantity;
 
   let quantityOwned = 0;
 
