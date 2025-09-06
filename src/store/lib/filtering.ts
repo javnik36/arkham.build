@@ -430,9 +430,17 @@ export function filterOwnership(
   lookupTables: LookupTables,
   collection: Record<string, number | boolean>,
   showAllCards: boolean,
+  strict = false,
 ) {
   return (
-    ownedCardCount(card, metadata, lookupTables, collection, showAllCards) > 0
+    ownedCardCount(
+      card,
+      metadata,
+      lookupTables,
+      collection,
+      showAllCards,
+      strict,
+    ) > 0
   );
 }
 
@@ -456,7 +464,7 @@ export function filterPackCode(
   }, {});
 
   return (card: Card) =>
-    filterOwnership(card, metadata, lookupTables, filterValue, false);
+    filterOwnership(card, metadata, lookupTables, filterValue, false, true);
 }
 
 /**

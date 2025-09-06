@@ -38,6 +38,7 @@ export function PackFilter({ id, resolvedDeck }: FilterProps) {
   const packOptions = useStore((state) =>
     selectPackOptions(state, resolvedDeck),
   );
+
   const canShowUnusableCards = useStore((state) => state.ui.showUnusableCards);
 
   const options = useMemo(

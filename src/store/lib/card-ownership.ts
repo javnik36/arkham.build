@@ -2,15 +2,17 @@ import type { Card } from "../schemas/card.schema";
 import type { Metadata } from "../slices/metadata.types";
 import type { LookupTables } from "./lookup-tables.types";
 
+// TECH DEBT: clean up function signature.
 export function ownedCardCount(
   card: Card,
   metadata: Metadata,
   lookupTables: LookupTables,
   collection: Record<string, number | boolean>,
   showAllCards: boolean | undefined,
+  strict = false,
 ) {
-  // Treat fan-made content as owned.
-  if (showAllCards || !card.official) return card.quantity;
+  // Treat fan-made content as owned when not checking the pack filter.
+  if (showAllCards || (!strict && !card.official)) return card.quantity;
 
   let quantityOwned = 0;
 
