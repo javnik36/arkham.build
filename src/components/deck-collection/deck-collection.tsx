@@ -212,6 +212,7 @@ export function DeckCollection() {
                     style={{ "--depth": entry.depth } as React.CSSProperties}
                   >
                     <DeckSummary
+                      data-testid="collection-deck"
                       deck={entry.deck}
                       extendedTags
                       interactive

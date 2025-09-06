@@ -38,7 +38,7 @@ type DeckSummaryProps = {
   variant?: "base" | "interactive" | "interactive-bright";
   type?: "deck" | "decklist";
   validation?: DeckValidationResult | string | null;
-};
+} & React.ComponentProps<"article">;
 
 export function DeckSummary(props: DeckSummaryProps) {
   const {
@@ -52,6 +52,7 @@ export function DeckSummary(props: DeckSummaryProps) {
     size,
     type = "deck",
     validation,
+    ...rest
   } = props;
 
   const { t } = useTranslation();
@@ -78,6 +79,7 @@ export function DeckSummary(props: DeckSummaryProps) {
 
   return (
     <article
+      {...rest}
       className={cx(
         css["summary"],
         borderCls,
@@ -85,6 +87,7 @@ export function DeckSummary(props: DeckSummaryProps) {
         showShadow && css["shadow"],
         size && css[size],
         elevation === "elevated" && css["elevated"],
+        rest.className,
       )}
     >
       <Link href={`/${type}/view/${deck.id}`}>

@@ -23,36 +23,41 @@ export function CardlistCount(props: { data: ListState | undefined }) {
   );
 
   return (
-    <span className={css["cardlist-count"]}>
-      <span data-testid="cardlist-count">
+    <>
+      <span className={css["cardlist-count-short"]}>
         {t("lists.nav.card_count", { count })}
       </span>
-      {filteredCount > 0 && (
-        <DefaultTooltip
-          className={css["cardlist-count-tooltip"]}
-          options={tooltipOptions}
-          tooltip={
-            <dl>
-              {filterChanges.map(({ type, change }, i) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: no stable key available.
-                <Fragment key={i}>
-                  <dt>
-                    <strong>{t(`filters.${type}.title`)}:</strong>
-                  </dt>
-                  <dd>{change}</dd>
-                </Fragment>
-              ))}
-            </dl>
-          }
-        >
-          <small>
-            <em>
-              {" "}
-              {t("lists.nav.card_count_hidden", { count: filteredCount })}
-            </em>
-          </small>
-        </DefaultTooltip>
-      )}
-    </span>
+      <span className={css["cardlist-count"]}>
+        <span data-testid="cardlist-count">
+          {t("lists.nav.card_count", { count })}
+        </span>
+        {filteredCount > 0 && (
+          <DefaultTooltip
+            className={css["cardlist-count-tooltip"]}
+            options={tooltipOptions}
+            tooltip={
+              <dl>
+                {filterChanges.map(({ type, change }, i) => (
+                  // biome-ignore lint/suspicious/noArrayIndexKey: no stable key available.
+                  <Fragment key={i}>
+                    <dt>
+                      <strong>{t(`filters.${type}.title`)}:</strong>
+                    </dt>
+                    <dd>{change}</dd>
+                  </Fragment>
+                ))}
+              </dl>
+            }
+          >
+            <small>
+              <em>
+                {" "}
+                {t("lists.nav.card_count_hidden", { count: filteredCount })}
+              </em>
+            </small>
+          </DefaultTooltip>
+        )}
+      </span>
+    </>
   );
 }
