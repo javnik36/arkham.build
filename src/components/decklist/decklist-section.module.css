@@ -18,10 +18,9 @@
 }
 
 .decklist-section.auto .decklist-section-content {
-  column-count: 3;
+  column-count: var(--max-columns);
   column-width: 21.5rem;
   column-gap: 1.5rem;
-  column-fill: balance;
   column-rule: 1px solid var(--palette-point-five);
 }
 

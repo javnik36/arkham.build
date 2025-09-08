@@ -128,6 +128,7 @@ export function Decklist(props: Props) {
       <div className={css["decklist"]} data-testid="view-decklist">
         {groups.slots && (
           <DecklistSection
+            size={Object.keys(deck.slots).length}
             title={labels["slots"]}
             columns={getColumnMode(viewMode, groups.slots)}
           >
