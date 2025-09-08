@@ -87,19 +87,19 @@ a.button {
   min-width: 5ch;
 }
 
-.button.xs.icon-only {
-  padding: 0.125rem;
-}
-
-.button.icon-only {
+.button:not(.none).icon-only {
   padding: 0.375rem;
 }
 
-.button.sm.icon-only {
+.button:not(.none).icon-only.xs {
+  padding: 0.125rem;
+}
+
+.button:not(.none).icon-only.sm {
   padding: 0.25rem;
 }
 
-.button.lg.icon-only {
+.button:not(.none).icon-only.lg {
   padding: 0.5rem;
 }
 

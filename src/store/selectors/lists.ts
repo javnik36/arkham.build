@@ -1570,11 +1570,11 @@ const selectTabooSetChanges = createSelector(
 
 function selectTraitChanges(value: MultiselectFilter) {
   if (!value.length) return "";
+
   return value
     .map((code) => {
       const key = `common.traits.${code}`;
-      const name = i18n.exists(key) ? i18n.t(key) : code;
-      return { code, name };
+      return i18n.exists(key) ? i18n.t(key) : code;
     })
     .join(` ${i18n.t("filters.or")} `);
 }
