@@ -39,9 +39,10 @@ export function applyLocalData(_metadata: Metadata) {
         ...cardToApiFormat(card as unknown as JsonDataCard, "patch"),
       };
     } else {
-      metadata.cards[card.code] = cardToApiFormat(
-        card as unknown as JsonDataCard,
-      );
+      metadata.cards[card.code] = cardToApiFormat({
+        ...(card as unknown as JsonDataCard),
+        official: true,
+      });
     }
   }
 
