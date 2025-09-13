@@ -14,7 +14,11 @@ import { displayAttribute } from "@/utils/card-utils";
 import type { FilterProps } from "./filters.types";
 import { SelectFilter } from "./primitives/select-filter";
 
-export function InvestigatorFilter({ id, resolvedDeck }: FilterProps) {
+export function InvestigatorFilter({
+  id,
+  resolvedDeck,
+  targetDeck,
+}: FilterProps) {
   const { t } = useTranslation();
 
   const filter = useStore((state) => selectActiveListFilter(state, id));
@@ -28,7 +32,7 @@ export function InvestigatorFilter({ id, resolvedDeck }: FilterProps) {
   );
 
   const options = useStore((state) =>
-    selectInvestigatorOptions(state, resolvedDeck),
+    selectInvestigatorOptions(state, resolvedDeck, targetDeck),
   );
 
   const lookupTables = useStore(selectLookupTables);

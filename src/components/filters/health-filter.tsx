@@ -11,7 +11,7 @@ import type { FilterProps } from "./filters.types";
 import { RangeFilter } from "./primitives/range-filter";
 
 export function HealthFilter(props: FilterProps) {
-  const { id, resolvedDeck } = props;
+  const { id, resolvedDeck, targetDeck } = props;
   const { t } = useTranslation();
 
   const filter = useStore((state) => selectActiveListFilter(state, id));
@@ -26,7 +26,7 @@ export function HealthFilter(props: FilterProps) {
   );
 
   const { min, max } = useStore((state) =>
-    selectHealthMinMax(state, resolvedDeck),
+    selectHealthMinMax(state, resolvedDeck, targetDeck),
   );
 
   return (

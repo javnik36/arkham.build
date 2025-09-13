@@ -16,7 +16,7 @@ import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
 import { useFilterCallbacks } from "./primitives/filter-hooks";
 
-export function CostFilter({ id, resolvedDeck }: FilterProps) {
+export function CostFilter({ id, resolvedDeck, targetDeck }: FilterProps) {
   const { t } = useTranslation();
   const filter = useStore((state) => selectActiveListFilter(state, id));
 
@@ -30,7 +30,7 @@ export function CostFilter({ id, resolvedDeck }: FilterProps) {
   );
 
   const { min, max } = useStore((state) =>
-    selectCostMinMax(state, resolvedDeck),
+    selectCostMinMax(state, resolvedDeck, targetDeck),
   );
 
   const { onReset, onChange, onOpenChange } = useFilterCallbacks(id);

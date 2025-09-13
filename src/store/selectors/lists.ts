@@ -104,12 +104,14 @@ export type ListState = {
   totalCardCount: number;
 };
 
+export type TargetDeck = "slots" | "extraSlots" | "both";
+
 function makeUserFilter(
   metadata: Metadata,
   lookupTables: LookupTables,
   list: List,
-  resolvedDeck?: ResolvedDeck,
-  targetDeck?: "slots" | "extraSlots" | "both",
+  resolvedDeck: ResolvedDeck | undefined,
+  targetDeck: TargetDeck | undefined,
 ) {
   const filters: Filter[] = [];
 
@@ -344,7 +346,7 @@ export const selectActiveListFilter = createSelector(
 
 export function selectCanonicalTabooSetId(
   state: StoreState,
-  resolvedDeck?: ResolvedDeck,
+  resolvedDeck: ResolvedDeck | undefined,
 ) {
   if (resolvedDeck) return resolvedDeck.taboo_id;
 
@@ -410,11 +412,11 @@ const fanMadeDataEqualSelector = createCustomEqualSelector((a, b) => {
 const selectDeckInvestigatorFilter = deckAccessEqualSelector(
   selectMetadata,
   selectLookupTables,
-  (_: StoreState, resolvedDeck?: ResolvedDeck) => resolvedDeck,
+  (_: StoreState, resolvedDeck: ResolvedDeck | undefined) => resolvedDeck,
   (
     _: StoreState,
-    __?: ResolvedDeck,
-    targetDeck?: "slots" | "extraSlots" | "both",
+    __: ResolvedDeck | undefined,
+    targetDeck: TargetDeck | undefined,
   ) => targetDeck ?? "slots",
   (state: StoreState) => state.ui.showUnusableCards,
   (state: StoreState) => state.ui.showLimitedAccess,
@@ -494,12 +496,12 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
 );
 
 const selectDeckCustomizations = customizationsEqualSelector(
-  (_: StoreState, resolvedDeck?: ResolvedDeck) => resolvedDeck,
+  (_: StoreState, resolvedDeck: ResolvedDeck | undefined) => resolvedDeck,
   (resolvedDeck) => resolvedDeck?.customizations,
 );
 
 const selectDeckFanMadeData = fanMadeDataEqualSelector(
-  (_: StoreState, resolvedDeck?: ResolvedDeck) => resolvedDeck,
+  (_: StoreState, resolvedDeck: ResolvedDeck | undefined) => resolvedDeck,
   (resolvedDeck) => resolvedDeck?.fanMadeData,
 );
 
@@ -606,11 +608,11 @@ export const selectListCards = createSelector(
   selectActiveList,
   selectBaseListCards,
   selectLocaleSortingCollator,
-  (_: StoreState, resolvedDeck?: ResolvedDeck) => resolvedDeck,
+  (_: StoreState, resolvedDeck: ResolvedDeck | undefined) => resolvedDeck,
   (
     _: StoreState,
-    __: ResolvedDeck,
-    targetDeck: "slots" | "extraSlots" | "both",
+    __: ResolvedDeck | undefined,
+    targetDeck: TargetDeck | undefined,
   ) => targetDeck,
   (
     metadata,

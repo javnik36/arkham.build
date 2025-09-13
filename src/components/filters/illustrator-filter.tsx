@@ -10,7 +10,11 @@ import { assert } from "@/utils/assert";
 import type { FilterProps } from "./filters.types";
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 
-export function IllustratorFilter({ id }: FilterProps) {
+export function IllustratorFilter({
+  id,
+  resolvedDeck,
+  targetDeck,
+}: FilterProps) {
   const { t } = useTranslation();
 
   const filter = useStore((state) => selectActiveListFilter(state, id));
@@ -21,7 +25,9 @@ export function IllustratorFilter({ id }: FilterProps) {
   );
 
   const changes = selectIllustratorChanges(filter.value);
-  const options = useStore(selectIllustratorOptions);
+  const options = useStore((state) =>
+    selectIllustratorOptions(state, resolvedDeck, targetDeck),
+  );
 
   return (
     <MultiselectFilter

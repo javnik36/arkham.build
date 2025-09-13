@@ -106,6 +106,7 @@ export const CardListContainer = forwardRef(function CardListContainer(
           metadata={metadata}
           onSelectGroup={onSelectGroup}
           onViewModeChange={setListViewMode}
+          targetDeck={targetDeck}
           viewMode={viewMode}
         />
         {data &&

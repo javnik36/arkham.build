@@ -17,7 +17,7 @@ import { MultiselectFilter } from "./primitives/multiselect-filter";
 const nameRenderer = (item: Type) => item.name;
 const itemToString = (item: Type) => item.name.toLowerCase();
 
-export function TypeFilter({ id, resolvedDeck }: FilterProps) {
+export function TypeFilter({ id, resolvedDeck, targetDeck }: FilterProps) {
   const { t } = useTranslation();
 
   const activeList = useStore(selectActiveList);
@@ -33,7 +33,9 @@ export function TypeFilter({ id, resolvedDeck }: FilterProps) {
     selectFilterChanges(state, filter.type, filter.value),
   );
 
-  const options = useStore((state) => selectTypeOptions(state, resolvedDeck));
+  const options = useStore((state) =>
+    selectTypeOptions(state, resolvedDeck, targetDeck),
+  );
 
   const onApplyShortcut = useCallback(
     (value: string[]) => {

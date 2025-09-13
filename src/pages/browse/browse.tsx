@@ -29,7 +29,7 @@ function Browse() {
     <CardModalProvider>
       <ListLayoutContextProvider>
         <ListLayout
-          filters={<Filters />}
+          filters={<Filters targetDeck={undefined} />}
           sidebar={<DeckCollection />}
           sidebarWidthMax="var(--sidebar-width-one-col)"
         >

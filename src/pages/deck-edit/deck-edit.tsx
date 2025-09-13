@@ -143,6 +143,9 @@ function DeckEditInner() {
 
   const accentColor = useAccentColor(deck.investigatorBack.card);
 
+  const targetDeck =
+    mapTabToSlot(currentTab) === "extraSlots" ? "extraSlots" : "slots";
+
   const onChangeCardQuantity = useMemo(() => {
     return (card: Card, quantity: number, limit: number) => {
       updateCardQuantity(
@@ -224,7 +227,7 @@ function DeckEditInner() {
         <ListLayout
           filters={
             tabHasFilters ? (
-              <Filters>
+              <Filters targetDeck={targetDeck}>
                 <DecklistValidation
                   defaultOpen={validation.errors.length < 3}
                   validation={validation}
@@ -326,11 +329,7 @@ function DeckEditInner() {
                   {...props}
                   getListCardProps={getListCardProps}
                   quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
-                  targetDeck={
-                    mapTabToSlot(currentTab) === "extraSlots"
-                      ? "extraSlots"
-                      : "slots"
-                  }
+                  targetDeck={targetDeck}
                 />
               </TabsContent>
             </Tabs>

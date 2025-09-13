@@ -894,4 +894,32 @@ test.describe("deck edit", () => {
       page.getByTestId("card-name").getByText("Fire Extinguisher"),
     ).toBeVisible();
   });
+
+  test("add card to spirit deck", async ({ page }) => {
+    await importDeckFromFile(page, "validation/extra_deck.json", {
+      navigate: "edit",
+    });
+
+    await page.getByTestId("editor-tab-extraslots").click();
+    await fillSearch(page, "aquinnah");
+
+    await page
+      .getByTestId("listcard-01082")
+      .getByTestId("quantity-increment")
+      .click();
+
+    await expect(
+      page.getByTestId("editor").getByTestId("listcard-01082"),
+    ).toBeVisible();
+
+    await page
+      .getByTestId("editor")
+      .getByTestId("listcard-01082")
+      .getByTestId("quantity-decrement")
+      .click();
+
+    await expect(
+      page.getByTestId("editor").getByTestId("listcard-01082"),
+    ).not.toBeVisible();
+  });
 });

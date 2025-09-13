@@ -146,7 +146,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
               }
             />
             <FolderTag deckId={deck.id} />
-            <LimitedCardPoolTag />
+            <LimitedCardPoolTag targetDeck="slots" />
             <SealedDeckTag />
           </div>
           {headerSlot && <div>{headerSlot}</div>}

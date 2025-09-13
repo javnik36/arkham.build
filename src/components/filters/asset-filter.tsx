@@ -36,7 +36,7 @@ function renderSlot(c: Option) {
   );
 }
 
-export function AssetFilter({ id, resolvedDeck }: FilterProps) {
+export function AssetFilter({ id, resolvedDeck, targetDeck }: FilterProps) {
   const { t } = useTranslation();
 
   const filter = useStore((state) => selectActiveListFilter(state, id));
@@ -50,7 +50,9 @@ export function AssetFilter({ id, resolvedDeck }: FilterProps) {
     selectFilterChanges(state, filter.type, filter.value),
   );
 
-  const options = useStore((state) => selectAssetOptions(state, resolvedDeck));
+  const options = useStore((state) =>
+    selectAssetOptions(state, resolvedDeck, targetDeck),
+  );
 
   const locale = useStore((state) => state.settings.locale);
 

@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { createSelector } from "reselect";
 import { useShallow } from "zustand/react/shallow";
 import { useStore } from "@/store";
-import { selectPackOptions } from "@/store/selectors/lists";
+import { selectPackOptions, type TargetDeck } from "@/store/selectors/lists";
 import { selectMetadata } from "@/store/selectors/shared";
 import type { StoreState } from "@/store/slices";
 import { isEmpty } from "@/utils/is-empty";
@@ -23,7 +23,11 @@ const selectLimitedCardPoolCards = createSelector(
   },
 );
 
-export function LimitedCardPoolTag() {
+export function LimitedCardPoolTag({
+  targetDeck,
+}: {
+  targetDeck?: TargetDeck;
+}) {
   const ctx = useResolvedDeck();
   const { t } = useTranslation();
 
@@ -31,7 +35,7 @@ export function LimitedCardPoolTag() {
 
   const selectedPacks = useStore(
     useShallow((state) =>
-      selectPackOptions(state, ctx.resolvedDeck).filter((pack) =>
+      selectPackOptions(state, ctx.resolvedDeck, targetDeck).filter((pack) =>
         cardPool?.includes(pack.code),
       ),
     ),

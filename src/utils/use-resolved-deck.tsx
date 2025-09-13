@@ -4,7 +4,7 @@ import type { ResolvedDeck } from "@/store/lib/types";
 import { assert } from "./assert";
 
 interface DeckContextType {
-  resolvedDeck?: ResolvedDeck;
+  resolvedDeck: ResolvedDeck | undefined;
   canEdit?: boolean;
 }
 

@@ -102,7 +102,7 @@ export function ListLayoutNoSidebar(props: Props) {
         data-state={filtersOpen ? "open" : "closed"}
         onClick={floatingFilters ? preventBubble : undefined}
       >
-        <Filters />
+        <Filters targetDeck={undefined} />
       </nav>
     </div>
   );

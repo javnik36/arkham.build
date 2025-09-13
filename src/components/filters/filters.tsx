@@ -6,6 +6,7 @@ import { useStore } from "@/store";
 import {
   selectActiveList,
   selectActiveListFilters,
+  type TargetDeck,
 } from "@/store/selectors/lists";
 import { cx } from "@/utils/cx";
 import { useHotkey } from "@/utils/use-hotkey";
@@ -42,6 +43,7 @@ import { TypeFilter } from "./type-filter";
 type Props = {
   children?: React.ReactNode;
   className?: string;
+  targetDeck: TargetDeck | undefined;
 };
 
 export function Filters(props: Props) {
@@ -121,6 +123,7 @@ export function Filters(props: Props) {
             const params = {
               id: id,
               resolvedDeck,
+              targetDeck: props.targetDeck,
             };
 
             return (

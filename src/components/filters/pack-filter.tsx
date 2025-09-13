@@ -19,7 +19,7 @@ import type { FilterProps } from "./filters.types";
 import { useFilterCallbacks } from "./primitives/filter-hooks";
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 
-export function PackFilter({ id, resolvedDeck }: FilterProps) {
+export function PackFilter({ id, resolvedDeck, targetDeck }: FilterProps) {
   const { t } = useTranslation();
 
   const filter = useStore((state) => selectActiveListFilter(state, id));
@@ -36,7 +36,7 @@ export function PackFilter({ id, resolvedDeck }: FilterProps) {
   );
 
   const packOptions = useStore((state) =>
-    selectPackOptions(state, resolvedDeck),
+    selectPackOptions(state, resolvedDeck, targetDeck),
   );
 
   const canShowUnusableCards = useStore((state) => state.ui.showUnusableCards);

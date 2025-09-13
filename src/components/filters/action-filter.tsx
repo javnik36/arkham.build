@@ -12,7 +12,7 @@ import { assert } from "@/utils/assert";
 import type { FilterProps } from "./filters.types";
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 
-export function ActionFilter({ id, resolvedDeck }: FilterProps) {
+export function ActionFilter({ id, resolvedDeck, targetDeck }: FilterProps) {
   const { t } = useTranslation();
   const filter = useStore((state) => selectActiveListFilter(state, id));
 
@@ -25,7 +25,9 @@ export function ActionFilter({ id, resolvedDeck }: FilterProps) {
     selectFilterChanges(state, filter.type, filter.value),
   );
 
-  const options = useStore((state) => selectActionOptions(state, resolvedDeck));
+  const options = useStore((state) =>
+    selectActionOptions(state, resolvedDeck, targetDeck),
+  );
 
   const nameRenderer = useCallback(
     (item: Coded & { name: string }) => item.name,
