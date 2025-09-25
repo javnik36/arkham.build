@@ -435,7 +435,7 @@ class DeckLimitsValidator implements SlotValidator {
   }
 
   private getCardLimit(card: Card): number {
-    if (card.myriad) return 3;
+    if (card.myriad) return this.limitOverride ?? 3;
     if (this.eldritchBranded && card.code === this.eldritchBranded) return 1;
     return cardLimit(card, this.limitOverride);
   }

@@ -340,6 +340,21 @@ exports[`Deck Validation > invalid: Underworld Support with more than one copy o
 ]
 `;
 
+exports[`Deck Validation > invalid: Underworld Support with more than one copy of a myriad card 1`] = `
+[
+  {
+    "details": [
+      {
+        "code": "06026",
+        "limit": 1,
+        "quantity": 3,
+      },
+    ],
+    "type": "INVALID_CARD_COUNT",
+  },
+]
+`;
+
 exports[`Deck Validation > invalid: Versatile with too many off-class cards 1`] = `
 [
   {

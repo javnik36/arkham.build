@@ -122,6 +122,10 @@ const tests = [
     "invalid: Underworld Support with more than one copy of a card",
     "underworld_support_invalid_deck_limit",
   ],
+  [
+    "invalid: Underworld Support with more than one copy of a myriad card",
+    "underworld_support_invalid_myriad",
+  ],
   // Honed Instinct
   [
     "valid: three copies Honed Instinct with Impulse Control unlocked",
