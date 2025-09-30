@@ -14,9 +14,9 @@
 }
 
 .collection-entry {
-  margin-left: calc(1px * var(--depth) / var(--depth));
+  margin-left: calc(1px * var(--depth) / max(var(--depth), 1));
   padding-left: calc(var(--depth) * 1rem);
-  border-left: calc(1px * var(--depth) / var(--depth)) dashed
+  border-left: calc(1px * var(--depth) / max(var(--depth), 1)) dashed
     var(--folder-color);
 }
 
