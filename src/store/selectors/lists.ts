@@ -736,6 +736,7 @@ const selectListFilterProperties = createSelector(
     const illustrators = new Set<string>();
     const investigators = new Set<string>();
     const packs = new Set<string>();
+    const factions = new Set<string>();
 
     if (cards) {
       for (const card of cards) {
@@ -746,6 +747,16 @@ const selectListFilterProperties = createSelector(
         types.add(card.type_code);
 
         packs.add(card.pack_code);
+
+        factions.add(card.faction_code);
+
+        if (card.faction2_code) {
+          factions.add(card.faction2_code);
+        }
+
+        if (card.faction3_code) {
+          factions.add(card.faction3_code);
+        }
 
         if (card.illustrator) {
           illustrators.add(card.illustrator);
@@ -812,6 +823,7 @@ const selectListFilterProperties = createSelector(
     return {
       actions,
       cost,
+      factions,
       health,
       illustrators,
       investigators,
@@ -913,29 +925,16 @@ export const selectEncounterSetOptions = createSelector(
  */
 
 export const selectFactionOptions = createSelector(
-  selectActiveList,
+  selectListFilterProperties,
   selectMetadata,
-  (list, metadata) => {
-    if (!list) return [];
-
-    const factionMeta = metadata.factions;
-    const cardType = list.cardType;
-
-    const factions = Object.values(factionMeta).filter((f) =>
-      cardType === "player" ? f.is_primary : !f.is_primary,
-    );
-
-    if (cardType !== "player") {
-      factions.push(factionMeta["neutral"]);
-    }
-
-    factions.sort(
-      (a, b) =>
-        FACTION_ORDER.indexOf(a.code as FactionName) -
-        FACTION_ORDER.indexOf(b.code as FactionName),
-    );
-
-    return factions;
+  ({ factions }, metadata) => {
+    return Object.values(metadata.factions)
+      .filter((f) => factions.has(f.code))
+      .sort(
+        (a, b) =>
+          FACTION_ORDER.indexOf(a.code as FactionName) -
+          FACTION_ORDER.indexOf(b.code as FactionName),
+      );
   },
 );
 

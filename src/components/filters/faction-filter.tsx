@@ -11,7 +11,7 @@ import type { FilterProps } from "./filters.types";
 import { useFilterCallbacks } from "./primitives/filter-hooks";
 
 export function FactionFilter(props: FilterProps) {
-  const { id } = props;
+  const { id, resolvedDeck, targetDeck } = props;
 
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(
@@ -19,7 +19,9 @@ export function FactionFilter(props: FilterProps) {
     `FactionFilter instantiated with '${filter?.type}'`,
   );
 
-  const options = useStore(selectFactionOptions);
+  const options = useStore((state) =>
+    selectFactionOptions(state, resolvedDeck, targetDeck),
+  );
 
   const { onChange } = useFilterCallbacks(id);
 
