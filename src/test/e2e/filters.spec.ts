@@ -306,4 +306,20 @@ test.describe("filters", () => {
     await fillSearch(page, "Kōhaku");
     await expect(page.getByTestId("listcard-10012")).toBeVisible();
   });
+
+  test("filters match backsides", async ({ page }) => {
+    await page.getByTestId("card-type-encounter").click();
+    await fillSearch(page, "Predator or Prey");
+    await expect(page.getByTestId("listcard-01121a")).toBeVisible();
+    const typeFilter = page.getByTestId("filter-Type");
+    await typeFilter.getByTestId("collapsible-trigger").click();
+    await typeFilter.getByTestId("combobox-input").click();
+    await typeFilter.getByTestId("combobox-input").fill("enemy");
+    await page.getByTestId("combobox-menu-item-enemy").click();
+    await expect(page.getByTestId("listcard-01121a")).toBeVisible();
+    await page.getByTestId("combobox-menu-item-enemy").click();
+    await typeFilter.getByTestId("combobox-input").fill("location");
+    await page.getByTestId("combobox-menu-item-location").click();
+    await expect(page.getByTestId("listcard-01121a")).not.toBeVisible();
+  });
 });

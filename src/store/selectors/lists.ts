@@ -651,7 +651,15 @@ export const selectListCards = createSelector(
       targetDeck,
     );
 
-    if (filter) filteredCards = filteredCards.filter(filter);
+    if (filter)
+      filteredCards = filteredCards.filter(
+        (card) =>
+          filter(card) ||
+          // surface cards where the backside matches the filter
+          (card.back_link_id &&
+            metadata.cards[card.back_link_id] &&
+            filter(metadata.cards[card.back_link_id])),
+      );
 
     const cards: Card[] = [];
     const groups: CardGroup[] = [];
