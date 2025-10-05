@@ -74,6 +74,8 @@ export function CardModal(props: Props) {
     selectCardWithRelations(state, props.code, true, ctx.resolvedDeck),
   );
 
+  const settings = useStore((state) => state.settings);
+
   const openCardModal = useStore((state) => state.openCardModal);
   const listOrder = useStore((state) => state.ui.cardModal.config?.listOrder);
 
@@ -187,7 +189,7 @@ export function CardModal(props: Props) {
           <SpecialistInvestigators card={cardWithRelations.card} />
         </div>
       )}
-      {!ctx.resolvedDeck && (
+      {!ctx.resolvedDeck && settings.showCardModalPopularDecks && (
         <div className={css["related"]}>
           <PopularDecks scope={cardWithRelations.card} />
         </div>

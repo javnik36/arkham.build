@@ -75,6 +75,7 @@ export function getInitialSettings(): SettingsState {
       defaultOrigin: "player",
     },
     showAllCards: true,
+    showCardModalPopularDecks: true,
     showMoveToSideDeck: false,
     showPreviews: false,
     sortIgnorePunctuation: false,

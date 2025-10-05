@@ -27,6 +27,7 @@ import { useGoBack } from "@/utils/use-go-back";
 import { BackupRestore } from "./backup-restore";
 import { CardDataSync } from "./card-data-sync";
 import { CardDisplaySettings } from "./card-display";
+import { CardModalPopularDecksSetting } from "./card-modal-popular-decks";
 import { Connections } from "./connections";
 import { DefaultEnvironmentSetting } from "./default-environment";
 import { FontSizeSetting } from "./font-size";
@@ -193,6 +194,10 @@ function SettingsInner({
                   setSettings={setSettings}
                 />
                 <ShowMoveToSideDeckSetting
+                  settings={settings}
+                  setSettings={setSettings}
+                />
+                <CardModalPopularDecksSetting
                   settings={settings}
                   setSettings={setSettings}
                 />

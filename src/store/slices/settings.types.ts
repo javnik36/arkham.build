@@ -50,6 +50,7 @@ export type SettingsState = {
     defaultOrigin: CardOrigin;
   };
   showAllCards: boolean;
+  showCardModalPopularDecks: boolean;
   showMoveToSideDeck: boolean;
   showPreviews: boolean;
   sortIgnorePunctuation: boolean;
