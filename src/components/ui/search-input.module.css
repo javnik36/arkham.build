@@ -14,8 +14,12 @@
 }
 
 .input {
-  padding-left: 2rem;
   padding-right: 2rem;
+  width: 100%;
+}
+
+.has-icon .input {
+  padding-left: 2rem;
 }
 
 .icon_search {

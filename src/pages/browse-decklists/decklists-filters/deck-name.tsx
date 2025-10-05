@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Field, FieldLabel } from "@/components/ui/field";
+import { SearchInput } from "@/components/ui/search-input";
 import type { DecklistFilterProps } from "./shared";
 
 export function DeckName({ formState, setFormState }: DecklistFilterProps) {
@@ -8,10 +9,10 @@ export function DeckName({ formState, setFormState }: DecklistFilterProps) {
   return (
     <Field full>
       <FieldLabel htmlFor="deck-name">{t("decklists.filters.name")}</FieldLabel>
-      <input
+      <SearchInput
         id="deck-name"
-        onChange={(evt) => {
-          const name = evt.target.value;
+        omitSearchIcon
+        onChangeValue={(name) => {
           setFormState((prev) => ({ ...prev, name }));
         }}
         placeholder={t("decklists.filters.name_placeholder")}

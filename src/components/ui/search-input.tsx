@@ -7,7 +7,8 @@ import css from "./search-input.module.css";
 interface Props extends React.ComponentProps<"input"> {
   className?: string;
   inputClassName?: string;
-  label: string;
+  label?: string;
+  omitSearchIcon?: boolean;
   onChangeValue: (value: string) => void;
   id: string;
   value: string;
@@ -15,7 +16,16 @@ interface Props extends React.ComponentProps<"input"> {
 
 export const SearchInput = forwardRef<HTMLInputElement, Props>(
   function SearchInput(
-    { className, inputClassName, id, label, onChangeValue, value, ...rest },
+    {
+      className,
+      inputClassName,
+      id,
+      label,
+      omitSearchIcon,
+      onChangeValue,
+      value,
+      ...rest
+    },
     ref,
   ) {
     const onClear = useCallback(() => {
@@ -32,10 +42,18 @@ export const SearchInput = forwardRef<HTMLInputElement, Props>(
     );
 
     return (
-      <div className={cx(css["search"], className)}>
-        <label htmlFor={id} title={label}>
-          <SearchIcon className={css["icon_search"]} />
-        </label>
+      <div
+        className={cx(
+          css["search"],
+          !omitSearchIcon && css["has-icon"],
+          className,
+        )}
+      >
+        {!omitSearchIcon && (
+          <label htmlFor={id} title={label}>
+            <SearchIcon className={css["icon_search"]} />
+          </label>
+        )}
         <input
           {...rest}
           autoComplete="off"
