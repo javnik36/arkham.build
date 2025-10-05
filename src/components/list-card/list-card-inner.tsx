@@ -45,6 +45,7 @@ export type Props = {
   cardLevelDisplay?: SettingsState["cardLevelDisplay"];
   cardShowCollectionNumber?: SettingsState["cardShowCollectionNumber"];
   cardSkillIconsDisplay?: SettingsState["cardSkillIconsDisplay"];
+  cardShowUniqueIcon?: SettingsState["cardShowUniqueIcon"];
   className?: string;
   disableKeyboard?: boolean;
   disableModalOpen?: boolean;
@@ -81,6 +82,7 @@ export function ListCardInner(props: Props) {
     card,
     cardLevelDisplay,
     cardShowCollectionNumber,
+    cardShowUniqueIcon,
     cardSkillIconsDisplay,
     className,
     disableKeyboard,
@@ -218,6 +220,7 @@ export function ListCardInner(props: Props) {
                           : (cardLevelDisplay ?? "icon-only")
                       }
                       cardShowCollectionNumber={cardShowCollectionNumber}
+                      cardShowUniqueIcon={cardShowUniqueIcon}
                     />
                   </ListCardLink>
                 </h4>

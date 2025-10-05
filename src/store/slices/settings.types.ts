@@ -26,6 +26,7 @@ export type SettingsState = {
   cardLevelDisplay: "icon-only" | "dots" | "text";
   cardListsDefaultContentType: FanMadeContentFilter;
   cardShowCollectionNumber?: boolean;
+  cardShowUniqueIcon?: boolean;
   cardShowIcon: boolean;
   cardShowDetails: boolean;
   cardShowThumbnail: boolean;

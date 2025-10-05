@@ -12,12 +12,14 @@ import { cx } from "@/utils/cx";
 import css from "./card-name.module.css";
 import { ExperienceDots } from "./experience-dots";
 import PackIcon from "./icons/pack-icon";
+import { UniqueIcon } from "./icons/unique-icon";
 
 interface Props {
   card: Card;
   children?: React.ReactNode;
   cardLevelDisplay: "icon-only" | "dots" | "text";
   cardShowCollectionNumber?: boolean;
+  cardShowUniqueIcon?: boolean;
   className?: string;
   invert?: boolean;
 }
@@ -27,6 +29,7 @@ export function CardName(props: Props) {
     card,
     cardLevelDisplay,
     cardShowCollectionNumber,
+    cardShowUniqueIcon,
     children,
     className,
     invert,
@@ -35,6 +38,9 @@ export function CardName(props: Props) {
 
   return (
     <div className={cx(css["name"], className)} data-testid="card-name-inner">
+      {cardShowUniqueIcon && !!card.is_unique && (
+        <UniqueIcon className={css["unique"]} />
+      )}
       {children}
       <span
         // biome-ignore lint/security/noDangerouslySetInnerHtml: safe.

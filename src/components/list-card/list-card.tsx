@@ -31,6 +31,7 @@ export function ListCard(props: Props) {
         cardShowCollectionNumber={
           rest.cardShowCollectionNumber ?? settings.cardShowCollectionNumber
         }
+        cardShowUniqueIcon={settings.cardShowUniqueIcon}
         cardSkillIconsDisplay={
           rest.cardSkillIconsDisplay ?? settings.cardSkillIconsDisplay
         }

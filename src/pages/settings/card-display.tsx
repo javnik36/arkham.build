@@ -80,6 +80,17 @@ export function CardDisplaySettings(props: SettingProps) {
       </Field>
 
       <Field>
+        <Checkbox
+          id="show-unique-icon"
+          label={t("settings.display.card_show_unique_icon")}
+          checked={resolve("cardShowUniqueIcon")}
+          onCheckedChange={(value) => {
+            setValue({ cardShowUniqueIcon: !!value });
+          }}
+        />
+      </Field>
+
+      <Field>
         <FieldLabel htmlFor="display-card-size">
           {t("settings.display.card_size")}
         </FieldLabel>
@@ -180,6 +191,7 @@ export function CardDisplaySettings(props: SettingProps) {
                 cardLevelDisplay={resolve("cardLevelDisplay")}
                 cardShowCollectionNumber={resolve("cardShowCollectionNumber")}
                 cardSkillIconsDisplay={resolve("cardSkillIconsDisplay")}
+                cardShowUniqueIcon={resolve("cardShowUniqueIcon")}
                 key={id}
                 omitBorders
                 omitDetails={!resolve("cardShowDetails")}

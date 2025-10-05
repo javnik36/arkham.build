@@ -1426,6 +1426,7 @@
         "card_show_details": "Show card details",
         "card_show_icon": "Show card icon",
         "card_show_thumbnail": "Show card thumbnail",
+        "card_show_unique_icon": "Show unique icon",
         "card_size": "Size",
         "card_size_sm": "Compact",
         "card_size_standard": "Standard",

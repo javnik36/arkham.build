@@ -17,3 +17,8 @@
   vertical-align: baseline;
   font-size: var(--text-2xs);
 }
+
+.unique {
+  display: inline;
+  font-size: 0.625rem;
+}
