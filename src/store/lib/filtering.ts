@@ -12,6 +12,7 @@ import {
   SPECIAL_CARD_CODES,
   TAG_REGEX_FALLBACKS,
 } from "@/utils/constants";
+import { resolveLimitedPoolPacks } from "@/utils/environments";
 import { capitalize } from "@/utils/formatting";
 import type { Filter } from "@/utils/fp";
 import { and, not, notUnless, or } from "@/utils/fp";
@@ -195,9 +196,14 @@ export function filterCardPool(
   metadata: Metadata,
   lookupTables: LookupTables,
 ) {
-  const [cards, packs] = partition(value, (key) => key.startsWith("card:"));
+  const [cards, rest] = partition(value, (key) => key.startsWith("card:"));
 
-  const packFilter = filterPackCode(packs, metadata, lookupTables);
+  const packFilter = filterPackCode(
+    resolveLimitedPoolPacks(metadata, rest).map((p) => p.code),
+    metadata,
+    lookupTables,
+  );
+
   if (isEmpty(cards)) return packFilter;
 
   const codes = cards.map((key) => key.replace("card:", ""));

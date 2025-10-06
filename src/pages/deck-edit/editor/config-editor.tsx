@@ -17,6 +17,7 @@ import type {
   SealedDeck,
 } from "@/store/lib/types";
 import type { DeckOptionSelectType } from "@/store/schemas/card.schema";
+import { selectLimitedPoolPacks } from "@/store/selectors/lists";
 import type { StoreState } from "@/store/slices";
 import { debounce } from "@/utils/debounce";
 import css from "./editor.module.css";
@@ -66,7 +67,14 @@ export function MetaEditor(props: Props) {
 
   const { t } = useTranslation();
 
-  const selectedPacks = useMemo(() => deck.cardPool ?? [], [deck.cardPool]);
+  const selectedPacks = useStore((state) =>
+    selectLimitedPoolPacks(state, deck.cardPool),
+  );
+
+  const selectedPackCodes = useMemo(
+    () => selectedPacks.map((pack) => pack.code),
+    [selectedPacks],
+  );
 
   const updateName = useStore(selectUpdateName);
   const updateTags = useStore(selectUpdateTags);
@@ -234,7 +242,7 @@ export function MetaEditor(props: Props) {
         <LimitedCardPoolField
           investigator={deck.cards.investigator.card}
           onValueChange={onCardPoolChange}
-          selectedItems={selectedPacks}
+          selectedItems={selectedPackCodes}
         />
         <CardPoolExtensionFields deck={deck} />
         <SealedDeckField

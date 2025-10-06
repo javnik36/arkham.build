@@ -11,6 +11,7 @@ import {
   SPECIAL_CARD_CODES,
 } from "@/utils/constants";
 import { createCustomEqualSelector } from "@/utils/custom-equal-selector";
+import { resolveLimitedPoolPacks } from "@/utils/environments";
 import {
   capitalize,
   displayPackName,
@@ -1046,10 +1047,10 @@ export function levelToString(value: number) {
  * Packs
  */
 
-type CycleWithPacks = (Cycle & {
+type CycleWithPacks = Cycle & {
   packs: Pack[];
   reprintPacks: Pack[];
-})[];
+};
 
 export const selectCyclesAndPacks = createSelector(
   selectMetadata,
@@ -1084,7 +1085,7 @@ export const selectCyclesAndPacks = createSelector(
 
         return acc;
       },
-      [] as CycleWithPacks,
+      [] as CycleWithPacks[],
     );
 
     cycles.sort((a, b) => a.position - b.position);
@@ -1156,6 +1157,12 @@ export const selectLimitedPoolPackOptions = createSelector(
         : [...cycle.reprintPacks, ...cycle.packs];
     });
   },
+);
+
+export const selectLimitedPoolPacks = createSelector(
+  selectMetadata,
+  (_: StoreState, pool: string[] | undefined) => pool,
+  (metadata, pool) => resolveLimitedPoolPacks(metadata, pool),
 );
 
 /**
@@ -1517,12 +1524,13 @@ function selectOwnershipChanges(value: OwnershipFilter) {
 }
 
 const selectPackChanges = createSelector(
-  (_: StoreState, value: MultiselectFilter) => value,
   selectMetadata,
-  (value, metadata) => {
+  (_: StoreState, value: MultiselectFilter) => value,
+  (metadata, value) => {
     if (!value) return "";
-    return value
-      .map((id) => displayPackName(metadata.packs[id]))
+
+    return resolveLimitedPoolPacks(metadata, value)
+      .map((pack) => displayPackName(pack))
       .join(` ${i18n.t("filters.or")} `);
   },
 );

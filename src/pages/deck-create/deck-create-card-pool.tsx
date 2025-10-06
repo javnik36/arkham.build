@@ -5,6 +5,7 @@ import { SealedDeckField } from "@/components/limited-card-pool/sealed-deck-fiel
 import { Field, FieldLabel } from "@/components/ui/field";
 import { useStore } from "@/store";
 import type { Card } from "@/store/schemas/card.schema";
+import { selectLimitedPoolPacks } from "@/store/selectors/lists";
 
 type Props = {
   investigator: Card;
@@ -29,7 +30,14 @@ export function DeckCreateCardPool({ investigator }: Props) {
     [deckCreate],
   );
 
-  const selectedItems = useMemo(() => deckCreate?.cardPool ?? [], [deckCreate]);
+  const selectedPacks = useStore((state) =>
+    selectLimitedPoolPacks(state, deckCreate?.cardPool),
+  );
+
+  const selectedItems = useMemo(
+    () => selectedPacks.map((p) => p.code),
+    [selectedPacks],
+  );
 
   return (
     <Field full padded bordered>

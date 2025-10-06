@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { CardlistCount } from "@/components/card-list/card-list-count";
 import { getGroupingKeyLabel, NONE } from "@/store/lib/grouping";
 import type { ResolvedDeck } from "@/store/lib/types";
-import type { ListState, TargetDeck } from "@/store/selectors/lists";
+import type { ListState } from "@/store/selectors/lists";
 import type { ViewMode } from "@/store/slices/lists.types";
 import type { Metadata } from "@/store/slices/metadata.types";
 import { useHotkey } from "@/utils/use-hotkey";
@@ -27,19 +27,11 @@ type Props = {
   metadata: Metadata;
   onSelectGroup: (evt: React.ChangeEvent<HTMLSelectElement>) => void;
   onViewModeChange: (viewMode: ViewMode) => void;
-  targetDeck?: TargetDeck;
   viewMode: ViewMode;
 };
 
 export function CardListNav(props: Props) {
-  const {
-    data,
-    metadata,
-    onSelectGroup,
-    onViewModeChange,
-    targetDeck,
-    viewMode,
-  } = props;
+  const { data, metadata, onSelectGroup, onViewModeChange, viewMode } = props;
   const { t } = useTranslation();
 
   const hasAssetGroup = data?.groups.some((group) =>
@@ -99,7 +91,7 @@ export function CardListNav(props: Props) {
   return (
     <nav className={css["nav"]}>
       <output className={css["nav-stats"]}>
-        <LimitedCardPoolTag targetDeck={targetDeck} />
+        <LimitedCardPoolTag />
         <SealedDeckTag />
         <CardlistCount data={data} />
       </output>
