@@ -1,5 +1,5 @@
 .filters {
-  --filters-spacing-x: 0.75rem;
+  --filters-spacing-x: 0.25rem;
   --filters-spacing-y: 0.5rem;
 
   display: flex;
@@ -13,7 +13,7 @@
   display: flex;
   align-items: center;
   gap: var(--filters-spacing-x);
-  padding-inline: var(--filters-spacing-x);
+  padding-inline: calc(var(--filters-spacing-x) + 0.5rem);
   padding-top: var(--filters-spacing-y);
   gap: 0.25rem;
 }
@@ -37,8 +37,8 @@
 
 .card-type-filter {
   margin-top: calc(var(--filters-spacing-y) * 2);
-  padding-inline: var(--filters-spacing-x);
-  margin-bottom: calc(var(--filters-spacing-y) / 2);
+  padding-inline: calc(var(--filters-spacing-x) + 0.5rem);
+  margin-bottom: calc(var(--filters-spacing-y) / 4);
 }
 
 .children {
