@@ -124,8 +124,10 @@ const selectLimitedCardPoolCards = createSelector(
 
 export function LimitedCardPoolTag({
   deck,
+  omitLegacy = false,
 }: {
   deck: ResolvedDeck | undefined;
+  omitLegacy?: boolean;
 }) {
   const { t } = useTranslation();
 
@@ -138,6 +140,10 @@ export function LimitedCardPoolTag({
   const selectedCards = useStore((state) =>
     selectLimitedCardPoolCards(state, cardPool),
   );
+
+  if (omitLegacy && !cardPool?.length) {
+    return null;
+  }
 
   return (
     <DefaultTooltip

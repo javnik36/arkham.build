@@ -128,7 +128,7 @@ export function DeckSummary(props: DeckSummaryProps) {
         <DeckTagsContainer>
           <ProviderTag deck={deck} />
           <FolderTag deckId={deck.id} />
-          <LimitedCardPoolTag deck={deck} />
+          <LimitedCardPoolTag deck={deck} omitLegacy />
           <SealedDeckTag deck={deck} />
           <DeckTags tags={deckTags(deck, type === "decklist" ? ", " : " ")} />
         </DeckTagsContainer>
