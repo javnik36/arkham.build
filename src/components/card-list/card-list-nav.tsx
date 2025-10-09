@@ -97,10 +97,12 @@ export function CardListNav(props: Props) {
   return (
     <nav className={css["nav"]}>
       <output className={css["nav-stats"]}>
-        <DeckTagsContainer>
-          <LimitedCardPoolTag deck={deck} />
-          <SealedDeckTag deck={deck} />
-        </DeckTagsContainer>
+        {!!deck && (
+          <DeckTagsContainer>
+            <LimitedCardPoolTag deck={deck} />
+            <SealedDeckTag deck={deck} />
+          </DeckTagsContainer>
+        )}
         <CardlistCount data={data} />
       </output>
       <div className={css["nav-row"]}>
