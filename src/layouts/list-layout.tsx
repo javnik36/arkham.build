@@ -2,6 +2,7 @@
 import { FilterIcon } from "lucide-react";
 import type React from "react";
 import { useCallback, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { CollapseSidebarButton } from "@/components/collapse-sidebar-button";
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,7 @@ type Props = {
   className?: string;
   filters?: React.ReactNode;
   mastheadContent?: React.ReactNode;
+  hideSidebarCollapse?: boolean;
   sidebar: React.ReactNode;
   sidebarWidthMax: string;
 };
@@ -31,9 +33,12 @@ export function ListLayout(props: Props) {
     className,
     filters,
     mastheadContent,
+    hideSidebarCollapse,
     sidebar,
     sidebarWidthMax,
   } = props;
+
+  const { t } = useTranslation();
 
   const { filtersOpen, sidebarOpen, setFiltersOpen, setSidebarOpen } =
     useListLayoutContext();
@@ -128,13 +133,15 @@ export function ListLayout(props: Props) {
         onClick={sidebarOpen ? preventBubble : undefined}
         ref={sidebarRef}
       >
-        <CollapseSidebarButton
-          className={css["collapse"]}
-          hotkey="alt+1"
-          hotkeyLabel="Toggle sidebar"
-          onClick={closeSidebar}
-          orientation="left"
-        />
+        {!hideSidebarCollapse && (
+          <CollapseSidebarButton
+            className={css["collapse"]}
+            hotkey="alt+1"
+            hotkeyLabel={t("lists.actions.toggle_sidebar")}
+            onClick={closeSidebar}
+            orientation="left"
+          />
+        )}
         {sidebar}
       </div>
       <div
@@ -147,7 +154,10 @@ export function ListLayout(props: Props) {
       >
         {children({
           slotLeft: !sidebarOpen && (
-            <HotkeyTooltip keybind="alt+1" description="Toggle sidebar">
+            <HotkeyTooltip
+              keybind="alt+1"
+              description={t("lists.actions.toggle_sidebar")}
+            >
               <Button
                 className={css["toggle-sidebar"]}
                 onClick={toggleSidebar}
@@ -159,7 +169,10 @@ export function ListLayout(props: Props) {
             </HotkeyTooltip>
           ),
           slotRight: !!filters && !filtersOpen && (
-            <HotkeyTooltip keybind="alt+2" description="Toggle filters">
+            <HotkeyTooltip
+              keybind="alt+2"
+              description={t("lists.actions.toggle_filters")}
+            >
               <Button
                 className={css["toggle-filters"]}
                 onClick={toggleFilters}
@@ -183,7 +196,7 @@ export function ListLayout(props: Props) {
             className={css["collapse"]}
             onClick={closeFilters}
             hotkey="alt+2"
-            hotkeyLabel="Toggle filters"
+            hotkeyLabel={t("lists.actions.toggle_filters")}
             orientation="right"
           />
           {filters}

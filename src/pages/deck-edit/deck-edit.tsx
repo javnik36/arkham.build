@@ -236,6 +236,7 @@ function DeckEditInner() {
               </Filters>
             ) : null
           }
+          hideSidebarCollapse
           sidebar={
             <Editor
               currentTab={currentTab}
