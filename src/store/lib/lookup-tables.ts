@@ -335,9 +335,7 @@ function createRelations(metadata: Metadata, tables: LookupTables) {
       for (const upgrade of upgrades[card.real_name]) {
         if (
           card.code !== upgrade.code &&
-          (!card.real_subname ||
-            card.xp !== upgrade.xp ||
-            upgrade.subname !== card.real_subname)
+          (card.xp !== upgrade.xp || upgrade.subname !== card.real_subname)
         ) {
           setInLookupTable(upgrade.code, tables.relations.level, card.code);
           setInLookupTable(card.code, tables.relations.level, upgrade.code);
