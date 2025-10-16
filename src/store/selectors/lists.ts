@@ -1171,6 +1171,7 @@ export const selectLimitedPoolPacks = createSelector(
 
 export const selectPropertyOptions = createSelector(
   selectActiveList,
+  selectLocaleSortingCollator, // HACK: trigger re-evaluation on locale change
   (list) => {
     if (!list) return [];
     const t = i18n.t;
