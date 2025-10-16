@@ -65,6 +65,9 @@ export type SettingsSlice = {
   /**
    * Updates settings and refreshes application state. (lookup tables, locales)
    */
-  applySettings: (payload: SettingsState) => Promise<void>;
+  applySettings: (
+    payload: SettingsState,
+    opts?: { keepListState?: boolean },
+  ) => Promise<void>;
   setSettings(payload: Partial<SettingsState>): Promise<void>;
 };

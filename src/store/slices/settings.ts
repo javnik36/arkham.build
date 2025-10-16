@@ -92,28 +92,26 @@ export const createSettingsSlice: StateCreator<
 > = (set, get) => ({
   settings: getInitialSettings(),
   // TODO: extract to `shared` since this touches other state slices.
-  async applySettings(settings) {
+  async applySettings(settings, { keepListState } = {}) {
     const state = get();
 
-    // This has to happen first, since the constructed metadata in `init` depends on the locale in some places.
-    // TODO: revisit where this dependency is coming from.
-    await changeLanguage(settings.locale);
-
     if (settings.locale !== state.settings.locale) {
-      await state.init(
-        queryMetadata,
-        queryDataVersion,
-        queryCards,
-        true,
-        settings.locale,
-        {
-          lists: makeLists(settings),
+      // This has to happen first, since the constructed metadata in `init` depends on the locale in some places.
+      // TODO: once reprint packs are returned localized by the API, remove this.
+      await changeLanguage(settings.locale);
+
+      await state.init(queryMetadata, queryDataVersion, queryCards, {
+        refresh: true,
+        locale: settings.locale,
+        overrides: {
+          lists: keepListState ? state.lists : makeLists(settings),
           settings: {
             ...state.settings,
             ...settings,
           },
         },
-      );
+        keepListState,
+      });
     } else {
       set({
         settings,

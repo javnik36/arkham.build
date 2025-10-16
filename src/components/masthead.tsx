@@ -4,6 +4,7 @@ import { Link, useLocation } from "wouter";
 import { cx } from "@/utils/cx";
 import { HelpMenu } from "./help-menu";
 import { Logo } from "./icons/logo";
+import { LocaleQuickSwitch } from "./locale-quick-switch";
 import css from "./masthead.module.css";
 import { SyncStatus } from "./sync-status";
 import { Button } from "./ui/button";
@@ -35,6 +36,7 @@ export function Masthead(props: Props) {
         {location !== "/settings" && (
           <>
             <SyncStatus />
+            <LocaleQuickSwitch />
             <Link asChild href="~/settings">
               <Button
                 as="a"

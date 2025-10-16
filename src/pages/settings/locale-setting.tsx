@@ -1,9 +1,8 @@
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { LocaleSelect } from "@/components/locale-select";
 import { Field, FieldLabel } from "@/components/ui/field";
-import { Select } from "@/components/ui/select";
 import type { Locale } from "@/store/slices/settings.types";
-import { LOCALES } from "@/utils/constants";
 import type { SettingProps } from "./types";
 
 export function LocaleSetting(props: SettingProps) {
@@ -12,31 +11,24 @@ export function LocaleSetting(props: SettingProps) {
   const { t } = useTranslation();
 
   const onSelectChange = useCallback(
-    (evt: React.ChangeEvent<HTMLSelectElement>) => {
+    (locale: string) => {
       setSettings((settings) => ({
         ...settings,
-        locale: evt.target.value as Locale,
+        locale: locale as Locale,
       }));
     },
     [setSettings],
   );
-
-  const localesOptions = Object.values(LOCALES).map((locale) => ({
-    value: locale.value,
-    label: locale.label,
-  }));
 
   return (
     <Field bordered helpText={t("settings.locale.help")}>
       <FieldLabel as="label" htmlFor="locale-select">
         {t("settings.locale.title")}
       </FieldLabel>
-      <Select
+      <LocaleSelect
         id="locale-select"
-        options={localesOptions}
-        required
         value={settings.locale}
-        onChange={onSelectChange}
+        onValueChange={onSelectChange}
       />
     </Field>
   );

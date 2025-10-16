@@ -19,9 +19,12 @@ export type AppSlice = {
     queryMetadata: (locale?: Locale) => Promise<MetadataResponse>,
     queryDataVersion: (locale?: Locale) => Promise<DataVersionResponse>,
     queryCards: (locale?: Locale) => Promise<AllCardResponse>,
-    refresh?: boolean,
-    locale?: Locale,
-    overrides?: Partial<StoreState>,
+    opts?: {
+      locale?: Locale;
+      overrides?: Partial<StoreState>;
+      refresh?: boolean;
+      keepListState?: boolean;
+    },
   ): Promise<boolean>;
 
   createDeck(): Promise<Id>;

@@ -49,9 +49,9 @@
   background: var(--palette-point-five);
   color: var(--palette-5);
   padding: 0.25rem;
-  border: 1px solid var(--palette-0);
+  border: 1px solid var(--palette-2);
   border-radius: var(--rounded);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow);
   font-family: var(--font-family-ui);
   list-style-type: none;
   padding: 0;

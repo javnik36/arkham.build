@@ -46,7 +46,7 @@ import { WeaknessPoolSetting } from "./weakness-pool";
 
 function Settings() {
   const settings = useStore((state) => state.settings);
-  const updateSettings = useStore((state) => state.applySettings);
+  const applySettings = useStore((state) => state.applySettings);
 
   const [colorTheme, updateColorTheme] = useColorThemeManager();
 
@@ -56,7 +56,7 @@ function Settings() {
       key={`${settingsKey}-${colorTheme}`}
       settings={settings}
       updateColorTheme={updateColorTheme}
-      updateSettings={updateSettings}
+      updateSettings={applySettings}
     />
   );
 }

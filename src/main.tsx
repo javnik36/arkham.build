@@ -54,7 +54,7 @@ async function init() {
 
   await useStore
     .getState()
-    .init(queryMetadata, queryDataVersion, queryCards, false);
+    .init(queryMetadata, queryDataVersion, queryCards, { refresh: false });
 
   const tabSyncListener = (evt: TabSyncEvent) => {
     useStore.setState(evt.state);

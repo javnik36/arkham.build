@@ -39,7 +39,10 @@ export function CardDataSync(props: Props) {
 
   const initStore = useCallback(
     () =>
-      init(queryMetadata, queryDataVersion, queryCards, true, settings.locale),
+      init(queryMetadata, queryDataVersion, queryCards, {
+        refresh: true,
+        locale: settings.locale,
+      }),
     [init, settings.locale],
   );
 
