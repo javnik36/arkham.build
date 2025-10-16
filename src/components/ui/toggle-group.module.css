@@ -57,11 +57,13 @@
 
   &:first-child {
     border-left-width: 1px;
-    border-radius: var(--rounded-xl) 0 0 var(--rounded-xl);
+    border-top-left-radius: var(--rounded-xl);
+    border-bottom-left-radius: var(--rounded-xl);
   }
 
   &:last-child {
-    border-radius: 0 var(--rounded-xl) var(--rounded-xl) 0;
+    border-top-right-radius: var(--rounded-xl);
+    border-bottom-right-radius: var(--rounded-xl);
     border-right-color: var(--color-border);
   }
 
