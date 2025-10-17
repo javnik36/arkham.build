@@ -177,7 +177,6 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       // "tags" is sometimes empty string, see: https://github.com/Kamalisk/arkhamdb-json-data/pull/1351#issuecomment-1937852236
       if (!card.tags) card.tags = undefined;
       card.parallel = cycle?.code === "parallel";
-      card.original_slot = card.real_slot;
 
       metadata.cards[card.code] = card;
 

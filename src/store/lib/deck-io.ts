@@ -346,7 +346,7 @@ function formatCustomizableSelection(
   if (option.choice === "remove_slot") {
     return selections
       .map((s) => {
-        const slot = splitMultiValue(card.original_slot);
+        const slot = splitMultiValue(card.original?.real_slot);
         const slotStr = slot[Number.parseInt(s, 10)];
         return i18n.t(`common.slot.${slotStr.toLowerCase()}`);
       })

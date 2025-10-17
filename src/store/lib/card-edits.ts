@@ -1,7 +1,7 @@
 import type { Metadata } from "@/store/slices/metadata.types";
 import { displayAttribute, splitMultiValue } from "@/utils/card-utils";
 import i18n from "@/utils/i18n";
-import type { Card } from "../schemas/card.schema";
+import type { ApiCard, Card } from "../schemas/card.schema";
 import type { Customizations } from "./types";
 
 type Insert = {
@@ -137,6 +137,9 @@ function applyCustomizations(
           const choice = Number.parseInt(selections ?? "", 10);
 
           if (!Number.isNaN(choice) && card.real_slot) {
+            nextCard.original ??= {};
+            nextCard.original.real_slot = card.real_slot;
+
             nextCard.real_slot = card.real_slot
               ?.split(".")
               .reduce<string>((acc, curr, i) => {
@@ -202,6 +205,11 @@ export function applyTaboo(
   for (const [key, value] of Object.entries(taboo)) {
     if (value !== undefined) {
       nextCard[key as keyof Card] = value as never;
+      const originalValue = card[key as keyof ApiCard];
+      if (originalValue) {
+        nextCard.original ??= {};
+        nextCard.original[key as keyof ApiCard] = originalValue as never;
+      }
     }
   }
 

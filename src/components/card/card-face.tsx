@@ -72,7 +72,7 @@ export function CardFace(props: Props) {
           typeCode={card.type_code}
           victory={card.victory}
         />
-        <CardTabooText card={card} />
+        <CardTabooText card={card} showOriginalText={size !== "tooltip"} />
         <CardMeta resolvedCard={resolvedCard} size={size} />
         {children}
       </div>

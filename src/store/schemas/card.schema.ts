@@ -318,8 +318,8 @@ const CardRuntimeAttributes = {
   customization_xp: z.number().nullish(),
   /** marks fan-made cards */
   official: z.boolean().nullish(),
-  /* copy of real slot, can be changed by customizable. */
-  original_slot: z.string().nullish(),
+  /* copy of card attributes, can be changed by customizable or taboos */
+  original: ApiCardSchema.partial().nullish(),
   /* indicates whether a card is part of a parallel investigator pack. */
   parallel: z.boolean().nullish(),
 };

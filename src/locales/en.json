@@ -283,6 +283,7 @@
       "taboo_chained": "Costs {{xp}} additional experience.",
       "taboo_mutated": "Mutated",
       "taboo_none": "none",
+      "taboo_original_text": "Original card text",
       "taboo_unchained": "Costs {{xp}} experience less.",
       "total": "total",
       "trait_one": "Trait",

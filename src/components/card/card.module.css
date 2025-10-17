@@ -408,6 +408,12 @@
   margin-right: 0.25rem;
 }
 
+.taboo-original-text .text {
+  padding: 0.5rem;
+  background: var(--palette-1);
+  margin-top: 0.25rem;
+}
+
 :lang(ko, zh, zh-Hant, zh-Hans) :where(.sub) {
   font-style: normal;
 }

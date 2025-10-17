@@ -25,7 +25,13 @@ export function CustomizationRemoveSlot(props: Props) {
 
   if (readonly) {
     return (
-      <Tag size="xs">{splitMultiValue(card.original_slot)[+selections[0]]}</Tag>
+      <Tag size="xs">
+        {
+          splitMultiValue(card.original?.real_slot).map((slot) =>
+            t(`common.slot.${slot.toLowerCase()}`),
+          )[+selections[0]]
+        }
+      </Tag>
     );
   }
 
@@ -36,10 +42,12 @@ export function CustomizationRemoveSlot(props: Props) {
       data-testid="customization-remove-slot"
       id={`${id}-remove-slot`}
       onChange={onValueChange}
-      options={splitMultiValue(card.original_slot).map((slot, i) => ({
-        label: t(`common.slot.${slot.toLowerCase()}`),
-        value: i.toString(),
-      }))}
+      options={splitMultiValue(card.original?.real_slot ?? card.real_slot).map(
+        (slot, i) => ({
+          label: t(`common.slot.${slot.toLowerCase()}`),
+          value: i.toString(),
+        }),
+      )}
     />
   );
 }
