@@ -185,6 +185,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
         if (encounterSet) {
           if (
+            !card.hidden &&
             card.position < (encounterSet.position ?? Number.MAX_SAFE_INTEGER)
           ) {
             encounterSet.position = card.position;
