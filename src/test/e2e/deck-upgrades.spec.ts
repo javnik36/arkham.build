@@ -206,6 +206,44 @@ test.describe("upgrades: views", () => {
     });
   });
 
+  test("shows newer deck history", async ({ page }) => {
+    await importStandardDeck(page);
+    await upgradeDeck(page);
+
+    await page.getByTestId("view-edit").click();
+
+    await adjustListCardQuantity(page, "07159", "increment");
+    await adjustListCardQuantity(page, "07159", "increment");
+
+    await adjustDeckCardQuantity(page, "07117", "decrement");
+    await adjustDeckCardQuantity(page, "07117", "decrement");
+
+    await page.getByTestId("editor-save").click();
+
+    await upgradeDeck(page);
+
+    await page.getByTestId("view-edit").click();
+
+    await adjustListCardQuantity(page, "08067", "increment");
+    await adjustListCardQuantity(page, "08067", "increment");
+
+    await adjustDeckCardQuantity(page, "06117", "decrement");
+    await adjustDeckCardQuantity(page, "10101", "decrement");
+
+    await clearDeckDescription(page);
+
+    await page.getByTestId("editor-save").click();
+    await page.getByTestId("tab-history").click();
+
+    await page.getByRole("link", { name: "Upgrade #" }).click();
+    await page.getByTestId("tab-history").click();
+
+    await page.waitForTimeout(5000);
+    await expect(page.getByTestId("history")).toHaveScreenshot({
+      mask: defaultScreenshotMask(page),
+    });
+  });
+
   test("show customization in history", async ({ page }) => {
     await importStandardDeck(page);
     await upgradeDeck(page);

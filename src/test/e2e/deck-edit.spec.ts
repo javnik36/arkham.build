@@ -6,6 +6,7 @@ import {
   assertEditorDeckQuantity,
   fillSearch,
   importDeckFromFile,
+  waitForImagesLoaded,
 } from "./actions";
 import { mockApiCalls } from "./mocks";
 
@@ -710,11 +711,13 @@ test.describe("deck edit", () => {
     await adjustListCardQuantity(page, "01016", "increment");
     await adjustListCardQuantity(page, "01016", "increment");
     await page.getByTestId("editor-versions").click();
+    await waitForImagesLoaded(page.getByTestId("undo-history"));
     await expect(page.getByTestId("undo-history")).toHaveScreenshot();
     await page.getByTestId("editor-save").click();
     await page.getByTestId("view-edit").click();
     await adjustDeckCardQuantity(page, "01016", "decrement");
     await page.getByTestId("editor-versions").click();
+    await waitForImagesLoaded(page.getByTestId("undo-history"));
     await expect(page.getByTestId("undo-history")).toHaveScreenshot({
       mask: [page.getByTestId("entry-timestamp")],
     });

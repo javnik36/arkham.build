@@ -29,6 +29,7 @@ import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Id } from "@/store/schemas/deck.schema";
 import { selectConnectionsData } from "@/store/selectors/connections";
+import type { History } from "@/store/selectors/decks";
 import {
   selectConnectionLock,
   selectConnectionLockForDeck,
@@ -60,6 +61,7 @@ import type { DeckOrigin } from "./types";
 
 type Props = {
   className?: string;
+  history?: History;
   innerClassName?: string;
   origin: DeckOrigin;
   deck: ResolvedDeck;
@@ -67,7 +69,7 @@ type Props = {
 };
 
 export function Sidebar(props: Props) {
-  const { className, innerClassName, origin, deck, type } = props;
+  const { className, history, innerClassName, origin, deck, type } = props;
 
   const connectionsData = useStore(selectConnectionsData);
 
@@ -95,8 +97,9 @@ export function Sidebar(props: Props) {
         </DialogContent>
 
         <SidebarActions
-          onArkhamDBUpload={onArkhamDBUpload}
           deck={deck}
+          history={history}
+          onArkhamDBUpload={onArkhamDBUpload}
           origin={origin}
           type={type}
         />
@@ -136,10 +139,11 @@ function SidebarUpgrade(props: { deck: ResolvedDeck }) {
 function SidebarActions(props: {
   origin: DeckOrigin;
   deck: ResolvedDeck;
+  history?: History;
   type: DeckDisplayType;
   onArkhamDBUpload?: () => void;
 }) {
-  const { origin, deck, onArkhamDBUpload, type } = props;
+  const { history, origin, deck, onArkhamDBUpload, type } = props;
 
   const { t } = useTranslation();
   const [, navigate] = useLocation();
@@ -201,7 +205,7 @@ function SidebarActions(props: {
   const onUpgradeModalOpenChange = useCallback((val: boolean) => {
     setUpgradeModalOpen(val);
     if (!val && window.location.hash.includes("upgrade")) {
-      history.replaceState(null, "", " ");
+      window.history.replaceState(null, "", " ");
     }
   }, []);
 
@@ -249,19 +253,35 @@ function SidebarActions(props: {
   useHotkey("cmd+shift+j", onExportJson);
   useHotkey("cmd+shift+t", onExportText);
 
-  const nextDeck = isReadOnly
-    ? `${origin !== "share" ? `/${type}/view/` : "/share/"}${deck.next_deck}`
-    : undefined;
+  const originPrefix = origin !== "share" ? `/${type}/view/` : "/share/";
+
+  const nextDeck = isReadOnly ? `${originPrefix}${deck.next_deck}` : undefined;
+
+  const latestId = history?.[0]?.id;
+  const latestDeck =
+    latestId && deck.id !== latestId ? `${originPrefix}${latestId}` : undefined;
 
   return (
     <>
-      {nextDeck && (
+      {(nextDeck || latestDeck) && (
         <Notice variant="info">
-          <Trans
-            t={t}
-            i18nKey="deck_view.newer_version"
-            components={{ a: <Link href={nextDeck} /> }}
-          />
+          {nextDeck && (
+            <Trans
+              t={t}
+              i18nKey="deck_view.newer_version"
+              components={{ a: <Link href={nextDeck} /> }}
+            />
+          )}
+          {latestDeck && (
+            <>
+              {" "}
+              <Trans
+                t={t}
+                i18nKey="deck_view.latest_version"
+                components={{ a: <Link href={latestDeck} /> }}
+              />
+            </>
+          )}
         </Notice>
       )}
       <div className={css["actions"]}>

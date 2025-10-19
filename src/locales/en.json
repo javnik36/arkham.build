@@ -1036,6 +1036,7 @@
       },
       "import_failed": "Failed to import deck: {{error}}",
       "import_success": "Deck imported successfully.",
+      "latest_version": "<a>Jump to latest version</a>.",
       "list": "List",
       "loading": "Fetching deck...",
       "newer_version": "There is a <a>newer version</a> of this deck. This deck is read-only.",

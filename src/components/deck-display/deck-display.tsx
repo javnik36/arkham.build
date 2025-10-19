@@ -164,6 +164,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
           <Sidebar
             className={css["sidebar"]}
             deck={deck}
+            history={history}
             innerClassName={css["sidebar-inner"]}
             origin={origin}
             type={type}

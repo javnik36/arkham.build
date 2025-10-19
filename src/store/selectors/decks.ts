@@ -262,6 +262,7 @@ export const selectDeckHistoryCached = createSelector(
   selectLocaleSortingCollator,
   (id, metadata, lookupTables, data, sharing, settings, collator) => {
     const deck = data.decks[id];
+    if (!deck) return [];
 
     return selectDeckHistory(
       { metadata, data, sharing, settings },
@@ -278,15 +279,14 @@ export function selectDeckHistory(
   collator: Intl.Collator,
   deck: Deck,
 ) {
-  const history = deps.data.history[deck.id]
-    ? [...deps.data.history[deck.id]]
-    : [];
-
-  if (!deck || !history.length) return [];
-
   time("deck_history");
 
-  history.unshift(deck.id);
+  const history = findDeckHistory(deck, deps.data);
+  if (!history.length) {
+    timeEnd("deck_history");
+    return [];
+  }
+
   history.reverse();
 
   const resolvedDecks = history.map((deckId) =>
@@ -300,8 +300,28 @@ export function selectDeckHistory(
   const deckHistory = getDeckHistory(resolvedDecks, deps.metadata, collator);
 
   timeEnd("deck_history");
-
   return deckHistory;
+}
+
+function findDeckHistory(deck: Deck, dataSlice: StoreState["data"]) {
+  if (dataSlice.history[deck.id]) {
+    const history = [...dataSlice.history[deck.id]];
+    history.unshift(deck.id);
+    return history;
+  }
+
+  if (deck.next_deck || deck.previous_deck) {
+    const relatedHistoryEntry = Object.entries(dataSlice.history).find(
+      ([, history]) => history.includes(deck.id),
+    );
+
+    if (!relatedHistoryEntry) return [];
+
+    const [latest, relatedHistory] = relatedHistoryEntry;
+    return [latest, ...relatedHistory];
+  }
+
+  return [];
 }
 
 function diffSortingFn(fallback: (a: Card, b: Card) => number) {

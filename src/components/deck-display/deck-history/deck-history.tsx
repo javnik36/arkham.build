@@ -1,5 +1,5 @@
 import type { TFunction } from "i18next";
-import { SquareArrowOutUpRightIcon } from "lucide-react";
+import { PinIcon, SquareArrowOutUpRightIcon } from "lucide-react";
 import { Fragment } from "react/jsx-runtime";
 import { useTranslation } from "react-i18next";
 import { Link } from "wouter";
@@ -31,28 +31,32 @@ export function DeckHistory(props: Props) {
     <ol className={css["entries"]} data-testid="history">
       {history.map((stats, idx) => {
         const isLast = idx === history.length - 1;
-        const isCurrent = idx === 0;
+        const isCurrent = stats.id === deck.id;
 
-        const title = isCurrent
-          ? t("deck_view.history.current_upgrade")
-          : isLast
-            ? t("deck_view.history.initial_deck")
-            : t("deck_view.history.upgrade", {
-                index: history.length - idx - 1,
-              });
+        const title =
+          isCurrent && !isLast
+            ? t("deck_view.history.current_upgrade")
+            : isLast
+              ? t("deck_view.history.initial_deck")
+              : t("deck_view.history.upgrade", {
+                  index: history.length - idx - 1,
+                });
 
-        const titleNode =
-          idx === 0 ? (
-            title
-          ) : (
-            <Link to={`${prefix}/${stats.id}`}>
-              {title}
-              <SquareArrowOutUpRightIcon />
-            </Link>
-          );
+        const titleNode = isCurrent ? (
+          <>
+            <PinIcon />
+            {title}
+          </>
+        ) : (
+          <Link to={`${prefix}/${stats.id}`}>
+            {title}
+            <SquareArrowOutUpRightIcon />
+          </Link>
+        );
 
         return (
           <DeckHistoryEntry
+            className={isCurrent ? css["current"] : undefined}
             data={stats}
             deck={deck}
             // biome-ignore lint/suspicious/noArrayIndexKey: no natural key available.
@@ -73,6 +77,7 @@ function formatModifier(modifier: Modifier, t: TFunction) {
 
 export function DeckHistoryEntry(props: {
   children?: React.ReactNode;
+  className?: string;
   data: HistoryEntry;
   deck: ResolvedDeck;
   showUpgradeXp?: boolean;
@@ -82,8 +87,16 @@ export function DeckHistoryEntry(props: {
 }) {
   const { t } = useTranslation();
 
-  const { children, data, deck, size, showDiscounts, showUpgradeXp, title } =
-    props;
+  const {
+    children,
+    className,
+    data,
+    deck,
+    size,
+    showDiscounts,
+    showUpgradeXp,
+    title,
+  } = props;
 
   const hasChanges =
     !isEmpty(data.differences.slots) ||
@@ -92,7 +105,7 @@ export function DeckHistoryEntry(props: {
     !isEmpty(data.differences.exileSlots);
 
   return (
-    <li className={cx(css["entry"], size && css[size])}>
+    <li className={cx(css["entry"], size && css[size], className)}>
       <h3 className={css["entry-title"]}>{title}</h3>
       {showUpgradeXp &&
         data.xp != null &&

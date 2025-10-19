@@ -119,10 +119,15 @@ function ArkhamDBDeckView({ id, type }: { id: string; type: DeckDisplayType }) {
     ),
   );
 
+  const deck = decks.find((d) => d.id === idInt);
+  if (!deck) {
+    return <ErrorStatus statusCode={404} />;
+  }
+
   return (
     <DeckViewInner
       origin="arkhamdb"
-      deck={decks[0]}
+      deck={deck}
       headerSlot={meta ? <ArkhamdbDecklistMeta {...meta} /> : undefined}
       history={
         decks.length > 1
