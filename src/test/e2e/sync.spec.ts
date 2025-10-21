@@ -172,6 +172,7 @@ test.describe("ArkhamDB sync", props, () => {
     await expect(display).toHaveScreenshot({
       mask: defaultScreenshotMask(page),
     });
+    await cleanupDeck(page);
   });
 });
 
