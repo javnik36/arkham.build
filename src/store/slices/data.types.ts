@@ -32,5 +32,5 @@ export type DataSlice = {
   duplicateDeck(id: Id, options?: { applyEdits: boolean }): Promise<Id>;
   importDeck(code: string): Promise<void>;
   importFromFiles(files: FileList): Promise<void>;
-  removeDeckFromFolder(deckId: Id): void;
+  removeDeckFromFolder(deckId: Id): Promise<void>;
 };

@@ -145,7 +145,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
 
     await dehydrate(get(), "app");
   },
-  removeDeckFromFolder(deckId) {
+  async removeDeckFromFolder(deckId) {
     set((state) => {
       const deckFolders = { ...state.data.deckFolders };
       delete deckFolders[deckId];
@@ -156,6 +156,8 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
         },
       };
     });
+
+    await dehydrate(get(), "app");
   },
 });
 
