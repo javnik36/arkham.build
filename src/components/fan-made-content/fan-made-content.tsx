@@ -9,7 +9,7 @@ import {
   LinkIcon,
   Trash2Icon,
 } from "lucide-react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "wouter";
 import * as z from "zod";
@@ -69,6 +69,15 @@ export function FanMadeContent(props: SettingProps) {
   const { t } = useTranslation();
   const toast = useToast();
   const [searchParams] = useSearchParams();
+
+  // TECH DEBT: the current preview implementation re-uses the card grid.
+  // we don't want preview modals here, make sure a user interaction does not persist one.
+  const closeCardModal = useStore((state) => state.closeCardModal);
+  useEffect(() => {
+    return () => {
+      closeCardModal();
+    };
+  }, [closeCardModal]);
 
   const addFanMadeProject = useStore((state) => state.addFanMadeProject);
 
