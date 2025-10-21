@@ -1,7 +1,7 @@
 import type { FactionName, SkillIcon } from "@/utils/constants";
 import type { Attachments, Card, OptionSelect } from "../schemas/card.schema";
 import type { Cycle } from "../schemas/cycle.schema";
-import type { Deck } from "../schemas/deck.schema";
+import type { Deck, Slots } from "../schemas/deck.schema";
 import type { EncounterSet } from "../schemas/encounter-set.schema";
 import type { SubType, Type } from "../schemas/metadata.schema";
 import type { Pack } from "../schemas/pack.schema";
@@ -74,6 +74,13 @@ export type DeckFanMadeContent = {
   packs: Record<string, Pack>;
 };
 
+export type DeckFanMadeContentSlots = {
+  slots: Slots;
+  sideSlots: Slots | null;
+  ignoreDeckLimitSlots: Slots | null;
+  investigatorCode: string;
+};
+
 export type DeckMeta = {
   alternate_back?: string | null;
   alternate_front?: string | null;
@@ -81,6 +88,7 @@ export type DeckMeta = {
   deck_size_selected?: string | null;
   extra_deck?: string | null;
   fan_made_content?: DeckFanMadeContent;
+  hidden_slots?: DeckFanMadeContentSlots;
   faction_1?: string | null;
   faction_2?: string | null;
   faction_selected?: string | null;

@@ -1,5 +1,5 @@
 import type { StoreApi } from "zustand";
-import type { Deck } from "@/store/schemas/deck.schema";
+import { type Deck, DeckSchema } from "@/store/schemas/deck.schema";
 import {
   selectLocaleSortingCollator,
   selectLookupTables,
@@ -10,18 +10,40 @@ import type { StoreState } from "../slices";
 import type { Provider } from "../slices/connections.types";
 import { mapValidationToProblem } from "./deck-io";
 import { validateDeck } from "./deck-validation";
+import { applyHiddenSlots, extractHiddenSlots } from "./fan-made-content";
 import { resolveDeck } from "./resolve-deck";
 
-interface SyncAdapter {
+interface SyncAdapter<Output extends Record<string, unknown>> {
   in(deck: Deck): Deck;
-  out(deck: Deck): Deck;
+  out(deck: Deck): Output;
 }
 
-class ArkhamDBAdapter implements SyncAdapter {
+type ArkhamDBDeckPayload = Omit<
+  Deck,
+  | "slots"
+  | "sideSlots"
+  | "ignoreDeckLimitSlots"
+  | "problem"
+  | "source"
+  | "version"
+  | "previous_deck"
+  | "next_deck"
+  | "taboo_id"
+  | "meta"
+> & {
+  slots: string;
+  side: string | undefined;
+  ignored: string | undefined;
+  taboo: number | undefined;
+};
+
+class ArkhamDBAdapter implements SyncAdapter<ArkhamDBDeckPayload> {
   constructor(public state: StoreState) {}
 
   in(_deck: Deck): Deck {
-    const deck = structuredClone(_deck);
+    const deck = DeckSchema.parse(_deck);
+
+    applyHiddenSlots(deck);
 
     const lookupTables = selectLookupTables(this.state);
     const metadata = selectMetadata(this.state);
@@ -50,16 +72,24 @@ class ArkhamDBAdapter implements SyncAdapter {
   }
 
   out(_deck: Deck) {
-    const deck: Record<string, unknown> = structuredClone(_deck);
-    deck.slots = JSON.stringify(deck.slots);
-    deck.side = JSON.stringify(deck.sideSlots);
-    deck.ignored = JSON.stringify(deck.ignoreDeckLimitSlots);
-    deck.source = undefined;
-    deck.version = undefined;
-    deck.previous_deck = undefined;
-    deck.next_deck = undefined;
-    deck.taboo = deck.taboo_id;
-    return deck as Deck;
+    const deck = structuredClone(_deck);
+    extractHiddenSlots(deck);
+
+    const payload = deck as Record<string, unknown>;
+
+    payload.slots = JSON.stringify(deck.slots);
+    payload.side = JSON.stringify(deck.sideSlots);
+    payload.ignored = JSON.stringify(deck.ignoreDeckLimitSlots);
+    payload.source = undefined;
+    payload.version = undefined;
+    payload.previous_deck = undefined;
+    payload.next_deck = undefined;
+    payload.taboo = deck.taboo_id;
+
+    delete payload.sideSlots;
+    delete payload.ignoreDeckLimitSlots;
+
+    return payload as ArkhamDBDeckPayload;
   }
 }
 

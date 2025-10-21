@@ -56,7 +56,12 @@ export function decodeSelections(
           name: option.name ?? key,
           value:
             (option.id
-              ? deckMeta[option.id as keyof Omit<DeckMeta, "fan_made_content">]
+              ? deckMeta[
+                  option.id as keyof Omit<
+                    DeckMeta,
+                    "fan_made_content" | "hidden_slots"
+                  >
+                ]
               : deckMeta.faction_selected) ?? undefined,
         };
       } else if (option.option_select) {

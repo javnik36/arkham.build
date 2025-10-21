@@ -5,6 +5,7 @@ import {
   cycleToApiFormat,
   packToApiFormat,
 } from "@/utils/arkhamdb-json-format";
+import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import type { FanMadeCard } from "../schemas/card.schema";
 import type { EncounterSet } from "../schemas/encounter-set.schema";
 import {
@@ -14,7 +15,7 @@ import {
 import type { StoreState } from "../slices";
 import type { Metadata } from "../slices/metadata.types";
 import { decodeDeckMeta } from "./deck-meta";
-import type { DeckFanMadeContent } from "./types";
+import type { DeckFanMadeContent, DeckFanMadeContentSlots } from "./types";
 
 export function parseFanMadeProject(data: unknown): FanMadeProject {
   return z.parse(FanMadeProjectSchema, data);
@@ -191,4 +192,67 @@ export function buildCacheFromDecks(decks: Deck[]) {
       encounter_sets: {},
     } as DeckFanMadeContent,
   );
+}
+
+export function extractHiddenSlots(deck: Deck) {
+  const meta = decodeDeckMeta(deck);
+  if (!meta.fan_made_content) return;
+
+  const fanMadeContentSlots: DeckFanMadeContentSlots = {
+    slots: {},
+    sideSlots: null,
+    ignoreDeckLimitSlots: null,
+    investigatorCode: deck.investigator_code,
+  };
+
+  for (const key of ["slots", "sideSlots", "ignoreDeckLimitSlots"] as const) {
+    const slots = Object.entries(deck[key] ?? {});
+    if (!slots.length) continue;
+
+    for (const [code, quantity] of slots) {
+      if (meta.fan_made_content.cards?.[code]) {
+        fanMadeContentSlots[key] ??= {};
+        fanMadeContentSlots[key][code] = quantity;
+        delete deck[key]?.[code];
+      }
+    }
+  }
+
+  if (meta.fan_made_content.cards[deck.investigator_code]) {
+    fanMadeContentSlots.investigatorCode = deck.investigator_code;
+    deck.investigator_code = SPECIAL_CARD_CODES.SUZI;
+    deck.investigator_name = "Subject 5U-21";
+  }
+
+  meta.hidden_slots = fanMadeContentSlots;
+
+  deck.meta = JSON.stringify(meta);
+}
+
+export function applyHiddenSlots(deck: Deck) {
+  const meta = decodeDeckMeta(deck);
+  if (!meta.hidden_slots) return;
+
+  const fanMadeContentSlots = meta.hidden_slots;
+
+  for (const key of ["slots", "sideSlots", "ignoreDeckLimitSlots"] as const) {
+    const slots = Object.entries(fanMadeContentSlots[key] ?? {});
+    if (!slots.length) continue;
+
+    for (const [code, quantity] of slots) {
+      deck[key] ??= {};
+      deck[key][code] = quantity;
+    }
+  }
+
+  if (fanMadeContentSlots.investigatorCode !== deck.investigator_code) {
+    deck.investigator_code = fanMadeContentSlots.investigatorCode;
+    deck.investigator_name =
+      meta.fan_made_content?.cards?.[fanMadeContentSlots.investigatorCode]
+        ?.name || deck.investigator_name;
+  }
+
+  delete meta.hidden_slots;
+
+  deck.meta = JSON.stringify(meta);
 }

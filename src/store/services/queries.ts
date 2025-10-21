@@ -255,18 +255,21 @@ export async function getDecks(
       };
 }
 
-export async function newDeck(clientId: string, deck: Deck): Promise<Deck> {
+export async function newDeck(
+  clientId: string,
+  payload: Record<string, unknown>,
+): Promise<Deck> {
   const res = await authenticatedRequest("/user/decks", {
     headers: {
       "Content-Type": "application/json",
       "X-Client-Id": clientId,
     },
     body: JSON.stringify({
-      investigator: deck.investigator_code,
-      name: deck.name,
-      slots: JSON.stringify(deck.slots),
-      taboo: deck.taboo_id,
-      meta: deck.meta,
+      investigator: payload.investigator_code,
+      name: payload.name,
+      slots: payload.slots,
+      taboo: payload.taboo,
+      meta: payload.meta,
     }),
     method: "POST",
   });
@@ -274,7 +277,10 @@ export async function newDeck(clientId: string, deck: Deck): Promise<Deck> {
   return await res.json();
 }
 
-export async function updateDeck(clientId: string, deck: Deck): Promise<Deck> {
+export async function updateDeck(
+  clientId: string,
+  deck: Record<string, unknown>,
+): Promise<Deck> {
   const res = await authenticatedRequest(`/user/decks/${deck.id}`, {
     headers: {
       "Content-Type": "application/json",

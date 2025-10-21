@@ -272,7 +272,8 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         continue;
       }
 
-      meta[key as keyof Omit<DeckMeta, "fan_made_content">] = value;
+      meta[key as keyof Omit<DeckMeta, "fan_made_content" | "hidden_slots">] =
+        value;
     }
 
     if (deckSizeOption && !meta.deck_size_selected) {
@@ -347,7 +348,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
       try {
         const adapter = new syncAdapters["arkhamdb"](state);
-        const { id } = await newDeck(state.app.clientId, deck);
+        const { id } = await newDeck(state.app.clientId, adapter.out(deck));
 
         deck = adapter.in(
           await updateDeck(state.app.clientId, adapter.out({ ...deck, id })),

@@ -10,6 +10,8 @@ arkham.build extends the _arkhamdb deck schema_ with a few fields for additional
 - `meta.attachments_{code}`: cards that are attached to a specific setup deck, for example _Joe Diamond_ or _Stick to the Plan_. Format: comma-separated list of ids `"id1,id2,id2,id3"`.
 - `meta.card_pool`: packs that can be used for this deck. Used for limited pool deckbuilding such as #campaign-playalong. Format: `"<pack_code>,<pack_code>"`. For arkham.build, new format pack codes take precedence over old format. Cycles can be added as `cycle:<cycle_code>`.
 - `meta.card_pool_extension_{code}`: Some cards can extend the card pool with choices. This tracks their selection state. Format: `"card:<code>,card:<code>"`. 
+- `meta.fan_made_content`: Stores fan-made content (cards, packs, encounter sets) used in this deck. See [here](https://github.com/arkham-build/fan-made-content).
+- `meta.hidden_slots`: When syncing decks with fan-made content to ArkhamDB, we need to extract the slot entries and investigator. This object holds this data so we can later re-apply it.
 - `meta.sealed_deck`: card ids that are pickable for this deck. Used for sealed deckbuilding. Format: comma-separated list of `id` / `quantity` pairs in the format `"id:2,id:1,..."`.
 - `meta.sealed_deck_name`: name of the sealed deck definition used. format: string.
 - `meta.transform_into`: code of the investigator that this deck's investigator has transformed into. I.e. `04244` for _Body of a Yithian_.
@@ -24,6 +26,8 @@ ArkhamDB imposes a strict limit on the amount of data that can be stored in the 
 The following fields are currently handled in this fashion:
 
 - `meta.annotation_{code}`
+- `meta.fan_made_content`
+- `meta.hidden_slots`
 - `meta.intro_md`
 - `meta.sealed_deck`
 - `meta.sealed_deck_name`

@@ -17,7 +17,7 @@ const DeckProblemSchema = z.enum([
 export type DeckProblem = z.infer<typeof DeckProblemSchema>;
 
 const SafeSlotsSchema = z.preprocess(
-  (val) => (Array.isArray(val) ? null : val),
+  (val) => (Array.isArray(val) ? {} : val),
   SlotsSchema.nullish(),
 );
 
