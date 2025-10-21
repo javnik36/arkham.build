@@ -202,7 +202,7 @@ export function extractHiddenSlots(deck: Deck) {
     slots: {},
     sideSlots: null,
     ignoreDeckLimitSlots: null,
-    investigatorCode: deck.investigator_code,
+    investigator_code: deck.investigator_code,
   };
 
   for (const key of ["slots", "sideSlots", "ignoreDeckLimitSlots"] as const) {
@@ -219,7 +219,7 @@ export function extractHiddenSlots(deck: Deck) {
   }
 
   if (meta.fan_made_content.cards[deck.investigator_code]) {
-    fanMadeContentSlots.investigatorCode = deck.investigator_code;
+    fanMadeContentSlots.investigator_code = deck.investigator_code;
     deck.investigator_code = SPECIAL_CARD_CODES.SUZI;
     deck.investigator_name = "Subject 5U-21";
   }
@@ -245,10 +245,10 @@ export function applyHiddenSlots(deck: Deck) {
     }
   }
 
-  if (fanMadeContentSlots.investigatorCode !== deck.investigator_code) {
-    deck.investigator_code = fanMadeContentSlots.investigatorCode;
+  if (fanMadeContentSlots.investigator_code !== deck.investigator_code) {
+    deck.investigator_code = fanMadeContentSlots.investigator_code;
     deck.investigator_name =
-      meta.fan_made_content?.cards?.[fanMadeContentSlots.investigatorCode]
+      meta.fan_made_content?.cards?.[fanMadeContentSlots.investigator_code]
         ?.name || deck.investigator_name;
   }
 

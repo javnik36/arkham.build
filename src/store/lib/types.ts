@@ -78,7 +78,7 @@ export type DeckFanMadeContentSlots = {
   slots: Slots;
   sideSlots: Slots | null;
   ignoreDeckLimitSlots: Slots | null;
-  investigatorCode: string;
+  investigator_code: string;
 };
 
 export type DeckMeta = {
