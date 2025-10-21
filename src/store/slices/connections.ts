@@ -121,7 +121,7 @@ export const createConnectionsSlice: StateCreator<
     state.setRemoting("arkhamdb", true);
 
     try {
-      const { id } = await newDeck(state.app.clientId, deck);
+      const { id } = await newDeck(state.app.clientId, adapter.out(deck));
       const nextDeck = adapter.in(
         await updateDeck(state.app.clientId, adapter.out({ ...deck, id })),
       );
