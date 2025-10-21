@@ -115,7 +115,11 @@ export function DeckDisplay(props: DeckDisplayProps) {
 
   return (
     <AppLayout title={deck ? deck.name : ""}>
-      <main className={cx(css["main"], css[origin])} style={cssVariables}>
+      <main
+        className={cx(css["main"], css[origin])}
+        style={cssVariables}
+        data-testid="deck-display"
+      >
         <header className={css["header"]}>
           {origin === "local" ? (
             <Dialog>

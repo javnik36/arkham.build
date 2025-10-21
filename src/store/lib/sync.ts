@@ -38,24 +38,28 @@ type ArkhamDBDeckPayload = Omit<
 };
 
 class ArkhamDBAdapter implements SyncAdapter<ArkhamDBDeckPayload> {
-  constructor(public state: StoreState) {}
+  constructor(public stateGetter: StoreApi<StoreState>["getState"]) {}
 
   in(_deck: Deck): Deck {
-    const deck = DeckSchema.parse(_deck);
+    let state = this.stateGetter();
 
+    const deck = DeckSchema.parse(_deck);
     applyHiddenSlots(deck);
 
-    const lookupTables = selectLookupTables(this.state);
-    const metadata = selectMetadata(this.state);
+    state.cacheFanMadeContent([deck]);
+    state = this.stateGetter();
+
+    const lookupTables = selectLookupTables(state);
+    const metadata = selectMetadata(state);
 
     const validation = validateDeck(
       resolveDeck(
         {
           lookupTables,
           metadata,
-          sharing: this.state.sharing,
+          sharing: state.sharing,
         },
-        selectLocaleSortingCollator(this.state),
+        selectLocaleSortingCollator(state),
         deck,
       ),
       metadata,

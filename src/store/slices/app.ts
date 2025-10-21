@@ -347,7 +347,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       state.setRemoting("arkhamdb", true);
 
       try {
-        const adapter = new syncAdapters["arkhamdb"](state);
+        const adapter = new syncAdapters["arkhamdb"](get);
         const { id } = await newDeck(state.app.clientId, adapter.out(deck));
 
         deck = adapter.in(
@@ -492,7 +492,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       state.setRemoting("arkhamdb", true);
 
       try {
-        const adapter = new syncAdapters.arkhamdb(state);
+        const adapter = new syncAdapters.arkhamdb(get);
         nextDeck = adapter.in(
           await updateDeck(state.app.clientId, adapter.out(nextDeck)),
         );
@@ -587,7 +587,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       state.setRemoting("arkhamdb", true);
 
       try {
-        const adapter = new syncAdapters.arkhamdb(state);
+        const adapter = new syncAdapters.arkhamdb(get);
         nextDeck = adapter.in(
           await updateDeck(state.app.clientId, adapter.out(nextDeck)),
         );
@@ -739,7 +739,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     if (deck.source === "arkhamdb") {
       state.setRemoting("arkhamdb", true);
       try {
-        const adapter = new syncAdapters.arkhamdb(state);
+        const adapter = new syncAdapters.arkhamdb(get);
         const res = await upgradeDeck(state.app.clientId, deck.id, {
           xp,
           exiles: exileString,

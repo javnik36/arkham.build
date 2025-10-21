@@ -1,8 +1,11 @@
 import test, { expect, type Page } from "@playwright/test";
 import {
   adjustListCardQuantity,
+  defaultScreenshotMask,
   fillSearch,
   importDeckFromFile,
+  importPackFromFile,
+  waitForImagesLoaded,
 } from "./actions";
 
 const props = {
@@ -136,6 +139,39 @@ test.describe("ArkhamDB sync", props, () => {
     await expect(page.getByTestId("connection-status")).toContainText(
       "Verbunden",
     );
+  });
+
+  test("sync deck with fan-made content", async ({ page }) => {
+    await connectArkhamDB(page);
+    await page.goto("/settings?tab=fan-made-content");
+    await importPackFromFile(page, "fan_made_investigator_project.json");
+    await page.getByTestId("masthead-logo").click();
+    await page.getByTestId("collection-create-deck").click();
+    await page.getByTestId("search-input").click();
+    await page.getByTestId("search-input").fill("lucia");
+    await page
+      .getByTestId("listcard-a33f6beb-915c-428c-8891-df292ddec98a")
+      .getByTestId("create-choose-investigator")
+      .click();
+    await page.getByTestId("create-provider").selectOption("arkhamdb");
+    await page.getByTestId("create-save").click();
+    await page
+      .getByTestId("listcard-38fa4050-d63d-4870-91cd-a076d642f192")
+      .getByTestId("listcard-title")
+      .click();
+    await page
+      .getByTestId("card-modal-quantities-side")
+      .getByTestId("quantity-increment")
+      .click();
+    await page.locator("body").press("Escape");
+    await page.getByTestId("editor-save").click();
+
+    const display = page.getByTestId("deck-display");
+    await waitForImagesLoaded(display);
+    await page.waitForTimeout(5000);
+    await expect(display).toHaveScreenshot({
+      mask: defaultScreenshotMask(page),
+    });
   });
 });
 

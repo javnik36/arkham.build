@@ -111,7 +111,7 @@ export const createConnectionsSlice: StateCreator<
     const connection = state.connections.data[provider];
     assert(connection, `Connection for ${provider} was not found.`);
 
-    const adapter = new syncAdapters[provider](state);
+    const adapter = new syncAdapters[provider](get);
 
     assert(
       !deck.previous_deck && !deck.next_deck,
@@ -192,7 +192,7 @@ async function syncConnection(
   set: StoreApi<StoreState>["setState"],
 ) {
   const state = get();
-  const adapater = new syncAdapters[connection.provider](state);
+  const adapater = new syncAdapters[connection.provider](get);
 
   try {
     const res = await getDecks(
