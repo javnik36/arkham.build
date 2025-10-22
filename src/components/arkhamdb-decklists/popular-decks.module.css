@@ -16,10 +16,15 @@
 }
 
 .title {
-  display: flex;
   font-size: var(--text-sm);
-  gap: 0.25rem;
-  align-items: center;
+}
+
+.title i {
+  margin-right: 0.125rem;
+}
+
+.title a {
+  margin-inline: 1px;
 }
 
 .title-link {
