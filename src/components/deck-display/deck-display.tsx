@@ -69,10 +69,10 @@ export type DeckDisplayProps = {
 
 export function DeckDisplay(props: DeckDisplayProps) {
   const {
-    origin,
     deck,
     headerSlot,
     history,
+    origin,
     type = "deck",
     validation,
   } = props;
@@ -144,8 +144,12 @@ export function DeckDisplay(props: DeckDisplayProps) {
           )}
           <div className={css["tags"]} data-testid="view-tags">
             <DeckTagsContainer>
-              <ProviderTag deck={deck} />
-              <FolderTag deckId={deck.id} />
+              {origin === "local" && (
+                <>
+                  <ProviderTag deck={deck} />
+                  <FolderTag deckId={deck.id} />
+                </>
+              )}
               <LimitedCardPoolTag deck={deck} />
               <SealedDeckTag deck={deck} />
               <DeckTags tags={deckTags(deck, type === "deck" ? " " : ", ")} />
