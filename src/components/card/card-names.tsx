@@ -6,7 +6,6 @@ import { displayAttribute, parseCardTitle } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { preventLeftClick } from "@/utils/prevent-links";
 import { CardName } from "../card-name";
-import { UniqueIcon } from "../icons/unique-icon";
 import { useDialogContext } from "../ui/dialog.hooks";
 import css from "./card.module.css";
 
@@ -37,7 +36,7 @@ export function CardNames(props: Props) {
         )}
         {card.is_unique && (
           <span className={css["unique"]}>
-            {card.is_unique && <UniqueIcon />}
+            {card.is_unique && <i className="icon-unique" />}
           </span>
         )}
       </CardName>

@@ -65,6 +65,9 @@
 .icon-paintbrush:before {
   content: "\e923";
 }
+.icon-unique:before {
+  content: "\e93f";
+}
 .icon-tdc_rune_a:before {
   content: "\e909";
 }
@@ -254,9 +257,6 @@
 .icon-reaction:before {
   content: "\75";
 }
-.icon-fast:before,
-.icon-lightning:before,
-.icon-lighting:before,
 .icon-free:before {
   content: "\76";
 }

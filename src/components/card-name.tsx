@@ -12,7 +12,6 @@ import { cx } from "@/utils/cx";
 import css from "./card-name.module.css";
 import { ExperienceDots } from "./experience-dots";
 import PackIcon from "./icons/pack-icon";
-import { UniqueIcon } from "./icons/unique-icon";
 
 interface Props {
   card: Card;
@@ -39,7 +38,7 @@ export function CardName(props: Props) {
   return (
     <div className={cx(css["name"], className)} data-testid="card-name-inner">
       {cardShowUniqueIcon && !!card.is_unique && (
-        <UniqueIcon className={css["unique"]} />
+        <i className={cx(css["unique"], "icon-unique")} />
       )}
       {children}
       <span
