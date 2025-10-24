@@ -899,6 +899,12 @@ svg {
   font-family: var(--font-family-content);
 }
 
+.icon-fast:before,
+.icon-lightning:before,
+.icon-lighting:before {
+  content: "\76";
+}
+
 /**
  Locale-specific styles
 */
