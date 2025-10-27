@@ -10,7 +10,6 @@ import {
   type SkillKey,
   SPECIAL_CARD_CODES,
 } from "@/utils/constants";
-import { createCustomEqualSelector } from "@/utils/custom-equal-selector";
 import { resolveLimitedPoolPacks } from "@/utils/environments";
 import {
   capitalize,
@@ -363,7 +362,7 @@ export function selectCanonicalTabooSetId(
   return selectSettingsTabooId(state.settings, selectMetadata(state));
 }
 
-// This selector uses a custom equality check that avoid re-creation on every deck change.
+// Custom equality check for deck's card access.
 // Deck access is only affected by a few subset of deck changes:
 // 1. The deck changes.
 // 2. The taboo that the deck uses changes.
@@ -374,7 +373,10 @@ export function selectCanonicalTabooSetId(
 // 7. Deck card pool changes.
 // 8. Sealed deck changes.
 // 9. Stored deck has changed.
-const deckAccessEqualSelector = createCustomEqualSelector((a, b) => {
+const deckAccessEqual = (
+  a: ResolvedDeck | undefined,
+  b: ResolvedDeck | undefined,
+) => {
   if (isResolvedDeck(a) && isResolvedDeck(b)) {
     return (
       a.id === b.id && // 1
@@ -393,27 +395,22 @@ const deckAccessEqualSelector = createCustomEqualSelector((a, b) => {
 
   // biome-ignore lint/suspicious/noDoubleEquals: we want a shallow equality check in this context.
   return a == b;
-});
+};
 
-// Mirrors the customization check above.
-const customizationsEqualSelector = createCustomEqualSelector((a, b) => {
-  return isResolvedDeck(a) && isResolvedDeck(b)
-    ? JSON.stringify(a.customizations) === JSON.stringify(b.customizations)
-    : // biome-ignore lint/suspicious/noDoubleEquals: we want a shallow equality check in this context.
-      a == b;
-});
+const selectDeckCachedByCardAccess = createSelector(
+  (_: StoreState, resolvedDeck: ResolvedDeck | undefined) => resolvedDeck,
+  (resolvedDeck) => resolvedDeck,
+  {
+    memoizeOptions: {
+      resultEqualityCheck: deckAccessEqual,
+    },
+  },
+);
 
-const fanMadeDataEqualSelector = createCustomEqualSelector((a, b) => {
-  return isResolvedDeck(a) && isResolvedDeck(b)
-    ? JSON.stringify(a.fanMadeData) === JSON.stringify(b.fanMadeData)
-    : // biome-ignore lint/suspicious/noDoubleEquals: we want a shallow equality check in this context.
-      a == b;
-});
-
-const selectDeckInvestigatorFilter = deckAccessEqualSelector(
+const selectDeckInvestigatorFilter = createSelector(
   selectMetadata,
   selectLookupTables,
-  (_: StoreState, resolvedDeck: ResolvedDeck | undefined) => resolvedDeck,
+  selectDeckCachedByCardAccess,
   (
     _: StoreState,
     __: ResolvedDeck | undefined,
@@ -496,13 +493,53 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
   },
 );
 
-const selectDeckCustomizations = customizationsEqualSelector(
+const customizationsEqual = (
+  a: ResolvedDeck | undefined,
+  b: ResolvedDeck | undefined,
+) => {
+  return isResolvedDeck(a) && isResolvedDeck(b)
+    ? JSON.stringify(a.customizations) === JSON.stringify(b.customizations)
+    : // biome-ignore lint/suspicious/noDoubleEquals: we want a shallow equality check in this context.
+      a == b;
+};
+
+const selectDeckCachedByCustomizations = createSelector(
   (_: StoreState, resolvedDeck: ResolvedDeck | undefined) => resolvedDeck,
+  (resolvedDeck) => resolvedDeck,
+  {
+    memoizeOptions: {
+      resultEqualityCheck: customizationsEqual,
+    },
+  },
+);
+
+const selectDeckCustomizations = createSelector(
+  selectDeckCachedByCustomizations,
   (resolvedDeck) => resolvedDeck?.customizations,
 );
 
-const selectDeckFanMadeData = fanMadeDataEqualSelector(
+const fanMadeDataEqual = (
+  a: ResolvedDeck | undefined,
+  b: ResolvedDeck | undefined,
+) => {
+  return isResolvedDeck(a) && isResolvedDeck(b)
+    ? JSON.stringify(a.fanMadeData) === JSON.stringify(b.fanMadeData)
+    : // biome-ignore lint/suspicious/noDoubleEquals: we want a shallow equality check in this context.
+      a == b;
+};
+
+const selectDeckCachedByFanMadeData = createSelector(
   (_: StoreState, resolvedDeck: ResolvedDeck | undefined) => resolvedDeck,
+  (resolvedDeck) => resolvedDeck,
+  {
+    memoizeOptions: {
+      resultEqualityCheck: fanMadeDataEqual,
+    },
+  },
+);
+
+const selectDeckFanMadeData = createSelector(
+  selectDeckCachedByFanMadeData,
   (resolvedDeck) => resolvedDeck?.fanMadeData,
 );
 
