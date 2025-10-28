@@ -27,9 +27,13 @@ export function CardTypeFilter(props: FilterProps & { className?: string }) {
 
   const onToggle = useCallback(
     (value: CardTypeFilterType) => {
-      onChange(value);
+      if (value === filter.value) {
+        onChange("");
+      } else {
+        onChange(value);
+      }
     },
-    [onChange],
+    [onChange, filter.value],
   );
 
   useHotkey("alt+p", () => onToggle("player"));
