@@ -1360,6 +1360,9 @@
     "rules": {
       "title": "Rules reference"
     },
+    "search": {
+      "title": "Search results"
+    },
     "settings": {
       "backup": {
         "confirm": "Are you sure you want to restore this backup? Any existing data will be overwritten.",

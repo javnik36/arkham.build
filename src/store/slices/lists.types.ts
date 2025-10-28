@@ -175,6 +175,11 @@ export type ListsSlice = {
   addList(
     key: string,
     initialValues?: Partial<Record<FilterKey, FilterMapping[FilterKey]>>,
+    opts?: {
+      showOwnershipFilter?: boolean;
+      showInvestigatorFilter?: boolean;
+      search?: string;
+    },
   ): void;
 
   removeList(key: string): void;

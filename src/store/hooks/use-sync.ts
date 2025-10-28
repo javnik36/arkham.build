@@ -56,8 +56,9 @@ export function shouldAutoSync(
   return (
     !isEmpty(connections.data) &&
     syncHealthy(connections) &&
-    !location.includes("settings") &&
-    !location.includes("connect") &&
+    !location.includes("/settings") &&
+    !location.includes("/connect") &&
+    !location.includes("/search") &&
     (!connections.lastSyncedAt ||
       Date.now() - connections.lastSyncedAt > 30 * 60 * 1000)
   );

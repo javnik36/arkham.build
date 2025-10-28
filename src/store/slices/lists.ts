@@ -420,10 +420,17 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
     });
   },
 
-  addList(key, initialValues) {
+  addList(
+    key,
+    initialValues,
+    opts = {
+      search: "",
+      showOwnershipFilter: true,
+      showInvestigatorFilter: true,
+    },
+  ) {
     set((state) => {
       const lists = { ...state.lists };
-      assert(!lists[key], `list ${key} already exists.`);
 
       const values = mergeInitialValues(initialValues ?? {}, state.settings);
 
@@ -432,12 +439,19 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
         duplicateFilter: (c) => filterDuplicates(c) || !!c.parallel,
         filters: cardsFilters({
           additionalFilters: ["illustrator"],
-          showOwnershipFilter: true,
-          showInvestigatorsFilter: true,
+          showOwnershipFilter: opts.showOwnershipFilter,
+          showInvestigatorsFilter: opts.showOwnershipFilter,
         }),
         initialValues: values,
         key,
         systemFilter: filterBacksides,
+        search: {
+          value: opts.search ?? "",
+          includeBacks: false,
+          includeFlavor: false,
+          includeGameText: false,
+          includeName: true,
+        },
       });
 
       return { lists };
@@ -820,7 +834,7 @@ function mergeInitialValues(
 ) {
   return {
     ...initialValues,
-    card_type: "player",
+    card_type: initialValues.card_type ?? "player",
     fan_made_content: getInitialFanMadeContentFilter(settings),
     ownership: getInitialOwnershipFilter(settings),
   };

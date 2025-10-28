@@ -38,6 +38,8 @@ const About = lazy(() => import("./pages/about/about"));
 
 const Share = lazy(() => import("./pages/share/share"));
 
+const Search = lazy(() => import("./pages/search/search"));
+
 const CollectionStats = lazy(
   () => import("./pages/collection-stats/collection-stats"),
 );
@@ -100,6 +102,7 @@ function AppInner() {
           <Router hook={useBrowserLocation}>
             <Switch>
               <Route component={Browse} path="/" />
+              <Route component={Search} path="/search" />
               <Route component={CardView} path="/card/:code" />
               <Route
                 component={CardViewUsable}
