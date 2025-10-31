@@ -4,7 +4,7 @@ import { useStore } from "@/store";
 import css from "./preview-banner.module.css";
 import { Button } from "./ui/button";
 
-const BANNER_ID = "preview-tdc";
+const BANNER_ID = "preview-core-2026";
 
 export function PreviewBanner() {
   const settings = useStore((state) => state.settings);
