@@ -330,6 +330,21 @@ function createRelations(metadata: Metadata, tables: LookupTables) {
         tables.relations.duplicates,
         card.duplicate_of_code,
       );
+
+      setInLookupTable(
+        card.duplicate_of_code,
+        tables.relations.duplicates,
+        card.code,
+      );
+
+      for (const key of Object.keys(
+        tables.relations.duplicates[card.duplicate_of_code] || {},
+      )) {
+        if (key !== card.code) {
+          setInLookupTable(card.code, tables.relations.duplicates, key);
+          setInLookupTable(key, tables.relations.duplicates, card.code);
+        }
+      }
     }
 
     if (upgrades[card.real_name] && card.xp != null) {
