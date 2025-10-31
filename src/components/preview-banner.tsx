@@ -43,7 +43,7 @@ export function PreviewBanner() {
       <div className={css["content"]}>
         <header className={css["header"]}>
           <h3 className={css["title"]}>
-            <i className="encounters-tdcp" />
+            <i className="encounters-core_2026" />
             {t("preview_banner.title")}
           </h3>
         </header>
