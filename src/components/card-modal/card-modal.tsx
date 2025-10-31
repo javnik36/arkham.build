@@ -189,11 +189,13 @@ export function CardModal(props: Props) {
           <SpecialistInvestigators card={cardWithRelations.card} />
         </div>
       )}
-      {!ctx.resolvedDeck && settings.showCardModalPopularDecks && (
-        <div className={css["related"]}>
-          <PopularDecks scope={cardWithRelations.card} />
-        </div>
-      )}
+      {!cardWithRelations.card.preview &&
+        !ctx.resolvedDeck &&
+        settings.showCardModalPopularDecks && (
+          <div className={css["related"]}>
+            <PopularDecks scope={cardWithRelations.card} />
+          </div>
+        )}
     </>
   );
 
