@@ -55,6 +55,7 @@ const tests = [
   ["valid: dunwich off-class access", "dunwich"],
   ["invalid: too many dunwich off-class cards", "dunwich_invalid"],
   ["valid: off-class access with faction selection", "faction_select"],
+  ["valid: faction selection with an option id", "faction_select_option_id"],
   [
     "invalid: off-class access with faction selection",
     "faction_select_invalid",
@@ -245,8 +246,9 @@ const tests = [
 ];
 
 function validate(store: StoreApi<StoreState>, deck: Deck) {
-  const state = store.getState();
+  store.getState().cacheFanMadeContent([deck]);
 
+  const state = store.getState();
   const metadata = selectMetadata(state);
   const lookupTables = selectLookupTables(state);
 

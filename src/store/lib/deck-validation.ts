@@ -222,6 +222,7 @@ function validateInvestigator(deck: ResolvedDeck) {
       valid = !!deck.metaParsed.deck_size_selected;
     } else if (option.faction_select) {
       valid =
+        !!(option.id && deck.metaParsed[option.id as keyof DeckMeta]) ||
         !!deck.metaParsed.faction_selected ||
         (!!deck.metaParsed.faction_1 && !!deck.metaParsed.faction_2);
     } else if (option.option_select) {
