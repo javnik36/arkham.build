@@ -477,7 +477,7 @@ const selectDeckInvestigatorFilter = createSelector(
     const rbwFilter = or([
       (c: Card) =>
         !settings.useLimitedPoolForWeaknessDraw ||
-        (c.xp == null && !c.subtype_code),
+        (c.xp == null && c.subtype_code !== "basicweakness"),
     ]);
 
     if (cardPool?.length) {
