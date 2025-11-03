@@ -904,6 +904,14 @@ export const selectListFilterProperties = createSelector(
         for (const trait of splitMultiValue(card.real_back_traits)) {
           traits.add(trait);
         }
+
+        const duplicates = lookupTables.relations.duplicates[card.code];
+        if (duplicates) {
+          for (const code of Object.keys(duplicates)) {
+            const duplicateCard = metadata.cards[code];
+            packs.add(duplicateCard.pack_code);
+          }
+        }
       }
 
       for (const [key, table] of Object.entries(actionTable)) {
