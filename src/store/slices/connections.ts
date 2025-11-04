@@ -203,7 +203,7 @@ async function syncConnection(
     if (res) {
       set((prev) => {
         const { data: apiDecks, lastModified } = res;
-        const data = { ...prev.data };
+        const data = structuredClone(prev.data);
         const apiDeckIds = new Set(apiDecks.map((deck) => deck.id));
 
         for (const deck of Object.values(prev.data.decks)) {
