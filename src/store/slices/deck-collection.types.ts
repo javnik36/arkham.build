@@ -3,6 +3,7 @@ import type { StorageProvider } from "@/utils/constants";
 export type DeckProperties = Record<DeckPropertyName, string | boolean>;
 
 type DeckFiltersType = {
+  cards: string[];
   xpCost: RangeMinMax;
   faction: string[];
   properties: DeckProperties;
