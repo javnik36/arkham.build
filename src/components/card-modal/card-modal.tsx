@@ -9,7 +9,10 @@ import {
   getRelatedCardQuantity,
   getRelatedCards,
 } from "@/store/lib/resolve-card";
-import { selectCardWithRelations } from "@/store/selectors/card-view";
+import {
+  selectCardWithRelations,
+  selectShowFanMadeRelations,
+} from "@/store/selectors/card-view";
 import type { CardModalConfig } from "@/store/slices/ui.types";
 import {
   getCanonicalCardCode,
@@ -75,6 +78,7 @@ export function CardModal(props: Props) {
   );
 
   const settings = useStore((state) => state.settings);
+  const showFanMadeRelations = useStore(selectShowFanMadeRelations);
 
   const openCardModal = useStore((state) => state.openCardModal);
   const listOrder = useStore((state) => state.ui.cardModal.config?.listOrder);
@@ -95,7 +99,7 @@ export function CardModal(props: Props) {
   const showQuantities =
     !!ctx.resolvedDeck && cardWithRelations?.card.type_code !== "investigator";
   const showExtraQuantities = ctx.resolvedDeck?.hasExtraDeck;
-  const related = getRelatedCards(cardWithRelations);
+  const related = getRelatedCards(cardWithRelations, showFanMadeRelations);
 
   const attachableDefinition = ctx.resolvedDeck?.availableAttachments.find(
     (config) => config.code === cardWithRelations.card.code,

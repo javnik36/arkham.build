@@ -13,6 +13,7 @@ import {
   selectLookupTables,
   selectMetadata,
 } from "@/store/selectors/shared";
+import { official } from "@/utils/card-utils";
 import { and } from "@/utils/fp";
 import css from "../browser-decklists.module.css";
 import type { DecklistFilterProps } from "./shared";
@@ -24,7 +25,7 @@ const selectInvestigatorCards = createSelector(
     const investigatorFilter = and([
       filterType(["investigator"]),
       (c) => !!c.deck_options,
-      (c) => c.official !== false,
+      (c) => official(c),
       (c) => filterDuplicates(c) || !!c.parallel,
     ]);
 

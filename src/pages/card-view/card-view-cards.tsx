@@ -6,8 +6,10 @@ import {
   SpecialistInvestigators,
 } from "@/components/card-modal/specialist";
 import { CustomizationsEditor } from "@/components/customizations/customizations-editor";
+import { useStore } from "@/store";
 import { getRelatedCards } from "@/store/lib/resolve-card";
 import type { CardWithRelations } from "@/store/lib/types";
+import { selectShowFanMadeRelations } from "@/store/selectors/card-view";
 import { isSpecialist } from "@/utils/card-utils";
 import { formatRelationTitle } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
@@ -39,12 +41,14 @@ export function CardViewCards({
     cardWithRelations.card.duplicate_of_code ??
     cardWithRelations.card.alternate_of_code;
 
+  const showFanMadeRelations = useStore(selectShowFanMadeRelations);
+
   if (canonicalCode && !cardWithRelations.card.parallel) {
     const href = `/card/${canonicalCode}`;
     return <Redirect replace to={href} />;
   }
 
-  const related = getRelatedCards(cardWithRelations);
+  const related = getRelatedCards(cardWithRelations, showFanMadeRelations);
 
   return (
     <>

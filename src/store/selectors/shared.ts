@@ -1,4 +1,5 @@
 import { createSelector } from "reselect";
+import { official } from "@/utils/card-utils";
 import { PREVIEW_PACKS } from "@/utils/constants";
 import i18n from "@/utils/i18n";
 import { isEmpty } from "@/utils/is-empty";
@@ -93,7 +94,7 @@ export const selectCollection = createSelector(
       ...settings.collection,
       ...Object.fromEntries(
         Object.entries(metadata.packs)
-          .filter(([, pack]) => pack.official === false)
+          .filter(([, pack]) => !official(pack))
           .map((pack) => [pack[0], 1]),
       ),
     };

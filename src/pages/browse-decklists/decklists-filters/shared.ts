@@ -11,6 +11,7 @@ import {
   selectMetadata,
 } from "@/store/selectors/shared";
 import type { DecklistsFiltersState } from "@/store/services/requests/decklists-search";
+import { official } from "@/utils/card-utils";
 import { and, not } from "@/utils/fp";
 
 export type DecklistFilterProps = {
@@ -29,7 +30,7 @@ export const selectPlayerCardsFilter = createSelector(
       not(filterType(["investigator"])),
       filterDuplicates,
       (c) => lookupTables.relations.bonded[c.code] == null,
-      (c) => c.official !== false,
+      (c) => official(c),
     ]);
 
     return playerCardFilter;

@@ -1,3 +1,4 @@
+import { official } from "@/utils/card-utils";
 import { CARD_SET_ORDER } from "@/utils/constants";
 import type { StoreState } from "../slices";
 import { applyCardChanges } from "./card-edits";
@@ -249,12 +250,25 @@ function sortRelations(a: string, b: string) {
 
 export function getRelatedCards(
   cardWithRelations: CardWithRelations,
+  showFanMadeRelations?: boolean,
 ): [string, ResolvedCard | ResolvedCard[]][] {
   return Object.entries(cardWithRelations.relations ?? {})
-    .filter(
-      ([key, value]) =>
-        key !== "duplicates" &&
-        (Array.isArray(value) ? value.length > 0 : value),
+    .reduce(
+      (acc, [key, value]) => {
+        if (key === "duplicates") return acc;
+
+        const values = (Array.isArray(value) ? value : [value]).filter((v) => {
+          if (!v) return false;
+          return (v && showFanMadeRelations) || official(v.card);
+        });
+
+        if (values.length > 0) {
+          acc.push([key, Array.isArray(value) ? values : values[0]]);
+        }
+
+        return acc;
+      },
+      [] as [string, ResolvedCard | ResolvedCard[]][],
     )
     .sort((a, b) => sortRelations(a[0], b[0]));
 }

@@ -2,6 +2,7 @@ import {
   cardLevel,
   cardUses,
   isSpecialist,
+  official,
   splitMultiValue,
 } from "@/utils/card-utils";
 import type { SkillKey } from "@/utils/constants";
@@ -68,7 +69,7 @@ export function filterPreviews(card: Card) {
 }
 
 export function filterOfficial(card: Card) {
-  return !!card.official;
+  return official(card);
 }
 
 /**

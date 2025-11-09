@@ -1,5 +1,9 @@
 import { createSelector } from "reselect";
-import { displayAttribute, splitMultiValue } from "@/utils/card-utils";
+import {
+  displayAttribute,
+  official,
+  splitMultiValue,
+} from "@/utils/card-utils";
 import {
   ASSET_SLOT_ORDER,
   CYCLES_WITH_STANDALONE_PACKS,
@@ -839,7 +843,7 @@ export const selectListFilterProperties = createSelector(
         packs.add(card.pack_code);
         const pack = metadata.packs[card.pack_code];
 
-        if (pack.official !== false && !pack?.reprint) {
+        if (official(pack) && !pack?.reprint) {
           const cycle = metadata.cycles[pack?.cycle_code];
           const reprintPackId = `${cycle?.code}${card.encounter_code ? "c" : "p"}`;
           const reprintPack = metadata.packs[reprintPackId];
@@ -1248,8 +1252,7 @@ export const selectCampaignCycles = createSelector(
   (cycles) =>
     cycles.filter(
       (cycle) =>
-        cycle.official !== false &&
-        !CYCLES_WITH_STANDALONE_PACKS.includes(cycle.code),
+        official(cycle) && !CYCLES_WITH_STANDALONE_PACKS.includes(cycle.code),
     ),
 );
 
@@ -1268,7 +1271,7 @@ export const selectPackOptions = createSelector(
             listFilterProperties.packs.has(p.code),
           ),
         );
-      } else if (cycle.official !== false && cycle.packs.length === 2) {
+      } else if (official(cycle) && cycle.packs.length === 2) {
         acc.push(
           ...cycle.packs.filter((p) => listFilterProperties.packs.has(p.code)),
         );
@@ -1295,7 +1298,7 @@ export const selectLimitedPoolPackOptions = createSelector(
   (cycles, fanMadeProjects) => {
     return cycles.flatMap((cycle) => {
       // Fan-made content
-      if (cycle.official === false) {
+      if (!official(cycle)) {
         if (!fanMadeProjects?.[cycle.code]) return [];
         return cycle.packs;
       }
