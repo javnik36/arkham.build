@@ -474,22 +474,23 @@ const selectDeckInvestigatorFilter = createSelector(
       return and(ands);
     }
 
-    const rbwFilter = or([
-      (c: Card) =>
-        !settings.useLimitedPoolForWeaknessDraw ||
-        (c.xp == null && c.subtype_code !== "basicweakness"),
-    ]);
+    const rbwPoolFilter = (c: Card) => {
+      return (
+        settings.useLimitedPoolForWeaknessDraw &&
+        c.subtype_code === "basicweakness"
+      );
+    };
 
     if (cardPool?.length) {
       const cardPoolFilter = filterCardPool(cardPool, metadata, lookupTables);
 
       if (cardPoolFilter) {
-        ands.push(or([cardPoolFilter, rbwFilter]));
+        ands.push(or([cardPoolFilter, rbwPoolFilter]));
       }
     }
 
     if (sealedDeck) {
-      ands.push(or([filterSealed(sealedDeck, lookupTables), rbwFilter]));
+      ands.push(or([filterSealed(sealedDeck, lookupTables), rbwPoolFilter]));
     }
 
     return and(ands);
