@@ -478,23 +478,29 @@ const selectDeckInvestigatorFilter = createSelector(
       return and(ands);
     }
 
-    const rbwPoolFilter = (c: Card) => {
-      return (
-        settings.useLimitedPoolForWeaknessDraw &&
-        c.subtype_code === "basicweakness"
-      );
+    const xpNullPoolFilter = (card: Card) => {
+      if (card.subtype_code === "basicweakness") {
+        // allow rbw only if useLimitedPoolForWeaknessDraw is set to false
+        return (
+          card.code === SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS ||
+          !settings.useLimitedPoolForWeaknessDraw
+        );
+      }
+
+      // allow signatures or campaign cards
+      return card.xp == null && (!!card.restrictions || !!card.encounter_code);
     };
 
     if (cardPool?.length) {
       const cardPoolFilter = filterCardPool(cardPool, metadata, lookupTables);
 
       if (cardPoolFilter) {
-        ands.push(or([cardPoolFilter, rbwPoolFilter]));
+        ands.push(or([cardPoolFilter, xpNullPoolFilter]));
       }
     }
 
     if (sealedDeck) {
-      ands.push(or([filterSealed(sealedDeck, lookupTables), rbwPoolFilter]));
+      ands.push(or([filterSealed(sealedDeck, lookupTables), xpNullPoolFilter]));
     }
 
     return and(ands);

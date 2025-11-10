@@ -322,4 +322,11 @@ test.describe("filters", () => {
     await page.getByTestId("combobox-menu-item-location").click();
     await expect(page.getByTestId("listcard-01121a")).not.toBeVisible();
   });
+
+  test("duplicate card's packs show up in pack filter", async ({ page }) => {
+    await page.getByRole("heading", { name: "Pack" }).click();
+    await page.getByTestId("combobox-input").click();
+    await page.getByTestId("combobox-input").fill("revised core");
+    await expect(page.getByTestId("combobox-menu-item-rcore")).toBeVisible();
+  });
 });

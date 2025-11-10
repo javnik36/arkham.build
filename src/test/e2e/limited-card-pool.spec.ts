@@ -260,6 +260,26 @@ test.describe("environments", () => {
     await page.getByTestId("editor-save").click();
     await expect(page.getByTestId("limited-card-pool-tag")).toHaveScreenshot();
   });
+
+  test("applies collection environment", async ({ page }) => {
+    await page.goto("/settings?tab=collection");
+    await page.getByText("Show all cards as owned").click();
+    await page.getByText("The Miskatonic Museum").click();
+    await page.getByText("The Path to Carcosa Investigator Expansion").click();
+    await page.getByTestId("settings-save").click();
+    await page.getByTestId("masthead-logo").click();
+    await page.getByTestId("collection-create-deck").click();
+    await fillSearch(page, "mark harrigan");
+    await page.getByTestId("create-choose-investigator").click();
+    await page.getByTestId("limited-card-pool-environments").click();
+    await page.getByTestId("limited-card-pool-environment-collection").click();
+    await page
+      .getByTestId("limited-card-pool-environment-collection-apply")
+      .click();
+    await expect(
+      page.getByTestId("limited-card-pool-field"),
+    ).toHaveScreenshot();
+  });
 });
 
 test.describe("sealed deck", () => {

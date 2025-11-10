@@ -1,10 +1,13 @@
 import { expect, test } from "@playwright/test";
-import { fillSearch } from "./actions";
+import { fillSearch, importDeckFromFile } from "./actions";
 import { mockApiCalls } from "./mocks";
+
+test.beforeEach(async ({ page }) => {
+  await mockApiCalls(page);
+});
 
 test.describe("settings", () => {
   test("update collection settings", async ({ page }) => {
-    await mockApiCalls(page);
     await page.goto("/");
     await expect(
       page.locator("div").filter({ hasText: /^Ownership$/ }),
@@ -56,7 +59,6 @@ test.describe("settings", () => {
   });
 
   test("update default taboo", async ({ page }) => {
-    await mockApiCalls(page);
     await page.goto("/");
 
     await page.getByTestId("search-input").focus();
@@ -90,7 +92,6 @@ test.describe("settings", () => {
   });
 
   test("update list settings", async ({ page }) => {
-    await mockApiCalls(page);
     await page.goto("/");
     await expect(
       page.getByTestId("virtuoso-top-item-list").getByText("Investigator"),
@@ -126,7 +127,6 @@ test.describe("settings", () => {
   });
 
   test("update 'show previews' setting", async ({ page }) => {
-    await mockApiCalls(page);
     await page.goto("/");
     await fillSearch(page, "preview test card");
     await expect(page.getByTestId("cardlist-count").first()).toContainText(
@@ -144,7 +144,6 @@ test.describe("settings", () => {
   });
 
   test("deselect all grouping and sorting options", async ({ page }) => {
-    await mockApiCalls(page);
     await page.goto("/settings");
     await page.getByTestId("player-group-subtype").click();
     await page
@@ -163,7 +162,6 @@ test.describe("settings", () => {
   test("changing theme in settings is only persisted when clicking save", async ({
     page,
   }) => {
-    await mockApiCalls(page);
     await page.goto("/settings");
     await expect(page.locator("html")).toHaveAttribute("class", "theme-dark");
     await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
@@ -198,7 +196,6 @@ test.describe("settings", () => {
   test("default environment setting applies to deck creation", async ({
     page,
   }) => {
-    await mockApiCalls(page);
     await page.goto("/");
 
     await page.goto("/deck/create");
@@ -221,5 +218,89 @@ test.describe("settings", () => {
 
     await expect(page.getByTestId("limited-card-pool-field")).toBeVisible();
     await expect(page.getByText("Revised Core Set")).toBeVisible();
+  });
+
+  test("rbw are limited to card pool when configured", async ({ page }) => {
+    await importDeckFromFile(page, "validation/base_case.json", {
+      navigate: "edit",
+    });
+    await page.getByTestId("editor-tab-config").click();
+
+    await page.getByTestId("combobox-input").click();
+    await page.getByTestId("combobox-menu-item-dwlp").click();
+
+    await page.getByTestId("subtype-none").click();
+    await page.getByTestId("subtype-weakness").click();
+
+    await expect(
+      page.getByTestId("virtuoso-item-list").getByTestId("listcard-01000"),
+    ).toBeVisible();
+    await expect(page.getByTestId("listcard-02038")).toBeVisible();
+    await expect(
+      page.getByTestId("virtuoso-item-list").getByTestId("listcard-02039"),
+    ).toBeVisible();
+    await expect(page.getByTestId("listcard-02037")).toBeVisible();
+  });
+
+  test("rbw are not limited to card pool when configured", async ({ page }) => {
+    await page.goto("/settings");
+
+    await page.getByTestId("settings-weakness-pool").click();
+    await page.getByTestId("settings-save").click();
+    await page.getByTestId("masthead-logo").click();
+
+    await importDeckFromFile(page, "validation/base_case.json", {
+      navigate: "edit",
+    });
+    await page.getByTestId("editor-tab-config").click();
+
+    await page.getByTestId("combobox-input").click();
+    await page.getByTestId("combobox-menu-item-dwlp").click();
+
+    await page.getByTestId("subtype-none").click();
+    await page.getByTestId("subtype-weakness").click();
+
+    await fillSearch(page, "Narcolepsy");
+    await expect(page.getByTestId("listcard-06037")).toBeVisible();
+  });
+
+  test("rbw limit does not affect signature weaknesses", async ({ page }) => {
+    await importDeckFromFile(page, "validation/base_case.json", {
+      navigate: "edit",
+    });
+    await page.getByTestId("editor-tab-config").click();
+
+    await page.getByTestId("combobox-input").click();
+    await page.getByTestId("combobox-menu-item-dwlp").click();
+
+    await page.getByTestId("subtype-none").click();
+    await page.getByTestId("subtype-basicweakness").click();
+
+    await expect(page.getByTestId("listcard-06017")).toBeVisible();
+    await page.getByTestId("combobox-result-dwlp").click();
+    await page.getByTestId("combobox-result-remove").click();
+    await page.getByTestId("combobox-input").click();
+    await page.getByTestId("combobox-input").fill("forg");
+    await page.getByTestId("combobox-input").press("Enter");
+    await page.getByTestId("combobox-result-remove").click();
+  });
+
+  test("rbw limit does not affect campaign weaknesses", async ({ page }) => {
+    await importDeckFromFile(page, "validation/base_case.json", {
+      navigate: "edit",
+    });
+    await page.getByTestId("editor-tab-config").click();
+
+    await page.getByTestId("combobox-input").click();
+    await page.getByTestId("combobox-menu-item-dwlp").click();
+
+    await page.getByTestId("subtype-none").click();
+    await page.getByTestId("subtype-basicweakness").click();
+
+    await page.getByTestId("card-type-player").click();
+
+    await page.getByTestId("search-input").click();
+    await page.getByTestId("search-input").fill("Man in the pallid mask");
+    await expect(page.getByTestId("listcard-03059")).toBeVisible();
   });
 });
