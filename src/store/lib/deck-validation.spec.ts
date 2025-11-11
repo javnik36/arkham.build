@@ -243,6 +243,9 @@ const tests = [
     "invalid: Suzi with invalid 'at_least' constraint and forbidden card",
     "suzi_invalid",
   ],
+  // || Lola
+  ["valid: || Lola faction validation", "parallel_lola"],
+  ["invalid: || Lola faction validation", "parallel_lola_invalid"],
 ];
 
 function validate(store: StoreApi<StoreState>, deck: Deck) {
