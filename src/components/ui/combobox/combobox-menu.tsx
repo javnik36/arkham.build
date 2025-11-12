@@ -35,8 +35,14 @@ export function ComboboxMenu<T extends Coded>(props: Props<T>) {
   const [scrollParent, setScrollParent] = useState<HTMLElement | undefined>();
   const virtuosoRef = useRef<GroupedVirtuosoHandle>(null);
 
+  const mouseOverIndex = useRef<number | null>(null);
+
   useEffect(() => {
-    if (activeIndex != null && virtuosoRef.current) {
+    if (
+      activeIndex != null &&
+      virtuosoRef.current &&
+      mouseOverIndex.current !== activeIndex
+    ) {
       virtuosoRef.current.scrollIntoView({
         index: activeIndex,
         behavior: "auto",
@@ -76,6 +82,7 @@ export function ComboboxMenu<T extends Coded>(props: Props<T>) {
                 setSelectedItem(item);
               }}
               onPointerOver={() => {
+                mouseOverIndex.current = index;
                 setActiveIndex(index);
               }}
               ref={(node) => {
