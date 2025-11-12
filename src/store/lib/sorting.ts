@@ -44,6 +44,12 @@ function sortByLevel(a: Card, b: Card) {
 }
 
 function sortByPosition(a: Card, b: Card) {
+  const positionDiff = (a.position ?? 0) - (b.position ?? 0);
+
+  if (positionDiff === 0) {
+    return (a.encounter_position ?? 0) - (b.encounter_position ?? 0);
+  }
+
   return (a.position ?? 0) - (b.position ?? 0);
 }
 
