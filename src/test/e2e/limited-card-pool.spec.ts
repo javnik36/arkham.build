@@ -10,16 +10,21 @@ test.beforeEach(async ({ page }) => {
 async function createLimitedPoolDeck(page: Page) {
   await page.goto("deck/create/01001");
 
-  await page
+  const input = page
     .getByTestId("limited-card-pool-field")
-    .getByTestId("combobox-input")
-    .click();
+    .getByTestId("combobox-input");
+
+  await input.click();
+
+  await input.fill("revised core");
 
   await page
     .getByTestId("virtuoso-item-list")
     .getByText("Revised Core Set")
     .click();
-  await page.getByText("The Forgotten Age").click();
+  await input.fill("the forgotten age");
+
+  await page.getByText("The Forgotten Age").first().click();
   await page.getByTestId("combobox-input").press("Escape");
   await page.getByTestId("create-save").click();
   await expect(page.getByTestId("limited-card-pool-tag")).toBeVisible();

@@ -62,7 +62,7 @@
 .menu-viewport {
   display: grid;
   grid-template-rows: min-content;
-  height: min(6.5rem, 40dvh);
+  height: min(10.75rem, 40dvh);
   overflow-y: auto;
 }
 
