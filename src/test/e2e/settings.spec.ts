@@ -240,6 +240,9 @@ test.describe("settings", () => {
       page.getByTestId("virtuoso-item-list").getByTestId("listcard-02039"),
     ).toBeVisible();
     await expect(page.getByTestId("listcard-02037")).toBeVisible();
+
+    await fillSearch(page, "Narcolepsy");
+    await expect(page.getByTestId("listcard-06037")).not.toBeVisible();
   });
 
   test("rbw are not limited to card pool when configured", async ({ page }) => {
