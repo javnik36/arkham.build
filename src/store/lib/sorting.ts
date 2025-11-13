@@ -131,6 +131,10 @@ export function makeSortFunction(
       case "slot": {
         return sortBySlot(collator);
       }
+
+      case "subtype": {
+        return sortBySubtype;
+      }
     }
   });
 
@@ -235,4 +239,9 @@ export function sortByFactionOrder(a: string, b: string) {
     FACTION_ORDER.indexOf(a as FactionName) -
     FACTION_ORDER.indexOf(b as FactionName)
   );
+}
+
+function sortBySubtype(a: Card, b: Card) {
+  const RANKING: (string | null | undefined)[] = ["basicweakness", "weakness"];
+  return RANKING.indexOf(a.subtype_code) - RANKING.indexOf(b.subtype_code);
 }

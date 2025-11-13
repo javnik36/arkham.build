@@ -137,6 +137,7 @@ export type SortingType =
   | "name"
   | "position"
   | "slot"
+  | "subtype"
   | "type";
 
 export type ViewMode = "compact" | "card-text" | "full-cards" | "scans";

@@ -235,7 +235,7 @@ function resolveRelationArray(
     : [];
 
   const sortFn = makeSortFunction(
-    ["type", "name", "level", "cycle"],
+    ["subtype", "type", "name", "level", "cycle"],
     metadata,
     collator,
   );
