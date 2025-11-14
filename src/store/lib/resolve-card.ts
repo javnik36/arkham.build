@@ -163,6 +163,16 @@ export function resolveCardWithRelations<T extends boolean>(
       false,
     );
 
+    cardWithRelations.relations.reprints = resolveRelationArray(
+      deps,
+      collator,
+      "reprints",
+      card.code,
+      tabooSetId,
+      customizations,
+      false,
+    );
+
     cardWithRelations.relations.bound = resolveRelationArray(
       deps,
       collator,
@@ -255,7 +265,7 @@ export function getRelatedCards(
   return Object.entries(cardWithRelations.relations ?? {})
     .reduce(
       (acc, [key, value]) => {
-        if (key === "duplicates") return acc;
+        if (key === "duplicates" || key === "reprints") return acc;
 
         const values = (Array.isArray(value) ? value : [value]).filter((v) => {
           if (!v) return false;

@@ -24,19 +24,20 @@ function getInitialLookupTables(): LookupTables {
       succeedBy: {},
     },
     relations: {
+      advanced: {},
       base: {},
-      bound: {},
       bonded: {},
+      bound: {},
+      duplicates: {},
       fronts: {},
-      restrictedTo: {},
-      requiredCards: {},
+      level: {},
+      otherVersions: {},
       parallel: {},
       parallelCards: {},
-      advanced: {},
       replacement: {},
-      level: {},
-      duplicates: {},
-      otherVersions: {},
+      reprints: {},
+      requiredCards: {},
+      restrictedTo: {},
     },
     reprintPacksByPack: {},
     skillBoosts: {},
@@ -313,6 +314,12 @@ function createRelations(metadata: Metadata, tables: LookupTables) {
           setInLookupTable(key, tables.relations.duplicates, card.code);
         }
       }
+    }
+
+    if (card.reprint_of) {
+      setInLookupTable(card.code, tables.relations.reprints, card.reprint_of);
+
+      setInLookupTable(card.reprint_of, tables.relations.reprints, card.code);
     }
 
     if (upgrades[card.real_name] && card.xp != null) {

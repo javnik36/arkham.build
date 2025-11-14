@@ -246,24 +246,31 @@ export const selectPrintingsForCard = createSelector(
       lookupTables.relations.duplicates[cardCode] ?? {},
     );
 
-    const packCodes = [cardCode, ...duplicates].reduce((acc, code) => {
-      const card = metadata.cards[code];
+    const reprints = Object.keys(
+      lookupTables.relations.reprints[cardCode] ?? {},
+    );
 
-      acc.set(card.pack_code, card);
-      const reprints = lookupTables.reprintPacksByPack[card.pack_code];
+    const packCodes = [cardCode, ...duplicates, ...reprints].reduce(
+      (acc, code) => {
+        const card = metadata.cards[code];
 
-      if (card) {
-        if (reprints) {
-          Object.keys(reprints).forEach((reprintCode) => {
-            const targetType = card.encounter_code ? "encounter" : "player";
-            const reprintPack = metadata.packs[reprintCode];
-            const reprintType = reprintPack.reprint?.type;
-            if (reprintType === targetType) acc.set(reprintCode, card);
-          });
+        acc.set(card.pack_code, card);
+        const reprintPacks = lookupTables.reprintPacksByPack[card.pack_code];
+
+        if (card) {
+          if (reprintPacks) {
+            Object.keys(reprintPacks).forEach((reprintCode) => {
+              const targetType = card.encounter_code ? "encounter" : "player";
+              const reprintPack = metadata.packs[reprintCode];
+              const reprintType = reprintPack.reprint?.type;
+              if (reprintType === targetType) acc.set(reprintCode, card);
+            });
+          }
         }
-      }
-      return acc;
-    }, new Map<string, Card>());
+        return acc;
+      },
+      new Map<string, Card>(),
+    );
 
     const printings = Array.from(packCodes.entries())
       .map(([packCode, card]) => {
