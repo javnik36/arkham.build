@@ -7,6 +7,7 @@ import {
   getRelatedCards,
 } from "@/store/lib/resolve-card";
 import type { ResolvedDeck } from "@/store/lib/types";
+import { selectShowFanMadeRelations } from "@/store/selectors/shared";
 import { cx } from "@/utils/cx";
 import { formatRelationTitle } from "@/utils/formatting";
 import { CardBack } from "../card/card-back";
@@ -49,9 +50,14 @@ export function DeckInvestigator(props: Props) {
   const [backToggled, toggleBack] = useState(false);
   const { t } = useTranslation();
 
-  const related = getRelatedCards(deck.cards.investigator).filter(
-    ([key]) => key !== "parallel",
-  );
+  const showFanMadeRelations = useStore(selectShowFanMadeRelations);
+  const settings = useStore((state) => state.settings);
+
+  const related = getRelatedCards(
+    deck.cards.investigator,
+    showFanMadeRelations,
+    settings.showPreviews,
+  ).filter(([key]) => key !== "parallel");
 
   const hasBack =
     deck.investigatorBack.card.double_sided ||

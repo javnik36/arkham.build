@@ -89,6 +89,7 @@ import type {
 } from "../slices/lists.types";
 import type { Metadata } from "../slices/metadata.types";
 import {
+  selectActiveList,
   selectCollection,
   selectLocaleSortingCollator,
   selectLookupTables,
@@ -321,11 +322,6 @@ function makeUserFilter(
 
   return filters.length ? and(filters) : undefined;
 }
-
-export const selectActiveList = (state: StoreState) => {
-  const active = state.activeList;
-  return active ? state.lists[active] : undefined;
-};
 
 export const selectActiveListFilters = (state: StoreState) => {
   const active = selectActiveList(state);

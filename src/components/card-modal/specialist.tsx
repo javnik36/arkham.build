@@ -7,13 +7,11 @@ import {
 import { makeSortFunction } from "@/store/lib/sorting";
 import type { ResolvedCard } from "@/store/lib/types";
 import type { Card } from "@/store/schemas/card.schema";
-import {
-  selectShowFanMadeRelations,
-  selectUsableByInvestigators,
-} from "@/store/selectors/card-view";
+import { selectUsableByInvestigators } from "@/store/selectors/card-view";
 import {
   selectLocaleSortingCollator,
   selectMetadata,
+  selectShowFanMadeRelations,
 } from "@/store/selectors/shared";
 import type { StoreState } from "@/store/slices";
 import { isSpecialist, official } from "@/utils/card-utils";

@@ -236,12 +236,43 @@ export type Printing = {
   cycle: Cycle;
 };
 
+export const selectActiveList = (state: StoreState) => {
+  const active = state.activeList;
+  return active ? state.lists[active] : undefined;
+};
+
+export const selectShowFanMadeRelations = createSelector(
+  selectActiveList,
+  (state: StoreState) => state.settings.cardListsDefaultContentType,
+  (activeList, defaultContentType) => {
+    if (activeList) {
+      const { filters, filterValues } = activeList;
+
+      const idx = filters.findIndex((key) => key === "fan_made_content");
+      const filterValue = idx !== -1 ? filterValues[idx] : undefined;
+
+      if (filterValue != null) return filterValue.value !== "official";
+    }
+
+    return defaultContentType !== "official";
+  },
+);
+
 export const selectPrintingsForCard = createSelector(
   selectMetadata,
   selectLookupTables,
   selectLocaleSortingCollator,
+  (state: StoreState) => state.settings.showPreviews,
+  selectShowFanMadeRelations,
   (_: StoreState, code: string) => code,
-  (metadata, lookupTables, collator, cardCode) => {
+  (
+    metadata,
+    lookupTables,
+    collator,
+    showPreviews,
+    showFanMadeRelations,
+    cardCode,
+  ) => {
     const duplicates = Object.keys(
       lookupTables.relations.duplicates[cardCode] ?? {},
     );
@@ -253,6 +284,12 @@ export const selectPrintingsForCard = createSelector(
     const packCodes = [cardCode, ...duplicates, ...reprints].reduce(
       (acc, code) => {
         const card = metadata.cards[code];
+
+        const canShow =
+          (showFanMadeRelations || official(card)) &&
+          (showPreviews || !card.preview);
+
+        if (!canShow) return acc;
 
         acc.set(card.pack_code, card);
         const reprintPacks = lookupTables.reprintPacksByPack[card.pack_code];

@@ -17,8 +17,11 @@ import { sortByPosition } from "@/store/lib/sorting";
 import type { CardWithRelations } from "@/store/lib/types";
 import type { Card as CardType } from "@/store/schemas/card.schema";
 import type { Pack } from "@/store/schemas/pack.schema";
-import { selectShowFanMadeRelations } from "@/store/selectors/card-view";
-import { selectLookupTables, selectMetadata } from "@/store/selectors/shared";
+import {
+  selectLookupTables,
+  selectMetadata,
+  selectShowFanMadeRelations,
+} from "@/store/selectors/shared";
 import {
   cardUrl,
   displayAttribute,
@@ -192,7 +195,12 @@ export function CardViewCards({
   cardWithRelations: CardWithRelations;
 }) {
   const showFanMadeRelations = useStore(selectShowFanMadeRelations);
-  const related = getRelatedCards(cardWithRelations, showFanMadeRelations);
+  const settings = useStore((state) => state.settings);
+  const related = getRelatedCards(
+    cardWithRelations,
+    showFanMadeRelations,
+    settings.showPreviews,
+  );
 
   return (
     <>

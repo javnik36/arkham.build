@@ -260,7 +260,8 @@ function sortRelations(a: string, b: string) {
 
 export function getRelatedCards(
   cardWithRelations: CardWithRelations,
-  showFanMadeRelations?: boolean,
+  showFanMadeRelations: boolean,
+  showPreviews: boolean,
 ): [string, ResolvedCard | ResolvedCard[]][] {
   return Object.entries(cardWithRelations.relations ?? {})
     .reduce(
@@ -269,7 +270,10 @@ export function getRelatedCards(
 
         const values = (Array.isArray(value) ? value : [value]).filter((v) => {
           if (!v) return false;
-          return (v && showFanMadeRelations) || official(v.card);
+          return (
+            (showPreviews || !v.card.preview) &&
+            (showFanMadeRelations || official(v.card))
+          );
         });
 
         if (values.length > 0) {

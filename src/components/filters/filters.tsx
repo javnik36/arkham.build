@@ -4,10 +4,10 @@ import { Fragment } from "react/jsx-runtime";
 import { useTranslation } from "react-i18next";
 import { useStore } from "@/store";
 import {
-  selectActiveList,
   selectActiveListFilters,
   type TargetDeck,
 } from "@/store/selectors/lists";
+import { selectActiveList } from "@/store/selectors/shared";
 import { cx } from "@/utils/cx";
 import { useHotkey } from "@/utils/use-hotkey";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
