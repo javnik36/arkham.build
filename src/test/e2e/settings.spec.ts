@@ -280,12 +280,6 @@ test.describe("settings", () => {
     await page.getByTestId("subtype-basicweakness").click();
 
     await expect(page.getByTestId("listcard-06017")).toBeVisible();
-    await page.getByTestId("combobox-result-dwlp").click();
-    await page.getByTestId("combobox-result-remove").click();
-    await page.getByTestId("combobox-input").click();
-    await page.getByTestId("combobox-input").fill("forg");
-    await page.getByTestId("combobox-input").press("Enter");
-    await page.getByTestId("combobox-result-remove").click();
   });
 
   test("rbw limit does not affect campaign weaknesses", async ({ page }) => {

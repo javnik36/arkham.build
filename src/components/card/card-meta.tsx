@@ -1,12 +1,9 @@
 import { useStore } from "@/store";
 import type { CardWithRelations, ResolvedCard } from "@/store/lib/types";
 import { selectPrintingsForCard } from "@/store/selectors/shared";
-import { cycleOrPack } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
-import { displayPackName } from "@/utils/formatting";
 import EncounterIcon from "../icons/encounter-icon";
-import PackIcon from "../icons/pack-icon";
-import { Printing } from "../printing";
+import { Printing, PrintingInner } from "../printing";
 import css from "./card.module.css";
 
 type Props = {
@@ -59,6 +56,8 @@ function PlayerEntry(props: Props) {
 
   return (
     <>
+      <hr className={css["meta-divider"]} />
+
       {printings?.map((printing) => (
         <p className={css["meta-property"]} key={printing.id}>
           <Printing key={printing.id} printing={printing} />
@@ -69,21 +68,35 @@ function PlayerEntry(props: Props) {
 }
 
 function EncounterEntry(props: Props) {
-  const { card, cycle, encounterSet, pack } = props.resolvedCard;
-  if (!encounterSet) return null;
+  const { resolvedCard } = props;
 
-  const displayPack = cycleOrPack(cycle, pack);
+  const printings = useStore((state) =>
+    selectPrintingsForCard(state, resolvedCard.card.code),
+  );
+
+  const { card, encounterSet } = resolvedCard;
+
+  if (!encounterSet) return null;
 
   return (
     <>
+      <hr className={css["meta-divider"]} />
       <p className={css["meta-property"]}>
-        {encounterSet.name} <EncounterIcon code={card.encounter_code} />{" "}
-        {getEncounterPositions(card.encounter_position ?? 1, card.quantity)}
+        <PrintingInner
+          icon={<EncounterIcon code={card.encounter_code} />}
+          name={encounterSet.name}
+          position={getEncounterPositions(
+            card.encounter_position ?? 1,
+            card.quantity,
+          )}
+        />
       </p>
-      <p className={css["meta-property"]}>
-        {displayPackName(displayPack)} <PackIcon code={displayPack.code} />{" "}
-        {card.position}
-      </p>
+      <hr className={css["meta-divider"]} />
+      {printings?.map((printing) => (
+        <p className={css["meta-property"]} key={printing.id}>
+          <Printing key={printing.id} printing={printing} />
+        </p>
+      ))}
     </>
   );
 }

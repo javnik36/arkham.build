@@ -370,6 +370,12 @@
   font-weight: 700;
 }
 
+.meta-divider {
+  margin: 0.25rem 0;
+  border-style: dotted;
+  border-color: var(--palette-2);
+}
+
 .details {
   display: flex;
   flex-flow: row wrap;
