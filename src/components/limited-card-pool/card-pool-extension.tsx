@@ -6,7 +6,7 @@ import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/schemas/card.schema";
 import { selectCardOptions } from "@/store/selectors/lists";
 import { selectCardMapper } from "@/store/selectors/shared";
-import { displayAttribute } from "@/utils/card-utils";
+import { canShowCardPoolExtension, displayAttribute } from "@/utils/card-utils";
 import { isEmpty } from "@/utils/is-empty";
 import { CardsCombobox } from "../cards-combobox";
 import { Field, FieldLabel } from "../ui/field";
@@ -77,8 +77,8 @@ export function CardPoolExtensionFields(props: {
 }) {
   const { deck } = props;
 
-  const cardsWithExtensions = Object.values(deck.cards.slots).filter(
-    (c) => c.card.card_pool_extension,
+  const cardsWithExtensions = Object.values(deck.cards.slots).filter((c) =>
+    canShowCardPoolExtension(c.card),
   );
 
   if (isEmpty(cardsWithExtensions)) return null;

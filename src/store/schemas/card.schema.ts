@@ -293,6 +293,7 @@ export type ApiCard = z.infer<typeof ApiCardSchema>;
 
 const CardPoolExtensionSchema = z.object({
   type: z.enum(["card"]),
+  selections: z.array(z.string()).optional(),
 });
 
 const AdditionalAttributes = {

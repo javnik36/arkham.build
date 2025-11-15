@@ -12,7 +12,11 @@ import {
 import { selectCardWithRelations } from "@/store/selectors/card-view";
 import { selectShowFanMadeRelations } from "@/store/selectors/shared";
 import type { CardModalConfig } from "@/store/slices/ui.types";
-import { isSpecialist, isStaticInvestigator } from "@/utils/card-utils";
+import {
+  canShowCardPoolExtension,
+  isSpecialist,
+  isStaticInvestigator,
+} from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { formatRelationTitle } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
@@ -113,16 +117,17 @@ export function CardModal(props: Props) {
         size={canRenderFull ? "full" : "compact"}
         slotCardFooter={
           <>
-            {ctx.resolvedDeck && cardWithRelations.card.card_pool_extension && (
-              <div className={css["related"]}>
-                <CardPoolExtension
-                  canEdit={canEdit}
-                  card={cardWithRelations.card}
-                  deck={ctx.resolvedDeck}
-                  showLabel
-                />
-              </div>
-            )}
+            {ctx.resolvedDeck &&
+              canShowCardPoolExtension(cardWithRelations.card) && (
+                <div className={css["related"]}>
+                  <CardPoolExtension
+                    canEdit={canEdit}
+                    card={cardWithRelations.card}
+                    deck={ctx.resolvedDeck}
+                    showLabel
+                  />
+                </div>
+              )}
 
             {!!ctx.resolvedDeck &&
               (canEdit ? (

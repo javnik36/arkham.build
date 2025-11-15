@@ -297,3 +297,7 @@ export function oldFormatCardUrl(card: Card) {
   const baseUrl = cardUrl(card);
   return `${baseUrl}?old_format=true`;
 }
+
+export function canShowCardPoolExtension(card: Card) {
+  return card.card_pool_extension && !card.card_pool_extension.selections;
+}
