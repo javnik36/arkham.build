@@ -3,7 +3,7 @@
     "about": {
       "description": "<p>The information presented in this app about <ffg>Arkham Horror: The Card Game™</ffg>, both textual and graphical, is © Fantasy Flight Games {{date}}. This app is a fan project and is not produced, endorsed, or supported by, or affiliated with Fantasy Flight Games.</p><p>This application was created by <felix_url>Felix</felix_url> and <contrib_url>contributors</contrib_url> to support the Arkham Horror: The Card Game community. The source code of this project is available at <github_url>Github</github_url>. Feedback and bug reports are welcome via Github issues or the dedicated channel on the Mythos Busters discord server.</p><p>All artwork and illustrations are the intellectual property of their respective creators. All Arkham Horror: The Card Game™ images and graphics are copyrighted by Fantasy Flight Games.</p>",
       "hall_of_fame": {
-        "arkham_db": "OAuth access, structured card data and many years of being the backbone of the community.",
+        "arkham_db": "OAuth access to ArkhamDB.",
         "card_design": "Custom card design.",
         "code": "Significant contributions to the codebase.",
         "customization_api": "API access to draw customization sheets.",
