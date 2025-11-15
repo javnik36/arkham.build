@@ -205,7 +205,7 @@ async function syncConnection(
       state.cacheFanMadeContent(
         res.data.map((_deck) => {
           const deck = DeckSchema.parse(_deck);
-          applyHiddenSlots(deck);
+          applyHiddenSlots(deck, selectMetadata(state));
           return deck;
         }),
       );

@@ -44,7 +44,7 @@ class ArkhamDBAdapter implements SyncAdapter<ArkhamDBDeckPayload> {
     let state = this.stateGetter();
 
     const deck = DeckSchema.parse(_deck);
-    applyHiddenSlots(deck);
+    applyHiddenSlots(deck, selectMetadata(state));
 
     state = this.stateGetter();
 
@@ -75,8 +75,10 @@ class ArkhamDBAdapter implements SyncAdapter<ArkhamDBDeckPayload> {
   }
 
   out(_deck: Deck) {
+    const state = this.stateGetter();
     const deck = structuredClone(_deck);
-    extractHiddenSlots(deck);
+
+    extractHiddenSlots(deck, selectMetadata(state));
 
     const payload = deck as Record<string, unknown>;
 
