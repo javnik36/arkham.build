@@ -1,7 +1,6 @@
 import {
   cardLevel,
   cardLimit,
-  displayAttribute,
   isRandomBasicWeaknessLike,
   isStaticInvestigator,
 } from "@/utils/card-utils";
@@ -403,8 +402,8 @@ class DeckLimitsValidator implements SlotValidator {
     if (card.xp == null) return;
 
     const name = SPECIAL_CARD_CODES.PRECIOUS_MEMENTOS.includes(card.code)
-      ? `${displayAttribute(card, "name")} (${displayAttribute(card, "subname")})`
-      : displayAttribute(card, "name");
+      ? `${card.real_name} (${card.real_subname})`
+      : card.real_name;
 
     const limit = this.getCardLimit(card);
 
