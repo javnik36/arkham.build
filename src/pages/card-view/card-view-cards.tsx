@@ -104,6 +104,7 @@ function CardSetNav(props: { currentCard: CardWithRelations }) {
         .filter(
           and([
             filterBacksides,
+            (card) => !card.hidden,
             (card) => {
               if (targetPack.reprint && targetPack.reprint?.type !== "rcore") {
                 const cardPack = metadata.packs[card.pack_code];
@@ -143,22 +144,18 @@ function CardSetNav(props: { currentCard: CardWithRelations }) {
         </h3>
       </div>
       <div className={css["card-set-nav-container"]}>
-        <div className={css["card-set-button"]}>
-          <CardSetLink
-            shift={-1}
-            cardListIndex={cardListIndex}
-            filteredCards={filteredCards}
-            oldFormat={oldFormat}
-          />
-        </div>
-        <div className={css["card-set-button"]}>
-          <CardSetLink
-            shift={1}
-            cardListIndex={cardListIndex}
-            filteredCards={filteredCards}
-            oldFormat={oldFormat}
-          />
-        </div>
+        <CardSetLink
+          shift={-1}
+          cardListIndex={cardListIndex}
+          filteredCards={filteredCards}
+          oldFormat={oldFormat}
+        />
+        <CardSetLink
+          shift={1}
+          cardListIndex={cardListIndex}
+          filteredCards={filteredCards}
+          oldFormat={oldFormat}
+        />
       </div>
     </div>
   );
@@ -179,7 +176,7 @@ function CardSetLink(props: {
 
     return (
       <Link to={url} asChild>
-        <Button as="a" size="full">
+        <Button className={css["card-set-button"]} as="a">
           {shift < 0 && <ChevronsLeftIcon />}
           {displayAttribute(targetCard, "name")}
           {shift > 0 && <ChevronsRightIcon />}

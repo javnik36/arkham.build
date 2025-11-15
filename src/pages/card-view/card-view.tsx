@@ -191,7 +191,8 @@ function Printings(props: { code: string }) {
             <ListPrinting
               active={
                 printing.card.code === props.code &&
-                oldFormat === !printing.pack.reprint
+                (printing.cycle.code === "core" ||
+                  oldFormat === !printing.pack.reprint)
               }
               printing={printing}
               oldFormat={!!reprintPackCode}

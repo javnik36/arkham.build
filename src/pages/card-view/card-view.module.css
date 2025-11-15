@@ -82,8 +82,15 @@
   gap: 0.375rem;
 }
 
-.card-set-nav-container :last-child {
-  text-align: right;
+.card-set-button {
+  flex: 1 0 auto;
+  width: fit-content;
+  min-width: 15ch;
+  max-width: 45ch;
+
+  @media screen and (min-width: 36rem) {
+    flex: 0 0 auto;
+  }
 }
 
 .card-set-nav-title {
@@ -92,16 +99,10 @@
 
 .card-set-nav-title h3 {
   text-align: center;
-  line-height: 1;
 }
 
 .card-set-nav-title h3 * {
   margin: 0.5rem;
-}
-
-.card-set-button {
-  width: fit-content;
-  min-width: 20ch;
 }
 
 .printings {

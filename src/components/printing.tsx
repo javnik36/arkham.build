@@ -38,14 +38,15 @@ export function PrintingInner({
 }) {
   return (
     <span className={cx(css["printing"], className)}>
-      <span className={css["printing-icon"]}>{icon}</span>
-      <span>
-        {name}&#65119;{position}
-      </span>
+      <span className={css["printing-icon"]}>{icon}</span> {name}
+      <span className="nowrap">&#65119;{position}</span>
       {!!quantity && (
-        <span>
-          <i className="icon-card-outline-bold" />×{quantity}
-        </span>
+        <>
+          {" "}
+          <span className="nowrap">
+            <i className="icon-card-outline-bold" />×{quantity}
+          </span>
+        </>
       )}
     </span>
   );
