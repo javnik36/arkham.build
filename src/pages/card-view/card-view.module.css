@@ -86,11 +86,15 @@
   flex: 1 0 auto;
   width: fit-content;
   min-width: 15ch;
-  max-width: 45ch;
 
   @media screen and (min-width: 36rem) {
     flex: 0 0 auto;
+    max-width: 45ch;
   }
+}
+
+.card-set-button.next:only-child {
+  margin-left: auto;
 }
 
 .card-set-nav-title {
@@ -136,14 +140,19 @@
   border-top-color: var(--palette-1);
 }
 
-.printings :where(:only-child, :first-child) .printings-item {
+.printings :where(:first-child) .printings-item {
   border-top-width: 1px;
   border-radius: var(--rounded) var(--rounded) 0 0;
 }
 
-.printings :where(:only-child, :last-child) .printings-item {
+.printings :where(:last-child) .printings-item {
   border-bottom-width: 1px;
   border-radius: 0 0 var(--rounded) var(--rounded);
+}
+
+.printings :where(:only-child) .printings-item {
+  border-top-width: 1px;
+  border-radius: var(--rounded);
 }
 
 a.printings-item:not(.active):hover,

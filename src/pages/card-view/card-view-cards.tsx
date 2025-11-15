@@ -29,6 +29,7 @@ import {
   official,
   oldFormatCardUrl,
 } from "@/utils/card-utils";
+import { cx } from "@/utils/cx";
 import { displayPackName, formatRelationTitle } from "@/utils/formatting";
 import { and } from "@/utils/fp";
 import { isEmpty } from "@/utils/is-empty";
@@ -176,7 +177,13 @@ function CardSetLink(props: {
 
     return (
       <Link to={url} asChild>
-        <Button className={css["card-set-button"]} as="a">
+        <Button
+          className={cx(
+            css["card-set-button"],
+            shift < 0 ? css["prev"] : css["next"],
+          )}
+          as="a"
+        >
           {shift < 0 && <ChevronsLeftIcon />}
           {displayAttribute(targetCard, "name")}
           {shift > 0 && <ChevronsRightIcon />}
