@@ -1020,7 +1020,7 @@
     "quantity": 2,
     "reprint_of": "01065",
     "skill_wild": 1,
-    "text": "Fast. Play when you draw a non-weakness treachery card.\nCancel that card's revelation effect. Then, take 1 horror.",
+    "text": "Fast. Play when you draw a non-weakness treachery card.\nCancel that card's revelation effect and take 1 horror.",
     "traits": "Spell. Spirit.",
     "type_code": "event",
     "xp": 0
