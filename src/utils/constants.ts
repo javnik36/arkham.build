@@ -145,6 +145,7 @@ export const SIDEWAYS_TYPE_CODES = ["act", "agenda", "investigator"];
 
 export const CYCLES_WITH_STANDALONE_PACKS = [
   "core",
+  "core_2026",
   "return",
   "investigator",
   "promotional",

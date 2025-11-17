@@ -429,6 +429,30 @@ function createRelations(metadata: Metadata, tables: LookupTables) {
     }
   }
 
+  for (const code of Object.keys(tables.relations.reprints)) {
+    const duplicates = tables.relations.duplicates[code];
+    if (!duplicates) continue;
+
+    for (const duplicateCode of Object.keys(duplicates)) {
+      tables.relations.reprints[duplicateCode] =
+        tables.relations.reprints[code];
+
+      for (const reprintCode of Object.keys(
+        tables.relations.reprints[code] || {},
+      )) {
+        if (reprintCode !== duplicateCode) {
+          setInLookupTable(
+            duplicateCode,
+            tables.relations.reprints,
+            reprintCode,
+          );
+        }
+      }
+    }
+  }
+
+  console.log(tables.relations.reprints);
+
   timeEnd("create_relations");
 }
 

@@ -28,7 +28,10 @@ import {
   isStaticInvestigator,
   oldFormatCardUrl,
 } from "@/utils/card-utils";
-import { FLOATING_PORTAL_ID } from "@/utils/constants";
+import {
+  CYCLES_WITH_STANDALONE_PACKS,
+  FLOATING_PORTAL_ID,
+} from "@/utils/constants";
 import { cx } from "@/utils/cx";
 import { useDocumentTitle } from "@/utils/use-document-title";
 import { ErrorStatus } from "../errors/404";
@@ -191,7 +194,7 @@ function Printings(props: { code: string }) {
             <ListPrinting
               active={
                 printing.card.code === props.code &&
-                (printing.cycle.code === "core" ||
+                (CYCLES_WITH_STANDALONE_PACKS.includes(printing.cycle.code) ||
                   oldFormat === !printing.pack.reprint)
               }
               printing={printing}
