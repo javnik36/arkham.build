@@ -67,48 +67,52 @@ export function ConfigureEnvironmentModal(props: Props) {
   return (
     <Modal style={accentColor}>
       <ModalBackdrop />
-      <ModalInner size="52rem">
+      <ModalInner size="60rem">
         <ModalActions />
         <DefaultModalContent
           title={t("deck_edit.config.card_pool.configure_environment")}
         >
           <Tabs value={tab} onValueChange={setTab}>
-            <TabsList scrollable>
-              <EnvironmentsTabTrigger value="legacy" />
-              <EnvironmentsTabTrigger value="current" />
-              <EnvironmentsTabTrigger value="limited" />
-              <EnvironmentsTabTrigger value="campaign_playalong" />
-              <EnvironmentsTabTrigger value="collection" />
-            </TabsList>
-            <EnvironmentsTabContent value="legacy">
-              <LegacyTab {...tabProps} />
-            </EnvironmentsTabContent>
-            <EnvironmentsTabContent value="current">
-              <CurrentTab {...tabProps} />
-            </EnvironmentsTabContent>
-            <EnvironmentsTabContent value="limited">
-              <LimitedTab {...tabProps} />
-            </EnvironmentsTabContent>
-            <EnvironmentsTabContent value="campaign_playalong">
-              <CampaignPlayalongTab {...tabProps} />
-            </EnvironmentsTabContent>
-            <EnvironmentsTabContent
-              translationProps={{
-                components: {
-                  settings_link: (
-                    // biome-ignore lint/a11y/useAnchorContent: interpolation
-                    <a
-                      href="/settings?tab=collection"
-                      target="_blank"
-                      rel="noreferrer"
-                    />
-                  ),
-                },
-              }}
-              value="collection"
-            >
-              <CollectionTab {...tabProps} />
-            </EnvironmentsTabContent>
+            <div className={css["container"]}>
+              <TabsList className={css["nav"]} vertical>
+                <EnvironmentsTabTrigger value="legacy" />
+                <EnvironmentsTabTrigger value="current" />
+                <EnvironmentsTabTrigger value="limited" />
+                <EnvironmentsTabTrigger value="campaign_playalong" />
+                <EnvironmentsTabTrigger value="collection" />
+              </TabsList>
+              <div className={css["content"]}>
+                <EnvironmentsTabContent value="legacy">
+                  <LegacyTab {...tabProps} />
+                </EnvironmentsTabContent>
+                <EnvironmentsTabContent value="current">
+                  <CurrentTab {...tabProps} />
+                </EnvironmentsTabContent>
+                <EnvironmentsTabContent value="limited">
+                  <LimitedTab {...tabProps} />
+                </EnvironmentsTabContent>
+                <EnvironmentsTabContent value="campaign_playalong">
+                  <CampaignPlayalongTab {...tabProps} />
+                </EnvironmentsTabContent>
+                <EnvironmentsTabContent
+                  translationProps={{
+                    components: {
+                      settings_link: (
+                        // biome-ignore lint/a11y/useAnchorContent: interpolation
+                        <a
+                          href="/settings?tab=collection"
+                          target="_blank"
+                          rel="noreferrer"
+                        />
+                      ),
+                    },
+                  }}
+                  value="collection"
+                >
+                  <CollectionTab {...tabProps} />
+                </EnvironmentsTabContent>
+              </div>
+            </div>
           </Tabs>
         </DefaultModalContent>
       </ModalInner>

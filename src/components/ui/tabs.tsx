@@ -29,19 +29,19 @@ export const Tabs = forwardRef(function Tabs(
 
 type ListProps = TabsListProps & {
   children: React.ReactNode;
-  scrollable?: boolean;
+  vertical?: boolean;
 };
 
 export function TabsList({
   children,
   className,
-  scrollable,
+  vertical,
   ...rest
 }: ListProps) {
   return (
     <List
       data-testid="tabs-list"
-      className={cx(css["list"], scrollable && css["scrollable"], className)}
+      className={cx(css["list"], vertical && css["vertical"], className)}
       {...rest}
     >
       {children}

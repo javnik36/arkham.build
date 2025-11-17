@@ -13,21 +13,9 @@
   text-align: left;
 }
 
-.list.scrollable {
-  overflow-x: auto;
-  flex-flow: row nowrap;
-  min-width: 0;
-  gap: 0.375rem;
-
-  & > * {
-    flex: 1 0 auto;
-    white-space: nowrap;
-    min-width: 0;
-  }
-
-  & .trigger {
-    container-type: none;
-  }
+.list.vertical {
+  flex-direction: column;
+  border-bottom: none;
 }
 
 .trigger {
