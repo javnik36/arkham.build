@@ -29,7 +29,6 @@ type ArkhamDBDeckPayload = Omit<
   | "previous_deck"
   | "next_deck"
   | "taboo_id"
-  | "meta"
 > & {
   slots: string;
   side: string | undefined;

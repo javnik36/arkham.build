@@ -730,10 +730,11 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       state.setRemoting("arkhamdb", true);
       try {
         const adapter = new syncAdapters.arkhamdb(get);
+        const payload = adapter.out(newDeck);
         const res = await upgradeDeck(state.app.clientId, deck.id, {
           xp,
           exiles: exileString,
-          meta: newDeck.meta,
+          meta: payload.meta,
         });
         newDeck = adapter.in(res);
       } catch (err) {
