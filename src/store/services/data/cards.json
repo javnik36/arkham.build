@@ -59,36 +59,43 @@
   {
     "code": "98001",
     "duplicate_of": "02003",
+    "hidden": false,
     "patch": true
   },
   {
     "code": "98004",
     "duplicate_of": "01001",
+    "hidden": false,
     "patch": true
   },
   {
     "code": "98007",
     "duplicate_of": "08004",
+    "hidden": false,
     "patch": true
   },
   {
     "code": "98010",
     "duplicate_of": "05001",
+    "hidden": false,
     "patch": true
   },
   {
     "code": "98013",
     "duplicate_of": "07005",
+    "hidden": false,
     "patch": true
   },
   {
     "code": "98016",
     "duplicate_of": "07004",
+    "hidden": false,
     "patch": true
   },
   {
     "code": "98019",
     "duplicate_of": "11014",
+    "hidden": false,
     "patch": true
   },
   {
@@ -701,7 +708,8 @@
     "skill_intellect": 1,
     "traits": "Item. Tool.",
     "type_code": "asset",
-    "text": "Uses (3 supplies).\n[action] Exhaust Fingerprint Kit and spend 1 supply:\n<b>Investigate</b> ([intellect]). You get +1 [intellect] for this investigation. If you succeed, discover 1 additional clue at your location."
+    "text": "Uses (3 supplies).\n[action] Exhaust Fingerprint Kit and spend 1 supply:\n<b>Investigate</b> ([intellect]). You get +1 [intellect] for this investigation. If you succeed, discover 1 additional clue at your location.",
+    "xp": 0
   },
   {
     "code": "12032",
@@ -1065,6 +1073,40 @@
     "text": "Limit 1 per investigator. Uses (3 supplies). If there are no supplies on Hunter's Instinct, discard it.\n[reaction] After you engage an enemy, spend 1 supply and exhaust Hunter's Instinct: Add a level 0 event in your discard pile to your hand.",
     "traits": "Talent.",
     "type_code": "asset",
+    "xp": 0
+  },
+  {
+    "code": "12079",
+    "cost": 1,
+    "deck_limit": 2,
+    "faction_code": "survivor",
+    "illustrator": "Lin Hsiang",
+    "name": "\"Shove off!\"",
+    "pack_code": "core_2026",
+    "position": 79,
+    "preview": true,
+    "quantity": 2,
+    "skill_agility": 1,
+    "skill_combat": 1,
+    "text": "<b>Evade</b> ([agility]). If you succeed, deal 1 damage to the evaded enemy. If you fail, return \"Shove off!\" to your hand at the end of your turn.",
+    "traits": "Tactic.",
+    "type_code": "event",
+    "xp": 0
+  },
+  {
+    "code": "12080",
+    "deck_limit": 2,
+    "faction_code": "survivor",
+    "illustrator": "Nia Kovalevski",
+    "name": "Slippery",
+    "pack_code": "core_2026",
+    "position": 80,
+    "preview": true,
+    "quantity": 2,
+    "skill_agility": 1,
+    "text": "If this skill test is successful while evading a non-[[Elite]] enemy, that enemy does not ready during the next upkeep phase.",
+    "traits": "Practiced.",
+    "type_code": "skill",
     "xp": 0
   },
   {
