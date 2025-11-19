@@ -26,6 +26,7 @@ function getInitialLookupTables(): LookupTables {
     relations: {
       advanced: {},
       base: {},
+      basePrints: {},
       bonded: {},
       bound: {},
       duplicates: {},
@@ -318,8 +319,7 @@ function createRelations(metadata: Metadata, tables: LookupTables) {
 
     if (card.reprint_of) {
       setInLookupTable(card.code, tables.relations.reprints, card.reprint_of);
-
-      setInLookupTable(card.reprint_of, tables.relations.reprints, card.code);
+      setInLookupTable(card.reprint_of, tables.relations.basePrints, card.code);
     }
 
     if (upgrades[card.real_name] && card.xp != null) {
@@ -443,15 +443,13 @@ function createRelations(metadata: Metadata, tables: LookupTables) {
         if (reprintCode !== duplicateCode) {
           setInLookupTable(
             duplicateCode,
-            tables.relations.reprints,
+            tables.relations.basePrints,
             reprintCode,
           );
         }
       }
     }
   }
-
-  console.log(tables.relations.reprints);
 
   timeEnd("create_relations");
 }
@@ -465,7 +463,7 @@ function addPacksToLookupTables(
   const packs = Object.values(metadata.packs);
 
   for (const pack of packs) {
-    if (pack.reprint) {
+    if (pack.reprint && pack.reprint.type !== "rcore") {
       reprintsByCycleCode[pack.cycle_code] ??= [];
       reprintsByCycleCode[pack.cycle_code].push(pack.code);
     }

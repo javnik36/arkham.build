@@ -35,6 +35,8 @@ export type LookupTables = {
     parallel: LookupTable<string>;
     // Replacement requiredCards for an investigator.
     replacement: LookupTable<string>;
+    // TCU Laboratory Assisstant is a baseprint of Laboratory Assistant.
+    basePrints: LookupTable<string>;
     // Laboratory Assisstant is a chapter two reprint of Laboratory Assistant.
     reprints: LookupTable<string>;
     // `Daisy Walker`'s requires `Daisy's Tote Bag`.

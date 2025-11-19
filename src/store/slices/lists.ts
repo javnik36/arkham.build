@@ -4,11 +4,11 @@ import type { Filter } from "@/utils/fp";
 import { and, not } from "@/utils/fp";
 import {
   filterBacksides,
-  filterDuplicates,
   filterEncounterCards,
   filterPreviews,
   filterType,
 } from "../lib/filtering";
+import type { Card } from "../schemas/card.schema";
 import type { StoreState } from ".";
 import {
   isAssetFilter,
@@ -40,6 +40,13 @@ import type {
   SubtypeFilter,
 } from "./lists.types";
 import type { SettingsState } from "./settings.types";
+
+const SYSTEM_FILTERS: Filter[] = [
+  filterBacksides,
+  (card: Card) => !card.hidden,
+  // Bonded investigators
+  (card: Card) => card.type_code !== "investigator" || !!card.deck_limit,
+];
 
 function getInitialList() {
   if (window.location.href.includes("/deck/create")) {
@@ -439,7 +446,6 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
 
       lists[key] = makeList({
         display: getDisplaySettings(values, state.settings),
-        duplicateFilter: (c) => filterDuplicates(c) || !!c.parallel,
         filters: cardsFilters({
           additionalFilters: ["illustrator"],
           showOwnershipFilter: opts.showOwnershipFilter,
@@ -447,7 +453,7 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
         }),
         initialValues: values,
         key,
-        systemFilter: filterBacksides,
+        systemFilter: and([...SYSTEM_FILTERS]),
         search: {
           value: opts.search ?? "",
           includeBacks: false,
@@ -668,7 +674,6 @@ type MakeListOptions = {
   key: string;
   filters: FilterKey[];
   display: List["display"];
-  duplicateFilter: Filter;
   systemFilter?: Filter;
   initialValues?: Partial<Record<FilterKey, unknown>>;
   search?: Search;
@@ -678,13 +683,11 @@ function makeList({
   key,
   filters,
   display,
-  duplicateFilter,
   systemFilter,
   initialValues,
   search,
 }: MakeListOptions): List {
   return {
-    duplicateFilter,
     filters,
     filterValues: filters.reduce<List["filterValues"]>((acc, curr, i) => {
       acc[i] = makeFilterValue(curr, initialValues?.[curr]);
@@ -778,7 +781,7 @@ export function makeLists(
 ) {
   const initialValues = mergeInitialValues(_initialValues ?? {}, settings);
 
-  const systemFilters = [filterBacksides];
+  const systemFilters = [...SYSTEM_FILTERS];
 
   if (!settings.showPreviews) {
     systemFilters.push(not(filterPreviews));
@@ -789,7 +792,6 @@ export function makeLists(
   return {
     browse: makeList({
       display: getDisplaySettings(initialValues, settings),
-      duplicateFilter: (c) => filterDuplicates(c) || !!c.parallel,
       initialValues,
       key: "browse",
       systemFilter,
@@ -810,7 +812,6 @@ export function makeLists(
         filterType(["investigator"]),
         not(filterEncounterCards),
       ]),
-      duplicateFilter: (c) => filterDuplicates(c) || !!c.parallel,
       initialValues,
       key: "create_deck",
       filters: investigatorFilters({
@@ -819,7 +820,6 @@ export function makeLists(
     }),
     editor: makeList({
       display: getDisplaySettings(initialValues, settings),
-      duplicateFilter: (c) => filterDuplicates(c) || !!c.parallel,
       initialValues,
       key: "editor",
       systemFilter,

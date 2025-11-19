@@ -281,33 +281,36 @@ export const selectPrintingsForCard = createSelector(
       lookupTables.relations.reprints[cardCode] ?? {},
     );
 
-    const packCodes = [cardCode, ...duplicates, ...reprints].reduce(
-      (acc, code) => {
-        const card = metadata.cards[code];
-
-        const canShow =
-          (showFanMadeRelations || official(card)) &&
-          (showPreviews || !card.preview);
-
-        if (!canShow) return acc;
-
-        acc.set(card.pack_code, card);
-        const reprintPacks = lookupTables.reprintPacksByPack[card.pack_code];
-
-        if (card) {
-          if (reprintPacks) {
-            Object.keys(reprintPacks).forEach((reprintCode) => {
-              const targetType = card.encounter_code ? "encounter" : "player";
-              const reprintPack = metadata.packs[reprintCode];
-              const reprintType = reprintPack.reprint?.type;
-              if (reprintType === targetType) acc.set(reprintCode, card);
-            });
-          }
-        }
-        return acc;
-      },
-      new Map<string, Card>(),
+    const basePrints = Object.keys(
+      lookupTables.relations.basePrints[cardCode] ?? {},
     );
+
+    const packCodes = Array.from(
+      new Set([cardCode, ...duplicates, ...reprints, ...basePrints]),
+    ).reduce((acc, code) => {
+      const card = metadata.cards[code];
+
+      const canShow =
+        (showFanMadeRelations || official(card)) &&
+        (showPreviews || !card.preview);
+
+      if (!canShow) return acc;
+
+      acc.set(card.pack_code, card);
+      const reprintPacks = lookupTables.reprintPacksByPack[card.pack_code];
+
+      if (card) {
+        if (reprintPacks) {
+          Object.keys(reprintPacks).forEach((reprintCode) => {
+            const targetType = card.encounter_code ? "encounter" : "player";
+            const reprintPack = metadata.packs[reprintCode];
+            const reprintType = reprintPack.reprint?.type;
+            if (reprintType === targetType) acc.set(reprintCode, card);
+          });
+        }
+      }
+      return acc;
+    }, new Map<string, Card>());
 
     const printings = Array.from(packCodes.entries())
       .map(([packCode, card]) => {

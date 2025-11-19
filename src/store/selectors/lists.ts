@@ -28,12 +28,14 @@ import { time, timeEnd } from "@/utils/time";
 import { applyCardChanges } from "../lib/card-edits";
 import { getAdditionalDeckOptions } from "../lib/deck-validation";
 import {
+  containsCard,
   filterActions,
   filterAssets,
   filterBacksides,
   filterCardPool,
   filterCost,
   filterDuplicates,
+  filterDuplicatesFromContext,
   filterEncounterCards,
   filterEncounterCode,
   filterFactions,
@@ -216,7 +218,7 @@ function makeUserFilter(
       case "pack": {
         const value = filterValue.value as MultiselectFilter;
         if (value.length) {
-          const filter = filterPackCode(value, metadata, lookupTables);
+          const filter = filterPackCode(value, lookupTables);
           if (filter) filters.push(filter);
         }
         break;
@@ -411,7 +413,6 @@ const selectDeckInvestigatorFilter = createSelector(
   ) => targetDeck ?? "slots",
   (state: StoreState) => state.ui.showUnusableCards,
   (state: StoreState) => state.ui.showLimitedAccess,
-  (state: StoreState) => selectActiveList(state)?.duplicateFilter,
   (
     metadata,
     lookupTables,
@@ -420,7 +421,6 @@ const selectDeckInvestigatorFilter = createSelector(
     targetDeck,
     showUnusableCards,
     showLimitedAccess,
-    duplicateFilter,
   ) => {
     if (!resolvedDeck) return undefined;
 
@@ -450,7 +450,7 @@ const selectDeckInvestigatorFilter = createSelector(
       investigatorFront: resolvedDeck.investigatorFront.card,
       selections: resolvedDeck.selections,
       targetDeck,
-      showLimitedAccess: showLimitedAccess,
+      showLimitedAccess,
     });
 
     const weaknessFilter = filterInvestigatorWeaknessAccess(investigatorBack, {
@@ -462,10 +462,7 @@ const selectDeckInvestigatorFilter = createSelector(
 
     const investigatorAccessFilter = or(ors);
 
-    const duplicatesNotInDeckFilter = (c: Card) =>
-      duplicateFilter?.(c) || resolvedDeck.slots[c.code] != null;
-
-    const ands = [investigatorAccessFilter, duplicatesNotInDeckFilter];
+    const ands = [investigatorAccessFilter];
 
     const cardPool = resolvedDeck.cardPool;
     const sealedDeck = resolvedDeck.sealedDeck?.cards;
@@ -473,6 +470,8 @@ const selectDeckInvestigatorFilter = createSelector(
     if (!cardPool?.length && !sealedDeck) {
       return and(ands);
     }
+
+    const cardInDeckFilter = (card: Card) => containsCard(resolvedDeck, card);
 
     const xpNullPoolFilter = (card: Card) => {
       if (card.subtype_code === "basicweakness") {
@@ -484,19 +483,29 @@ const selectDeckInvestigatorFilter = createSelector(
       }
 
       // allow signatures or campaign cards
-      return card.xp == null && (!!card.restrictions || !!card.encounter_code);
+      return (
+        !card.duplicate_of_code &&
+        card.xp == null &&
+        (!!card.restrictions || !!card.encounter_code)
+      );
     };
 
     if (cardPool?.length) {
       const cardPoolFilter = filterCardPool(cardPool, metadata, lookupTables);
 
       if (cardPoolFilter) {
-        ands.push(or([cardPoolFilter, xpNullPoolFilter]));
+        ands.push(or([cardPoolFilter, xpNullPoolFilter, cardInDeckFilter]));
       }
     }
 
     if (sealedDeck) {
-      ands.push(or([filterSealed(sealedDeck, lookupTables), xpNullPoolFilter]));
+      ands.push(
+        or([
+          filterSealed(sealedDeck, lookupTables),
+          xpNullPoolFilter,
+          cardInDeckFilter,
+        ]),
+      );
     }
 
     return and(ands);
@@ -558,7 +567,6 @@ const selectBaseListCards = createSelector(
   selectLookupTables,
   (state: StoreState) => state.fanMadeData.projects,
   (state: StoreState) => selectActiveList(state)?.systemFilter,
-  (state: StoreState) => selectActiveList(state)?.duplicateFilter,
   (state: StoreState) => selectActiveList(state)?.filterValues,
   selectDeckInvestigatorFilter,
   selectCanonicalTabooSetId,
@@ -570,7 +578,6 @@ const selectBaseListCards = createSelector(
     lookupTables,
     fanMadeProjects,
     systemFilter,
-    duplicateFilter,
     filterValues,
     deckInvestigatorFilter,
     tabooSetId,
@@ -612,8 +619,6 @@ const selectBaseListCards = createSelector(
 
     if (deckInvestigatorFilter) {
       filters.push(deckInvestigatorFilter);
-    } else if (duplicateFilter) {
-      filters.push(duplicateFilter);
     }
 
     if (filterValues) {
@@ -690,6 +695,7 @@ export const selectListCards = createSelector(
     __: ResolvedDeck | undefined,
     targetDeck: TargetDeck | undefined,
   ) => targetDeck,
+  (state: StoreState) => state.ui.showUnusableCards,
   (
     metadata,
     lookupTables,
@@ -697,13 +703,27 @@ export const selectListCards = createSelector(
     activeList,
     _filteredCards,
     sortingCollator,
-    resolvedDeck,
+    deck,
     targetDeck,
+    showUnusableCards,
   ) => {
     if (!_filteredCards || !activeList) return undefined;
 
     time("select_list_cards");
     let filteredCards = _filteredCards;
+
+    // filter duplicates, taking into account the deck and list context.
+    if (!showUnusableCards) {
+      filteredCards = filteredCards.filter(
+        filterDuplicatesFromContext(
+          filteredCards,
+          activeList,
+          metadata,
+          lookupTables,
+          deck,
+        ),
+      );
+    }
 
     // apply search after initial filtering to cut down on search operations.
     if (activeList.search.value) {
@@ -719,23 +739,24 @@ export const selectListCards = createSelector(
     const totalCardCount = filteredCards.length;
 
     // apply user filters.
-    const filter = makeUserFilter(
+    const userFilter = makeUserFilter(
       metadata,
       lookupTables,
       activeList,
-      resolvedDeck,
+      deck,
       targetDeck,
     );
 
-    if (filter)
+    if (userFilter) {
       filteredCards = filteredCards.filter(
         (card) =>
-          filter(card) ||
+          userFilter(card) ||
           // surface cards where the backside matches the filter
-          (card.back_link_id &&
+          (!!card.back_link_id &&
             metadata.cards[card.back_link_id] &&
-            filter(metadata.cards[card.back_link_id])),
+            userFilter(metadata.cards[card.back_link_id])),
       );
+    }
 
     const cards: Card[] = [];
     const groups: CardGroup[] = [];
@@ -910,14 +931,6 @@ export const selectListFilterProperties = createSelector(
 
         for (const trait of splitMultiValue(card.real_back_traits)) {
           traits.add(trait);
-        }
-
-        const duplicates = lookupTables.relations.duplicates[card.code];
-        if (duplicates) {
-          for (const code of Object.keys(duplicates)) {
-            const duplicateCard = metadata.cards[code];
-            packs.add(duplicateCard.pack_code);
-          }
         }
       }
 

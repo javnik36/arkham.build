@@ -34,20 +34,18 @@ export function ownedCardCount(
   }
 
   const duplicates = lookupTables.relations.duplicates[card.code];
-  const reprints = lookupTables.relations.reprints[card.code];
 
   // HACK: ownership of the revised core encounters.
-  if (!duplicates && pack.cycle_code === "core" && collection["rcore"]) {
+  if (
+    !duplicates &&
+    pack.cycle_code === "core" &&
+    collection["rcore"] &&
+    card.encounter_code
+  ) {
     quantityOwned += card.quantity;
   }
 
-  if (!duplicates && !reprints) return quantityOwned;
-
-  for (const code of Object.keys(reprints ?? {})) {
-    const reprint = metadata.cards[code];
-    const packCode = reprint.pack_code;
-    if (packCode && collection[packCode]) quantityOwned += reprint.quantity;
-  }
+  if (!duplicates) return quantityOwned;
 
   for (const code of Object.keys(duplicates ?? {})) {
     const duplicate = metadata.cards[code];
