@@ -43,7 +43,7 @@ test.describe("limited card pool", () => {
   test("apply card pool in deck editor", async ({ page }) => {
     await createLimitedPoolDeck(page);
     await fillSearch(page, "machete");
-    await expect(page.getByTestId("listcard-01020")).toBeVisible();
+    await expect(page.getByTestId("listcard-01520")).toBeVisible();
     await page.getByTestId("search").getByRole("button").click();
     await fillSearch(page, "runic axe");
     await expect(page.getByTestId("listcard-09022")).not.toBeVisible();

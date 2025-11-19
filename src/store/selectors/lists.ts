@@ -1540,6 +1540,7 @@ export const selectAvailableUpgrades = createSelector(
         const version = metadata.cards[code];
 
         if (
+          !version.duplicate_of_code &&
           version?.xp &&
           version.xp > (card.xp ?? 0) &&
           accessFilter?.(version)
