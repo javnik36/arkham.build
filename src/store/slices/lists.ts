@@ -1,5 +1,6 @@
 import type { StateCreator } from "zustand";
 import { assert } from "@/utils/assert";
+import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import type { Filter } from "@/utils/fp";
 import { and, not } from "@/utils/fp";
 import {
@@ -43,7 +44,8 @@ import type { SettingsState } from "./settings.types";
 
 const SYSTEM_FILTERS: Filter[] = [
   filterBacksides,
-  (card: Card) => !card.hidden,
+  (card: Card) =>
+    !card.hidden || card.code === SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS,
   // Bonded investigators
   (card: Card) => card.type_code !== "investigator" || !!card.deck_limit,
 ];
