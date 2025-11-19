@@ -5,39 +5,57 @@ import PackIcon from "./icons/pack-icon";
 import css from "./printing.module.css";
 
 type Props = {
+  active?: boolean;
   className?: string;
+  onClick?: (id: string) => void;
   printing: PrintingT;
 };
 
-export function Printing({ className, printing }: Props) {
+export function Printing({ active, className, onClick, printing }: Props) {
   const { pack, card } = printing;
 
   return (
     <PrintingInner
+      active={active}
       className={className}
+      cardCode={card.code}
       icon={<PackIcon code={pack.code} />}
       name={displayPackName(pack)}
+      onClick={onClick}
       position={card.position}
       quantity={card.quantity}
     />
   );
 }
 
-export function PrintingInner({
-  className,
-  icon,
-  name,
-  position,
-  quantity,
-}: {
+type PrintingInnerProps = {
+  active?: boolean;
+  cardCode: string;
   className?: string;
   icon: React.ReactNode;
   name: string;
+  onClick?: (id: string) => void;
   position: number | string;
   quantity?: number;
-}) {
+};
+
+export function PrintingInner({
+  active,
+  cardCode,
+  className,
+  icon,
+  name,
+  onClick,
+  position,
+  quantity,
+}: PrintingInnerProps) {
+  const El = onClick ? "button" : "span";
+
   return (
-    <span className={cx(css["printing"], className)}>
+    <El
+      className={cx(css["printing"], active && css["active"], className)}
+      onClick={onClick ? () => onClick(cardCode) : undefined}
+    >
       <span className={css["printing-icon"]}>{icon}</span> {name}
       <span className="nowrap">&#65119;{position}</span>
       {!!quantity && (
@@ -48,6 +66,6 @@ export function PrintingInner({
           </span>
         </>
       )}
-    </span>
+    </El>
   );
 }

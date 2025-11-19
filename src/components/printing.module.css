@@ -1,5 +1,12 @@
 .printing {
-  width: 100%;
+  background-color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  text-align: inherit;
+
+  &.active {
+    font-weight: bold;
+  }
 }
 
 .printing-icon {
@@ -7,4 +14,5 @@
   width: 1em;
   text-align: center;
   margin-right: 0.1875rem;
+  vertical-align: baseline;
 }

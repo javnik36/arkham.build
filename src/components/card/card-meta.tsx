@@ -9,6 +9,7 @@ import css from "./card.module.css";
 type Props = {
   hideCollectorInfo?: boolean;
   resolvedCard: ResolvedCard | CardWithRelations;
+  onPrintingSelect?: (cardCode: string) => void;
   size: "tooltip" | "compact" | "full";
 };
 
@@ -25,7 +26,7 @@ export function CardMetaBack(props: { illustrator?: string | null }) {
 }
 
 export function CardMeta(props: Props) {
-  const { resolvedCard, size } = props;
+  const { onPrintingSelect, resolvedCard, size } = props;
 
   const illustrator = resolvedCard.card.illustrator;
 
@@ -39,16 +40,24 @@ export function CardMeta(props: Props) {
         </p>
       )}
       {card.encounter_code ? (
-        <EncounterEntry resolvedCard={resolvedCard} size={size} />
+        <EncounterEntry
+          onPrintingSelect={onPrintingSelect}
+          resolvedCard={resolvedCard}
+          size={size}
+        />
       ) : (
-        <PlayerEntry resolvedCard={resolvedCard} size={size} />
+        <PlayerEntry
+          onPrintingSelect={onPrintingSelect}
+          resolvedCard={resolvedCard}
+          size={size}
+        />
       )}
     </footer>
   );
 }
 
 function PlayerEntry(props: Props) {
-  const { resolvedCard } = props;
+  const { onPrintingSelect, resolvedCard } = props;
 
   const printings = useStore((state) =>
     selectPrintingsForCard(state, resolvedCard.card.code),
@@ -60,7 +69,12 @@ function PlayerEntry(props: Props) {
 
       {printings?.map((printing) => (
         <p className={css["meta-property"]} key={printing.id}>
-          <Printing key={printing.id} printing={printing} />
+          <Printing
+            active={resolvedCard.card.code === printing.card.code}
+            key={printing.id}
+            printing={printing}
+            onClick={onPrintingSelect}
+          />
         </p>
       ))}
     </>
@@ -83,6 +97,7 @@ function EncounterEntry(props: Props) {
       <hr className={css["meta-divider"]} />
       <p className={css["meta-property"]}>
         <PrintingInner
+          cardCode={card.code}
           icon={<EncounterIcon code={card.encounter_code} />}
           name={encounterSet.name}
           position={getEncounterPositions(
@@ -94,7 +109,11 @@ function EncounterEntry(props: Props) {
       <hr className={css["meta-divider"]} />
       {printings?.map((printing) => (
         <p className={css["meta-property"]} key={printing.id}>
-          <Printing key={printing.id} printing={printing} />
+          <Printing
+            active={resolvedCard.card.code === printing.card.code}
+            key={printing.id}
+            printing={printing}
+          />
         </p>
       ))}
     </>

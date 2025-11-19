@@ -114,6 +114,7 @@ export function CardModal(props: Props) {
       <Card
         className={cx(css["card"], css["shadow"])}
         resolvedCard={cardWithRelations}
+        onPrintingSelect={openCardModal}
         size={canRenderFull ? "full" : "compact"}
         slotCardFooter={
           <>

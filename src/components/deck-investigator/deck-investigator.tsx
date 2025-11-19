@@ -25,6 +25,7 @@ type Props = {
   canToggleBack?: boolean;
   className?: string;
   deck: ResolvedDeck;
+  onPrintingSelect?: (code: string) => void;
   readonly?: boolean;
   showRelated?: boolean;
   size: "tooltip" | "full";
@@ -41,6 +42,7 @@ export function DeckInvestigator(props: Props) {
     canToggleBack = true,
     className,
     deck,
+    onPrintingSelect,
     readonly,
     showRelated,
     size,
@@ -67,6 +69,7 @@ export function DeckInvestigator(props: Props) {
     <>
       <CardFace
         data-testid="deck-investigator-front"
+        onPrintingSelect={onPrintingSelect}
         resolvedCard={deck.investigatorFront}
         titleLinks={titleLinks}
         size={size}
@@ -98,9 +101,10 @@ export function DeckInvestigator(props: Props) {
   ) : (
     <>
       <CardFace
-        titleLinks={titleLinks}
+        onPrintingSelect={onPrintingSelect}
         resolvedCard={deck.investigatorFront}
         size={size}
+        titleLinks={titleLinks}
       />
       {hasBack && <CardBack card={deck.investigatorBack.card} size={size} />}
     </>
