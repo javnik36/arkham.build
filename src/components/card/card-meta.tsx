@@ -1,6 +1,9 @@
 import { useStore } from "@/store";
 import type { CardWithRelations, ResolvedCard } from "@/store/lib/types";
-import { selectPrintingsForCard } from "@/store/selectors/shared";
+import {
+  type Printing as PrintingT,
+  selectPrintingsForCard,
+} from "@/store/selectors/shared";
 import { cx } from "@/utils/cx";
 import EncounterIcon from "../icons/encounter-icon";
 import { Printing, PrintingInner } from "../printing";
@@ -70,7 +73,7 @@ function PlayerEntry(props: Props) {
       {printings?.map((printing) => (
         <p className={css["meta-property"]} key={printing.id}>
           <Printing
-            active={resolvedCard.card.code === printing.card.code}
+            active={printingActive(resolvedCard.card.code, printing, printings)}
             key={printing.id}
             printing={printing}
             onClick={onPrintingSelect}
@@ -110,7 +113,7 @@ function EncounterEntry(props: Props) {
       {printings?.map((printing) => (
         <p className={css["meta-property"]} key={printing.id}>
           <Printing
-            active={resolvedCard.card.code === printing.card.code}
+            active={printingActive(resolvedCard.card.code, printing, printings)}
             key={printing.id}
             printing={printing}
           />
@@ -125,4 +128,15 @@ function getEncounterPositions(position: number, quantity: number) {
   const start = position;
   const end = position + quantity - 1;
   return `${start}-${end}`;
+}
+
+function printingActive(
+  cardCode: string,
+  printing: PrintingT,
+  printings: PrintingT[],
+) {
+  return (
+    cardCode === printing.card.code &&
+    printings.filter((p) => p.card.code !== cardCode).length > 0
+  );
 }
